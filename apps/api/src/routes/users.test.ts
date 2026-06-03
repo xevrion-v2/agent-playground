@@ -11,43 +11,48 @@ function createApp() {
 }
 
 describe("GET /users", () => {
-  it("should return 200 with empty data array and stub message", async () => {
+  it("should return 200 with empty data array", async () => {
     const app = createApp();
     const res = await request(app).get("/users");
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty("data");
-    expect(Array.isArray(res.body.data)).toBe(true);
-    expect(res.body.data).toHaveLength(0);
-    expect(res.body.message).toContain("not implemented");
+    expect(res.body.data).toEqual([]);
   });
 });
 
 describe("POST /users", () => {
-  it("should return 201 with stub user data and echo request body", async () => {
+  it("should return 201 with valid payload", async () => {
     const app = createApp();
-    const payload = { name: "Test User", email: "test@example.com" };
-    const res = await request(app).post("/users").send(payload);
-    expect(res.status).toBe(201);
-    expect(res.body).toHaveProperty("data");
-    expect(res.body.data).toHaveProperty("id", "stub-user-id");
-    expect(res.body.data).toHaveProperty("name", "Test User");
-    expect(res.body.data).toHaveProperty("email", "test@example.com");
-    expect(res.body.message).toContain("not implemented");
-  });
-
-  it("should propagate any body fields into the response data", async () => {
-    const app = createApp();
-    const payload = { role: "admin", age: 30 };
-    const res = await request(app).post("/users").send(payload);
-    expect(res.status).toBe(201);
-    expect(res.body.data.role).toBe("admin");
-    expect(res.body.data.age).toBe(30);
-  });
-
-  it("should return 201 with empty body", async () => {
-    const app = createApp();
-    const res = await request(app).post("/users").send({});
+    const res = await request(app).post("/users").send({ name: "Test", email: "test@test.com" });
     expect(res.status).toBe(201);
     expect(res.body.data.id).toBe("stub-user-id");
+    expect(res.body.data.name).toBe("Test");
+    expect(res.body.data.email).toBe("test@test.com");
+  });
+
+  it("should return 400 when name is missing", async () => {
+    const app = createApp();
+    const res = await request(app).post("/users").send({ email: "test@test.com" });
+    expect(res.status).toBe(400);
+    expect(res.body.error.message).toContain("name");
+  });
+
+  it("should return 400 when email is missing", async () => {
+    const app = createApp();
+    const res = await request(app).post("/users").send({ name: "Test" });
+    expect(res.status).toBe(400);
+    expect(res.body.error.message).toContain("email");
+  });
+
+  it("should return 400 when email is invalid", async () => {
+    const app = createApp();
+    const res = await request(app).post("/users").send({ name: "Test", email: "not-an-email" });
+    expect(res.status).toBe(400);
+    expect(res.body.error.message).toContain("email");
+  });
+
+  it("should return 400 with empty body", async () => {
+    const app = createApp();
+    const res = await request(app).post("/users").send({});
+    expect(res.status).toBe(400);
   });
 });
