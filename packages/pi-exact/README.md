@@ -8,6 +8,8 @@ requested number of places using the Chudnovsky series with binary splitting.
 
 ## Usage
 
+![PI exact prefix demo](./demo.gif)
+
 ```bash
 npm run demo -w @agent-playground/pi-exact -- 100
 ```
@@ -24,4 +26,3 @@ console.log(calculatePi(25));
 ```bash
 npm test -w @agent-playground/pi-exact
 ```
-
