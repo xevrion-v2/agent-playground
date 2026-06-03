@@ -7,6 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// A platform user who can act as a job poster (client) or proposal submitter (freelancer).
+/// Central identity record; all activity — jobs and proposals — is anchored to a User.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,10 +19,13 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// A piece of work advertised by a client. Moves through a draft → open → closed lifecycle.
+/// Each Job can receive multiple Proposals from freelancers.
 model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
+  /// Lifecycle state: "draft" | "open" | "closed"
   status      String     @default("draft")
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
@@ -29,10 +34,14 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// A freelancer's bid on a Job, including a plain-text summary and an optional monetary amount.
+/// Approval state is tracked via status: "pending" | "accepted" | "rejected"
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
+  /// Proposed payment amount; optional until the freelancer provides a quote.
   amount    Decimal?
+  /// Workflow state: "pending" | "accepted" | "rejected"
   status    String   @default("pending")
   userId    String
   user      User     @relation(fields: [userId], references: [id])
