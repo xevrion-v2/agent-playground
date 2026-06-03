@@ -83,3 +83,12 @@ The database package contains the Prisma schema and will eventually include gene
 ### `packages/ui`
 
 The UI package is reserved for shared components used across TaskFlow applications.
+
+## Environment Variables
+
+| Variable | App | Default | Description |
+|----------|-----|---------|-------------|
+| PORT | API | 4000 | Express server port |
+| DATABASE_URL | API | - | Prisma database connection string |
+| NEXT_PUBLIC_API_URL | Web | http://localhost:4000 | API endpoint for frontend |
+| NODE_ENV | All | development | Runtime environment |
