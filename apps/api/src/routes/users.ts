@@ -10,12 +10,17 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
+  const { name, email } = req.body;
+  if (!name || !email) {
+    return res.status(400).json({ status: "error", message: "name and email are required" });
+  }
   res.status(201).json({
+    status: "ok",
     data: {
       id: "stub-user-id",
-      ...req.body
-    },
-    message: "User creation is not implemented yet."
+      name,
+      email
+    }
   });
 });
 
