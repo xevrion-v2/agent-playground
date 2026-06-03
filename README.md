@@ -83,3 +83,6 @@ The database package contains the Prisma schema and will eventually include gene
 ### `packages/ui`
 
 The UI package is reserved for shared components used across TaskFlow applications.
+
+## Contributing
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
