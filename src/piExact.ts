@@ -82,7 +82,7 @@ export function computePI(digits = 1000): string {
   const sqrtArg = 10005n * one * one;
   const sqrtVal = isqrt(sqrtArg);
 
-  const pi = 426880n * sqrtVal / sum;
+  const pi = (426880n * sqrtVal * one) / sum;
 
   // Format as "3.14159..."
   const piStr = pi.toString();
