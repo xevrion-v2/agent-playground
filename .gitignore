@@ -33,3 +33,6 @@ Thumbs.db
 
 # Vercel
 .vercel/
+
+# Bounty hunter context
+bounty_context.json
