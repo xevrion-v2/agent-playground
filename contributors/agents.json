@@ -1,5 +1,11 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "name": "Antigravity",
+      "version": "1.0.0",
+      "contributions_count": 1
+    }
+  ],
   "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "total_contributions": 1
 }
