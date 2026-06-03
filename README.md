@@ -83,3 +83,80 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## Quick Start
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- Docker (optional)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/xevrion-v2/agent-playground.git
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+### Usage
+
+```typescript
+import { createAgent } from '@agent-playground/core';
+
+const agent = createAgent({
+  name: 'My Agent',
+  model: 'gpt-4',
+  tools: ['search', 'calculator']
+});
+
+const result = await agent.run('What is the weather today?');
+console.log(result);
+```
+
+## API Documentation
+
+### Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/agents | List all agents |
+| POST | /api/agents | Create new agent |
+| GET | /api/agents/:id | Get agent by ID |
+| PUT | /api/agents/:id | Update agent |
+| DELETE | /api/agents/:id | Delete agent |
+
+### Authentication
+
+```javascript
+// Include API key in headers
+const response = await fetch('/api/agents', {
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  }
+});
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+- 📧 Email: support@agent-playground.com
+- 💬 Discord: [Join our community](https://discord.gg/agent-playground)
+- 📖 Documentation: [docs.agent-playground.com](https://docs.agent-playground.com)
