@@ -66,6 +66,27 @@ Each seeded bounty issue includes `/bounty $50` in the issue body. Trigger the s
 - Use clear commit messages that describe the affected package or app.
 - Before opening a pull request, run formatting, linting, and tests locally.
 
+## Infinite Sequence Utility
+
+The repository includes a small utility for bounded extraction from infinite
+sequences:
+
+- `scripts/infinite-sequence.js` provides:
+  - `createInfiniteSequence(initialValue, nextValue)`
+  - `take(sequence, limit)`
+- `scripts/infinite-sequence.test.js` demonstrates usage and guards against
+  regressions.
+
+Example:
+
+```js
+const { createInfiniteSequence, take } = require("./scripts/infinite-sequence.js");
+
+const oddNumbers = createInfiniteSequence(1, (value) => value + 2);
+const firstTenOdds = take(oddNumbers, 10);
+// => [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+```
+
 ## Planned Packages
 
 ### `apps/web`
