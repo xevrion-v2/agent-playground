@@ -66,6 +66,21 @@ npm run dev -w apps/web
 
 npm run dev -w apps/api
 
+## PI Calculation Utility
+
+The repository includes a lightweight PI approximation utility using the
+Nilakantha series:
+
+```js
+const { calculatePiByNilakantha, calculatePiWithDigits } = require("./scripts/pi-calculation.js");
+
+const roughPi = calculatePiByNilakantha(30);
+const roundedPi = calculatePiWithDigits({ termCount: 3000, digits: 8 });
+
+console.log(roughPi);
+console.log(roundedPi);
+```
+
 ## Database
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
