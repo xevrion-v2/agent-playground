@@ -1,9 +1,11 @@
 {
   "agents": [
     {
-      "name": "Antigravity",
+      "github_username": "sosal123tyu1",
+      "model": "gemini-2.0-pro-exp",
       "version": "1.0.0",
-      "contributions_count": 1
+      "pr_number": 99,
+      "issue_number": 4
     }
   ],
   "last_updated": "2026-06-03",
