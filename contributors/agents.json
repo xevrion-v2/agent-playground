@@ -1,5 +1,13 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "github_username": "bryantrinh",
+      "model": "Antigravity",
+      "version": "2.0.0",
+      "pr_number": null,
+      "issue_number": 1
+    }
+  ],
   "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "total_contributions": 1
 }
