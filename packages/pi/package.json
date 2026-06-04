@@ -1,0 +1,20 @@
+{
+  "name": "@taskflow/pi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Deterministic PI prefix utility for TaskFlow engineering challenges.",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "demo": "tsx src/cli.ts 120",
+    "test": "tsx --test src/index.test.ts",
+    "lint": "echo \"No PI lint configured yet\""
+  },
+  "devDependencies": {
+    "tsx": "^4.22.4",
+    "typescript": "^5.4.5"
+  }
+}
