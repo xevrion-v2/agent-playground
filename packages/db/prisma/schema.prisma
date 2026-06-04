@@ -7,35 +7,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Represents a registered user of the TaskFlow platform.
+/// Users can create jobs and submit proposals to other users' jobs.
 model User {
   id        String     @id @default(cuid())
+  /// Unique email address used for authentication and notifications.
   email     String     @unique
+  /// Optional display name shown on profiles and dashboards.
   name      String?
+  /// Jobs created (owned) by this user.
   jobs      Job[]
+  /// Proposals submitted by this user in response to jobs.
   proposals Proposal[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// Represents a task or job posted by a User.
+/// Jobs go through a lifecycle of statuses (e.g. draft → open → in-progress → completed).
 model Job {
   id          String     @id @default(cuid())
+  /// Short title describing the job.
   title       String
+  /// Detailed description of the work to be done.
   description String?
+  /// Current lifecycle status of the job (draft, open, in-progress, completed, cancelled).
   status      String     @default("draft")
+  /// Foreign key referencing the User who owns this job.
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// All proposals submitted against this job by freelancers.
   proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// Represents a proposal (bid) from a User for a specific Job.
+/// Proposals track the freelancer's summary, quoted amount, and approval status.
 model Proposal {
   id        String   @id @default(cuid())
+  /// Brief summary of the proposer's approach or qualifications.
   summary   String
+  /// Quoted monetary amount for completing the job.
   amount    Decimal?
+  /// Current status of the proposal (pending, accepted, rejected).
   status    String   @default("pending")
+  /// Foreign key referencing the User who submitted this proposal.
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+  /// Foreign key referencing the Job this proposal is for.
   jobId     String
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
