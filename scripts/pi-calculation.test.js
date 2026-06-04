@@ -33,6 +33,11 @@ const {
 }
 
 {
+  const highPrecisionDigits = calculatePiWithDigits({ digits: 20 });
+  assert.equal(highPrecisionDigits, "3.14159265358979323846");
+}
+
+{
   assert.throws(
     () => calculatePiByNilakantha(-1),
     { message: "termCount must be a non-negative integer" },

@@ -68,14 +68,18 @@ npm run dev -w apps/api
 
 ## PI Calculation Utility
 
-The repository includes a lightweight PI approximation utility using the
-Nilakantha series:
+The repository includes PI calculation utilities: a lightweight Nilakantha
+approximation for numeric experiments and a fixed-point Machin formula path for
+high-precision decimal strings.
 
 ```js
-const { calculatePiByNilakantha, calculatePiWithDigits } = require("./scripts/pi-calculation.js");
+const {
+  calculatePiByNilakantha,
+  calculatePiWithDigits,
+} = require("./scripts/pi-calculation.js");
 
 const roughPi = calculatePiByNilakantha(30);
-const roundedPi = calculatePiWithDigits({ termCount: 3000, digits: 8 });
+const roundedPi = calculatePiWithDigits({ digits: 20 });
 
 console.log(roughPi);
 console.log(roundedPi);
