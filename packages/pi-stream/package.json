@@ -1,0 +1,14 @@
+{
+  "name": "@agent-playground/pi-stream",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "pi-stream": "src/cli.js"
+  },
+  "scripts": {
+    "demo": "node src/cli.js",
+    "test": "node --test src/index.test.js"
+  }
+}
