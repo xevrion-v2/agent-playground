@@ -81,5 +81,43 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own `.env` file. Copy the relevant block below and fill in your values.
+
+### `apps/api` — Backend
+
+```env
+# PostgreSQL connection string (required)
+DATABASE_URL=postgresql://user:password@localhost:5432/taskflow
+
+# JWT secret used to sign access tokens (required)
+JWT_SECRET=your-jwt-secret
+
+# Port the API server listens on (optional, defaults to 4000)
+PORT=4000
+
+# OAuth callback base URL (required for OAuth routes)
+OAUTH_CALLBACK_URL=http://localhost:4000/auth/callback
+
+# Stripe secret key for payment processing (optional, stub by default)
+STRIPE_SECRET_KEY=sk_test_...
+```
+
+### `apps/web` — Frontend
+
+```env
+# Base URL of the API server (required)
+NEXT_PUBLIC_API_URL=http://localhost:4000
+
+# NextAuth secret for session encryption (required)
+NEXTAUTH_SECRET=your-nextauth-secret
+
+# Public base URL of this web app (required)
+NEXTAUTH_URL=http://localhost:3000
+```
+
+### `packages/db` — Database package
+
+```env
+# PostgreSQL connection string — same value as apps/api (required)
+DATABASE_URL=postgresql://user:password@localhost:5432/taskflow
+```
