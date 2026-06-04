@@ -4,9 +4,5 @@ export type ButtonProps = {
 };
 
 export function Button({ label, disabled = false }: ButtonProps) {
-  return {
-    type: "button",
-    label,
-    disabled
-  };
+  return <button disabled={disabled}>{label}</button>;
 }
