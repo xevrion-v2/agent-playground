@@ -1,5 +1,14 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "itosa-kazu",
+      "model": "OpenAI Codex",
+      "version": "GPT-5",
+      "pr_number": 449,
+      "issue_number": 447,
+      "approach": "Add the missing Next.js App Router root layout so the web app can build past the required layout check."
+    }
+  ],
+  "last_updated": "2026-06-04",
+  "total_contributions": 1
 }
