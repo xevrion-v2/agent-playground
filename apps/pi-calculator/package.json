@@ -1,0 +1,17 @@
+{
+  "name": "@taskflow/pi-calculator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lightweight script to estimate PI using Monte Carlo method.",
+  "main": "src/calculatePi.ts",
+  "scripts": {
+    "start": "tsx src/calculatePi.ts",
+    "start:1m": "tsx src/calculatePi.ts 1000000",
+    "start:10m": "tsx src/calculatePi.ts 10000000"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.5"
+  }
+}
