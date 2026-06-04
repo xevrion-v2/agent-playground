@@ -83,3 +83,32 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## Environment Variables
+
+Each app/package expects its own `.env` values. Below is a reference of expected variables.
+
+### apps/api
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `PORT` | No | API server port (default: `4000`) |
+| `DATABASE_URL` | Yes | PostgreSQL connection string for Prisma |
+| `NODE_ENV` | No | `development` or `production` |
+| `JWT_SECRET` | Yes | Secret key for signing JWT tokens |
+| `CORS_ORIGIN` | No | Allowed CORS origin (default: `*`) |
+
+### apps/web
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `NEXT_PUBLIC_API_URL` | Yes | Backend API base URL (e.g. `http://localhost:4000`) |
+| `DATABASE_URL` | Yes | PostgreSQL connection string (shared with API) |
+
+### packages/db
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DATABASE_URL` | Yes | PostgreSQL connection string used by Prisma |
+
+> Create a `.env` file in each app directory. See `.env.example` for templates.
