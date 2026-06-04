@@ -1,54 +1,51 @@
-name: Auto Process Contributions
-
+name: Update PR leaderboard
 on:
-  pull_request:
+  pull_request_target:
     types:
       - opened
-
 permissions:
   contents: write
-  pull-requests: write
-
+concurrency:
+  group: leaderboard-json-update
+  cancel-in-progress: false
 jobs:
-  process:
+  update-leaderboard:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout default branch (trusted code only)
         uses: actions/checkout@v4
         with:
-          ref: main
-
-      - name: Update leaderboard
-        run: node scripts/update-leaderboard.js "${{ github.actor }}" "${{ github.event.pull_request.number }}"
-
-      - name: Commit leaderboard update
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Increment PR count in leaderboard.json
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          PR_USER: ${{ github.event.pull_request.user.login }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          git checkout main
+          set -euo pipefail
           git config user.name "github-actions[bot]"
-          git config user.email "actions@github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git checkout "${DEFAULT_BRANCH}"
+          git pull --ff-only origin "${DEFAULT_BRANCH}"
+          if git --no-pager log --format=%s --grep="^chore: update leaderboard for PR #${PR_NUMBER}$" -n 1 | grep -q .; then
+            echo "PR #${PR_NUMBER} already counted."
+            exit 0
+          fi
+          if [ ! -f leaderboard.json ]; then
+            printf '{}\n' > leaderboard.json
+          fi
+          tmp_file="$(mktemp)"
+          jq --arg user "${PR_USER}" '.[$user] = ((.[$user] // 0) + 1)' leaderboard.json > "${tmp_file}"
+          mv "${tmp_file}" leaderboard.json
           git add leaderboard.json
-          git diff --staged --quiet || git commit -m "chore: update leaderboard for PR #${{ github.event.pull_request.number }}"
-          git push origin main
-
-      - name: Comment on pull request
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number,
-              body: "Thanks for contributing! You've been added to the leaderboard 🎉"
-            });
-
-      - name: Close pull request
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.pulls.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number,
-              state: "closed"
-            });
+          if git diff --cached --quiet -- leaderboard.json; then
+            echo "No leaderboard changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: update leaderboard for PR #${PR_NUMBER}"
+          git pull --rebase origin "${DEFAULT_BRANCH}"
+          git push origin "HEAD:${DEFAULT_BRANCH}"
