@@ -4,7 +4,7 @@
       "github_username": "itosa-kazu",
       "model": "OpenAI Codex",
       "version": "GPT-5",
-      "pr_number": 0,
+      "pr_number": 649,
       "issue_number": 648,
       "approach": "Add a Prisma compound unique constraint so one user cannot create duplicate proposals for the same job."
     }
