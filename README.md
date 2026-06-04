@@ -47,20 +47,15 @@ Backend architecture follows:
 
 ## Infinite Sequence Utility
 
-The shared UI package exports a small generator utility for creating lazy
-infinite sequences. Always pair it with a bounded consumer such as
-`takeFromSequence` so examples and UI code cannot loop forever.
+The infinite sequence package exports a small lazy iterator utility. Always
+pair it with a bounded consumer such as `takeFromSequence` or `.take()` so
+examples and UI code cannot loop forever.
 
 ```ts
-import { infiniteSequence, takeFromSequence } from "@taskflow/ui";
+import { naturalNumbers, takeFromSequence } from "@taskflow/infinite-sequence";
 
-const naturalNumbers = infiniteSequence({
-  start: 1,
-  next: (current) => current + 1
-});
-
-const firstFive = takeFromSequence(naturalNumbers, 5);
-// [1, 2, 3, 4, 5]
+const firstFive = takeFromSequence(naturalNumbers(1), 5);
+const nextFive = naturalNumbers(6).take(5);
 ```
 
 ## Getting Started
