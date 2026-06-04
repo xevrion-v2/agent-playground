@@ -81,5 +81,24 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own `.env` values. Example files are provided:
+
+| App/Package | File | Key Variables |
+|-------------|------|---------------|
+| `apps/api` | `apps/api/.env.example` | `PORT`, `DATABASE_URL`, `JWT_SECRET`, `OAUTH_CALLBACK_URL` |
+| `apps/web` | `apps/web/.env.example` | `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SITE_URL` |
+| `packages/db` | `packages/db/.env.example` | `DATABASE_URL` |
+
+Copy the relevant `.env.example` to `.env` in each directory and fill in your values:
+
+```bash
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env.local
+cp packages/db/.env.example packages/db/.env
+```
+
+After configuring `DATABASE_URL`, run migrations:
+
+```bash
+npx prisma migrate dev --name init
+```
