@@ -1,43 +1,76 @@
+/// Prisma client generator — produces the TypeScript client used throughout the API.
 generator client {
   provider = "prisma-client-js"
 }
 
+/// Primary database connection. Reads the connection string from the DATABASE_URL environment variable.
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+/// Represents a registered user on the platform.
+/// A user can own multiple jobs and submit proposals on other jobs.
 model User {
+  /// Unique identifier (cuid).
   id        String     @id @default(cuid())
+  /// User's email address — must be unique across the platform.
   email     String     @unique
+  /// Optional display name.
   name      String?
+  /// Jobs posted by this user.
   jobs      Job[]
+  /// Proposals submitted by this user.
   proposals Proposal[]
+  /// Timestamp when the record was created.
   createdAt DateTime   @default(now())
+  /// Timestamp when the record was last updated.
   updatedAt DateTime   @updatedAt
 }
 
+/// Represents a job posting created by a user.
+/// Jobs can receive multiple proposals from other users.
 model Job {
+  /// Unique identifier (cuid).
   id          String     @id @default(cuid())
+  /// Short title describing the job.
   title       String
+  /// Optional detailed description of the job requirements.
   description String?
+  /// Current status of the job. Defaults to "draft". Common values: "draft", "open", "closed".
   status      String     @default("draft")
+  /// Foreign key referencing the user who owns this job.
   ownerId     String
+  /// The user who posted this job.
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Proposals submitted for this job.
   proposals   Proposal[]
+  /// Timestamp when the record was created.
   createdAt   DateTime   @default(now())
+  /// Timestamp when the record was last updated.
   updatedAt   DateTime   @updatedAt
 }
 
+/// Represents a proposal submitted by a user in response to a job posting.
 model Proposal {
+  /// Unique identifier (cuid).
   id        String   @id @default(cuid())
+  /// Short summary of the proposal.
   summary   String
+  /// Optional proposed amount for the job.
   amount    Decimal?
+  /// Current status of the proposal. Defaults to "pending". Common values: "pending", "accepted", "rejected".
   status    String   @default("pending")
+  /// Foreign key referencing the user who submitted this proposal.
   userId    String
+  /// The user who submitted this proposal.
   user      User     @relation(fields: [userId], references: [id])
+  /// Foreign key referencing the job this proposal is for.
   jobId     String
+  /// The job this proposal is associated with.
   job       Job      @relation(fields: [jobId], references: [id])
+  /// Timestamp when the record was created.
   createdAt DateTime @default(now())
+  /// Timestamp when the record was last updated.
   updatedAt DateTime @updatedAt
 }
