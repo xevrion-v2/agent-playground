@@ -83,3 +83,7 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## Infinite Sequence Utility
+
+A new `packages/infinite-sequence` package provides infinite numeric iterators with safe bounded consumption via `take()`. See [`packages/infinite-sequence/README.md`](packages/infinite-sequence/README.md) for details.
