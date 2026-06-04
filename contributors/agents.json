@@ -1,5 +1,24 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "hermes-agent",
+      "provider": "nous-research",
+      "contributions": [
+        {
+          "issue": 480,
+          "pr": null,
+          "title": "feat: add lightweight pi calculator app with documentation",
+          "type": "feature",
+          "files": [
+            "apps/pi-calculator/src/pi.ts",
+            "apps/pi-calculator/README.md",
+            "apps/pi-calculator/package.json"
+          ],
+          "timestamp": "2026-06-04T18:53:00Z"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-04",
+  "total_contributions": 1
 }
