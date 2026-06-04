@@ -1,43 +1,146 @@
-generator client {
-  provider = "prisma-client-js"
-}
+// =============================================
+// TaskFlow Domain — Prisma Schema
+// =============================================
+// Models: TaskFlow (project management platform)
+// Entities: User, Task, Comment, Notification,
+//           Report, Project, ProjectMember, AuditLog
+// =============================================
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
+/// Represents a registered user on the platform.
+/// Users can create, own, and be assigned to tasks,
+/// post comments, and receive notifications.
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
-  name      String?
-  jobs      Job[]
-  proposals Proposal[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-}
-
-model Job {
-  id          String     @id @default(cuid())
-  title       String
-  description String?
-  status      String     @default("draft")
-  ownerId     String
-  owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-}
-
-model Proposal {
   id        String   @id @default(cuid())
-  summary   String
-  amount    Decimal?
-  status    String   @default("pending")
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  jobId     String
-  job       Job      @relation(fields: [jobId], references: [id])
+  email     String   @unique
+  name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relations
+  createdTasks    Task[]         @relation("CreatedTasks")
+  assignedTasks   Task[]         @relation("AssignedTasks")
+  comments        Comment[]
+  notifications   Notification[]
+  ownedProjects   Project[]      @relation("ProjectOwner")
+  projectMembers  ProjectMember[]
+  createdReports  Report[]       @relation("ReportCreator")
+  auditLogs       AuditLog[]     @relation("AuditActor")
+}
+
+/// Represents a task within the TaskFlow system.
+/// Tasks belong to a project and have a lifecycle:
+/// TODO → IN_PROGRESS → DONE → CANCELLED.
+/// Each task has an owner (creator) and an optional assignee.
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  status      String   @default("TODO")
+  priority    String   @default("MEDIUM")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Ownership & assignment
+  ownerId     String
+  owner       User     @relation("CreatedTasks", fields: [ownerId], references: [id])
+  assigneeId  String?
+  assignee    User?    @relation("AssignedTasks", fields: [assigneeId], references: [id])
+
+  // Project membership
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+
+  // Relations
+  comments    Comment[]
+}
+
+/// Represents a comment on a task.
+/// Comments enable collaboration by allowing users
+/// to discuss and track progress on individual tasks.
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+/// Represents an in-app notification for a user.
+/// Notifications track events like task assignments,
+/// status changes, and mentions.
+model Notification {
+  id        String   @id @default(cuid())
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+/// Represents a generated report (e.g. progress summary,
+/// analytics export) created by a user for a specific project.
+model Report {
+  id          String   @id @default(cuid())
+  title       String
+  content     String?
+  createdAt   DateTime @default(now())
+
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id])
+  creatorId   String
+  creator     User     @relation("ReportCreator", fields: [creatorId], references: [id])
+}
+
+/// Represents a collaborative project workspace in TaskFlow.
+/// Projects contain tasks, reports, and members.
+/// Each project has an owner and can have multiple members with roles.
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Ownership
+  ownerId     String
+  owner       User     @relation("ProjectOwner", fields: [ownerId], references: [id])
+
+  // Relations
+  tasks       Task[]
+  reports     Report[]
+  members     ProjectMember[]
+}
+
+/// Represents a membership linking a user to a project
+/// with a specific role (e.g. ADMIN, MEMBER, VIEWER).
+/// This enables fine-grained access control per project.
+model ProjectMember {
+  id        String   @id @default(cuid())
+  role      String   @default("MEMBER")
+  joinedAt  DateTime @default(now())
+
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([projectId, userId])
+}
+
+/// Represents an audit trail entry for tracking
+/// significant actions within the system.
+/// Used for security, compliance, and debugging.
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
+
+  actorId   String
+  actor     User     @relation("AuditActor", fields: [actorId], references: [id])
 }
