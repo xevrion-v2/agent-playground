@@ -9,11 +9,23 @@ router.get("/", (_req, res) => {
   });
 });
 
+import { z } from "zod";
+
+const createUserSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(1).optional(),
+});
+
 router.post("/", (req, res) => {
+  const parsed = createUserSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.flatten() });
+  }
   res.status(201).json({
     data: {
       id: "stub-user-id",
-      ...req.body
+      email: parsed.data.email,
+      name: parsed.data.name,
     },
     message: "User creation is not implemented yet."
   });
