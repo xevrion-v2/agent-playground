@@ -7,37 +7,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// User represents a registered platform member (freelancer or client).
+/// Each user can create Jobs (as a client) and submit Proposals (as a freelancer).
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
-  name      String?
-  jobs      Job[]
-  proposals Proposal[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id        String     @id @default(cuid()) /// Unique identifier for the user.
+  email     String     @unique              /// User email address, must be unique.
+  name      String?                          /// Optional display name.
+  jobs      Job[]                            /// Jobs created by this user (as client).
+  proposals Proposal[]                       /// Proposals submitted by this user (as freelancer).
+  createdAt DateTime   @default(now())       /// Timestamp of account creation.
+  updatedAt DateTime   @updatedAt            /// Timestamp of last profile update.
 }
 
+/// Job is a posting created by a client to find freelancers.
+/// Jobs can receive multiple Proposals from interested freelancers.
 model Job {
-  id          String     @id @default(cuid())
-  title       String
-  description String?
-  status      String     @default("draft")
-  ownerId     String
-  owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id          String     @id @default(cuid()) /// Unique identifier for the job.
+  title       String                         /// Short title describing the job.
+  description String?                        /// Detailed description of the work.
+  status      String     @default("draft")   /// Job status: draft, open, closed, completed.
+  ownerId     String                         /// ID of the User who created this job.
+  owner       User       @relation(fields: [ownerId], references: [id]) /// The job creator.
+  proposals   Proposal[]                     /// Proposals received for this job.
+  createdAt   DateTime   @default(now())     /// Timestamp of job creation.
+  updatedAt   DateTime   @updatedAt          /// Timestamp of last job update.
 }
 
+/// Proposal is a bid submitted by a freelancer on a Job.
+/// Each proposal represents an offer to complete the job for a given amount.
 model Proposal {
-  id        String   @id @default(cuid())
-  summary   String
-  amount    Decimal?
-  status    String   @default("pending")
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  jobId     String
-  job       Job      @relation(fields: [jobId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String   @id @default(cuid()) /// Unique identifier for the proposal.
+  summary   String                         /// Brief summary of the freelancer's approach.
+  amount    Decimal?                       /// Proposed price for the work (nullable).
+  status    String   @default("pending")   /// Proposal status: pending, accepted, rejected.
+  userId    String                         /// ID of the User (freelancer) who submitted this.
+  user      User     @relation(fields: [userId], references: [id]) /// The proposing freelancer.
+  jobId     String                         /// ID of the Job this proposal targets.
+  job       Job      @relation(fields: [jobId], references: [id])  /// The target job.
+  createdAt DateTime @default(now())       /// Timestamp of proposal submission.
+  updatedAt DateTime @updatedAt            /// Timestamp of last proposal update.
 }
