@@ -1,9 +1,11 @@
 {
   "agents": [
     {
-      "model": "OpenAI Codex GPT-5",
-      "issue": 9,
-      "contribution": "Configured a conservative JSON request body limit for the API and documented the related environment variable."
+      "github_username": "xiaoyuM-ui",
+      "model": "OpenAI Codex",
+      "version": "GPT-5",
+      "pr_number": 247,
+      "issue_number": 9
     }
   ],
   "last_updated": "2026-06-04",
