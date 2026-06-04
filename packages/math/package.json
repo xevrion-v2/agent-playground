@@ -1,0 +1,13 @@
+{
+  "name": "@taskflow/math",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TaskFlow math utilities, including high-precision PI calculations.",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "tsx --test src/**/*.test.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
