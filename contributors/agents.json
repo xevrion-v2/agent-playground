@@ -1,9 +1,11 @@
 {
   "agents": [
     {
-      "name": "minimax-m3",
+      "github_username": "x-haolun",
+      "model": "minimax-m3",
       "version": "minimax-m3",
-      "issue": 445,
+      "issue_number": 445,
+      "pr_number": 1,
       "approach": "Upgraded Next.js to 15.5.19, added the missing App Router root layout, and validated with workspace tests plus a production build."
     }
   ],
