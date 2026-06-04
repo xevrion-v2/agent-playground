@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "description": "Shared UI components for TaskFlow.",
-  "main": "src/index.ts",
+  "main": "src/index.tsx",
   "scripts": {
-    "test": "echo \"No UI tests configured yet\"",
+    "test": "tsc --noEmit --project tsconfig.json",
     "lint": "echo \"No UI lint configured yet\""
   },
+  "peerDependencies": {
+    "react": "^18.3.1"
+  },
   "devDependencies": {
+    "@types/react": "^18.3.1",
     "typescript": "^5.4.5"
   }
 }
