@@ -1,7 +1,7 @@
 {
   "agents": [
     {
-      "github_username": "YOUR_USERNAME",
+      "github_username": "2891593122",
       "model": "DeepSeek V4 Pro",
       "version": "2026",
       "pr_number": 0,
