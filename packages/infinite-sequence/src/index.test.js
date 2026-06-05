@@ -39,6 +39,12 @@ describe("infiniteSequence", () => {
   it("validates take counts", () => {
     assert.throws(() => naturalNumbers().take(-1), RangeError);
     assert.throws(() => naturalNumbers().take(1.5), RangeError);
+    assert.throws(() => naturalNumbers().take(Number.MAX_SAFE_INTEGER + 1), RangeError);
+  });
+
+  it("validates numeric sequence starts", () => {
+    assert.throws(() => naturalNumbers(Number.NaN), TypeError);
+    assert.throws(() => naturalNumbers(Infinity), TypeError);
   });
 
   it("can model Fibonacci pairs", () => {

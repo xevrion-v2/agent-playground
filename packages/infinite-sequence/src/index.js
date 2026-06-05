@@ -1,3 +1,9 @@
+function assertFiniteNumber(value, name) {
+  if (!Number.isFinite(value)) {
+    throw new TypeError(`${name} must be a finite number`);
+  }
+}
+
 export function infiniteSequence({ start, next }) {
   if (typeof next !== "function") {
     throw new TypeError("next must be a function");
@@ -21,8 +27,8 @@ export function infiniteSequence({ start, next }) {
 }
 
 export function takeFromSequence(sequence, count) {
-  if (!Number.isInteger(count) || count < 0) {
-    throw new RangeError("count must be a non-negative integer");
+  if (!Number.isSafeInteger(count) || count < 0) {
+    throw new RangeError("count must be a non-negative safe integer");
   }
 
   const values = [];
@@ -36,6 +42,8 @@ export function takeFromSequence(sequence, count) {
 }
 
 export function naturalNumbers(start = 0) {
+  assertFiniteNumber(start, "start");
+
   return infiniteSequence({
     start,
     next: (current) => current + 1
