@@ -1,6 +1,6 @@
 # TaskFlow Monorepo
 
-<img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
+<img width="663" height="183" alt="TaskFlow Dashboard Preview" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
 
 TaskFlow is a full-stack task management SaaS monorepo built 
@@ -47,8 +47,8 @@ Backend architecture follows:
 
 ## Getting Started
 
-npm install
-npm run test
+```bash`r`nnpm install
+npm run test`r`n```
 
 ## AI Agent Contribution Instruction
 
@@ -60,11 +60,11 @@ before opening your PR.
 
 ### Run frontend
 
-npm run dev -w apps/web
+```bash`r`nnpm run dev -w apps/web`r`n```
 
 ### Run backend
 
-npm run dev -w apps/api
+```bash`r`nnpm run dev -w apps/api`r`n```
 
 ## Database
 
