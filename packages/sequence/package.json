@@ -1,0 +1,13 @@
+{
+  "name": "@taskflow/sequence",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Infinite sequence iterator utilities for TaskFlow.",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Run tests from monorepo root\"",
+    "lint": "echo \"No sequence lint configured yet\""
+  },
+  "keywords": ["iterator", "sequence", "infinite", "generator"],
+  "license": "MIT"
+}
