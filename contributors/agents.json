@@ -1,5 +1,14 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "aleag3000",
+      "model": "gpt-5.5",
+      "version": "2026-06-05",
+      "pr_number": null,
+      "issue_number": 637,
+      "approach": "Use an explicit .js extension for the API entrypoint relative import so it is compatible with NodeNext ESM resolution."
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
