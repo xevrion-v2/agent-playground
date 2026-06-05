@@ -15,35 +15,14 @@ with a modern TypeScript-first architecture.
 
 ## Frontend
 
-The web app includes pages for:
-- Landing
-- Task boards and task detail
-- Create a task
-- User profiles and user search
-- Client and freelancer dashboards
-- Messaging
-- Notifications
-- Settings
-- Billing
-- Admin panel
+The web app currently includes a landing page at `apps/web/src/app/page.tsx`.
 
 ## Backend
 
-The API includes:
-- Auth routes (register, login, OAuth callback, JWT refresh)
-- CRUD routes for users, tasks, and proposals
-- Payments routes (Stripe-focused service placeholder)
-- Reviews, messaging, notifications
-- File uploads and search
-- Admin routes
-
-Backend architecture follows:
-- Middleware layer (auth, rate limiting, error handling)
-- Controller layer
-- Service layer
-- Route layer
-- Validation schemas (Zod)
-- Utility helpers
+The API currently includes:
+- `GET /health`
+- `GET /users`
+- `POST /users`
 
 ## Getting Started
 
