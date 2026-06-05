@@ -81,5 +81,11 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own `.env` values. Here are the expected local variables:
+
+### Express API (`apps/api`)
+- `PORT` (optional): The port the API server listens on (defaults to `4000`).
+- `DATABASE_URL`: The Prisma PostgreSQL connection URL (e.g., `postgresql://user:password@localhost:5432/db`).
+
+### Next.js Web App (`apps/web`)
+- `NEXT_PUBLIC_API_URL` (optional): The base URL of the backend API (defaults to `http://localhost:4000`).
