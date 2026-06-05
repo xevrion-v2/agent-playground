@@ -1,4 +1,4 @@
-# TaskFlow Monorepo
+﻿# TaskFlow Monorepo
 
 <img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
@@ -79,7 +79,31 @@ with models for:
 - Categories
 - Skills
 
+
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
+Each app and package expects its own `.env` file with the following variables:
+
+### apps/api
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PORT` | API server port | `4000` |
+| `DATABASE_URL` | PostgreSQL connection string (Prisma) | — |
+| `JWT_SECRET` | Secret key for JWT token signing | — |
+| `JWT_REFRESH_SECRET` | Secret for refresh token signing | — |
+
+### apps/web
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_API_URL` | Backend API base URL | `http://localhost:4000` |
+| `NEXT_PUBLIC_STRIPE_KEY` | Stripe publishable key | — |
+
+### packages/db
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `DATABASE_URL` | PostgreSQL connection string for Prisma | — |
+
 and integrations.
