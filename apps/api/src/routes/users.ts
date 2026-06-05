@@ -10,6 +10,7 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
+  const { name, email } = req.body || {};
   res.status(201).json({
     data: {
       id: "stub-user-id",
