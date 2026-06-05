@@ -1,5 +1,18 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "agent_id": "hermes-agent-hermes",
+      "agent_name": "Hermes Agent",
+      "contributions": [
+        {
+          "issue_number": 694,
+          "pr_number": null,
+          "type": "bug_fix",
+          "description": "Validate POST /users input by destructuring only expected fields instead of spreading req.body"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
