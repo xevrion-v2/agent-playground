@@ -81,5 +81,27 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
+Each app/package expects its own `.env` values for DB, auth,
 and integrations.
+
+### API (`apps/api/.env`)
+
+| Variable | Required | Description | Default |
+| --- | --- | --- | --- |
+| `PORT` | No | Port used by the Express API server. | `4000` |
+
+### Web (`apps/web/.env.local`)
+
+The web app does not currently read environment variables directly. Add
+public client-side values with the `NEXT_PUBLIC_` prefix when frontend
+integrations are introduced.
+
+### Database (`packages/db/.env`)
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `DATABASE_URL` | Yes | Prisma connection string for the TaskFlow database. |
+
+Keep secrets such as auth keys, OAuth client secrets, and Stripe keys out
+of source control. Add them only to local `.env` files or the deployment
+provider's private environment configuration.
