@@ -81,5 +81,29 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app and package reads its configuration from a local `.env` file.
+Copy the relevant `.env.example` and fill in your values before running.
+
+### `apps/api` — Express backend
+
+| Variable | Required | Description |
+|---|---|---|
+| `PORT` | No | Port the API server listens on. Defaults to `4000`. |
+| `DATABASE_URL` | Yes | PostgreSQL connection string used by Prisma. Example: `postgresql://user:pass@localhost:5432/taskflow` |
+| `JWT_SECRET` | Yes | Secret used to sign and verify JWT access tokens. Use a long random string in production. |
+| `JWT_REFRESH_SECRET` | Yes | Secret for refresh token signing. Must differ from `JWT_SECRET`. |
+| `STRIPE_SECRET_KEY` | No | Stripe secret key for payment processing. Omit to disable payment routes. |
+
+### `apps/web` — Next.js frontend
+
+| Variable | Required | Description |
+|---|---|---|
+| `NEXT_PUBLIC_API_URL` | Yes | Base URL of the API server, e.g. `http://localhost:4000`. Exposed to the browser. |
+| `NEXTAUTH_SECRET` | Yes | Secret for NextAuth session encryption. |
+| `NEXTAUTH_URL` | Yes | Canonical URL of the web app, e.g. `http://localhost:3000`. |
+
+### `packages/db` — Prisma
+
+| Variable | Required | Description |
+|---|---|---|
+| `DATABASE_URL` | Yes | Same PostgreSQL connection string as `apps/api`. Used by `prisma migrate` and `prisma studio`. |
