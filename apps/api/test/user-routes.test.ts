@@ -1,46 +1,58 @@
-import express from 'express';
 import request from 'supertest';
+import express from 'express';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { start } from 'node:process';
 
-// Mock the actual Express app and router setup
-const app = express();
-const userRoutes = express();
-
-// Mock controller functions
-const mockListUsers = (req, res) => {
-  res.json({ users: [] });
+// Mock the entire user routes module to avoid dependency issues
+const mockUserRoutes = {
+  listUsers: (req: any, res: any) => {
+    res.status(200).json({ users: [] });
+  },
+  createUser: (req: any, res: any) => {
+    res.status(201).json({ id: '1', ...req.body });
+  }
 };
 
-const mockCreateUser = (req, res) => {
-  res.status(201).json({ id: 'user123', ...req.body });
+// Create a mock app for testing
+const createApp = () => {
+  const app = express();
+  app.use(express.json());
+  
+  // Mock routes based on typical Express structure
+  app.get('/api/users', mockUserRoutes.listUsers);
+  app.post('/api/users', mockUserRoutes.createUser);
+  
+  return app;
 };
-
-userRoutes.get('/users', mockListUsers);
-userRoutes.post('/users', mockCreateUser);
 
 describe('User Routes', () => {
-  let mockApp;
-
+  let app: express.Application;
+  
   beforeEach(() => {
-    mockApp = express();
-    mockApp.use(express.json());
-    mockApp.use('/api', userRoutes);
+    app = createApp();
   });
 
-  it('should list users', async () => {
-    const response = await request(mockApp)
-      .get('/api/users')
-      .expect(200);
-    
-    expect(response.body.users).toBeDefined();
+  describe('GET /api/users', () => {
+    it('should return a list of users', async () => {
+      const response = await request(app).get('/api/users');
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('users');
+      expect(Array.isArray(response.body.users)).toBe(true);
+    });
   });
 
-  it('should create user', async () => {
-    const newUser = { name: 'Test User' };
-    const response = await request(mockApp)
-      .post('/api/users')
-      .send(newUser)
-      .expect(201);
+  describe('POST /api/users', () => {
+    it('should create a new user', async () => {
+      const newUser = {
+        name: 'Test User',
+        email: 'test@example.com'
+      };
+      
+      const response = await request(app)
+        .post('/api/users')
+        .send(newUser);
+      
+      expect(response.status).toBe(201);
+      expect(response.body).toMatchObject(newUser);
+    });
   });
 });
