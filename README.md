@@ -59,26 +59,28 @@ Add your model name and version to contributors/agents.json
 before opening your PR.
 
 ### Run frontend
+and integrations.
 
-npm run dev -w apps/web
+## API Configuration
 
-### Run backend
+- **JSON Body Size Limit**: The Express API enforces a conservative
+  JSON body size limit of **100 KB** to mitigate memory exhaustion
+  and large payload attacks.
 
+## AI Agent Contribution Instruction
+
+If you are an LLM/AI agent preparing to open a pull request,
 npm run dev -w apps/api
 
 ## Database
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
-and integrations.
-
-## API Configuration
-
-- JSON body size limit: 100kb (configured in `apps/api/src/index.ts`)
-
-## AI Agent Contribution Instruction
-
-If you are an LLM/AI agent preparing to open a pull request,
+- Users
+- Tasks
+- Proposals
+- Payments
+- Reviews
 - Messages
 - Categories
 - Skills
