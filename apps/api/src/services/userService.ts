@@ -1,66 +1,94 @@
 import { User } from '@prisma/client';
-import { db } from '../lib/db';
-
-export interface UserService {
-  id: number;
-  name: string;
-  email: string;
-  created: Date;
-}
+import { db } from '../../lib/db';
 
 /**
- * Service for managing user-related operations
+ * User Service
+ * 
+ * This service handles all user-related business logic including user management,
+ * authentication checks, and user data operations.
  */
-export const userService = {
-  /**
-   * Retrieves all users from the database
-   * @returns Promise resolving to an array of users
-   */
-  async getAll() {
-    return await db.user.findMany();
-  },
 
+class UserService {
   /**
-   * Retrieves a user by their ID
+   * Find a user by their unique identifier
    * @param id - The unique identifier of the user
-   * @returns Promise resolving to the user object or null if not found
+   * @returns Promise resolving to the found user or null
    */
-  async getById(id: number) {
+  async findById(id: string): Promise<User | null> {
     return await db.user.findUnique({
-      where: {
-        id,
-      },
+      where: { id }
     });
-  },
+  }
 
   /**
-   * Creates a new user with the provided data
-   * @param data - User data containing name and email
-   * @returns Promise resolving to the created user object
+   * Find a user by their email address
+   * @param email - The email address to search for
+   * return Promise resolving to the found user or null
    */
-  async create(data: { name: string; email: string }) {
-    return await db.user.create({ data });
-  },
+  async findByEmail(email: string): Promise<User | null> {
+    return await db.user.findUnique({
+      where: { email }
+    });
+  }
 
   /**
-   * Updates an existing user's information
+   * Create a new user
+   * @param userData - The data required to create a new user
+   * @returns Promise resolving to the created user
+   */
+  async create(userData: Omit<User, 'id'>): Promise<User> {
+    return await db.user.create({
+      data: userData
+    });
+  }
+
+  /**
+   * Update an existing user's information
    * @param id - The ID of the user to update
-   * @param data - Partial user data to update
-   * @returns Promise resolving to the updated user object
+   * @param userData - The partial user data to update
+   * @returns Promise resolving to the updated user
    */
-  async update(id:1, data: { name?: string; email?: string }) {
+  async update(id: string, userData: Partial<User>): Promise<User> {
     return await db.user.update({
       where: { id },
-      data,
+      data: userData
     });
-  },
+  }
 
   /**
-   * Deletes a user by their ID
+   * Delete a user by their ID
    * @param id - The ID of the user to delete
-   * @returns Promise resolving to the deleted user object
+   * @returns Promise resolving to the deletion result
    */
-  async delete(id: number) {
-    return await db.user.delete({ where: { id } });
-  },
-};
+  async delete(id: string): Promise<User> {
+    return await db.user.delete({
+      where: { id }
+    });
+  }
+
+  /**
+   * Get all users with optional filtering
+   * @param filter - Optional filter criteria
+   * @returns Promise resolving to array of users
+   */
+  async getAll(filter?: object): Promise<User[]> {
+    return await db.user.findMany(filter);
+  }
+
+  /**
+   * Find users by skill
+   * @param skill - The skill to filter users by
+   * @returns Promise resolving to array of users with the specified skill
+   */
+  async findBySkill(skill: string): Promise<User[]> {
+    return await db.user.findMany({
+      where: {
+        skills: {
+          has: skill
+        }
+      }
+    });
+  }
+}
+
+export default new UserService();
