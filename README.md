@@ -60,43 +60,50 @@ before opening your PR.
 
 ### Run frontend
 
+npm run dev -w apps/web
+
+### Run backend
+
+npm run dev -w apps/api
+
+## Database
+
+Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
 - Users
 - Tasks
-## Environment Variables
-
-### Web App
-
-The web app expects the following environment variables:
-
-NEXT_PUBLIC_API_URL - The URL of the backend API
-
-### API App
-
-The API app expects the following environment variables:
-
-DATABASE_URL - Connection string for the database
-JWT_SECRET - Secret key for JWT token signing/verification
-GITHUB_CLIENT_ID - GitHub OAuth client ID
-GITHUB_CLIENT_SECRET - GitHub OAuth client secret
-GOOGLE_CLIENT_ID - Google OAuth client ID
-GOOGLE_CLIENT_SECRET - Google OAuth client secret
-STRIPE_PUBLISHABLE_KEY - Stripe publishable key for frontend
-STRIPE_SECRET_KEY - Stripe secret key for backend
-STRIPE_WEBHOOK_SECRET - Stripe webhook secret
-OPENAI_API_KEY - OpenAI API key for AI features
-RESEND_API_KEY - Resend API key for email services
-
-## Environment Variables
-
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+- Proposals
+- Payments
 - Reviews
 - Messages
 - Categories
 - Skills
 
-## Environment Variables
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+### Web App (`apps/web/.env`)
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_API_URL` | Base URL for the API | `http://localhost:3001` |
+| `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` | Stripe publishable key | `pk_test_...` |
+
+### API App (`apps/api/.env`)
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@localhost:5432/taskflow` |
+| `JWT_SECRET` | Secret for signing JWTs | `your-secret-key` |
+| `JWT_REFRESH_SECRET` | Secret for signing refresh tokens | `your-refresh-secret` |
+| `PORT` | Port for the API server | `3001` |
+| `STRIPE_SECRET_KEY` | Stripe secret key | `sk_test_...` |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook endpoint secret | `whsec_...` |
+| `AWS_ACCESS_KEY_ID` | AWS access key for file uploads | `AKIA...` |
+| `AWS_SECRET_ACCESS_KEY` | AWS secret key for file uploads | `...` |
+| `AWS_S3_BUCKET` | S3 bucket name | `taskflow-uploads` |
+| `AWS_REGION` | AWS region | `us-east-1` |
+| `REDIS_URL` | Redis connection string (optional) | `redis://localhost:6379` |
+
+## AI Agent Contribution Instruction
