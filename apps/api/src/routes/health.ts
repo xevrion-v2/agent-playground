@@ -1,28 +1,15 @@
 import { Router } from 'express';
-import { Request, Response } from 'express';
 
-const healthRouter = Router();
+const router = Router();
 
-// Liveness probe endpoint
-healthRouter.get('/health', (req: Request, res: Response) => {
+router.get('/health', (req, res) => {
   res.status(200).json({
     status: 'success',
     data: {
-      message: 'Healthy',
-      timestamp: new Date().toISOString()
-    }
+      message: 'OK',
+      timestamp: new Date().toISOString(),
+    },
   });
 });
 
-// Readiness probe endpoint
-healthRouter.get('/ready', (req: Request, res: Response) => {
-  res.status(200).json({
-    status: 'success',
-    data: {
-      message: 'Ready',
-      timestamp: new Date().toISOString()
-    }
-  });
-});
-
-export default healthRouter;
+export default router;
