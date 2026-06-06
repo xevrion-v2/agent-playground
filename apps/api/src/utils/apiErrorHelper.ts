@@ -5,9 +5,6 @@ export class ApiError extends Error {
     super(message, options);
     this.name = 'ApiError';
   }
-}
-
-export const createApiError = (
   res: Response, 
   statusCode: number, 
   message: string | object
@@ -22,8 +19,4 @@ export const createApiError = (
       ...(typeof message === 'object' && message)
     }
   });
-};
-
-export const handleApiError = (error: any, res: Response) => {
-  return createApiError(res, error.statusCode || 500, { message: error.message || 'Internal server error' });
 };
