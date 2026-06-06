@@ -1,30 +1,48 @@
-export class APIError extends Error {
-  statusCode: number;
+interface ApiErrorResponse {
+  success: false;
+  error: {
+    message: string;
+    code?: string;
+    status: number;
+  };
+}
 
-  constructor(message: string, statusCode: number = 500) {
+export class ApiError extends Error {
+  public status: number;
+  public code?: string;
+
+  constructor(message: string, status: number = 500, code?: string) {
     super(message);
-    this.statusCode = statusCode;
-    this.name = 'APIError";
+    this.status = status;
+    this.code = code;
+    this.name = 'ApiError";
+  }
+
+  toJSON(): ApiErrorResponse {
+    return {
+      success: false,
+      error: {
+        message: this.message,
+        code: this.code,
+        status: this.status,
+      },
+    };
   }
 }
 
-export function createErrorResponse(message: string, statusCode: number = 500) {
+export function createErrorResponse(message: string, status: number = 500, code?: string): ApiErrorResponse {
   return {
     success: false,
     error: {
       message,
-      statusCode,
+      code,
+      status,
     },
   };
 }
 
-export function handleAPIError(error: unknown) {
-  if (error instanceof APIError) {
-    return createErrorResponse(error.message, error.statusCode);
-  }
-
-  console.error("Unexpected error:", error);
-  return createErrorResponse("Internal server error", 500);
+export function sendError(res: any, message: string, status: number = 500, code?: string): void {
+  res.status(status).json(createErrorResponse(message, status, code));
 }
 
-export default APIError;
+export { ApiErrorResponse };
