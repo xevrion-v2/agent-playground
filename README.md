@@ -1,6 +1,6 @@
 # TaskFlow Monorepo
 
-<img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
+<img width="663" height="183" alt="TaskFlow Demo" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
 
 TaskFlow is a full-stack task management SaaS monorepo built 
@@ -29,19 +29,20 @@ The web app includes pages for:
 
 ## Backend
 
-The API includes:
-- Auth routes (register, login, OAuth callback, JWT refresh)
-- CRUD routes for users, tasks, and proposals
-- Payments routes (Stripe-focused service placeholder)
-- Reviews, messaging, notifications
-- File uploads and search
-- Admin routes
 
 Backend architecture follows:
+- Middleware layer (auth, rate limiting, error handling)
+- Service layer
+- Controller layer
+- Service layer
+- Route layer
 
-## Getting Started
-
-
+Backend architecture follows:
+- Middleware layer (auth, rate limiting, error handling)
+- Controller layer
+- Service layer
+- Route layer
+- Validation schemas (Zod)
 - Utility helpers
 
 ## Getting Started
