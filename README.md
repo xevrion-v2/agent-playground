@@ -1,8 +1,8 @@
 # TaskFlow Monorepo
-<<<<<<< HEAD
+
 <img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
-TaskFlow is a full-stack task management SaaS monorepo built 
+
 TaskFlow is a full-stack task management SaaS monorepo built 
 with a modern TypeScript-first architecture.
 
@@ -27,33 +27,7 @@ The web app includes pages for:
 - Billing
 - Admin panel
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
-
-# Environment Variables
-
-## Web App (apps/web)
-
-- `NEXT_PUBLIC_SITE_URL` - The public URL of the site (e.g., http://localhost:3000)
-- `NEXT_PUBLIC_API_URL` - The API base URL (e.g., http://localhost:4000/api)
-- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Stripe publishable key for frontend payments
-
-## API App (apps/api)
-
-- `PORT` - The port the API server will run on (default: 4000)
-- `DATABASE_URL` - Connection string for the PostgreSQL database
-- `JWT_SECRET` - Secret key for signing JWT tokens
-- `STRIPE_SECRET_KEY` - Stripe secret key for backend payments
-- `STRIPE_WEBHOOK_SECRET` - Secret for verifying Stripe webhook events
-- `GITHUB_CLIENT_ID` - GitHub OAuth client ID
-- `GITHUB_CLIENT_SECRET` - GitHub OAuth client secret
-- `GOOGLE_CLIENT_ID` - Google OAuth client ID
-- `GOOGLE_CLIENT_SECRET` - Google OAuth client secret
-
-## Example .env files
-
-### apps/web/.env.local
-
+## Backend
 
 The API includes:
 - Auth routes (register, login, OAuth callback, JWT refresh)
@@ -92,9 +66,39 @@ npm run dev -w apps/web
 
 npm run dev -w apps/api
 
-## Database
+and integrations.
 
-Prisma schema is available in packages/db/prisma/schema.prisma 
+## Environment Variables
+
+Each application requires specific environment variables to be set for proper functionality. Below are the expected environment variables for each app:
+
+### Web App (`apps/web`)
+
+The web application requires the following environment variables:
+
+- `NEXT_PUBLIC_API_BASE_URL` - The base URL for the API server (e.g., http://localhost:3001)
+- `NEXT_PUBLIC_APP_BASE_URL` - The base URL for the web application (e.g., http://localhost:3000)
+- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Stripe publishable key for frontend payments integration
+
+### API App (`apps/api`)
+
+The backend API requires the following environment variables:
+
+- `DATABASE_URL` - Connection string for the PostgreSQL database
+- `JWT_SECRET` - Secret key for JWT token signing and verification
+- `STRIPE_SECRET_KEY` - Stripe secret key for payments integration
+- `STRIPE_WEBHOOK_SECRET` - Secret for verifying Stripe webhook events
+- `GITHUB_CLIENT_ID` - GitHub OAuth client ID
+- `GITHUB_CLIENT_SECRET` - GitHub OAuth client secret
+- `GOOGLE_CLIENT_ID` - Google OAuth client ID
+- `GOOGLE_CLIENT_SECRET` - Google OAuth client secret
+- `AWS_ACCESS_KEY_ID` - AWS access key for S3 integration
+- `AWS_SECRET_ACCESS_KEY` - AWS secret key for S3 integration
+- `AWS_REGION` - AWS region for S3 integration
+- `AWS_BUCKET_NAME` - AWS S3 bucket name for file storage
+- `REDIS_URL` - Connection string for Redis instance (optional)
+
+Make sure to set these environment variables in a `.env` file in each app's root directory or pass them through your deployment environment.
 with models for:
 - Users
 - Tasks
