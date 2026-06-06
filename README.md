@@ -75,40 +75,34 @@ with models for:
 - Proposals
 - Payments
 - Reviews
-- Messages
-- Categories
-- Skills
-
-## Environment Variables
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+### Web App (`apps/web`)
 
-### apps/web
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_API_URL` | Base URL for the API | `http://localhost:3001` |
+| `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` | Stripe publishable key for payments | `pk_test_...` |
 
-| Variable | Description |
-|----------|-------------|
-| `NEXT_PUBLIC_API_URL` | Base URL for the API (e.g. `http://localhost:4000`) |
-| `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` | Stripe publishable key for client-side payments |
+### API App (`apps/api`)
 
-### apps/api
-
-| Variable | Description |
-|----------|-------------|
-| `DATABASE_URL` | PostgreSQL connection string |
-| `JWT_SECRET` | Secret key for signing JWT tokens |
-| `JWT_REFRESH_SECRET` | Secret key for signing refresh tokens |
-| `PORT` | Port for the Express server (default: `4000`) |
-| `STRIPE_SECRET_KEY` | Stripe secret key for server-side payments |
-| `STRIPE_WEBHOOK_SECRET` | Stripe webhook endpoint secret |
-| `AWS_ACCESS_KEY_ID` | AWS access key for S3 file uploads |
-| `AWS_SECRET_ACCESS_KEY` | AWS secret key for S3 file uploads |
-| `AWS_S3_BUCKET` | S3 bucket name for file storage |
-| `AWS_REGION` | AWS region for S3 (e.g. `us-east-1`) |
-| `FRONTEND_URL` | URL of the frontend app for CORS (e.g. `http://localhost:3000`) |
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@localhost:5432/taskflow` |
+| `JWT_SECRET` | Secret key for signing JWT tokens | `your-super-secret-jwt-key` |
+| `JWT_REFRESH_SECRET` | Secret key for signing refresh tokens | `your-super-secret-refresh-key` |
+| `PORT` | Port the API server listens on | `3001` |
+| `FRONTEND_URL` | CORS-allowed frontend origin | `http://localhost:3000` |
+| `STRIPE_SECRET_KEY` | Stripe secret key for payment processing | `sk_test_...` |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook endpoint secret | `whsec_...` |
+| `AWS_S3_BUCKET` | S3 bucket for file uploads | `taskflow-uploads` |
+| `AWS_ACCESS_KEY_ID` | AWS access key for S3 | `AKIA...` |
+| `AWS_SECRET_ACCESS_KEY` | AWS secret key for S3 | `...` |
+| `REDIS_URL` | Redis connection for caching/sessions | `redis://localhost:6379` |
 
 ## AI Agent Contribution Instruction
 
+Each app/package expects its own .env values for DB, auth, 
+and integrations.
