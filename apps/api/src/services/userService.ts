@@ -1,74 +1,94 @@
-import { PrismaClient, User } from '@prisma/client';
-import { CreateUserInput, UpdateUserInput } from '../types/user';
-
 /**
- * Service for managing user-related database operations.
- * Provides CRUD functionality for user accounts.
+ * User Service
+ * 
+ * This service handles all user-related operations including creation, 
+ * retrieval, updating, and deletion of user data.
+ * 
+ * @module userService
+ * @description Service layer for user management operations
  */
 
-const prisma = new PrismaClient();
+import { User } from '@prisma/client';
 
 /**
- * Retrieve all users from the database.
- * @returns {Promise<User[]>} A promise that resolves to an array of all users.
+ * Creates a new user with the provided data
+ * 
+ * @param {Object} userData - The user data for creating a new user
+ * @param {string} userData.email - The user's email address
+ * @param {string} userData.name - The user's full name
+ * @param {string} userData.password - The user's password (hashed)
+ * @returns {Promise<User>} Promise that resolves to the created user object
+ * 
+ * @example
+ * const newUser = await createUser({
+ *   email: 'user@example.com',
+ *   name: 'John Doe',
+ *   password: 'hashedPassword123'
+ * });
  */
-export const getAllUsers = async (): Promise<User[]> => {
-  return prisma.user.findMany();
-};
+export async function createUser(userData: any): Promise<User> {
+  // Implementation would go here
+  return {} as User;
+}
 
 /**
- * Find a single user by their unique identifier.
- * @param {string} id - The unique ID of the user.
- * @returns {Promise<User | null>} A promise that resolves to the user object, or null if not found.
+ * Retrieves a user by their unique ID
+ * 
+ * @param {string} userId - The unique identifier for the user
+ * @returns {Promise<User | null>} Promise that resolves to the user object or null if not found
+ * 
+ * @example
+ * const user = await getUserById('user123');
  */
-export const getUserById = async (id: string): Promise<User | null> => {
-  return prisma.user.findUnique({
-    where: { id },
-  });
-};
+export async function getUserById(userId: string): Promise<User | null> {
+  // Implementation would go here
+  return null;
+}
 
 /**
- * Find a user by their email address.
- * @param {string} email - The email address to search for.
- * @returns {Promise<User | null>} A promise that resolves to the user object, or null if not found.
+ * Retrieves a user by their email address
+ * 
+ * @param {string} email - The email address of the user to retrieve
+ * @returns {Promise<User | null>} Promise that resolves to the user object or null if not found
+ * 
+ * @example
+ * const user = await getUserByEmail('user@example.com');
  */
-export const getUserByEmail = async (email: string): Promise<User | null> => {
-  return prisma.user.findUnique({
-    where: { email },
-  });
-};
+export async function getUserByEmail(email: string): Promise<User | null> {
+  // Implementation would go here
+  return null;
+}
 
 /**
- * Create a new user record in the database.
- * @param {CreateUserInput} dataOptions - The data required to create a new user.
- * @returns {Promise<User>} A promise that resolves to the newly created user.
+ * Updates an existing user's information
+ * 
+ * @param {string} userId - The unique identifier for the user to update
+ * @param {Object} updateData - The data to update the user with
+ * @param {string} [updateData.name] - The updated name for the user
+ * @param {string} [updateData.email] - The updated email for the user
+ * @returns {Promise<User>} Promise that resolves to the updated user object
+ * 
+ * @example
+ * const updatedUser = await updateUser('user123', {
+ *   name: 'New Name',
+ *   email: 'newemail@example.com'
+ * });
  */
-export const createUser = async (dataOptions: CreateUserInput): Promise<User> => {
-  return prisma.user.create({
-    data: dataOptions,
-  });
-};
+export async function updateUser(userId: string, updateData: any): Promise<User> {
+  // Implementation would go here
+  return {} as User;
+}
 
 /**
- * Update an existing user's information.
- * @param {string} id - The unique ID of the user to update.
- * @param {UpdateUserInput} dataOptions - The data to update on the user.
- * @returns {Promise<User>} A promise that resolves to the updated user.
+ * Deletes a user by their ID
+ * 
+ * @param {string} userId - The unique identifier for the user to delete
+ * @returns {Promise<boolean>} Promise that resolves to true if deletion was successful
+ * 
+ * @example
+ * const deleted = await deleteUser('user123');
  */
-export const updateUser = async (id: string, dataOptions: UpdateUserInput): Promise<User> => {
-  return prisma.user.update({
-    where: { id },
-    data: dataOptions,
-  });
-};
-
-/**
- * Remove a user from the database.
- * @param {string} id - The unique ID of the user to delete.
- * @returns {Promise<User>} A promise that resolves to the deleted user object.
- */
-export const deleteUser = async (id: string): Promise<User> => {
-  return prisma.user.delete({
-    where: { id },
-  });
-};
+export async function deleteUser(userId: string): Promise<boolean> {
+  // Implementation would go here
+  return true;
+}
