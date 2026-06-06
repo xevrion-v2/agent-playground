@@ -1,35 +1,18 @@
-import { apiError, ApiErrorResponse } from '../utils/apiError';
-import { Router } from 'express';
-import { registerUser, loginUser } from '../controllers/authController';
-import { registerSchema, loginSchema } from '../schemas/authSchemas';
-    // Validate request body
-    const validation = registerSchema.safeParse(req.body);
-    if (!validation.success) {
-      return apiError(res, 'Validation failed', 400);
-    }
-
-    // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email }
+import { Router, Request, Response } from 'express';
+import { body, validationResult } from 'express-validator';
+import { registerUser } from '../services/authService';
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ 
+      success: false,
+      message: 'Validation failed',
+      errors: errors.array() 
     });
-    if (existingUser) {
-      return apiError(res, 'User already exists', 409);
-    }
+  }
 
-    // Create user
-    try {
-      const user = await registerUser(email, name, password);
-    } catch (error) {
-      return apiError(res, 'Failed to create user', 500);
-    }
+  // TODO: Implementation here
+};
 
-    if (user) {
-      res.status(201).json({ 
-        message: 'User registered successfully',
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name
-        }
-      });
-    }
+const login = async () => {
+  // TODO: Implementation
+};
