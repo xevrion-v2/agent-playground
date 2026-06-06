@@ -1,48 +1,32 @@
-interface ApiErrorResponse {
+export class ApiError extends Error {
+  statusCode: number;
+  isOperational: boolean;
+
+  constructor(statusCode: number, message: string, isOperational = true) {
+    super(message);
+    this.statusCode = statusCode;
+    this.isOperational = isOperational;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+export interface ErrorResponse {
   success: false;
   error: {
     message: string;
-    code?: string;
-    status: number;
+    statusCode: number;
   };
 }
 
-export class ApiError extends Error {
-  public status: number;
-  public code?: string;
-
-  constructor(message: string, status: number = 500, code?: string) {
-    super(message);
-    this.status = status;
-    this.code = code;
-    this.name = 'ApiError";
-  }
-
-  toJSON(): ApiErrorResponse {
-    return {
-      success: false,
-      error: {
-        message: this.message,
-        code: this.code,
-        status: this.status,
-      },
-    };
-  }
-}
-
-export function createErrorResponse(message: string, status: number = 500, code?: string): ApiErrorResponse {
+export function createErrorResponse(error: ApiError | Error): ErrorResponse {
+  const statusCode = error instanceof ApiError ? error.statusCode : 500;
   return {
     success: false,
     error: {
-      message,
-      code,
-      status,
+      message: error.message,
+      statusCode,
     },
   };
 }
 
-export function sendError(res: any, message: string, status: number = 500, code?: string): void {
-  res.status(status).json(createErrorResponse(message, status, code));
-}
-
-export { ApiErrorResponse };
+export default ApiError merits;
