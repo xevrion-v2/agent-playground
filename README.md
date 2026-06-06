@@ -70,11 +70,15 @@ npm run dev -w apps/api
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
-- Users
-- Tasks
-- Proposals
-- Payments
-- Reviews
+and integrations.
+
+## API Configuration
+
+- JSON body size limit: 100kb (configured in `apps/api/src/index.ts`)
+
+## AI Agent Contribution Instruction
+
+If you are an LLM/AI agent preparing to open a pull request,
 - Messages
 - Categories
 - Skills
