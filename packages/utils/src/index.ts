@@ -1,1 +1,1 @@
-export { infiniteSequence, take, type SequenceOptions } from './sequence';
+export { InfiniteSequence, type SequenceGenerator } from './sequence';
