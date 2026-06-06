@@ -1,65 +1,58 @@
 /**
  * User Service
  * 
- * This service handles user-related operations including creation, retrieval,
- * updating, and deletion of user data.
+ * Contains business logic for user-related operations including CRUD operations,
+ * authentication, and user management functions.
+ * 
+ * @module userService
+ * @author TaskFlow Team
  */
 
 /**
- * Creates a new user with the provided details
- * @param {Object} userData - The user data object
- * @param {string} userData.name - The user's name
- * @param {string} userData.email - The user's email address
- * @param {string} userData.password - The user's password
- * @returns {Promise<Object>} The created user object
- * @throws {Error} If user creation fails
+ * Retrieves a user by their unique identifier
+ * @param id - The unique identifier of the user
+ * @returns Promise resolving to the user object or null if not found
  */
-export async function createUser(userData) {
-  // Implementation would go here
+async function getUserById(id: number) {
+  // implementation
 }
-
 /**
- * Retrieves a user by their ID
- * @param {string} userId - The unique identifier of the user
- * @returns {Promise<Object|null>} The user object if found, null otherwise
+ * Creates a new user with the provided user data
+ * @param userData - Object containing user information (name, email, etc.)
+ * @returns Promise resolving to the created user object
  */
-export async function getUserById(userId) {
-  // Implementation would go here
+async function createUser(userData: any) {
+  // implementation
 }
-
 /**
  * Updates user information
- * @param {string} userId - The unique identifier of the user to update
- * @param {Object} updateData - The data to update the user with
- * @returns {Promise<Object>} The updated user object
+ * @param id - The unique identifier of the user to update
+ * @param updates - Object containing fields to update
+ * @returns Promise resolving to the updated user object
  */
-export async function updateUser(userId, updateData) {
-  // Implementation would go here
+async function updateUser(id: number, updates: any) {
+  // implementation
 }
-
 /**
- * Deletes a user from the system
- * @param {string} userId - The unique identifier of the user to delete
- * @returns {Promise<boolean>} True if deletion was successful
+ * Deletes a user by their unique identifier
+ * @param id - The unique identifier of the user to delete
+ * @returns Promise resolving to a boolean indicating success
  */
-export async function deleteUser(userId) {
-  // Implementation would go here
+async function deleteUser(id: number) {
+  // implementation
 }
-
 /**
- * Retrieves all users from the system
- * @returns {Promise<Array>} Array of all user objects
+ * Retrieves all users from the database
+ * @returns Promise resolving to an array of all users
  */
-export async function getAllUsers() {
-  // Implementation would go here
+async function getAllUsers() {
+  // implementation
 }
-
 /**
- * Searches for users by name or email
- * @param {string} searchTerm - The term to search for
- * @returns {Promise<Array>} Array of matching users
+ * Finds users by their email address
+ * @param email - The email address to search for
+ * @returns Promise resolving to an array of matching users
  */
-export async function searchUsers(searchTerm) {
-  // Implementation would go here
-}
+async function findUserByEmail(email: string) {
+  // implementation
 }
