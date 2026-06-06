@@ -83,3 +83,23 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+and integrations.
+
+## Infinite Sequence Iterator Utility
+
+This utility provides a safe and efficient way to generate infinite sequences with a generator function. It includes examples and documentation for proper usage.
+
+### Features
+
+- Safe iteration with configurable limits to prevent infinite loops
+- Generator-based implementation for memory efficiency
+- Examples for common use cases
+- Full documentation and usage instructions
+
+### Installation
+
+No installation required. The utility is a zero-dependency TypeScript module.
+
+### Usage
+
+
