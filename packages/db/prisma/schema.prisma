@@ -1,142 +1,81 @@
-// TaskFlow Prisma Schema
-//
-// This schema defines the data models for the TaskFlow application.
-// Each model represents a core entity in the task management domain.
-
-// User model represents a registered user in the system
-// Contains profile information, role, and authentication data
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
-  role      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  // Related tasks created by this user
-  tasks     Task[]
-  
-  // Proposals submitted by this user
+/// Represents a user in the TaskFlow platform. Users can be clients or freelancers and can participate in tasks, proposals, and messaging.
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  jobs      Job[]
   proposals Proposal[]
-  
-  // Payments associated with this user
-  payments  Payment[]
-  
-  // Reviews written by this user
-  reviews   Review[]
-  
-  // Messages sent by this user
-  messages  Message[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
-// Task model represents a task that can be created by clients and worked on by freelancers
-model Task {
+model Job {
   id          String     @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+/// Represents a task posted by a client. Freelancers can view tasks and submit proposals to complete them.
+model Task {
+  id          String   @id @default(cuid())
   title       String
-  status      String     @default("OPEN")
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  
-  // The client who created the task
-  client      User       @relation("ClientToTasks", fields: [clientId], references: [id])
-  
-  // The freelancer assigned to work on the task
-  freelancer  User?      @relation("FreelancerToTasks", fields: [freelancerId], references: [id])
-  proposals   Proposal[]
-  payments    Payment[]
-  reviews     Review[]
-  
-  // Category the task belongs to
-  category    Category?  @relation(fields: [categoryId], references: [id])
-  
-  // Required skills for this task
-  skills      Skill[]    @relation("TaskToSkill")
 }
+
+model Proposal {
   id        String   @id @default(cuid())
   summary   String
-  amount    Decimal?
-  taskId    String
-  freelancerId String
-  coverLetter String
-  
-  // The task this proposal is for
-  task      Task    @relation(fields: [taskId], references: [id])
-  freelancer User    @relation("UserToProposals", fields: [freelancerId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  updatedAt DateTime @updatedAt
-}
-
-// Payment model tracks all financial transactions in the system
-model Payment {
-  id        String   @id @default(cuid())
-  taskId    String
-  clientId  String
-  amount    Float
-  
-  // The task associated with this payment
-  task      Task     @relation(fields: [taskId], references: [id])
-  
-  // The client who made the payment
-  client    User     @relation("ClientToPayments", fields: [clientId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-// Review model represents feedback between users
-model Review {
-  id        String   @id @default(cuid())
-  rating    Int
-  comment   String?
-  createdAt DateTime @default(now())
-  
-  // The task this review is for
-  task      Task     @relation(fields: [taskId], references: [id])
-  
-  // The user who wrote the review
-  reviewer  User     @relation("ReviewerToReviews", fields: [reviewerId], references: [id])
-  
-  // The user being reviewed
-  reviewee  User     @relation("RevieweeToReviews", fields: [revieweeId], references: [id])
-  updatedAt DateTime @updatedAt
-}
-
-// Message model represents private messages between users
-model Message {
-  id          String   @id @default(cuid())
-  senderId    String
-  recipientId String
-  content     String
-  
-  // The user who sent the message
-  sender      User     @relation("SenderToMessages", fields: [senderId], references: [id])
-  
-  // The user who received the message
-  recipient   User     @relation("RecipientToMessages", fields: [recipientId], references: [id])
-  createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
-// Category model represents task categories
-model Category {
-  id    String @id @default(cuid())
-  name  String @unique
-  tasks Task[]
+/// Represents a freelancer's bid or offer to complete a specific task. Proposals include pricing and timeline details.
+model Proposal {
+  id          String   @id @default(cuid())
+  taskId      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+  updatedAt   DateTime @updatedAt
 }
 
-// Skill model represents skills that can be associated with users and tasks
-model Skill {
-  id    String @id @default(cuid())
-  name  String @unique
-  
-  // Users who have this skill
-  users User[] @relation("UserToSkill")
-  
-  // Tasks requiring this skill
-  tasks Task[] @relation("TaskToSkill")
+/// Represents a financial transaction between a client and freelancer for a completed task. Integrates with Stripe for processing.
+model Payment {
+  id        String   @id @default(cuid())
+  amount    Decimal
+  updatedAt DateTime @updatedAt
 }
+
+/// Represents feedback and rating left by one user for another after a task is completed. Helps build trust in the platform.
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int
+  updatedAt DateTime @updatedAt
+}
+
+/// Represents a direct message sent between two users on the platform. Supports real-time communication for task coordination.
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  updatedAt DateTime @updatedAt
+}
+
+/// Represents a category used to classify and filter tasks. Helps freelancers discover relevant work and clients organize postings.
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  updatedAt DateTime @updatedAt
+}
+
+/// Represents a skill that users can add to their profiles. Used for matching freelancers with relevant tasks and improving search discoverability.
+model Skill {
+  id        String   @id @default(cuid())
+  name      String   @unique
