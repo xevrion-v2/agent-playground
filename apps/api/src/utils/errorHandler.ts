@@ -1,3 +1,4 @@
+// Create the file with the error handling helper
 import { Request, Response, NextFunction } from 'express';
 
 export class ApiError extends Error {
@@ -16,5 +17,18 @@ export const apiError = (res: Response, statusCode: number, message: string, det
     error: {
       message,
       ...(details && { details })
+    }
+  });
+};
+
+export const handleError = (err: any, req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof ApiError) {
+    return res.status(err.statusCode).json({
+      error: {
+        message: err.message,
+        ...(err.details && { details: err.details })
+      }
     });
+  }
+  next(err);
 };
