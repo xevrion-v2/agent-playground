@@ -1,18 +1,20 @@
 import { Router, Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
+import { handleApiError } from '../utils/apiErrorHelper';
 import { registerUser } from '../services/authService';
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ 
-      success: false,
-      message: 'Validation failed',
-      errors: errors.array() 
-    });
-  }
 
-  // TODO: Implementation here
+const register = async (req: Request, res: Response) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return handleApiError({ message: 'Validation failed', errors: errors.array() }, req, res, () => {});
+    }
+
+    // Registration logic here
+  } catch (error) {
+    return handleApiError(error, req, res, () => {});
+  }
 };
 
 const login = async () => {
-  // TODO: Implementation
 };
