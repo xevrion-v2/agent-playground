@@ -1,4 +1,7 @@
-import { Response } from 'express';
+export interface ApiErrorResponse {
+  error: string;
+  statusCode: number;
+}
 
 export class ApiError extends Error {
   statusCode: number;
@@ -8,9 +11,9 @@ export class ApiError extends Error {
   }
 }
 
-export const apiError = (res: Response, message: string, statusCode: number = 500) => {
+export const apiError = (res: any, message: string, statusCode: number = 500) => {
   return res.status(statusCode).json({
     error: message,
     statusCode,
-  });
+  } as ApiErrorResponse);
 };
