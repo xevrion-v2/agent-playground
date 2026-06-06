@@ -1,82 +1,132 @@
-// Prisma schema for TaskFlow - a task management SaaS platform
-generator client {
-  provider = "prisma-client-js"
-}
+// TaskFlow Prisma Schema
+// This file defines the database models for the TaskFlow application.
+// Models represent core domain entities and their relationships.
+
+// User model represents a registered user in the system.
+// Contains authentication details, profile information, and user preferences.
+model User {
+  id            String    @id @default(cuid())
+  name          String?
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-/// Represents a user in the TaskFlow platform. Users can be clients who post tasks or freelancers who complete them.
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String     @id @default(cuid())
+  email     String     @unique
   name      String?
   jobs      Job[]
-  proposals Proposal[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  tasks         Task[]
+  proposals     Proposal[]
 }
 
-model Job {
-  id          String     @id @default(cuid())
-  updatedAt DateTime @updatedAt
-}
-
-/// Represents a task posted by a client. Tasks are the core unit of work in the TaskFlow domain and can receive proposals from freelancers.
+// Task model represents a task that can be assigned or worked on.
+// Tasks have titles, descriptions, due dates, priority levels, and status.
+// They are created by users and can be assigned to other users.
 model Task {
-  id          String   @id @default(cuid())
+  id            String    @id @default(cuid())
+  title         String
+  id          String     @id @default(cuid())
   title       String
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  description String?
+  status      String     @default("draft")
+  ownerId     String
+  owner       User       @relation(fields: [ownerId], references: [id])
+  proposals   Proposal[]
+  assignedTo    User?      @relation(fields: [assignedToId], references: [id])
+}
+
+// Proposal model represents a user's proposal for a task.
+// Users can propose solutions or offers for tasks created by others.
+// Proposals include a description, price, and delivery time estimate.
+// They can be accepted or rejected by the task creator.
+model Proposal {
+  id          String    @id @default(cuid())
+  taskId      String
+  task        Task      @relation(fields: [taskId], references: [id])
+  proposerId  String
+  proposer    User      @relation(fields: [proposerId], references: [id])
+  description String
+  price       Float
+  deliveryDays Int
+  accepted    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// Payment model represents a payment transaction between users.
+// Payments are linked to proposals and include amount, status, and timestamps.
+model Payment {
+  id          String    @id @default(cuid())
+  amount      Float
+  currency    String    @default("USD")
+  status      String    @default("pending")
+  proposalId String
+  proposal    Proposal  @relation(fields: [proposalId], references: [id])
+  taskId      String
+  task        Task      @relation(fields: [taskId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// Review model represents user feedback for completed tasks or proposals.
+// Reviews include a rating, comment, and are linked to both the task and reviewer.
+model Review {
+  id          String    @id @default(cuid())
+  rating      Int
+  comment     String?
+  taskId      String
+  task        Task      @relation(fields: [taskId], references: [id])
+  reviewerId  String
+  reviewer    User      @relation(fields: [reviewerId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// Message model represents private messages between users.
+// Messages are sent from one user to another and are associated with a task.
+model Message {
+  id          String    @id @default(cuid())
+  content     String
+  senderId    String
+  sender      User      @relation(fields: [senderId], references: [id])
+  recipientId String
+  recipient   User      @relation(fields: [recipientId], references: [id])
+  taskId      String
+  task        Task      @relation(fields: [taskId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// Category model represents task categories for filtering and organization.
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  tasks       Task[]    @relation(name: "TaskCategories")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// Skill model represents user skills for task matching and filtering.
+model Skill {
+  id          String    @id @default(cuid())
+  name        String
+  users       User[]    @relation(name: "UserSkills")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
   amount    Decimal?
-  updatedAt   DateTime @updatedAt
-}
-
-/// Represents a proposal submitted by a freelancer to work on a task. Proposals connect freelancers with tasks they want to complete.
-model Proposal {
-  id       String @id @default(cuid())
-  taskId   String
+  status    String   @default("pending")
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id])
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-  updatedAt DateTime @updatedAt
-}
-
-/// Represents a payment transaction for a completed task. Payments facilitate the financial exchange between clients and freelancers.
-model Payment {
-  id     String @id @default(cuid())
-  taskId String
-  updatedAt DateTime @updatedAt
-}
-
-/// Represents a review left by a user for another user after task completion. Reviews help build trust and reputation in the platform.
-model Review {
-  id      String @id @default(cuid())
-  taskId  String
-  updatedAt DateTime @updatedAt
-}
-
-/// Represents a message sent between users in the TaskFlow messaging system. Messages enable communication between clients and freelancers.
-model Message {
-  id       String @id @default(cuid())
-  senderId String
-  updatedAt DateTime @updatedAt
-}
-
-/// Represents a category for organizing tasks. Categories help users discover and filter tasks by type of work.
-model Category {
-  id    String @id @default(cuid())
-  name  String @unique
-  updatedAt DateTime @updatedAt
-}
-
-/// Represents a skill that users can associate with their profiles. Skills help match freelancers with relevant tasks.
-model Skill {
-  id    String @id @default(cuid())
-  name  String @unique
