@@ -5,7 +5,6 @@ const router = Router();
 
 router.get('/health', (_req: Request, res: Response) => {
   try {
-    // Simulate a potential error condition
     const isHealthy = true;
     if (!isHealthy) {
       throw new ApiError(503, 'Service unavailable');
