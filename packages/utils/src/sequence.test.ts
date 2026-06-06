@@ -1,63 +1,65 @@
-import { describe, it, expect } from 'vitest';
-import { infiniteSequence, take } from './sequence';
+import { InfiniteSequence } from './sequence';
 
-describe('infiniteSequence', () => {
-  it('starts at 0 with step 1 by default', () => {
-    const seq = infiniteSequence();
-    expect(seq.next().value).toBe(0);
-    expect(seq.next().value).toBe(1);
-    expect(seq.next().value).toBe(2);
+describe('InfiniteSequence', () => {
+  describe('take', () => {
+    it('generates a finite number of values', () => {
+      const seq = InfiniteSequence.arithmetic(1, 1);
+      const result = [...seq.take(5)];
+      expect(result).toEqual([1, 2, 3, 4, 5]);
+    });
+
+    it('respects the maximum safe limit', () => {
+      const seq = InfiniteSequence.arithmetic(1, 1);
+      const result = [...seq.take(1_500_000)];
+      expect(result.length).toBe(1_000_000);
+    });
+
+    it('works with custom generators', () => {
+      const seq = new InfiniteSequence((n) => n * 2, 1);
+      const result = [...seq.take(4)];
+      expect(result).toEqual([2, 4, 8, 16]);
+    });
   });
 
-  it('respects custom start value', () => {
-    const seq = infiniteSequence({ start: 10 });
-    expect(seq.next().value).toBe(10);
-    expect(seq.next().value).toBe(11);
+  describe('takeWhile', () => {
+    it('yields values while predicate is true', () => {
+      const seq = InfiniteSequence.arithmetic(1, 1);
+      const result = [...seq.takeWhile((n) => n <= 5)];
+      expect(result).toEqual([1, 2, 3, 4, 5]);
+    });
+
+    it('stops immediately when predicate fails', () => {
+      const seq = InfiniteSequence.arithmetic(10, 1);
+      const result = [...seq.takeWhile((n) => n < 10)];
+      expect(result).toEqual([]);
+    });
   });
 
-  it('respects custom step value', () => {
-    const seq = infiniteSequence({ step: 5 });
-    expect(seq.next().value).toBe(0);
-    expect(seq.next().value).toBe(5);
-    expect(seq.next().value).toBe(10);
+  describe('static factories', () => {
+    it('arithmetic creates correct sequence', () => {
+      const seq = InfiniteSequence.arithmetic(5, 3);
+      expect([...seq.take(4)]).toEqual([5, 8, 11, 14]);
+    });
+
+    it('geometric creates correct sequence', () => {
+      const seq = InfiniteSequence.geometric(2, 3);
+      expect([...seq.take(4)]).toEqual([2, 6, 18, 54]);
+    });
+
+    it('iterate creates custom sequence', () => {
+      const seq = InfiniteSequence.iterate((x) => x + 2, 0);
+      expect([...seq.take(3)]).toEqual([2, 4, 6]);
+    });
   });
 
-  it('handles negative step', () => {
-    const seq = infiniteSequence({ start: 10, step: -2 });
-    expect(seq.next().value).toBe(10);
-    expect(seq.next().value).toBe(8);
-    expect(seq.next().value).toBe(6);
-  });
-
-  it('can be safely limited with take()', () => {
-    const result = [...take(infiniteSequence(), 5)];
-    expect(result).toEqual([0, 1, 2, 3, 4]);
-  });
-
-  it('can be safely limited with take() for custom sequence', () => {
-    const result = [...take(infiniteSequence({ start: 5, step: 10 }), 3)];
-    expect(result).toEqual([5, 15, 25]);
-  });
-});
-
-describe('take', () => {
-  it('yields specified number of items', () => {
-    const result = [...take([1, 2, 3, 4, 5], 3)];
-    expect(result).toEqual([1, 2, 3]);
-  });
-
-  it('handles count of 0', () => {
-    const result = [...take([1, 2, 3], 0)];
-    expect(result).toEqual([]);
-  });
-
-  it('handles count greater than iterable length', () => {
-    const result = [...take([1, 2], 5)];
-    expect(result).toEqual([1, 2]);
-  });
-
-  it('handles empty iterable', () => {
-    const result = [...take([], 3)];
-    expect(result).toEqual([]);
+  describe('safety', () => {
+    it('does not run infinitely when used correctly', () => {
+      const seq = InfiniteSequence.arithmetic(1, 1);
+      let sum = 0;
+      for (const n of seq.take(100)) {
+        sum += n;
+      }
+      expect(sum).toBe(5050);
+    });
   });
 });
