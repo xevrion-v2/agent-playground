@@ -1,58 +1,88 @@
 /**
  * User Service
  * 
- * Contains business logic for user-related operations including CRUD operations,
- * authentication, and user management functions.
+ * This service handles user-related business logic including user creation,
+ * retrieval, updating, and deletion operations.
  * 
  * @module userService
- * @author TaskFlow Team
  */
 
 /**
- * Retrieves a user by their unique identifier
- * @param id - The unique identifier of the user
- * @returns Promise resolving to the user object or null if not found
- */
-async function getUserById(id: number) {
-  // implementation
-}
-/**
- * Creates a new user with the provided user data
- * @param userData - Object containing user information (name, email, etc.)
+ * Creates a new user with the provided user data.
+ * 
+ * @param userData - The data required to create a new user
+ * @param userData.email - The user's email address
+ * @param userData.firstName - The user's first name
+ * @param userData.lastName - The user's last name
  * @returns Promise resolving to the created user object
+ * @throws {Error} If user creation fails
+ * 
+ * @example
+ * const userData = {
+ *   email: 'user@example.com',
+ *   firstName: 'John',
+ *   lastName: 'Doe'
+ * };
+ * const user = await createUser(userData);
  */
-async function createUser(userData: any) {
-  // implementation
+export async function createUser(userData: {
+  email: string;
+  firstName: string;
+  lastName: string;
+}) {
+  // Implementation would be here
 }
+
 /**
- * Updates user information
- * @param id - The unique identifier of the user to update
- * @param updates - Object containing fields to update
+ * Retrieves a user by their unique identifier.
+ * 
+ * @param userId - The unique identifier of the user to retrieve
+ * @returns Promise resolving to the user object if found, null otherwise
+ * @throws {Error} If user retrieval fails
+ * 
+ * @example
+ * const user = await getUserById('user123');
+ * console.log(user.email);
+ */
+export async function getUserById(userId: string) {
+  // Implementation would be here
+}
+
+/**
+ * Updates an existing user's information.
+ * 
+ * @param userId - The unique identifier of the user to update
+ * @param updateData - Partial user data to update
+ * @param updateData.email - Updated email address
+ * @param updateData.firstName - Updated first name
+ * @param updateData.lastName - Updated last name
  * @returns Promise resolving to the updated user object
+ * @throws {Error} If user update fails
+ * 
+ * @example
+ * const updatedUser = await updateUser('user123', {
+ *   email: 'newemail@example.com'
+ * });
  */
-async function updateUser(id: number, updates: any) {
-  // implementation
+export async function updateUser(userId: string, updateData: {
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+}) {
+  // Implementation would be here
 }
+
 /**
- * Deletes a user by their unique identifier
- * @param id - The unique identifier of the user to delete
- * @returns Promise resolving to a boolean indicating success
+ * Deletes a user by their unique identifier.
+ * 
+ * @param userId - The unique identifier of the user to delete
+ * @returns Promise resolving to deletion success status
+ * @throws {Error} If user deletion fails
+ * 
+ * @example
+ * await deleteUser('user123');
+ * console.log('User deleted successfully');
  */
-async function deleteUser(id: number) {
-  // implementation
-}
-/**
- * Retrieves all users from the database
- * @returns Promise resolving to an array of all users
- */
-async function getAllUsers() {
-  // implementation
-}
-/**
- * Finds users by their email address
- * @param email - The email address to search for
- * @returns Promise resolving to an array of matching users
- */
-async function findUserByEmail(email: string) {
-  // implementation
+export async function deleteUser(userId: string) {
+  // Implementation would be here
 }
