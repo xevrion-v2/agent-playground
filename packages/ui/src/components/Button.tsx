@@ -1,35 +1,34 @@
-import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
+import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
 
-/**
- * Variant styles for the Button component.
- */
-export type ButtonVariant = 'primary' | 'secondary' | 'danger';
+const buttonVariants = cva(
+  'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed',
+  {
+    variants: {
+      variant: {
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
+      },
+      size: {
+        default: 'h-10 py-2 px-4',
+        sm: 'h-9 px-3 rounded-md',
+        lg: 'h-11 px-8 rounded-md',
+        icon: 'h-10 w-10',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
+  }
+);
 
-/**
- * Props for the shared UI Button.
- * Extends native button attributes while keeping the public API minimal.
- */
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Visual style variant. */
-  variant?: ButtonVariant;
-  /** Content rendered inside the button. */
-  children: ReactNode;
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
 }
 
-/**
- * Shared UI Button component.
- * Renders a native `<button>` with optional variant styling.
- */
-export const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', ...rest }) => {
-  const baseStyles = 'px-4 py-2 rounded font-medium';
-  const variantStyles = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700',
-    danger: 'bg-red-600 text-white hover:bg-red-700',
-  };
-
-  return (
-    <button className={`${baseStyles} ${variantStyles[variant]}`} {...rest}>
-      {children}
-    </button>
-  );
-};
+export { buttonVariants, type ButtonProps };
