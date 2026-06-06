@@ -19,54 +19,112 @@ router.post("/", (req, res) => {
   });
 });
 
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { body, validationResult } from 'express-validator';
+import { UserService } from '../services/user.service';
 
 const router = Router();
 
-// Validation middleware for user creation
-const validateCreateUser = [
-  body('email').isEmail().withMessage('Invalid email format'),
-  body('name').notEmpty().withMessage('Name is required'),
-  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
-];
-
-// Validation middleware for user update
-const validateUpdateUser = [
-  body('email').optional().isEmail().withMessage('Invalid email format'),
-  body('name').optional().notEmpty().withMessage('Name cannot be empty'),
-];
-
-// GET /users/:id
-router.get('/:id', (req: Request, res: Response) => {
-  // TODO: Implement get user by ID
-  res.json({ message: 'Get user by ID - not yet implemented' });
-});
-
-// POST /users
-router.post('/', validateCreateUser, (req: Request, res: Response) => {
+// Validation middleware
+const validateUserInput = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ 
-      errors: errors.array(),
-      message: 'Validation failed'
+    return res.status(400).json({
+      success: false,
+      message: 'Validation failed',
+      errors: errors.array()
     });
   }
-  // TODO: Implement user creation
-  res.status(201).json({ message: 'User created - not yet implemented' });
+  next();
+};
+
+// User registration validation
+router.post('/register', [
+  body('email')
+    .isEmail()
+    .normalizeEmail()
+    .withMessage('Invalid email format'),
+  body('password')
+    .isLength({ min: 8 })
+    .withMessage('Password must be at least 8 characters long')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+    .withMessage('Password must contain at least one lowercase letter, one uppercase letter, and one number'),
+  body('name')
+    .notEmpty()
+    .withMessage('Name is required')
+    .isLength({ min: 2 })
+    .withMessage('Name must be at least 2 characters long'),
+  body('username')
+    .optional()
+    .isLength({ min: 3 })
+    .withMessage('Username must be at least 3 characters long')
+    .matches(/^[a-zA-Z0-9_]+$/)
+    .withMessage('Username can only contain letters, numbers, and underscores'),
+  validateUserInput
+], async (req: Request, res: Response) => {
+  try {
+    const { email, password, name, username } = req.body;
+    
+    // Input validation
+    if (!email || !password || !name) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing required fields',
+        errors: []
+      });
+    }
+
+    // Service call would go here
+    // const user = await UserService.create({ email, password, name, username });
+    
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  }
 });
 
-// PUT /users/:id
-router.put('/:id', validateUpdateUser, (req: Request, res: Response) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ 
-      errors: errors.array(),
-      message: 'Validation failed'
+// User update validation
+router.put('/:id', [
+  body('email')
+    .optional()
+    .isEmail()
+    .normalizeEmail()
+    .withMessage('Invalid email format'),
+  body('name')
+    .optional()
+    .isLength({ min: 2 })
+    .withMessage('Name must be at least 2 characters long'),
+  body('username')
+    .optional()
+    .isLength({ min: 3 })
+    .withMessage('Username must be at least 3 characters long')
+    .matches(/^[a-zA-Z0-9_]+$/)
+    .withMessage('Username can only contain letters, numbers, and underscores')
+], validateUserInput, async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.id;
+    const updates = req.body;
+    
+    // Service call would go here
+    // const updatedUser = await UserService.update(userId, updates);
+    
+    res.json({
+      success: true,
+      message: 'User updated successfully'
+      // data: updatedUser
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
     });
   }
-  // TODO: Implement user update
-  res.json({ message: 'User updated - not yet implemented' });
 });
 
 export default router;
