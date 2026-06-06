@@ -1,33 +1,23 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response } from 'express';
 
-export interface ApiError extends Error {
-  status?: number;
-  statusCode?: number;
+export interface ErrorResponse {
+  success: false;
+  error: {
+    message: string;
+    code: string;
+  };
 }
 
-export const handleApiError = (
-  err: ApiError,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const statusCode = err.status || err.statusCode || 500;
-  const message = err.message || 'Internal Server Error';
-  
-  res.status(statusCode).json({
-    error: true,
-    message: message,
-    ...(err.name && { errorType: err.name })
-  });
+export const createErrorResponse = (message: string, code: string = 'INTERNAL_ERROR'): ErrorResponse => {
+  return {
+    success: false,
+    error: {
+      message,
+      code
+    }
+  };
 };
 
-export const apiError = (
-  res: Response,
-  statusCode: number,
-  message: string
-) => {
-  return res.status(statusCode).json({
-    error: true,
-    message
-  });
+export const sendApiError = (res: Response, message: string, code: string = 'INTERNAL_ERROR') => {
+  return res.status(400).json(createErrorResponse(message, code));
 };
