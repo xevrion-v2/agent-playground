@@ -83,3 +83,32 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+### Local Environment Variables
+
+Use separate `.env` files for the app or package that consumes each
+setting.
+
+#### API (`apps/api`)
+
+| Variable | Required | Default | Description |
+| --- | --- | --- | --- |
+| `PORT` | No | `4000` | Port used by the Express API server. |
+
+#### Web (`apps/web`)
+
+The Next.js app does not currently require any checked-in environment
+variables. Add public browser-safe values with the `NEXT_PUBLIC_`
+prefix only when a feature needs them.
+
+#### Database (`packages/db`)
+
+| Variable | Required | Default | Description |
+| --- | --- | --- | --- |
+| `DATABASE_URL` | Yes | None | PostgreSQL connection string consumed by Prisma. |
+
+Example local database value:
+
+```env
+DATABASE_URL="postgresql://taskflow:taskflow@localhost:5432/taskflow"
+```
