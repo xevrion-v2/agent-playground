@@ -10,23 +10,32 @@ export class ApiError extends Error {
   }
 }
 
-export interface ErrorResponse {
-  success: false;
-  error: {
-    message: string;
-    statusCode: number;
-  };
-}
-
-export function createErrorResponse(error: ApiError | Error): ErrorResponse {
-  const statusCode = error instanceof ApiError ? error.statusCode : 500;
-  return {
+export const sendErrorResponse = (
+  res: any,
+  statusCode: number,
+  message: string
+) => {
+  return res.status(statusCode).json({
     success: false,
     error: {
-      message: error.message,
+      message,
       statusCode,
     },
-  };
-}
+  });
+};
 
-export default ApiError;
+export const createNotFoundError = (resource: string) => {
+  return new ApiError(404, `${resource} not found`);
+};
+
+export const createBadRequestError = (message: string) => {
+  return new ApiError(400, message);
+};
+
+export const createUnauthorizedError = (message = 'Unauthorized') => {
+  return new ApiError(401, message);
+};
+
+export const createForbiddenError = (message = 'Forbidden') => {
+  return new ApiError(403, message);
+};
