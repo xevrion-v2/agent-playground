@@ -75,34 +75,39 @@ with models for:
 - Proposals
 - Payments
 - Reviews
+- Messages
+- Categories
+- Skills
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
 
-### Web App (`apps/web`)
+## Environment Variables
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_API_URL` | Base URL for the API | `http://localhost:3001` |
-| `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` | Stripe publishable key for payments | `pk_test_...` |
+Each app/package expects its own `.env` file with values for DB, auth, 
+and integrations. Copy the examples below into `apps/web/.env` and 
+`apps/api/.env` respectively, then fill in the real secrets.
 
-### API App (`apps/api`)
+### Web (`apps/web/.env`)
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@localhost:5432/taskflow` |
-| `JWT_SECRET` | Secret key for signing JWT tokens | `your-super-secret-jwt-key` |
-| `JWT_REFRESH_SECRET` | Secret key for signing refresh tokens | `your-super-secret-refresh-key` |
-| `PORT` | Port the API server listens on | `3001` |
-| `FRONTEND_URL` | CORS-allowed frontend origin | `http://localhost:3000` |
-| `STRIPE_SECRET_KEY` | Stripe secret key for payment processing | `sk_test_...` |
-| `STRIPE_WEBHOOK_SECRET` | Stripe webhook endpoint secret | `whsec_...` |
-| `AWS_S3_BUCKET` | S3 bucket for file uploads | `taskflow-uploads` |
-| `AWS_ACCESS_KEY_ID` | AWS access key for S3 | `AKIA...` |
-| `AWS_SECRET_ACCESS_KEY` | AWS secret key for S3 | `...` |
-| `REDIS_URL` | Redis connection for caching/sessions | `redis://localhost:6379` |
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_API_URL` | Base URL of the API (e.g. `http://localhost:3001`) |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key for client-side checkout |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk frontend API key (if using Clerk auth) |
+| `CLERK_SECRET_KEY` | Clerk secret key for server-side auth |
 
-## AI Agent Contribution Instruction
+### API (`apps/api/.env`)
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+| Variable | Description |
+|----------|-------------|
+| `DATABASE_URL` | PostgreSQL connection string (e.g. `postgresql://user:pass@localhost:5432/taskflow`) |
+| `JWT_SECRET` | Secret key for signing JWT access tokens |
+| `JWT_REFRESH_SECRET` | Secret key for signing JWT refresh tokens |
+| `STRIPE_SECRET_KEY` | Stripe secret key for payment processing |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook endpoint secret |
+| `CLERK_SECRET_KEY` | Clerk secret key for auth verification |
+| `AWS_ACCESS_KEY_ID` | AWS access key for S3 file uploads |
+| `AWS_SECRET_ACCESS_KEY` | AWS secret key for S3 file uploads |
+| `AWS_S3_BUCKET` | S3 bucket name for file storage |
+| `REDIS_URL` | Redis connection string for caching/sessions (e.g. `redis://localhost:6379`) |
+| `PORT` | Port for the API server (default: `3001`) |
+| `NODE_ENV` | Environment mode: `development`, `production`, or `test` |
