@@ -1,8 +1,8 @@
 # TaskFlow Monorepo
-
+<<<<<<< HEAD
 <img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
-
+TaskFlow is a full-stack task management SaaS monorepo built 
 TaskFlow is a full-stack task management SaaS monorepo built 
 with a modern TypeScript-first architecture.
 
@@ -27,7 +27,33 @@ The web app includes pages for:
 - Billing
 - Admin panel
 
-## Backend
+Each app/package expects its own .env values for DB, auth, 
+and integrations.
+
+# Environment Variables
+
+## Web App (apps/web)
+
+- `NEXT_PUBLIC_SITE_URL` - The public URL of the site (e.g., http://localhost:3000)
+- `NEXT_PUBLIC_API_URL` - The API base URL (e.g., http://localhost:4000/api)
+- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Stripe publishable key for frontend payments
+
+## API App (apps/api)
+
+- `PORT` - The port the API server will run on (default: 4000)
+- `DATABASE_URL` - Connection string for the PostgreSQL database
+- `JWT_SECRET` - Secret key for signing JWT tokens
+- `STRIPE_SECRET_KEY` - Stripe secret key for backend payments
+- `STRIPE_WEBHOOK_SECRET` - Secret for verifying Stripe webhook events
+- `GITHUB_CLIENT_ID` - GitHub OAuth client ID
+- `GITHUB_CLIENT_SECRET` - GitHub OAuth client secret
+- `GOOGLE_CLIENT_ID` - Google OAuth client ID
+- `GOOGLE_CLIENT_SECRET` - Google OAuth client secret
+
+## Example .env files
+
+### apps/web/.env.local
+
 
 The API includes:
 - Auth routes (register, login, OAuth callback, JWT refresh)
