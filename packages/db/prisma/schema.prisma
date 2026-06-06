@@ -7,35 +7,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// A registered user of the TaskFlow platform.
+/// Users create jobs as clients and submit proposals as freelancers.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
+  /// Jobs created by this user (client role)
   jobs      Job[]
+  /// Proposals submitted by this user (freelancer role)
   proposals Proposal[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A task or project posted by a client looking for freelancers.
 model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
+  /// Current workflow status: draft | open | in_progress | completed | cancelled
   status      String     @default("draft")
+  /// The client who created this job
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Freelancer proposals received for this job
   proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A freelancer's offer to work on a job, including a proposed amount.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
+  /// Proposed payment amount in USD
   amount    Decimal?
+  /// Current state: pending | accepted | rejected
   status    String   @default("pending")
+  /// The freelancer who submitted this proposal
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+  /// The job this proposal targets
   jobId     String
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
