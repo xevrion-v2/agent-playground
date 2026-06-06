@@ -1,98 +1,142 @@
 /**
- * User service containing business logic for user operations
+ * User Service
+ * 
+ * Service layer for user-related operations including CRUD functionality,
+ * authentication, and user management.
+ * 
  * @module userService
  */
 
 import { User } from '@prisma/client';
-import { db } from '../../packages/db';
+
+/**
+ * Finds a user by their unique identifier
+ * 
+ * @param id - The unique identifier of the user
+ * @returns Promise resolving to the user object or null if not found
+ */
+export async function findUserById(id: number): Promise<User | null> {
+  // Implementation would go here
+}
 
 /**
  * Creates a new user with the provided data
- * @param {Omit<User, 'id' | 'createdAt' | 'updatedAt'>} userData - The user data to create
- * @returns {Promise<User>} A promise that resolves to the created user
+ * 
+ * @param userData - The data for creating a new user
+ * @param userData.email - The user's email address
+ * @param userData.name - The user's full name
+ * @param userData.password - The user's password (will be hashed)
+ * @returns Promise resolving to the created user object
  */
-export async function createUser(userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<User> {
-  return await db.user.create({
-    data: userData
-  });
+export async function createUser(userData: {
+  email: string;
+  name: string;
+  password: string;
+}): Promise<User> {
+  // Implementation would go here
 }
 
 /**
- * Finds a user by their ID
- * @param {string} id - The user ID to search for
- * @returns {Promise<User | null>} A promise that resolves to the found user or null
+ * Updates an existing user's information
+ * 
+ * @param id - The ID of the user to update
+ * @param updateData - The fields to update
+ * @returns Promise resolving to the updated user object
  */
-export async function findUserById(id: string): Promise<User | null> {
-  return await db.user.findUnique({
-    where: { id }
-  });
-}
-
-/**
- * Updates a user with the specified ID
- * @param {string} id - The ID of the user to update
- * @param {Partial<User>} userData - The partial user data to update
- * @returns {Promise<User>} A promise that resolves to the updated user
- */
-export async function updateUser(id: string, userData: Partial<User>): Promise<User> {
-  return await db.user.update({
-    where: { id },
-    data: userData
-  });
+export async function updateUser(id: number, updateData: Partial<User>): Promise<User> {
+  // Implementation would go here
 }
 
 /**
  * Deletes a user by their ID
- * @param {string} id - The ID of the user to delete
- * @returns {Promise<User>} A promise that resolves to the deleted user
+ * 
+ * @param id - The ID of the user to delete
+ * @returns Promise resolving to the result of the delete operation
  */
-export async function deleteUser(id: string): Promise<User> {
-  return await db.user.delete({
-    where: { id }
-  });
+export async function deleteUser(id: number): Promise<boolean> {
+  // Implementation would go here
 }
 
 /**
- * Finds all users with optional filtering
- * @param {any} where - Optional filter conditions
- * @returns {Promise<User[]>} A promise that resolves to an array of users
+ * Finds users based on search criteria
+ * 
+ * @param query - Search parameters to filter users
+ * @returns Promise resolving to an array of users matching the criteria
  */
-export async function findUsers(where?: any): Promise<User[]> {
-  return await db.user.findMany({
-    where
-  });
+export async function findUsers(query: Partial<User>): Promise<User[]> {
+  // Implementation would go here
 }
 
 /**
- * Finds a user by their email address
- * @param {string} email - The email to search for
- * @returns {Promise<User | null>} A promise that resolves to the found user or null
+ * Authenticates a user with email and password
+ * 
+ * @param email - The user's email
+ * @param password - The user's password
+ * @returns Promise resolving to the authenticated user or null if authentication fails
  */
-export async function findUserByEmail(email: string): Promise<User | null> {
-  return await db.user.findUnique({
-    where: { email }
-  });
+export async function authenticateUser(email: string, password: string): Promise<User | null> {
+  // Implementation would go here
+}
+
+/**
+ * Gets all users from the database
+ * 
+ * @returns Promise resolving to an array of all users
+ */
+export async function getAllUsers(): Promise<User[]> {
+  // Implementation would go here
 }
 
 /**
  * Updates a user's profile information
- * @param {string} userId - The ID of the user to update
- * @param {Partial<User>} profileData - The profile data to update
- * @returns {Promise<User>} A promise that resolves to the updated user
+ * 
+ * @param userId - The ID of the user to update
+ * @param profileData - The profile data to update
+ * @returns Promise resolving to the updated user object
  */
-export async function updateUserProfile(userId: string, profileData: Partial<User>): Promise<User> {
-  return await db.user.update({
-    where: { id: userId },
-    data: profileData
-  });
+export async function updateProfile(userId: number, profileData: {
+  name?: string;
+  email?: string;
+  // Add other profile fields as needed
+}): Promise<User> {
+  // Implementation would go here
 }
 
-export default {
-  createUser,
-  findUserById,
-  updateUser,
-  deleteUser,
-  findUsers,
-  findUserByEmail,
-  updateUserProfile
-};
+/**
+ * Bans a user by ID
+ * 
+ * @param userId - The ID of the user to ban
+ * @returns Promise resolving to the result of the ban operation
+ */
+export async function banUser(userId: number): Promise<boolean> {
+  // Implementation would go here
+}
+
+/**
+ * Unbans a user by ID
+ * 
+ * @param userId - The ID of the user to unban
+ * @returns Promise resolving to the result of the unban operation
+ */
+export async function unbanUser(userId: number): Promise<boolean> {
+  // Implementation would go here
+}
+
+/**
+ * Gets the user count in the system
+ * 
+ * @returns Promise resolving to the total number of users
+ */
+export async function getUserCount(): Promise<number> {
+  // Implementation would go here
+}
+
+/**
+ * Validates user data before creation or update
+ * 
+ * @param userData - The user data to validate
+ * @returns Promise resolving to validation result
+ */
+export async function validateUser(userData: Partial<User>): Promise<{ isValid: boolean; errors: string[] }> {
+  // Implementation would go here
+}
