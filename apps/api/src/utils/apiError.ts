@@ -1,20 +1,20 @@
-interface ApiErrorOptions {
+import { Response } from 'express';
+
+interface ApiError {
   message: string;
-  status?: number;
-  code?: string;
+  statusCode: number;
   details?: Record<string, any>;
 }
 
-export class ApiError extends Error {
-  public readonly status: number;
-  public readonly code: string;
-  public readonly details?: Record<string, any>;
+export const sendApiError = (res: Response, statusCode: number, message: string, details?: Record<string, any>): Response => {
+  return res.status(statusCode).json({
+    success: false,
+    error: {
+      message,
+      statusCode,
+      ...(details && { details })
+    }
+  });
+};
 
-  constructor(options: ApiErrorOptions, status: number = 500) {
-    super(options.message);
-    this.name = 'ApiError';
-    this.status = status;
-    this.code = options.code || 'API_ERROR';
-    this.details = options.details;
-  }
-}
+export type { ApiError };
