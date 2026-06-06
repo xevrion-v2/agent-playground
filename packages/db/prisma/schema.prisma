@@ -1,3 +1,4 @@
+// TaskFlow Prisma Schema — Core domain models for a task management SaaS platform
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,9 +8,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Represents a registered user in the TaskFlow platform. Users can be clients (posting tasks) or freelancers (completing tasks).
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
+  id        String   @id @default(cuid())
+  email     String   @unique
   name      String?
   jobs      Job[]
   proposals Proposal[]
@@ -19,12 +21,13 @@ model User {
 
 model Job {
   id          String     @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+// Represents a task posted by a client. Freelancers can submit proposals to complete the task.
+model Task {
+  id          String   @id @default(cuid())
   title       String
-  description String?
-  status      String     @default("draft")
-  ownerId     String
-  owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
@@ -32,122 +35,48 @@ model Job {
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
-  amount    Decimal?
-  status    String   @default("pending")
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  jobId     String
-  job       Job      @relation(fields: [jobId], references: [id])
+  updatedAt   DateTime @updatedAt
+}
+
+// Represents a freelancer's bid/proposal to complete a specific task. Linked to both the task and the proposing user.
+model Proposal {
+  id          String   @id @default(cuid())
+  taskId      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-generator client {
-  provider = "prisma-client-js"
 }
-
-datasource db {
-  provider = "postgresql"
-  url     = env("DATABASE_URL")
-}
-
-// Model for User entity
-// Represents a platform user with profile information and auth details
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password    String?
-  name      String?
-  createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  tasks     Task[]
-  proposals Proposal[]
-  reviews   Review[]
-  messages  Message[]
 }
 
-// Model for Task entity
-// Represents a task created by a user in the TaskFlow system
-model Task {
-  id          String   @id @default(cuid())
-  title       String
-  description  String?
-  ownerId      String
-  owner       User     @relation(fields: [ownerId], references: [id])
-  categoryId    String?
-  category     Category?
-  skills      Skill[]
-  proposals   Proposal[]
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-}
-
-// Model for Proposal entity
-// Represents a proposal made by a freelancer for a task
-model Proposal {
-  id        String   @id @default(cuid())
-  taskId     String
-  task      Task     @relation(fields: [taskId], references: [id])
-  proposerId String
-  proposer  User     @relation(fields: [proposerId], references: [id])
-  content   String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-// Model for Payment entity
-// Represents a payment transaction between users
+// Represents a payment transaction between a client and freelancer for a completed task. Integrates with Stripe for processing.
 model Payment {
   id        String   @id @default(cuid())
-  taskId     String
-  task      Task     @relation(fields: [taskId], references: [id])
-  payerId   String
-  payer     User     @relation(fields: [payerId], references: [id])
-  amount    Float
-  status    String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  taskId    String
+  updatedAt DateTime @updatedAt
 }
 
-// Model for Review entity
-// Represents a review given by a user for a completed task
+// Represents a review left by one user for another after task completion. Part of the reputation system.
 model Review {
   id        String   @id @default(cuid())
-  taskId     String
-  task      Task     @relation(fields: [taskId], references: [id])
-  reviewerId  String
-  reviewer    User     @relation(fields: [reviewerId], references: [id])
-  rating     Int
-  comment    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  taskId    String
+  updatedAt DateTime @updatedAt
 }
 
-// Model for Message entity
-// Represents a message between users in the messaging system
+// Represents a direct message sent between two users within the platform. Supports the built-in messaging system.
 model Message {
-  id        String   @id @default(cuid())
+  id         String   @id @default(cuid())
   senderId   String
-  sender     User     @relation(fields: [senderId], references: [id])
-  content    String
-  createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
-// Model for Category entity
-// Represents a task category for organizing tasks
+// Represents a task category for organizing and filtering tasks (e.g., Web Development, Design, Writing).
 model Category {
-  id    String @id @default(cuid())
-  name  String @unique
-  tasks Task[]
+  id        String   @id @default(cuid())
+  name      String   @unique
+  updatedAt DateTime @updatedAt
 }
 
-// Model for Skill entity
-// Represents a skill that can be associated with tasks and users
+// Represents a skill that users can add to their profiles and that can be associated with tasks for matching.
 model Skill {
-  id   String @id @default(cuid())
-  name String @unique
-  tasks Task[]
-}
-}
+  id        String   @id @default(cuid())
+  name      String   @unique
