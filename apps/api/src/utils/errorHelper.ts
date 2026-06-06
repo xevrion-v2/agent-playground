@@ -14,12 +14,6 @@ export const sendApiError = (
   statusCode: number = 500,
   details?: any
 ): void => {
-  const errorResponse: ApiError = {
-    message,
-    code,
-    statusCode,
-    details
-  };
-  
+  const errorResponse: ApiError = { message, code, statusCode, details };
   res.status(statusCode).json({ error: errorResponse });
 };
