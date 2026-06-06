@@ -1,23 +1,19 @@
-import { Router, Request, Response } from 'express';
-import { sendApiError } from '../utils/apiError';
+import { Router } from 'express';
+import { sendApiError } from '../utils/apiHelpers';
 
 const router = Router();
 
-// Example route using the error helper
-router.post('/login', async (req: Request, res: Response) => {
-  try {
-    const { email, password } = req.body;
-    
-    // Validation logic would go here
-    if (!email || !password) {
-      return sendApiError(res, 400, 'Email and password are required');
-    }
-    
-    // Actual login logic would go here
-    // ...
+    // Registration logic here
+    res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
-    sendApiError(res, 500, 'Internal server error', 'INTERNAL_ERROR');
+    sendApiError(res, 'Registration failed', 500, error.message);
   }
 });
 
-export default router;
+
+// Other routes remain unchanged
+router.post('/login', (req, res) => {
+  res.send('Login route');
+});
+
+router.get('/oauth-callback', (req, res) => {
