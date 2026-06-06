@@ -1,23 +1,28 @@
-export class APIError extends Error {
-  constructor(
-    public statusCode: number,
-    message: string,
-    public code?: string
-  ) {
-    super(message);
-    this.name = 'APIError';
-  }
+import { Response } from 'express';
+
+interface ApiError {
+  message: string;
+  statusCode: number;
+  error?: string;
+  details?: Record<string, any>;
 }
 
-export const createAPIError = (
+export const sendApiError = (
+  res: Response,
   statusCode: number,
   message: string,
-  code?: string
-): APIError => {
-  return new APIError(statusCode, message, code);
-};
+  error?: string,
+  details?: Record<string, any>
+): void => {
+  const errorResponse: ApiError = {
+    message,
+    statusCode,
+    ...(error && { error }),
+    ...(details && { details })
+  };
 
-export const sendAPIErrorResponse = (error: APIError | Error, res: any) => {
-  const statusCode = error instanceof APIError ? error.statusCode : 500;
-  return res.status(statusCode).json({ error: error.message });
+  res.status(statusCode).json({
+    success: false,
+    ...errorResponse
+  });
 };
