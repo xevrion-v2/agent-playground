@@ -1,15 +1,22 @@
 import { Router, Request, Response } from 'express';
-import { createAPIError, sendAPIErrorResponse } from '../utils/apiError';
+import { sendApiError } from '../utils/apiError';
 
 const router = Router();
 
-// Example usage of the error helper
-router.post('/example-error', (req: Request, res: Response) => {
+// Example route using the error helper
+router.post('/login', async (req: Request, res: Response) => {
   try {
-    // Some logic that might fail
-    throw createAPIError(400, 'Example error message', 'EXAMPLE_ERROR');
+    const { email, password } = req.body;
+    
+    // Validation logic would go here
+    if (!email || !password) {
+      return sendApiError(res, 400, 'Email and password are required');
+    }
+    
+    // Actual login logic would go here
+    // ...
   } catch (error) {
-    sendAPIErrorResponse(error, res);
+    sendApiError(res, 500, 'Internal server error', 'INTERNAL_ERROR');
   }
 });
 
