@@ -1,3 +1,9 @@
+// Prisma Schema: TaskFlow
+// PostgreSQL-backed data models for the task management SaaS.
+//
+// Generate client:  npx prisma generate
+// Apply migrations: npx prisma migrate dev
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,16 +13,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Represents a registered platform user.
+// A user can own jobs (as a client) and submit proposals (as a freelancer).
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
-  jobs      Job[]
-  proposals Proposal[]
+  jobs      Job[]          // Jobs created by this user
+  proposals Proposal[]     // Proposals submitted by this user
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+// A task posting created by a client. Workers submit proposals against it.
+// Status flows: draft -> open -> in-progress -> completed / cancelled
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +39,8 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+// A freelancer's bid on a job, with summary and optional ask amount.
+// Status: pending -> accepted / rejected
 model Proposal {
   id        String   @id @default(cuid())
   summary   String

@@ -9,6 +9,14 @@
     "lint": "echo \"No UI lint configured yet\""
   },
   "devDependencies": {
-    "typescript": "^5.4.5"
-  }
+    "typescript": "^5.4.5",
+    "vitest": "^4.1.8"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
 }
