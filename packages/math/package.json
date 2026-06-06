@@ -1,0 +1,10 @@
+{
+  "name": "@taskflow/math",
+  "version": "1.0.0",
+  "description": "Mathematical utilities for TaskFlow - includes exact PI calculation to arbitrary precision",
+  "main": "src/pi-exact.ts",
+  "types": "src/pi-exact.ts",
+  "scripts": {
+    "test": "echo \"Tests coming soon\""
+  }
+}
