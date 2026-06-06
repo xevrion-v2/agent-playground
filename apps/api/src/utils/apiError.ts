@@ -10,32 +10,20 @@ export class ApiError extends Error {
   }
 }
 
-export const sendErrorResponse = (
-  res: any,
-  statusCode: number,
-  message: string
-) => {
+export const errorResponse = (res: any, statusCode: number, message: string) => {
   return res.status(statusCode).json({
     success: false,
-    error: {
-      message,
-      statusCode,
-    },
+    error: message,
   });
 };
 
-export const createNotFoundError = (resource: string) => {
-  return new ApiError(404, `${resource} not found`);
+export const handleApiError = (error: unknown, res: any) => {
+  if (error instanceof ApiError) {
+    return errorResponse(res, error.statusCode, error.message);
+  }
+
+  console.error('Unexpected error:', error);
+  return errorResponse(res, 500, 'Internal server error');
 };
 
-export const createBadRequestError = (message: string) => {
-  return new ApiError(400, message);
-};
-
-export const createUnauthorizedError = (message = 'Unauthorized') => {
-  return new ApiError(401, message);
-};
-
-export const createForbiddenError = (message = 'Forbidden') => {
-  return new ApiError(403, message);
-};
+export default { ApiError, errorResponse, handleApiError };
