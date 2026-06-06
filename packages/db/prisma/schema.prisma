@@ -32,7 +32,8 @@ model Job {
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
-  amount    Decimal?
+  /// Bid amount for fixed-price jobs; null for hourly or open-budget tasks.
+  amount    Decimal?  @db.Decimal(12, 2)
   status    String   @default("pending")
   userId    String
   user      User     @relation(fields: [userId], references: [id])
