@@ -35,6 +35,28 @@ jobs:
               "description, the better."
             ].join("\n");
 
+            const requiredLabels = [
+              { name: "bounty", color: "e4e669", description: "Reward-backed contribution task." },
+              { name: "good first issue", color: "7057ff", description: "Good for new contributors." },
+              { name: "AI agent friendly", color: "0e8a16", description: "Suitable for autonomous AI agents." }
+            ];
+
+            for (const label of requiredLabels) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                  color: label.color,
+                  description: label.description
+                });
+              } catch (error) {
+                if (error.status !== 422) {
+                  throw error;
+                }
+              }
+            }
+
             const createdIssue = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -68,3 +90,4 @@ jobs:
             } catch (error) {
               core.warning(`Created issue #${createdIssue.data.number}, but pinning failed: ${error.message}`);
             }
+
