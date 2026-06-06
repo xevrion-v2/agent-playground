@@ -1,91 +1,66 @@
 import { User } from '@prisma/client';
-import { db } from '@packages/db';
+import { db } from '../lib/db';
+
+export interface UserService {
+  id: number;
+  name: string;
+  email: string;
+  created: Date;
+}
 
 /**
  * Service for managing user-related operations
  */
-export class UserService {
+export const userService = {
   /**
-   * Finds a user by their unique identifier
+   * Retrieves all users from the database
+   * @returns Promise resolving to an array of users
+   */
+  async getAll() {
+    return await db.user.findMany();
+  },
+
+  /**
+   * Retrieves a user by their ID
    * @param id - The unique identifier of the user
-   * @returns A promise that resolves to the user object or null if not found
+   * @returns Promise resolving to the user object or null if not found
    */
-  static async findById(id: string): Promise<User | null> {
+  async getById(id: number) {
     return await db.user.findUnique({
-      where: { id }
+      where: {
+        id,
+      },
     });
-  }
+  },
 
   /**
-   * Finds a user by their email address
-   * @param email - The email address of the user
-   * @returns A promise that resolves to the user object or null if not found
+   * Creates a new user with the provided data
+   * @param data - User data containing name and email
+   * @returns Promise resolving to the created user object
    */
-  static async findByEmail(email: string): Promise<User | null> {
-    return await db.user.findUnique({
-      where: { email }
-    });
-  }
+  async create(data: { name: string; email: string }) {
+    return await db.user.create({ data });
+  },
 
   /**
-   * Creates a new user
-   * @param data - The user data to create
-   * @returns A promise that resolves to the created user object
+   * Updates an existing user's information
+   * @param id - The ID of the user to update
+   * @param data - Partial user data to update
+   * @returns Promise resolving to the updated user object
    */
-  static async create(data: Partial<User>): Promise<User> {
-    return await db.user.create({
-      data
-    });
-  }
-
-  /**
-   * Updates an existing user
-   * @param id - The unique identifier of the user to update
-   * @param data - The user data to update
-   * @returns A promise that resolves to the updated user object
-   */
-  static async update(id: string, data: Partial<User>): Promise<User> {
+  async update(id:1, data: { name?: string; email?: string }) {
     return await db.user.update({
       where: { id },
-      data
+      data,
     });
-  }
+  },
 
   /**
-   * Deletes a user by their unique identifier
-   * @param id - The unique identifier of the user to delete
-   * @returns A promise that resolves to the deleted user object
+   * Deletes a user by their ID
+   * @param id - The ID of the user to delete
+   * @returns Promise resolving to the deleted user object
    */
-  static async delete(id: string): Promise<User> {
-    return await db.user.delete({
-      where: { id }
-    });
-  }
-
-  /**
-   * Finds all users with optional filtering
-   * @param filter - Optional filter criteria
-   * @returns A promise that resolves to an array of users
-   */
-  static async findAll(filter?: Partial<User>): Promise<User[]> {
-    return await db.user.findMany({
-      where: filter
-    });
-  }
-
-  /**
-   * Searches for users by name
-   * @param query - The search query string
-   * @returns A promise that resolves to an array of users matching the search criteria
-   */
-  static async searchByName(query: string): Promise<User[]> {
-    return await db.user.findMany({
-      where: {
-        OR: [
-          { name: { contains: query, mode: 'insensitive' } },
-          { email: { contains: query, mode: 'insensitive' } }
-        ]
-      }
-    });
-  }
-}
+  async delete(id: number) {
+    return await db.user.delete({ where: { id } });
+  },
+};
