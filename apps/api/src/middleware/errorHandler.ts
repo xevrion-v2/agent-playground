@@ -1,21 +1,29 @@
 import { Request, Response, NextFunction } from 'express';
-import { ApiError, sendError } from '../utils/apiError';
+import { APIError } from '../utils/apiError';
 
-export function errorHandler(
-  err: Error,
-  req: Request,
+export const errorHandlingMiddleware = (
+  err: APIError,
+  _req: Request,
   res: Response,
-  next: NextFunction
-): void {
-  if (err instanceof ApiError) {
-    sendError(res, err.message, err.status, err.code);
-    return;
+  _next: NextFunction
+) => {
+  const { statusCode, message, errors } = err;
+  
+  // Default error response
+  const errorResponse = {
+    status: 'error',
+    statusCode: statusCode || 500,
+    message: message || 'Internal Server Error',
+    errors: errors || [],
+  };
+
+  // For development, include stack trace
+  if (process.env.NODE_ENV === 'development') {
+    return res.status(statusCode || 500).json({
+      ...errorResponse,
+      stack: err.stack,
+    });
   }
 
-  console.error('Unexpected error:', err);
-  sendError(res, 'Internal server error', 500);
-}
-
-export function notFoundHandler(req: Request, res: Response): void {
-  sendError(res, 'Resource not found', 404, 'NOT_FOUND');
-}
+  return res.status(statusCode || 500).json(errorResponse);
+};
