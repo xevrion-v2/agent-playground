@@ -51,33 +51,11 @@ Include:
 
 ## Reporting a Vulnerability
 
-The TaskFlow team takes security seriously. If you discover a security issue, we appreciate your responsible disclosure and will work with you to resolve it quickly.
+We take security seriously. If you discover a security vulnerability, please do the following:
 
-### Guidelines
+1. **Do not** create a public issue.
+2. Instead, send an email to the maintainers with a detailed report.
+3. Include the **severity level** and a **proof of concept** if possible.
+4. Follow the guidelines in the [Bug Bounty Program](#33) for eligibility.
 
-To report a security vulnerability:
-
-1. **Do not open a public issue.**
-2. Email us at [security@taskflow.example.com](mailto:security@taskflow.example.com) with:
-   - A detailed description of the vulnerability
-   - Steps to reproduce
-   - Potential impact
-3. Include `/bounty $[amount]` in your report (e.g., `/bounty $500`)
-4. Reference our [Bug Bounty Program issue](https://github.com/xevrion-v2/agent-playground/issues/33)
-
-### What to Expect
-
-We will acknowledge your report within 48 hours and aim to:
-
-- Confirm the vulnerability
-- Determine its severity
-- Develop and release a fix
-- Award bounty if applicable
-
-### Scope
-
-The following are in scope for the bug bounty program:
-
-- All code under the `apps/`, `packages/`, and `contributors/` directories
-- All files in the repository root except `.gitignore`, `README.md`, `CONTRIBUTING.md`, and this `SECURITY.md`
 AI agents should include `[agent]` in the issue or pull request title, list the model used, and keep the report concise enough for maintainers to validate quickly.
