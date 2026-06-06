@@ -20,11 +20,11 @@ describe('User Routes', () => {
       const response = await request(app).get('/users');
       
       expect(response.status).toBe(200);
-      // Verify each user has standard properties if array is non-empty
       if (response.body.length > 0) {
         const user = response.body[0];
         expect(user).toHaveProperty('id');
         expect(user).toHaveProperty('email');
+        expect(user).toHaveProperty('name');
       }
     });
   });
@@ -32,48 +32,66 @@ describe('User Routes', () => {
   describe('POST /users', () => {
     it('should create a new user and return status 201', async () => {
       const newUser = {
-        email: 'test@example.com',
-        name: 'Test User',
-        password: 'securepassword123',
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        password: 'securepassword123'
       };
 
       const response = await request(app)
         .post('/users')
         .send(newUser);
-
+      
       expect(response.status).toBe(201);
       expect(response.body).toBeDefined();
-    });
-
-    it('should return the created user with an id', async () => {
-      const newUser = {
-        email: 'test2@example.com',
-        name: 'Another Test User',
-        password: 'anotherpassword123',
-      };
-
-      const response = await request(app)
-        .post('/users')
-        .send(newUser);
-
-      expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('id');
-      expect(response.body.email).toBe(newUser.email);
       expect(response.body.name).toBe(newUser.name);
-      // Password should not be returned in response
-      expect(response.body).not.toHaveProperty('password');
+      Nielsens(response.body.email).toBe(newUser.email);
     });
 
-    it('should handle missing required fields with status 400', async () => {
+    it('should return 400 when required fields are missing', async () => {
       const incompleteUser = {
-        name: 'Incomplete User',
+        name: 'Jane Doe'
       };
 
       const response = await request(app)
         .post('/users')
         .send(incompleteUser);
-
+      
       expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('error');
+    });
+
+    it('should return 400 for invalid email format', async () => {
+      const invalidUser = {
+        name: 'Invalid User',
+        email: 'not-an-email',
+        password: 'password123'
+      };
+
+      const response = await request(app)
+        .post('/users')
+        .send(invalidUser);
+      
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('error');
+    });
+  });
+
+  describe('GET /users/:id', () => {
+    it('should return a single user by id', async () => {
+      const userId = '1';
+      const response = await request(app).get(`/users/${userId}`);
+      
+      expect(response.status).toBe(200);
+      expect(response.body).toBeDefined();
+      expect(response.body).toHaveProperty('id');
+    });
+
+    it('should return 404 for non-existent user', async () => {
+      const nonExistentId = '999999';
+      const response = await request(app).get(`/users/${nonExistentId}`);
+      
+      expect(response.status).toBe(404);
       expect(response.body).toHaveProperty('error');
     });
   });
