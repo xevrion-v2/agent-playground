@@ -20,49 +20,46 @@ router.post("/", (req, res) => {
 });
 
 import { Router } from 'express';
-import { body, param, validationResult } from 'express-validator';
-import { validateRequest } from '../middleware/validation';
+import { body, validationResult } from 'express-validator';
+import { z } from 'zod';
 
 const router = Router();
 
-// Validation middleware for creating a user
-const validateCreateUser = [
-  body('email').isEmail().normalizeEmail().withMessage('Please provide a valid email address'),
-  body('name').trim().isLength({ min: 2, max: 50 }).withMessage('Name must be between 2 and 50 characters'),
-  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        success: false,
-        message: 'Validation failed',
-        errors: errors.array() 
-      });
-    }
-    next();
-  }
-];
+// Zod schema for user creation
+const createUserSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  email: z.string().email('Invalid email format'),
+  password: z.string().min(6, 'Password must be at least 6 characters long'),
+});
 
-// Validation middleware for updating a user
-const validateUpdateUser = [
-  body('name').optional().trim().isLength({ min: 2, max: 50 }).withMessage('Name must be between 2 and 50 characters'),
-  body('email').optional().isEmail().normalizeEmail().withMessage('Please provide a valid email address'),
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        success: false,
-        message: 'Validation failed',
-        errors: errors.array() 
-      });
-    }
-    next();
-  }
-];
+// Zod schema for user update
+const updateUserSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().email('Invalid email format').optional(),
+});
 
-// Placeholder user routes with validation
-router.post('/', validateCreateUser);
-router.put('/:id', validateUpdateUser);
+// Validation middleware
+const validate = (schema: z.ZodTypeAny) => {
+  return (req: any, res: any, next: any) => {
+    try {
+      schema.parse(req.body);
+      next();
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({
+          error: 'Validation failed',
+          details: error.errors
+        });
+      }
+      throw error;
+    }
+  };
+};
+
+// Example route implementations would go here
+// This is a stub implementation showing the validation pattern
+// router.post('/', validate(createUserSchema), createUserController);
+// router.patch('/:id', validate(updateUserSchema), updateUserController);
 
 export default router;
 export default router;
