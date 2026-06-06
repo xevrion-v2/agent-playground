@@ -1,171 +1,3 @@
-// This file contains the Prisma schema for the TaskFlow application.
-// Each model represents a database table and its relationships.
-// The schema defines the data structure for the TaskFlow domain.
-
-// User model represents a user in the system
-// Contains authentication info, profile details, and role information
-model User {
-  id            Int      @id @default(autoincrement())
-  email         String   @unique
-  name          String?
-  password        String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  role          String   @default("CLIENT")
-  stripeId       String?
-  stripeAccount  String?
-  tasks         Task[]
-  proposals     Proposal[]
-  reviews       Review[]
-  sentMessages  Message[] @relation("sentMessages")
-  receivedMessages Message[] @relation("receivedMessages")
-  notifications  Notification[]
-}
-
-// Task model represents a task in the TaskFlow system
-// Contains task details, status, and associated entities
-model Task {
-  id            Int      @id @default(autoincrement())
-  title         String
-  description     String
-  budget         Int?
-  deadline        DateTime?
-  status        String   @default("OPEN")
-  clientId       Int
-  client       User      @relation(fields: [clientId], references: [id])
-  proposals     Proposal[]
-  category       Category?   @relation(fields: [categoryId], references: [id])
-  categoryId     Int?
-  skills        Skill[]
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
-
-// Proposal model represents a freelancer's proposal for a task
-// Links freelancers (users) to tasks they wish to work on
-model Proposal {
-  id            Int      @id @default(autoincrement())
-  userId        Int
-  taskId        Int
-  user         User      @relation(fields: [userId], references: [id])
-  task         Task      @relation(fields: [taskId], references: [id])
-  message      String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-}
-
-// Payment model represents payment transactions in the system
-model Payment {
-  id            Int      @id @default(autoincrement())
-  amount        Int
-  currency       String
-  status        String   @default("PENDING")
-  taskId        Int
-  task         Task      @relation(fields: [taskId], references: [id])
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
-
-// Review model represents feedback from clients to freelancers
-model Review {
-  id            Int      @id @default(autoincrement())
-  rating        Int
-  comment        String?
-  taskId        Int
-  reviewerId     Int
-  task         Task      @relation(fields: [taskId], references: [id])
-  reviewer       User      @relation(fields: [reviewerId], references: [id])
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
-
-// Message model represents private messages between users
-model Message {
-  id            Int      @id @default(autoincrement())
-  content       String
-  senderId      Int
-  receiverId     Int
-  sender        User      @relation(name: "sentMessages", fields: [senderId], references: [id])
-  receiver       User      @relation(name: "receivedMessages", fields: [receiverId], references: [id])
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
-
-// Notification model represents system notifications for users
-model Notification {
-  id            Int      @id @default(autoincrement())
-  userId        Int
-  message      String
-  read         Boolean   @default(false)
-  user         User      @relation(fields: [userId], references: [id])
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
-
-// Category model represents task categories
-model Category {
-  id            Int      @id @default(autoincrement())
-  name          String   @unique
-  tasks         Task[]
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
-
-// Skill model represents skills that can be associated with tasks
-model Skill {
-  id            Int      @id @default(autoincrement())
-  name          String   @unique
-  tasks         Task[]
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
-
-// Admin model represents admin users with elevated privileges
-model Admin {
-  id            Int      @id @default(autoincrement())
-  userId         Int      @unique
-  user          User      @relation(fields: [userId], references: [id])
-  permissions    String[]
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
-
-// File model represents uploaded files in the system
-model File {
-  id            Int      @id @default(autoincrement())
-  filename       String
-  originalName  String
-  path          String
-  mimetype        String
-  taskId         Int?
-  userId         Int?
-  task          Task?      @relation(fields: [taskId], references: [id])
-  uploadedBy     User?      @relation(fields: [userId], references: [id])
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
-
-// Session model represents user sessions for authentication
-model Session {
-  id            Int      @id @default(autoincrement())
-  userId         Int
-  token         String   @unique
-  user          User      @relation(fields: [userId], references: [id])
-  expiresAt     DateTime
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
-
-// RefreshToken model represents refresh tokens for authentication
-model RefreshToken {
-  id            Int      @id @default(autoincrement())
-  userId         Int      @unique
-  token         String   @unique
-  user          User      @relation(fields: [userId], references: [id])
-  expiresAt     DateTime
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-}
 generator client {
   provider = "prisma-client-js"
 }
@@ -208,4 +40,114 @@ model Proposal {
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url     = env("DATABASE_URL")
+}
+
+// Model for User entity
+// Represents a platform user with profile information and auth details
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password    String?
+  name      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tasks     Task[]
+  proposals Proposal[]
+  reviews   Review[]
+  messages  Message[]
+}
+
+// Model for Task entity
+// Represents a task created by a user in the TaskFlow system
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description  String?
+  ownerId      String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  categoryId    String?
+  category     Category?
+  skills      Skill[]
+  proposals   Proposal[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+// Model for Proposal entity
+// Represents a proposal made by a freelancer for a task
+model Proposal {
+  id        String   @id @default(cuid())
+  taskId     String
+  task      Task     @relation(fields: [taskId], references: [id])
+  proposerId String
+  proposer  User     @relation(fields: [proposerId], references: [id])
+  content   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Model for Payment entity
+// Represents a payment transaction between users
+model Payment {
+  id        String   @id @default(cuid())
+  taskId     String
+  task      Task     @relation(fields: [taskId], references: [id])
+  payerId   String
+  payer     User     @relation(fields: [payerId], references: [id])
+  amount    Float
+  status    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Model for Review entity
+// Represents a review given by a user for a completed task
+model Review {
+  id        String   @id @default(cuid())
+  taskId     String
+  task      Task     @relation(fields: [taskId], references: [id])
+  reviewerId  String
+  reviewer    User     @relation(fields: [reviewerId], references: [id])
+  rating     Int
+  comment    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Model for Message entity
+// Represents a message between users in the messaging system
+model Message {
+  id        String   @id @default(cuid())
+  senderId   String
+  sender     User     @relation(fields: [senderId], references: [id])
+  content    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Model for Category entity
+// Represents a task category for organizing tasks
+model Category {
+  id    String @id @default(cuid())
+  name  String @unique
+  tasks Task[]
+}
+
+// Model for Skill entity
+// Represents a skill that can be associated with tasks and users
+model Skill {
+  id   String @id @default(cuid())
+  name String @unique
+  tasks Task[]
+}
 }
