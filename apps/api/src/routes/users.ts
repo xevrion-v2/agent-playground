@@ -1,116 +1,116 @@
-import { Router } from "express";
-
-const router = Router();
+// TODO: Implement GET /users - List all users with pagination, filtering by role/skills, and search
+import { Router } from 'express';
+import { authenticate, requireRole } from '../middleware/auth';
+import { validateRequest } from '../middleware/validation';
 
 router.get("/", (_req, res) => {
   res.json({
     data: [],
-    message: "User listing is not implemented yet."
-  });
-});
-
-router.post("/", (req, res) => {
-  res.status(201).json({
-    data: {
-      id: "stub-user-id",
-      ...req.body
-    },
-    message: "User creation is not implemented yet."
-  });
-});
-
-import { Router } from 'express';
-import { auth } from '../middleware/auth';
 
 const router = Router();
 
-// Get user by ID
-// TODO: Implement user retrieval by ID endpoint
-// TODO: Add validation for user ID parameter
-// TODO: Implement proper error handling for non-existent users
-// TODO: Add rate limiting middleware
-// TODO: Add input sanitization
-router.get('/:id', auth, (req, res) => {
-  // TODO: Add user retrieval by ID logic
-  // TODO: Handle case when user is not found
-  // TODO: Implement proper authorization checks
-  // TODO: Add logging for audit purposes
-  res.status(501).json({ message: 'Not implemented' });
+// TODO: GET /users/me - Return current authenticated user's profile; 401 if unauthenticated
+router.get('/me', authenticate, async (req, res, next) => {
+  try {
+    // TODO: Fetch current user from database
+    data: {
+      id: "stub-user-id",
+  }
 });
 
-// Update user by ID
-// TODO: Implement user update endpoint
-// TODO: Add validation for update fields
-// TODO: Implement proper authorization (user can only update their own record)
-// TODO: Add input validation and sanitization
-// TODO: Handle case where user lacks required fields
-// TODO: Implement proper error validation for required fields
-router.put('/:id', auth, (req, res) => {
-  // TODO: Add user update logic
-  // TODO: Handle partial updates vs full replacement
-  // TODO: Implement field-level validation
-  // TODO: Add audit logging for user modifications
-  // TODO: Handle user not found case
-  // TODO: Implement proper authorization checks
-  res.status(501).json({ message: 'Not implemented' });
-});
-
-// Delete user by ID
-// TODO: Implement user deletion endpoint
-// TODO: Add soft delete pattern implementation
-// TODO: Add proper authorization checks
-// TODO: Handle case when user doesn't exist
-// TODO: Add cascade deletion considerations
-router.delete('/:id', auth, (req, res) => {
-  // TODO: Implement user deletion logic
-  // TODO: Add proper authorization verification
-  // TODO: Handle case when user is not found
-  // TODO: Add audit logging for deletions
-  // TODO: Consider data privacy regulations for deleted user data
-  res.status(501).json({ message: 'Not implemented' });
-});
-
-// Get all users
-// TODO: Implement user listing endpoint
-// TODO: Add pagination for large datasets
-// TODO: Add filtering capabilities
-// TODO: Add proper authorization (admin only)
-// TODO: Handle case when no users exist
-router.get('/', auth, (req, res) => {
-  // TODO: Implement user listing with pagination
-  // TODO: Add sorting capabilities
-  // TODO: Add filtering by role/status
-  // TODO: Implement proper authorization checks
-  // TODO: Add rate limiting for listing endpoint
-  res.status(501).json({ message: 'Not implemented' });
-});
-
-// Create user
-// TODO: Implement user creation endpoint
-// TODO: Add input validation and sanitization
-// TODO: Handle duplicate user cases
-// TODO: Add proper error messages for validation failures
-router.post('/', (req, res) => {
-  // TODO: Add user creation logic
-  // TODO: Handle password hashing
-  // TODO: Implement duplicate email/username checking
-  // TODO: Add proper validation response
-  res.status(501).json({ message: 'Not implemented' });
-});
-
-// Get user's tasks
-// TODO: Implement user tasks retrieval endpoint
-// TODO: Add proper authorization checks
-// TODO: Handle case when user has no tasks
-// TODO: Add pagination for tasks
-// TODO: Add sorting capabilities
-router.get('/:id/tasks', auth, (req, res) => {
-  // TODO: Implement user tasks retrieval logic
-  // TODO: Add proper error handling for non-existent user
-  // TODO: Handle case when user has no tasks
-  // TODO: Add proper authorization checks
-  res.status(501).json({ message: 'Not implemented' });
-});
-
+// TODO: GET /users/:id - Return public user profile by ID; 404 if not found, 400 if invalid ID format
+router.get('/:id', async (req, res, next) => {
+  try {
+    // TODO: Fetch user by ID
 export default router;
-export default router;
+  }
+});
+
+// TODO: PATCH /users/:id - Update user profile (own profile only); 403 if not owner, 404 if not found, 400 if invalid data
+router.patch(
+  '/:id',
+  authenticate,
+  }
+);
+
+// TODO: DELETE /users/:id - Soft delete user account (own account or admin); 403 if unauthorized, 404 if not found
+router.delete(
+  '/:id',
+  authenticate,
+  }
+);
+
+// TODO: GET /users/:id/tasks - List tasks created by or assigned to user; 404 if user not found
+router.get('/:id/tasks', async (req, res, next) => {
+  try {
+    // TODO: Fetch user tasks
+  }
+});
+
+// TODO: GET /users/:id/proposals - List proposals submitted by user; 404 if user not found, 401 if viewing other's proposals without permission
+router.get('/:id/proposals', authenticate, async (req, res, next) => {
+  try {
+    // TODO: Fetch user proposals
+  }
+});
+
+// TODO: GET /users/:id/reviews - List reviews for user (as freelancer or client); 404 if user not found
+router.get('/:id/reviews', async (req, res, next) => {
+  try {
+    // TODO: Fetch user reviews
+  }
+});
+
+// TODO: POST /users/:id/verify - Trigger email verification or identity verification; 400 if already verified, 404 if user not found
+router.post(
+  '/:id/verify',
+  authenticate,
+  }
+);
+
+// TODO: POST /users/:id/upload-avatar - Upload profile picture to S3/cloud storage; 400 if invalid file type/size, 404 if user not found
+router.post(
+  '/:id/upload-avatar',
+  authenticate,
+  }
+);
+
+// TODO: GET /users/search?q=&skills=&role= - Search users by name, skills, or role; 400 if missing required query params
+router.get('/search', async (req, res, next) => {
+  try {
+    // TODO: Search users
+  }
+});
+
+// TODO: GET /users/:id/portfolio - List user's portfolio items; 404 if user not found
+router.get('/:id/portfolio', async (req, res, next) => {
+  try {
+    // TODO: Fetch user portfolio
+  }
+});
+
+// TODO: POST /users/:id/portfolio - Add portfolio item (own profile only); 403 if not owner, 400 if invalid data, 404 if user not found
+router.post(
+  '/:id/portfolio',
+  authenticate,
+  }
+);
+
+// TODO: GET /users/:id/stats - Return aggregated user statistics (tasks completed, earnings, rating); 404 if user not found
+router.get('/:id/stats', async (req, res, next) => {
+  try {
+    // TODO: Fetch user stats
+  }
+});
+
+// TODO: POST /users/:id/ban - Admin only: ban/suspend user; 403 if not admin, 404 if user not found, 400 if already banned
+router.post(
+  '/:id/ban',
+  authenticate,
+  }
+);
+
+// TODO: POST /users/:id/unban - Admin only: unban user; 403 if not admin, 404 if user not found, 400 if not banned
+router.post(
+  '/:id/unban',
+  authenticate,
