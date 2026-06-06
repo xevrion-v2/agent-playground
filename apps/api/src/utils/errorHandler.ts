@@ -1,26 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
-import { ZodError } from 'zod';
 
-interface ApiError extends Error {
-  statusCode?: number;
+export class ApiError extends Error {
+  constructor(
+    public readonly statusCode: number,
+    public readonly message: string,
+    public readonly details?: any
+  ) {
+    super(message);
+    Object.setPrototypeOf(this, new.target.prototype);
+  }
 }
 
-export const handleApiError = (err: ApiError, req: Request, res: Response, next: NextFunction) => {
-  if (err instanceof ZodError) {
-    return res.status(400).json({
-      error: 'Validation Error',
-      message: 'Invalid request data',
-      details: err.errors
-    });
-  }
-
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Internal Server Error';
-  
+export const apiError = (res: Response, statusCode: number, message: string, details?: any) => {
   return res.status(statusCode).json({
-    error: err.name || 'Error',
-    message
-  });
+    error: {
+      message,
+      ...(details && { details })
+    });
 };
-
-export const apiErrorHandler = handleApiError;
