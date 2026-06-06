@@ -3,25 +3,25 @@ import { Request, Response } from 'express';
 
 const healthRouter = Router();
 
-// Health check endpoint
+// Liveness probe endpoint
 healthRouter.get('/health', (req: Request, res: Response) => {
   res.status(200).json({
     status: 'success',
     data: {
-      message: 'OK',
-      timestamp: new Date().toISOString(),
-    },
+      message: 'Healthy',
+      timestamp: new Date().toISOString()
+    }
   });
 });
 
-// Readiness check endpoint  
+// Readiness probe endpoint
 healthRouter.get('/ready', (req: Request, res: Response) => {
   res.status(200).json({
     status: 'success',
     data: {
       message: 'Ready',
-      timestamp: new Date().toISOString(),
-    },
+      timestamp: new Date().toISOString()
+    }
   });
 });
 
