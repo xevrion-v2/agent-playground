@@ -60,50 +60,37 @@ before opening your PR.
 
 ### Run frontend
 
-npm run dev -w apps/web
-
-### Run backend
-
-npm run dev -w apps/api
-
-and integrations.
-
-## Environment Variables
-
-Each application requires specific environment variables to be set for proper functionality. Below are the expected environment variables for each app:
-
-### Web App (`apps/web`)
-
-The web application requires the following environment variables:
-
-- `NEXT_PUBLIC_API_BASE_URL` - The base URL for the API server (e.g., http://localhost:3001)
-- `NEXT_PUBLIC_APP_BASE_URL` - The base URL for the web application (e.g., http://localhost:3000)
-- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Stripe publishable key for frontend payments integration
-
-### API App (`apps/api`)
-
-The backend API requires the following environment variables:
-
-- `DATABASE_URL` - Connection string for the PostgreSQL database
-- `JWT_SECRET` - Secret key for JWT token signing and verification
-- `STRIPE_SECRET_KEY` - Stripe secret key for payments integration
-- `STRIPE_WEBHOOK_SECRET` - Secret for verifying Stripe webhook events
-- `GITHUB_CLIENT_ID` - GitHub OAuth client ID
-- `GITHUB_CLIENT_SECRET` - GitHub OAuth client secret
-- `GOOGLE_CLIENT_ID` - Google OAuth client ID
-- `GOOGLE_CLIENT_SECRET` - Google OAuth client secret
-- `AWS_ACCESS_KEY_ID` - AWS access key for S3 integration
-- `AWS_SECRET_ACCESS_KEY` - AWS secret key for S3 integration
-- `AWS_REGION` - AWS region for S3 integration
-- `AWS_BUCKET_NAME` - AWS S3 bucket name for file storage
-- `REDIS_URL` - Connection string for Redis instance (optional)
-
-Make sure to set these environment variables in a `.env` file in each app's root directory or pass them through your deployment environment.
 with models for:
 - Users
 - Tasks
-- Proposals
-- Payments
+## Environment Variables
+
+### Web App
+
+The web app expects the following environment variables:
+
+NEXT_PUBLIC_API_URL - The URL of the backend API
+
+### API App
+
+The API app expects the following environment variables:
+
+DATABASE_URL - Connection string for the database
+JWT_SECRET - Secret key for JWT token signing/verification
+GITHUB_CLIENT_ID - GitHub OAuth client ID
+GITHUB_CLIENT_SECRET - GitHub OAuth client secret
+GOOGLE_CLIENT_ID - Google OAuth client ID
+GOOGLE_CLIENT_SECRET - Google OAuth client secret
+STRIPE_PUBLISHABLE_KEY - Stripe publishable key for frontend
+STRIPE_SECRET_KEY - Stripe secret key for backend
+STRIPE_WEBHOOK_SECRET - Stripe webhook secret
+OPENAI_API_KEY - OpenAI API key for AI features
+RESEND_API_KEY - Resend API key for email services
+
+## Environment Variables
+
+Each app/package expects its own .env values for DB, auth, 
+and integrations.
 - Reviews
 - Messages
 - Categories
