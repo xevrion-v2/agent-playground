@@ -60,54 +60,43 @@ before opening your PR.
 
 ### Run frontend
 
-npm run dev -w apps/web
-
-### Run backend
-
-npm run dev -w apps/api
-
-## Database
-
-Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
 - Users
 - Tasks
-- Proposals
 - Payments
+- Reviews
+- Messages
+
+- Skills
+
+## Environment Variables
+### Web App
+
+The web app expects the following environment variables:
+
+- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`: Stripe publishable key for client-side Stripe functions
+- `NEXT_PUBLIC_BASE_API_URL`: The base URL for API requests, e.g. `http://localhost:3001` in development
+
+### API App
+
+The API app expects the following environment variables:
+
+- `PORT`: The port the API should run on, defaults to 3001
+- `DATABASE_URL`: The connection string for the database, e.g. `file:../db/dev.db`
+- `JWT_SECRET`: The secret used to sign JWTs
+- `STRIPE_SECRET_KEY`: The secret key for Stripe API
+- `STRIPE_WEBHOOK_SECRET`: The webhook secret for Stripe webhooks
+
+> **Note:** These values can be stored in a `.env` file in each app's directory (`apps/web/.env` and `apps/api/.env` respectively).
+
+Each app/package expects its own .env values for DB, auth, 
+and integrations.
 - Reviews
 - Messages
 - Categories
 - Skills
 
-
 ## Environment Variables
 
-Each app/package expects its own `.env` file with values for DB, auth, 
-and integrations. Copy the examples below into `apps/web/.env` and 
-`apps/api/.env` respectively, then fill in the real secrets.
-
-### Web (`apps/web/.env`)
-
-| Variable | Description |
-|----------|-------------|
-| `NEXT_PUBLIC_API_URL` | Base URL of the API (e.g. `http://localhost:3001`) |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key for client-side checkout |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk frontend API key (if using Clerk auth) |
-| `CLERK_SECRET_KEY` | Clerk secret key for server-side auth |
-
-### API (`apps/api/.env`)
-
-| Variable | Description |
-|----------|-------------|
-| `DATABASE_URL` | PostgreSQL connection string (e.g. `postgresql://user:pass@localhost:5432/taskflow`) |
-| `JWT_SECRET` | Secret key for signing JWT access tokens |
-| `JWT_REFRESH_SECRET` | Secret key for signing JWT refresh tokens |
-| `STRIPE_SECRET_KEY` | Stripe secret key for payment processing |
-| `STRIPE_WEBHOOK_SECRET` | Stripe webhook endpoint secret |
-| `CLERK_SECRET_KEY` | Clerk secret key for auth verification |
-| `AWS_ACCESS_KEY_ID` | AWS access key for S3 file uploads |
-| `AWS_SECRET_ACCESS_KEY` | AWS secret key for S3 file uploads |
-| `AWS_S3_BUCKET` | S3 bucket name for file storage |
-| `REDIS_URL` | Redis connection string for caching/sessions (e.g. `redis://localhost:6379`) |
-| `PORT` | Port for the API server (default: `3001`) |
-| `NODE_ENV` | Environment mode: `development`, `production`, or `test` |
+Each app/package expects its own .env values for DB, auth, 
+and integrations.
