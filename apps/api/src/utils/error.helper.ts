@@ -1,16 +1,16 @@
 import { Response } from 'express';
 
 export interface ErrorResponse {
-  success: false;
+  success: boolean;
   error: {
     message: string;
     code: string;
   };
 }
 
-export const createErrorResponse = (message: string, code: string = 'INTERNAL_ERROR'): ErrorResponse => {
+export const createErrorResponse = (success: boolean, message: string, code: string = 'INTERNAL_ERROR'): ErrorResponse => {
   return {
-    success: false,
+    success: success,
     error: {
       message,
       code
@@ -18,6 +18,6 @@ export const createErrorResponse = (message: string, code: string = 'INTERNAL_ER
   };
 };
 
-export const sendApiError = (res: Response, message: string, code: string = 'INTERNAL_ERROR') => {
-  return res.status(400).json(createErrorResponse(message, code));
+export const sendApiError = (res: any, message: string, code: string = 'INTERNAL_ERROR') => {
+  return res.status(400).json(createErrorResponse(false, message, code));
 };
