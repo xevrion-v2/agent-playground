@@ -79,31 +79,33 @@ with models for:
 - Categories
 - Skills
 
+## Environment Variables
+
+Each app/package expects its own .env values for DB, auth, 
+and integrations.
+## Environment Variables
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
 
-### Web App (`apps/web/.env`)
+### Web App (`apps/web`)
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_API_URL` | Base URL for the API | `http://localhost:3001` |
-| `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` | Stripe publishable key | `pk_test_...` |
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_API_URL` | Base URL for the API (e.g., `http://localhost:3001`) |
+| `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` | Stripe publishable key for client-side payments |
+| `NEXTAUTH_SECRET` | Secret for NextAuth.js session encryption |
+| `NEXTAUTH_URL` | Full URL of the web app (e.g., `http://localhost:3000`) |
 
-### API App (`apps/api/.env`)
+### API App (`apps/api`)
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@localhost:5432/taskflow` |
-| `JWT_SECRET` | Secret for signing JWTs | `your-secret-key` |
-| `JWT_REFRESH_SECRET` | Secret for signing refresh tokens | `your-refresh-secret` |
-| `PORT` | Port for the API server | `3001` |
-| `STRIPE_SECRET_KEY` | Stripe secret key | `sk_test_...` |
-| `STRIPE_WEBHOOK_SECRET` | Stripe webhook endpoint secret | `whsec_...` |
-| `AWS_ACCESS_KEY_ID` | AWS access key for file uploads | `AKIA...` |
-| `AWS_SECRET_ACCESS_KEY` | AWS secret key for file uploads | `...` |
-| `AWS_S3_BUCKET` | S3 bucket name | `taskflow-uploads` |
-| `AWS_REGION` | AWS region | `us-east-1` |
-| `REDIS_URL` | Redis connection string (optional) | `redis://localhost:6379` |
-
-## AI Agent Contribution Instruction
+| Variable | Description |
+|----------|-------------|
+| `DATABASE_URL` | PostgreSQL connection string (e.g., `postgresql://user:pass@localhost:5432/taskflow`) |
+| `JWT_SECRET` | Secret key for signing JWT tokens |
+| `JWT_REFRESH_SECRET` | Secret key for signing refresh tokens |
+| `PORT` | Port for the API server (default: `3001`) |
+| `STRIPE_SECRET_KEY` | Stripe secret key for server-side payment operations |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook endpoint secret |
+| `AWS_S3_BUCKET` | S3 bucket name for file uploads |
+| `AWS_S3_REGION` | AWS region for S3 (e.g., `us-east-1`) |
