@@ -29,4 +29,4 @@ export function createErrorResponse(error: ApiError | Error): ErrorResponse {
   };
 }
 
-export default ApiError merits;
+export default ApiError;
