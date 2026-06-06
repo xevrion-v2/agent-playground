@@ -1,151 +1,17 @@
-// Model representing a user in the system
-// Model representing a user in the system
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password   String
-  name      String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  tasks     Task[]
-  proposals Proposal[]
-  reviews   Review[]
-  messages  Message[]
+// Prisma schema for TaskFlow - a task management SaaS platform
+generator client {
+  provider = "prisma-client-js"
 }
-
-// Model representing a task in the TaskFlow system
-model Task {
-  id          Int       @id @default(autoincrement())
-  title       String
-  description   String
-  budget       Float
-  deadline      DateTime
-  status      TaskStatus @default(OPEN)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  userId       Int
-  user        User      @relation(fields: [userId], references: [id])
-  proposals   Proposal[]
-  categories   Category[]
-  skills      Skill[]
-}
-
-// Model representing a proposal for a task
-model Proposal {
-  id        Int      @id @default(autoincrement())
-  content   String
-  price     Float
-  taskId     Int
-  task      Task     @relation(fields: [taskId], references: [id])
-  userId     Int
-  user      User     @relation(fields: [userId], references: [id])
-  status    ProposalStatus @default(PENDING)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-// Model representing a payment transaction
-model Payment {
-  id        Int      @id @default(autoincrement())
-  amount    Float
-  currency    String
-  status    PaymentStatus @default(PENDING)
-  userId     Int
-  user      User     @relation(fields: [userId], references: [id])
-  taskId     Int?
-  task      Task?    @relation(fields: [taskId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-// Model representing a review for a task
-model Review {
-  id        Int      @id @default(autoincrement())
-  rating     Int
-  comment    String?
-  reviewerId  Int
-  reviewer   User     @relation("ReviewRelation", fields: [reviewerId], references: [id])
-  revieweeId Int
-  reviewee   User     @relation("ReviewRelation", fields: [revieweeId], references: [id])
-  taskId     Int
-  task      Task     @relation(fields: [taskId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-// Model representing a message between users
-model Message {
-  id        Int      @id @default(autoincrement())
-  content   String
-  senderId   Int
-  sender    User     @relation("MessageRelation", fields: [senderId], references: [id])
-  receiverId Int
-  receiver   User     @relation("MessageRelation", fields: [receiverId], references: [id])
-  taskId     Int?
-  task      Task?    @relation(fields: [taskId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-// Model representing a category for tasks
-model Category {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  tasks     Task[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-// Model representing a skill associated with users and tasks
-model Skill {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  users     User[]
-  tasks     Task[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-// Enum for task status
-enum TaskStatus {
-  OPEN
-  IN_PROGRESS
-  COMPLETED
-  ARCHIVED
-}
-
-// Enum for proposal status
-enum ProposalStatus {
-  PENDING
-  ACCEPTED
-  REJECTED
-}
-
-// Enum for payment status
-enum PaymentStatus {
-  PENDING
-  COMPLETED
-  FAILED
-  REFUNDED
-}
-
-// Enum for user roles
-enum Role {
-  USER
-  FREELANCER
-  CLIENT
-  ADMIN
-}
-  email     String   @unique
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+// Represents a user in the system. Can be a client (posts tasks) or freelancer (completes tasks).
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
+  id        String   @id @default(uuid())
+  email     String   @unique
   name      String?
   jobs      Job[]
   proposals Proposal[]
@@ -155,12 +21,13 @@ model User {
 
 model Job {
   id          String     @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+// Represents a task posted by a client. Freelancers can submit proposals to complete it.
+model Task {
+  id          String   @id @default(uuid())
   title       String
-  description String?
-  status      String     @default("draft")
-  ownerId     String
-  owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
@@ -169,11 +36,47 @@ model Proposal {
   id        String   @id @default(cuid())
   summary   String
   amount    Decimal?
-  status    String   @default("pending")
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  jobId     String
-  job       Job      @relation(fields: [jobId], references: [id])
-  createdAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Represents a freelancer's bid/proposal to complete a specific task.
+model Proposal {
+  id          String   @id @default(uuid())
+  taskId      String
   updatedAt DateTime @updatedAt
 }
+  updatedAt   DateTime @updatedAt
+}
+
+// Represents a payment transaction between a client and freelancer for a completed task.
+model Payment {
+  id        String   @id @default(uuid())
+  taskId    String
+  updatedAt DateTime @updatedAt
+}
+
+// Represents a review left by a client for a freelancer after task completion.
+model Review {
+  id        String   @id @default(uuid())
+  taskId    String
+  updatedAt DateTime @updatedAt
+}
+
+// Represents a direct message sent between two users in the platform.
+model Message {
+  id         String   @id @default(uuid())
+  senderId   String
+  updatedAt  DateTime @updatedAt
+}
+
+// Represents a task category used to organize and filter tasks.
+model Category {
+  id          String @id @default(uuid())
+  name        String @unique
+  tasks       Task[]
+}
+
+// Represents a skill that freelancers can add to their profiles and clients can require for tasks.
+model Skill {
+  id          String @id @default(uuid())
+  name        String @unique
