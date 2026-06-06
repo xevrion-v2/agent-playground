@@ -1,26 +1,24 @@
 /**
- * Infinite sequence iterator utility.
+ * Infinite sequence utility module.
  *
- * Provides a generator-based infinite sequence that yields incrementing
- * numbers starting from a given value. Includes safe iteration helpers
- * to prevent accidental infinite loops.
+ * Provides a safe, iterable generator for producing infinite sequences
+ * with configurable start, step, and optional max iteration limits.
  */
 
-/**
- * Options for creating an infinite sequence.
- */
-export interface InfiniteSequenceOptions {
-  /** Starting value for the sequence (default: 0) */
+export interface SequenceOptions {
+  /** Starting value of the sequence (default: 0) */
   start?: number;
-  /** Step increment between values (default: 1) */
+  /** Increment between each value (default: 1) */
   step?: number;
+  /** Maximum number of iterations (undefined = truly infinite) */
+  maxIterations?: number;
 }
 
 /**
- * Creates an infinite generator that yields numbers.
+ * Creates an infinite (or bounded) sequence generator.
  *
  * @param options - Configuration for the sequence
- * @yields Incrementing numbers based on start and step
+ * @yields Numbers in the configured sequence
  *
  * @example
  * 
