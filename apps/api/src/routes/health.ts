@@ -1,8 +1,10 @@
 import { Router } from 'express';
+import { Request, Response } from 'express';
 
 const healthRouter = Router();
 
-healthRouter.get('/', (req, res) => {
+// Health check endpoint
+healthRouter.get('/health', (req: Request, res: Response) => {
   res.status(200).json({
     status: 'success',
     data: {
@@ -12,11 +14,13 @@ healthRouter.get('/', (req, res) => {
   });
 });
 
-healthRouter.get('/ready', (req, res) => {
+// Readiness check endpoint  
+healthRouter.get('/ready', (req: Request, res: Response) => {
   res.status(200).json({
     status: 'success',
     data: {
       message: 'Ready',
+      timestamp: new Date().toISOString(),
     },
   });
 });
