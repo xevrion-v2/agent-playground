@@ -1,19 +1,16 @@
-import { Router } from 'express';
-import { register, login } from '../controllers/auth.controller';
-import { handleApiError } from '../utils/errorHandler';
+import { Router, Request, Response } from 'express';
+import { createAPIError, sendAPIErrorResponse } from '../utils/apiError';
 
 const router = Router();
 
-// Example route using the error handler
-router.post('/register', (req, res, next) => {
+// Example usage of the error helper
+router.post('/example-error', (req: Request, res: Response) => {
   try {
-    // Validation would happen here
-    register(req, res, next);
+    // Some logic that might fail
+    throw createAPIError(400, 'Example error message', 'EXAMPLE_ERROR');
   } catch (error) {
-    next(error);
+    sendAPIErrorResponse(error, res);
   }
 });
-
-router.post('/login', login);
 
 export default router;
