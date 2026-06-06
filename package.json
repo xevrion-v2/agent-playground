@@ -1,30 +1,14 @@
 {
-  "name": "taskflow-monorepo",
-  "version": "1.0.1",
-  "description": "TaskFlow monorepo",
-  "scripts": {
-    "build": "npm run build --workspaces",
-    "dev": "npm run dev --workspaces",
-    "test": "npm run test --workspaces"
-  },
+  "name": "@taskflow/monorepo",
+  "version": "1.0.0",
+  "description": "TaskFlow - Full-stack task management SaaS monorepo",
+  "private": true,
   "workspaces": [
     "apps/*",
-    "packages/*",
-    "utilities"
+    "packages/*"
   ],
-  "dependencies": {
-    "typescript": "^5.0.0"
-  },
-  "keywords": [],
-  "workspaces": [
-    "apps/*",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/xevrion-v2/agent-playground.git"
-  },
-  "author": "TaskFlow Team",
-  "license": "MIT"
-}
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "format": "npm run format --workspaces --if-present"
@@ -33,3 +17,17 @@
     "node": ">=20"
   }
 }
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "test:utils": "jest --projects packages/utils"
+  },
+  "devDependencies": {
+    "turbo": "^1.10.12"
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "packages/utils"
+  ],
+  "packageManager": "npm@9.6.7",
+  "dependencies": {
