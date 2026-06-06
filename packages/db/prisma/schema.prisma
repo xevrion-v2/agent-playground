@@ -1,4 +1,4 @@
-// Prisma schema for TaskFlow — a task management SaaS platform connecting clients and freelancers
+// Prisma schema for TaskFlow - a task management SaaS platform
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,7 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Core user accounts with role-based access (client, freelancer, admin)
+// Represents a user in the TaskFlow system, including both clients and freelancers
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -24,7 +24,7 @@ model Job {
   updatedAt DateTime @updatedAt
 }
 
-// Tasks posted by clients; freelancers submit proposals to complete them
+// Represents a task posted by a client that freelancers can propose to complete
 model Task {
   id          String   @id @default(cuid())
   title       String
@@ -40,43 +40,43 @@ model Proposal {
   updatedAt   DateTime @updatedAt
 }
 
-// Proposals submitted by freelancers in response to tasks
+// Represents a freelancer's proposal to complete a specific task
 model Proposal {
-  id          String   @id @default(cuid())
-  taskId      String
+  id       String @id @default(cuid())
+  taskId   String
 }
-  updatedAt   DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
-// Payment records for task milestones and escrow tracking
+// Represents a payment transaction between a client and freelancer for a completed task
 model Payment {
   id        String   @id @default(cuid())
   taskId    String
   updatedAt DateTime @updatedAt
 }
 
-// Reviews and ratings exchanged between clients and freelancers after task completion
+// Represents a review left by a user for another user after task completion
 model Review {
   id        String   @id @default(cuid())
-  taskId    String
+  reviewerId String
   updatedAt DateTime @updatedAt
 }
 
-// Direct messages between users within the platform
+// Represents a message sent between users within the TaskFlow messaging system
 model Message {
-  id         String   @id @default(cuid())
+  id        String   @id @default(cuid())
   senderId   String
-  updatedAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
-// Task categories for organizing and filtering tasks
+// Represents a category for organizing tasks (e.g., Web Development, Design)
 model Category {
-  id          String @id @default(cuid())
-  name        String @unique
-  tasks       Task[]
+  id        String   @id @default(cuid())
+  name      String   @unique
+  tasks     Task[]
 }
 
-// Skills that freelancers can list and clients can require for tasks
+// Represents a skill that freelancers can have and tasks may require
 model Skill {
-  id          String @id @default(cuid())
-  name        String @unique
+  id        String   @id @default(cuid())
+  name      String   @unique
