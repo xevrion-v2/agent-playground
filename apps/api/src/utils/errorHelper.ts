@@ -1,8 +1,8 @@
 import { Response } from 'express';
 
-interface ErrorResponse {
+interface ApiError {
   message: string;
-  code: string;
+  code?: string;
   statusCode: number;
   details?: any;
 }
@@ -10,11 +10,16 @@ interface ErrorResponse {
 export const sendApiError = (
   res: Response,
   message: string,
-  code: string,
-  statusCode: number = 400,
+  code: string = 'INTERNAL_ERROR',
+  statusCode: number = 500,
   details?: any
 ): void => {
-  res.status(statusCode).json({
-    error: { message, code, statusCode, details }
-  } as ErrorResponse);
+  const errorResponse: ApiError = {
+    message,
+    code,
+    statusCode,
+    details
+  };
+  
+  res.status(statusCode).json({ error: errorResponse });
 };
