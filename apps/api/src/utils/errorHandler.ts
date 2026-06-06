@@ -1,33 +1,29 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response } from 'express';
 
-export class ApiError extends Error {
-  constructor(
-    public readonly statusCode: number,
-    public readonly message: string,
-    public readonly details?: any
-  ) {
-    super(message);
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
+interface ErrorResponse {
+  success: false;
+  error: {
+    message: string;
+    code?: string;
+    details?: any;
+  };
 }
 
-export const apiError = (res: Response, statusCode: number, message: string, details?: any) => {
-  return res.status(statusCode).json({
+export const sendApiError = (
+  res: Response,
+  message: string,
+  status: number = 400,
+  code?: string,
+  details?: any
+): void => {
+  const errorResponse: ErrorResponse = {
+    success: false,
     error: {
       message,
+      ...(code && { code }),
       ...(details && { details })
     }
-  });
-};
-
-export const handleError = (err: any, req: Request, res: Response, next: NextFunction) => {
-  if (err instanceof ApiError) {
-    return res.status(err.statusCode).json({
-      error: {
-        message: err.message,
-        ...(err.details && { details: err.details })
-      }
-    });
-  }
-  next(err);
+  };
+  
+  res.status(status).json(errorResponse);
 };
