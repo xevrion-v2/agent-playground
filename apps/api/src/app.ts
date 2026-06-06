@@ -1,14 +1,15 @@
-import express from "express";
-import cors from "cors";
-import routes from "./routes";
-import { errorHandler } from "./middleware/errorHandler";
+import express from 'express';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler';
+import healthRouter from './routes/health';
 
 const app = express();
 
-// Routes
-app.use("/api", routes);
+app.use(express.json());
 
-// Error handling middleware
+app.use('/api', healthRouter);
+
+app.use(notFoundHandler);
+
 app.use(errorHandler);
 
 export default app;
