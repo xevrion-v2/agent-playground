@@ -1,41 +1,51 @@
 import * as React from 'react';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'destructive' | 'ghost';
-export type ButtonSize = 'sm' | 'md' | 'lg';
-
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps {
   /**
-   * Button variant style
-   * @default 'primary'
+   * The content of the button
    */
-  variant?: ButtonVariant;
+  children: React.ReactNode;
   
   /**
-   * Button size
-   * @default 'md'
+   * Optional variant for styling
    */
-  size?: ButtonSize;
+  variant?: 'primary' | 'secondary' | 'danger' | 'outline';
   
   /**
-   * Makes button take full width of container
-   * @default false
+   * Optional size modifier
    */
-  fullWidth?: boolean;
+  size?: 'small' | 'medium' | 'large';
   
   /**
-   * Disables the button
-   * @default false
+   * Optional click handler
+   */
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  
+  /**
+   * Optional disabled state
    */
   disabled?: boolean;
   
   /**
-   * Loading state
-   * @default false
+   * Optional additional class names
    */
-  loading?: boolean;
-  
-  /**
-   * Button content
-   */
-  children: React.ReactNode;
+  className?: string;
 }
+
+export const Button: React.FC<ButtonProps> = ({
+  children,
+  variant = 'primary',
+  size = 'medium',
+  className = '',
+  ...props
+}) => {
+  // Button implementation would go here
+  return (
+    <button 
+      className={`btn btn-${variant} btn-${size} ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
