@@ -1,16 +1,21 @@
-import { Request, Response, NextFunction } from "express";
-import { handleAPIError, APIError } from "../utils/apiError";
+import { Request, Response, NextFunction } from 'express';
+import { ApiError, sendError } from '../utils/apiError';
 
 export function errorHandler(
   err: Error,
   req: Request,
   res: Response,
   next: NextFunction
-) {
-  if (err instanceof APIError) {
-    return res.status(err.statusCode).json(handleAPIError(err));
+): void {
+  if (err instanceof ApiError) {
+    sendError(res, err.message, err.status, err.code);
+    return;
   }
 
-  console.error("Unhandled error:", err);
-  return res.status(500).json(handleAPIError(err));
+  console.error('Unexpected error:', err);
+  sendError(res, 'Internal server error', 500);
+}
+
+export function notFoundHandler(req: Request, res: Response): void {
+  sendError(res, 'Resource not found', 404, 'NOT_FOUND');
 }
