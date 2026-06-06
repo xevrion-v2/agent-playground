@@ -6,7 +6,7 @@
       "version": "2026-06-06",
       "issue": 17,
       "approach": "Exact finite pi prefix auditor with Machin BigInt arithmetic, grouped chunks, and SHA-256 certificates",
-      "pr_number": null
+      "pr_number": 996
     }
   ],
   "last_updated": "2026-06-06",
