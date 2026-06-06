@@ -1,5 +1,3 @@
-<!-- markdownlint-disable MD033 -->
-
 # TaskFlow Monorepo
 
 <img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
@@ -62,39 +60,7 @@ before opening your PR.
 
 ### Run frontend
 
-## Database
-<!-- markdownlint-disable MD033 -->
-
-Prisma schema is available in packages/db/prisma/schema.prisma 
-with models for:
-- Users
-- Tasks
-- Proposals
-- Payments
-- Reviews
-- Messages
-- Categories
-- Skills
-
-## Bug Bounty Program
-
-This repository runs an open bug bounty program.
-
-If you find a bug, security issue, or improvement opportunity
-in this codebase, you are encouraged to:
-
-1. Open a new issue describing the problem
-2. Include `/bounty $[amount]` in your issue body
-3. Reference issue #33 in your new issue
-4. Submit a PR with the fix
-
-Bounty amounts are at contributor discretion based on severity:
-- Low: $50-$200
-- Medium: $200-$500
-- High: $500-$1200
-
-All issues and PRs are welcome. The more specific your
-description, the better.
+npm run dev -w apps/web
 
 ### Run backend
 
@@ -117,3 +83,19 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+and integrations.
+
+## Bug Bounty Program
+
+This repository runs an open bug bounty program. If you find a bug, security issue, or improvement opportunity in this codebase, you are encouraged to:
+
+- Open a new issue describing the problem
+- Include the bounty amount using the format `/bounty $[amount]` in your issue body
+- Reference [this issue](#33) in your new issue
+- Submit a pull request with the fix
+
+Bounty amounts are at contributor discretion based on severity:
+
+- Low: $50-$200
+- Medium: $200-$500
+- High: $500-$1200
