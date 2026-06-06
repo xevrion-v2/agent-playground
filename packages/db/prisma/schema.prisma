@@ -8,7 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Represents a user in the TaskFlow system, including both clients and freelancers
+/// Represents a user in the TaskFlow platform. Users can be clients who post tasks or freelancers who complete them.
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -24,7 +24,7 @@ model Job {
   updatedAt DateTime @updatedAt
 }
 
-// Represents a task posted by a client that freelancers can propose to complete
+/// Represents a task posted by a client. Tasks are the core unit of work in the TaskFlow domain and can receive proposals from freelancers.
 model Task {
   id          String   @id @default(cuid())
   title       String
@@ -36,47 +36,47 @@ model Proposal {
   id        String   @id @default(cuid())
   summary   String
   amount    Decimal?
-  status    String   @default("pending")
   updatedAt   DateTime @updatedAt
 }
 
-// Represents a freelancer's proposal to complete a specific task
+/// Represents a proposal submitted by a freelancer to work on a task. Proposals connect freelancers with tasks they want to complete.
 model Proposal {
   id       String @id @default(cuid())
   taskId   String
+  updatedAt DateTime @updatedAt
 }
   updatedAt DateTime @updatedAt
 }
 
-// Represents a payment transaction between a client and freelancer for a completed task
+/// Represents a payment transaction for a completed task. Payments facilitate the financial exchange between clients and freelancers.
 model Payment {
-  id        String   @id @default(cuid())
-  taskId    String
+  id     String @id @default(cuid())
+  taskId String
   updatedAt DateTime @updatedAt
 }
 
-// Represents a review left by a user for another user after task completion
+/// Represents a review left by a user for another user after task completion. Reviews help build trust and reputation in the platform.
 model Review {
-  id        String   @id @default(cuid())
-  reviewerId String
+  id      String @id @default(cuid())
+  taskId  String
   updatedAt DateTime @updatedAt
 }
 
-// Represents a message sent between users within the TaskFlow messaging system
+/// Represents a message sent between users in the TaskFlow messaging system. Messages enable communication between clients and freelancers.
 model Message {
-  id        String   @id @default(cuid())
-  senderId   String
+  id       String @id @default(cuid())
+  senderId String
   updatedAt DateTime @updatedAt
 }
 
-// Represents a category for organizing tasks (e.g., Web Development, Design)
+/// Represents a category for organizing tasks. Categories help users discover and filter tasks by type of work.
 model Category {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  tasks     Task[]
+  id    String @id @default(cuid())
+  name  String @unique
+  updatedAt DateTime @updatedAt
 }
 
-// Represents a skill that freelancers can have and tasks may require
+/// Represents a skill that users can associate with their profiles. Skills help match freelancers with relevant tasks.
 model Skill {
-  id        String   @id @default(cuid())
-  name      String   @unique
+  id    String @id @default(cuid())
+  name  String @unique
