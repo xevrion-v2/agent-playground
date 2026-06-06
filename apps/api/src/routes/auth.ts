@@ -1,20 +1,15 @@
 import { Router, Request, Response } from 'express';
-import { body, validationResult } from 'express-validator';
-import { handleApiError } from '../utils/apiErrorHelper';
-import { registerUser } from '../services/authService';
+import { z } from 'zod';
+import { prisma } from '@taskflow/db';
+import { ApiError, sendApiError } from '../utils/apiError';
 
-const register = async (req: Request, res: Response) => {
+const router = Router();
+
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return handleApiError({ message: 'Validation failed', errors: errors.array() }, req, res, () => {});
-    }
-
-    // Registration logic here
+    const validatedData = registerSchema.parse(req.body);
   } catch (error) {
-    return handleApiError(error, req, res, () => {});
+    const apiError = new ApiError({ statusCode: 400, message: 'Invalid input' });
+    return sendApiError(res, apiError);
   }
-};
 
-const login = async () => {
-};
+  // TODO: Implement registration logic
