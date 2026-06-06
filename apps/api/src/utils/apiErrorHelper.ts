@@ -1,9 +1,10 @@
 import { Response } from 'express';
 
-interface ErrorResponse {
+interface ApiErrorResponse {
   success: boolean;
   error: {
     message: string;
+    code?: string;
   };
   status: number;
 }
@@ -11,24 +12,23 @@ interface ErrorResponse {
 export const sendApiError = (
   res: Response,
   message: string,
-  status: number = 500
+  status: number = 500,
+  code?: string
 ): Response => {
   return res.status(status).json({
     success: false,
     error: {
-      message
+      message,
+      ...(code && { code })
     },
     status
   });
 };
 
-export const createApiError = (
-  message: string,
-  status: number = 500
-): ErrorResponse => ({
-  success: false,
-  error: {
-    message
-  },
-  status
-});
+export const sendApiSuccess = (
+  res: Response,
+  data: any,
+  status: number = 200
+): Response => {
+  return res.status(status).json({ success: true, data });
+};
