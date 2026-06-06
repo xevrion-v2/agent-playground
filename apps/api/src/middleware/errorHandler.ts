@@ -1,34 +1,16 @@
-import { Request, Response, NextFunction } from 'express';
-import { ApiError } from '../utils/apiError';
+import { Request, Response, NextFunction } from "express";
+import { handleAPIError, APIError } from "../utils/apiError";
 
-interface ErrorResponse {
-  error: {
-    message: string;
-    code?: string;
-    details?: Record<string, any>;
-  };
-  status: number;
-}
-
-export const errorHandler = (
-  err: Error | ApiError,
-  _req: Request,
+export function errorHandler(
+  err: Error,
+  req: Request,
   res: Response,
-  _next: NextFunction
-): void => {
-  const statusCode = err instanceof ApiError ? err.status : 500;
-  const message = err.message || 'Internal Server Error';
-  const code = err instanceof ApiError ? err.code : 'INTERNAL_ERROR';
-  const details = err instanceof ApiError ? err.details : undefined;
+  next: NextFunction
+) {
+  if (err instanceof APIError) {
+    return res.status(err.statusCode).json(handleAPIError(err));
+  }
 
-  const errorResponse: ErrorResponse = {
-    error: {
-      message,
-      code,
-      ...(details && { details })
-    },
-    status: statusCode
-  };
-
-  res.status(statusCode).json(errorResponse);
-};
+  console.error("Unhandled error:", err);
+  return res.status(500).json(handleAPIError(err));
+}
