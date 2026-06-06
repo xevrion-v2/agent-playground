@@ -1,158 +1,106 @@
 // TaskFlow Prisma Schema
-// 
-// This file contains the database schema definition for the TaskFlow application.
-// Each model represents a core domain entity in the TaskFlow system.
+//
+// This file contains the Prisma models for the TaskFlow domain.
+// Each model represents a core entity in the TaskFlow task management system.
 
-// User represents a registered user of the TaskFlow platform.
-// Users can be clients, freelancers, or admins.
-model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  passwordHash   String
-  name          String?
-  role          String    @default("USER")
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  tasks         Task[]
-  proposals     Proposal[]
-  payments       Payment[]
-  reviews       Review[]
-  messages      Message[]
-  sentMessages  Message[] @relation("sentMessages")
-  notifications  Notification[]
-  settings      Setting[]
-  @@map("users")
-}
-
-// Task represents a work item that can be assigned to freelancers.
-// Tasks have titles, descriptions, deadlines, and status tracking.
-model Task {
-  id            String    @id @default(cuid())
-  title         String
-  description    String?
-  deadline        DateTime?
-  status        String    @default("OPEN")
-  clientId        String
-  client        User      @relation(fields: [clientId], references: [id])
-  category       String
-  skills        String[]
-  proposals     Proposal[]
-  reviews       Review[]
-  @@map("tasks")
-}
-
-// Proposal represents a freelancer's bid on a task.
-// Proposals include cover letters, proposed rates, and status.
-model Proposal {
-  id            String    @id @default(cuid())
-  coverLetter   String
-  rate          Int
-  status        String    @default("PENDING")
-  taskId         String
-  task          Task      @relation(fields: [taskId], references: [id])
-  freelancerId   String
-  freelancer     User      @relation(fields: [freelancerId], references: [id])
-  @@map("proposals")
-}
-
-// Payment represents a financial transaction in the system.
-// Tracks payment details including amount, status, and method.
-model Payment {
-  id            String    @id @default(cuid())
-  amount        Int
-  currency       String
-  status        String
-  method        String
-  taskId         String
-  task          Task      @relation(fields: [taskId], references: [id])
-  clientId        String
-  client         User      @relation(fields: [clientId], references: [id])
-  freelancerId   String
-  freelancer     User      @relation(fields: [freelancerId], references: [id])
-  @@map("payments")
-}
-
-// Review represents feedback on completed tasks or user performance.
-// Reviews include ratings and commentaries.
-model Review {
-  id            String    @id @default(cuid())
-  rating        Int
-  comment        String?
-  taskId         String
-  task          Task      @relation(fields: [taskId], references: [id])
-  reviewerId     String
-  reviewer        User      @relation("Reviewer", fields: [reviewerId], references: [id])
-  revieweeId    String
-  reviewee       User      @relation("Reviewee", fields: [revieweeId], references: [id])
-  @@map("reviews")
-}
-
-// Message represents private messages between users.
-// Messages are used for communication within the platform.
-model Message {
-  id            String    @id @default(cuid())
-  content       String
-  timestamp      DateTime  @default(now())
-  senderId      String
-  sender        User      @relation("Sender", fields: [senderId], references: [id])
-  receiverId     String
-  receiver       User      @relation("Receiver", fields: [receiverId], references: [id])
-  @@map("messages")
-}
-
-// Notification represents system or user-generated alerts.
-// Notifications can be for task updates, messages, or platform events.
-model Notification {
-  id            String    @id @default(cuid())
-  type          String
-  message       String
-  read          Boolean   @default(false)
-  userId         String
-  user          User      @relation(fields: [userId], references: [id])
-  timestamp      DateTime  @default(now())
-  @@map("notifications")
-}
-
-// Setting stores user preferences and configurations.
-// Settings are stored as key-value pairs for flexibility.
-model Setting {
-  id            String    @id @default(cuid())
-  key           String
-  value         String
-  userId         String
-  user          User      @relation(fields: [userId], references: [id])
-  @@map("settings")
-}
-
-// Category represents task categories for organization.
-// Categories help classify and filter tasks.
-model Category {
-  id            String    @id @default(cuid())
-  name          String    @unique
-  tasks         Task[]
-  @@map("categories")
-}
-
-// Skill represents abilities that users can have and tasks can require.
-// Skills are used to match freelancers with appropriate tasks.
-model Skill {
-  id            String    @id @default(cuid())
-  name          String    @unique
-  users         User[]
-  tasks         Task[]
-  @@map("skills")
-}
-
-// Admin represents administrative users with special privileges.
-// Admins can access special platform controls and oversight features.
-model Admin {
-  id            String    @id @default(cuid())
-  user          User      @relation(fields: [userId], references: [id])
-  userId         String
-  permissions     String[]
-  @@map("admins")
-}
+generator client {
   provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User represents a person using the TaskFlow platform
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  email     String   @unique
+  password   String
+  name      String?
+  tasks     Task[]
+  proposals Proposal[]
+  payments   Payment[]
+  reviews   Review[]
+  messages  Message[]
+}
+
+// Task represents a unit of work in the TaskFlow system
+model Task {
+  id        Int      @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  title     String
+  description String
+  status    String
+  userId     Int
+  user      User     @relation(fields: [userId], references: [id])
+  proposals Proposal[]
+}
+
+// Proposal represents a user's bid on a task
+model Proposal {
+  id        Int      @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  content   String
+  userId     Int
+  taskId     Int
+  user      User     @relation(fields: [userId], references: [id])
+  task      Task     @relation(fields: [taskId], references: [id])
+}
+
+// Payment represents a financial transaction in the TaskFlow system
+model Payment {
+  id        Int      @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  amount    Float
+  userId     Int
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+// Review represents user feedback for completed tasks
+model Review {
+  id        Int      @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  content   String
+  rating     Int
+  userId     Int
+  reviewer    User     @relation(fields: [userId], references: [id])
+}
+
+// Message represents a communication between users
+model Message {
+  id        Int      @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  content   String
+  senderId  Int
+  receiverId Int
+  sender    User     @relation("MessageSender", fields: [senderId], references: [id])
+  receiver   User     @relation("MessageReceiver", fields: [receiverId], references: [id])
+}
+
+// Category groups tasks by type
+model Category {
+  id        Int      @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  name      String   @unique
+  tasks     Task[]
+}
+
+// Skill represents a competency that users can have
+model Skill {
+  id        Int      @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  name      String   @unique
+  users     User[]
 }
 
 datasource db {
