@@ -61,30 +61,15 @@ before opening your PR.
 ### Run frontend
 
 npm run dev -w apps/web
-before opening your PR.
+## Database
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Prisma schema is available in packages/db/prisma/schema.prisma 
 
 ## Environment Variables
 
-### Web App
-The web app expects the following environment variables:
-- `NEXT_PUBLIC_API_URL` - The URL of the API server
-- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Stripe publishable key for client-side operations
+### Web App (`apps/web`)
 
-### API App
-The API app expects the following environment variables:
-- `DATABASE_URL` - Connection string for the database
-- `JWT_SECRET` - Secret key for JWT token signing
-- `STRIPE_SECRET_KEY` - Stripe secret key for server-side operations
-- `STRIPE_WEBHOOK_SECRET` - Secret for verifying Stripe webhook events
-- `GOOGLE_CLIENT_ID` - Google OAuth client ID
-- `GOOGLE_CLIENT_SECRET` - Google OAuth client secret
-- `GITHUB_CLIENT_ID` - GitHub OAuth client ID
-- `GITHUB_CLIENT_SECRET` - GitHub OAuth client secret
-- `REDIS_URL` - Connection string for Redis (optional)
-- `PORT` - Port for the server (default: 3001)
+The web app requires the following environment variables. Create a `.env.local` file in `apps/web`:
 
 
 
