@@ -1,6 +1,6 @@
-# TaskFlow Monorepo
-
-<img width="663" height="183" alt="TaskFlow Logo" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
+# TaskFlow Monore
+o
+<img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
 
 TaskFlow is a full-stack task management SaaS monorepo built 
@@ -37,12 +37,12 @@ The API includes:
 - File uploads and search
 - Admin routes
 
+Backend architecture follows:
 - Middleware layer (auth, rate limiting, error handling)
 - Controller layer
 - Service layer
 - Route layer
 - Validation schemas (Zod)
-- Utility helpers
 - Utility helpers
 
 ## Getting Started
