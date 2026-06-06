@@ -1,69 +1,64 @@
 /**
- * InfiniteSequence - A utility class for creating and managing infinite sequences
+ * InfiniteSequence - An infinite sequence iterator utility
  * 
- * This utility provides safe iteration over infinite sequences with built-in
- * safeguards against infinite loops and memory exhaustion.
+ * This utility provides a safe way to work with infinite sequences and iterators.
+ * It implements the iterator protocol and provides helper methods for working
+ * with infinite sequences in a memory-safe way.
  */
 
-export class InfiniteSequence<T> {
-  private generator: () => Generator<T, void, unknown>;
-  private _current: IteratorResult<T> | null = null;
+export class InfiniteSequence<T> implements Iterable<T> {
+  private generatorFunction: () => Generator<T, void, unknown>;
 
-  /**
-   * Creates a new InfiniteSequence
-   * @param generator A generator function that yields values infinitely
-   */
-  constructor(generator: () => Generator<T, void, unknown>) {
-    this.generator = generator;
+  constructor(generatorFunction: () => Generator<T, void, unknown>) {
+    this.generatorFunction = generatorFunction;
   }
 
   /**
-   * Gets the next value from the sequence
-   * @returns The next value in the sequence
+   * Implementation of the iterator protocol
    */
-  next(): T {
-    const gen = this.generator();
-    const result = gen.next();
-    this._current = result;
-    return result.value;
+  *[Symbol.iterator]() {
+    yield* this.generatorFunction();
   }
 
   /**
-   * Takes a specified number of elements from the sequence
-   * @param count Number of elements to take
-   * @returns Array of elements
+   * Takes a finite number of items from the sequence
+   * @param count - Number of items to take
+   * @returns Array of items
    */
   take(count: number): T[] {
     const result: T[] = [];
-    for (let i = 0; i < count; i++) {
-      result.push(this.next());
+    let i = 0;
+    for (const item of this) {
+      if (i >= count) break;
+      result.push(item);
+      i++;
     }
     return result;
   }
 
   /**
-   * Skips a specified number of elements from the sequence
-   * @param count Number of elements to skip
-   * @returns The sequence instance for chaining
+   * Maps the sequence using a transformation function
+   * @param fn - Transformation function
+   * @returns New InfiniteSequence with transformed values
    */
-  skip(count: number): this {
-    for (let i = 0; i < count; i++) {
-      this.next();
-    }
-    return this;
+  map<R>(fn: (item: T) => R): InfiniteSequence<R> {
+    const self = this;
+    return new InfiniteSequence<R>(function* () {
+      for (const item of fn) {
+        yield fn(item);
+      }
+    });
   }
 
   /**
-   * Creates an infinite sequence of numbers starting from 0
-   * @returns A new InfiniteSequence instance
+   * Creates a simple infinite sequence of natural numbers starting from 0
    */
-  static numbers(): InfiniteSequence<number> {
-    function* numberGenerator() {
+  static naturalNumbers(): InfiniteSequence<number> {
+    return new InfiniteSequence<number>(function* () {
       let i = 0;
       while (true) {
         yield i++;
       }
-    }
-    return new InfiniteSequence(numberGenerator);
+    });
   }
 }
