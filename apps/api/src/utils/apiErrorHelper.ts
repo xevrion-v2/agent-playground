@@ -1,34 +1,36 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import { ZodError } from 'zod';
 
-interface ApiErrorResponse {
-  success: boolean;
-  error: {
-    message: string;
-    code?: string;
-  };
-  status: number;
+interface ApiError extends Error {
+  statusCode?: number;
 }
 
-export const sendApiError = (
-  res: Response,
-  message: string,
-  status: number = 500,
-  code?: string
-): Response => {
-  return res.status(status).json({
+export const sendApiError = (res: Response, message: string, statusCode: number = 500, details?: any) => {
+  return res.status(statusCode).json({
     success: false,
-    error: {
-      message,
-      ...(code && { code })
-    },
-    status
+    message,
+    ...(details && { details }),
+    timestamp: new Date().toISOString(),
   });
 };
 
-export const sendApiSuccess = (
-  res: Response,
-  data: any,
-  status: number = 200
-): Response => {
-  return res.status(status).json({ success: true, data });
+export const handleApiError = (err: any, req: Request, res: Response, next: Function) => {
+  if (res.headersSent) {
+    console.error('Headers already sent, cannot send error response');
+    return next(err);
+  }
+
+  if (err instanceof ZodError) {
+    return res.status(400).json({
+      success: false,
+      message: 'Validation error',
+      errors: err.issues,
+    });
+  }
+  
+  const statusCode = err.statusCode || 500;
+  return res.status(statusCode).json({
+    success: false,
+    message: err.message || 'Internal server error',
+  });
 };
