@@ -1,3 +1,7 @@
+/// TaskFlow Database Schema
+/// PostgreSQL with Prisma ORM
+/// Run npx prisma migrate dev after schema changes
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +11,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// User accounts for both clients and freelancers
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +22,7 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// Tasks posted by users (clients)
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +35,7 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// Proposals submitted by freelancers for a Job
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
@@ -40,4 +47,52 @@ model Proposal {
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+/// Payment records linked to completed jobs
+model Payment {
+  id         String   @id @default(cuid())
+  jobId      String
+  job        Job      @relation(fields: [jobId], references: [id])
+  amount     Decimal
+  currency   String   @default("USD")
+  status     String   @default("pending")
+  payerId    String
+  payeeId    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+/// Reviews left after job completion
+model Review {
+  id        String   @id @default(cuid())
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id])
+  rating    Int
+  comment   String?
+  authorId  String
+  createdAt DateTime @default(now())
+}
+
+/// Chat messages between users
+model Message {
+  id         String   @id @default(cuid())
+  senderId   String
+  receiverId String
+  content    String
+  createdAt  DateTime @default(now())
+}
+
+/// Job categories for filtering and search
+model Category {
+  id   String @id @default(cuid())
+  name String @unique
+  jobs Job[]
+}
+
+/// Skills that users can add to their profiles
+model Skill {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  users User[]
 }
