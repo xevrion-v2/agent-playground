@@ -1,183 +1,188 @@
  ```diff
 --- a/apps/api/src/services/userService.ts
 +++ b/apps/api/src/services/userService.ts
-@@ -1,3 +1,9 @@
+@@ -1,6 +1,13 @@
+ import { PrismaClient, User } from '@prisma/client';
+ import { prisma } from '../lib/prisma';
+ 
 +/**
-+ * User service module.
-+ * Provides CRUD operations and business logic for user management.
-+ * @module services/userService
++ * Service for managing user-related database operations.
 + */
 +
- import { PrismaClient, User, Prisma } from '@prisma/client';
- import bcrypt from 'bcrypt';
- 
-@@ -5,6 +11,12 @@
- 
- const SALT_ROUNDS = 10;
- 
 +/**
-+ * Hash a plaintext password using bcrypt.
-+ * @param {string} password - The plaintext password to hash.
-+ * @returns {Promise<string>} The hashed password.
-+ * @throws {Error} If hashing fails.
++ * Retrieve all users from the database.
 + */
- export async function hashPassword(password: string): Promise<string> {
-   return bcrypt.hash(password, SALT_ROUNDS);
+ export async function getAllUsers(): Promise<User[]> {
+   return prisma.user.findMany();
  }
-@@ -12,6 +24,13 @@
- export async function comparePassword(password: string, hash: string): Promise<boolean> {
-   return bcrypt.compare(password, hash);
- }
- 
-+/**
-+ * Create a new user in the database.
-+ * @param {Prisma.UserCreateInput} data - The user data to create.
-+ * @returns {Promise<User>} The created user.
-+ * @throws {Error} If the email is already taken or creation fails.
-+ */
- export async function createUser(data: Prisma.UserCreateInput): Promise<User> {
-   if (data.password) {
-     data.password = await hashPassword(data.password);
-@@ -20,6 +39,12 @@
-   return prisma.user.create({ data });
+@@ -9,6 +16,11 @@ export async function getUserById(id: string): Promise<User | null> {
+   return prisma.user.findUnique({ where: { id } });
  }
  
 +/**
-+ * Retrieve a user by their unique ID.
-+ * @param {string} id - The user's unique identifier.
-+ * @returns {Promise<User | null>} The user if found, otherwise null.
-+ */
- export async function getUserById(id: string): Promise<User | null> {
-   return prisma.user.findUnique({
-     where: { id },
-@@ -29,6 +54,12 @@
-   });
- }
- 
-+/**
-+ * Retrieve a user by their email address.
-+ * @param {string} email - The user's email address.
-+ * @returns {Promise<User | null>} The user if found, otherwise null.
++ * Find a user by their email address.
++ * @param email - The email to search for.
++ * @returns The matching user or null if not found.
 + */
  export async function getUserByEmail(email: string): Promise<User | null> {
-   return prisma.user.findUnique({
-     where: { email },
-@@ -38,6 +69,13 @@
+   return prisma.user.findUnique({ where: { email } });
+ }
+@@ -17,6 +29,12 @@ export async function getUserByClerkId(clerkId: string): Promise<User | null> {
+   return prisma.user.findUnique({ where: { clerkId } });
+ }
+ 
++/**
++ * Create a new user record.
++ * @param data - The user data to create.
++ * @returns The newly created user.
++ * @throws Error if a user with the same email already exists.
++ */
+ export async function createUser(data: {
+   email: string;
+   name?: string;
+@@ -37,6 +55,13 @@ export async function createUser(data: {
    });
  }
  
 +/**
-+ * Update a user's information by their ID.
-+ * @param {string} id - The user's unique identifier.
-+ * @param {Prisma.UserUpdateInput} data - The data to update.
-+ * @returns {Promise<User>} The updated user.
-+ * @throws {Error} If the user does not exist.
++ * Update an existing user's information.
++ * @param id - The ID of the user to update.
++ * @param data - The fields to update.
++ * @returns The updated user.
++ * @throws Error if the user is not found.
 + */
- export async function updateUser(id: string, data: Prisma.UserUpdateInput): Promise<User> {
-   if (data.password) {
-     data.password = await hashPassword(data.password as string);
-@@ -46,6 +84,12 @@
-   return prisma.user.update({ where: { id }, data });
- }
- 
-+/**
-+ * Delete a user from the database by their ID.
-+ * @param {string} id - The user's unique identifier.
-+ * @returns {Promise<User>} The deleted user.
-+ * @throws {Error} If the user does not exist.
-+ */
- export async function deleteUser(id: string): Promise<User> {
-   return prisma.user.delete({ where: { id } });
- }
-@@ -53,6 +97,12 @@
- export async function listUsers(params: {
-   skip?: number;
-   take?: number;
-   cursor?: Prisma.UserWhereUniqueInput;
-   where?: Prisma.UserWhereInput;
-   orderBy?: Prisma.UserOrderByWithRelationInput;
- } = {}): Promise<User[]> {
-   const { skip, take, cursor, where, orderBy } = params;
-   return prisma.user.findMany({
-     skip,
-     take,
-     cursor,
-     where,
-     include: { profile: true, skills: true },
+ export async function updateUser(
+   id: string,
+   data: Partial<{
+@@ -58,6 +83,11 @@ export async function updateUser(
    });
  }
  
 +/**
-+ * Search for users by a query string (matches name or email).
-+ * @param {string} query - The search query.
-+ * @param {number} [take=10] - Maximum number of results to return.
-+ * @returns {Promise<User[]>} A list of matching users.
++ * Delete a user by their ID.
++ * @param id - The ID of the user to delete.
++ * @throws Error if the user is not found.
 + */
- export async function searchUsers(query: string, take: number = 10): Promise<User[]> {
+ export async function deleteUser(id: string): Promise<void> {
+   const existing = await prisma.user.findUnique({ where: { id } });
+   if (!existing) {
+@@ -66,6 +96,11 @@ export async function deleteUser(id: string): Promise<void> {
+   await prisma.user.delete({ where: { id } });
+ }
+ 
++/**
++ * Search for users by name (case-insensitive, partial match).
++ * @param query - The search string to match against user names.
++ * @returns A list of matching users.
++ */
+ export async function searchUsersByName(query: string): Promise<User[]> {
    return prisma.user.findMany({
      where: {
-@@ -75,6 +125,12 @@
+@@ -77,6 +112,12 @@ export async function searchUsersByName(query: string): Promise<User[]> {
    });
+ }
+ 
++/**
++ * Update a user's profile image.
++ * @param id - The ID of the user.
++ * @param imageUrl - The URL of the new profile image.
++ * @returns The updated user.
++ */
+ export async function updateUserProfileImage(
+   id: string,
+   imageUrl: string
+@@ -84,6 +125,11 @@ export async function updateUserProfileImage(
+   return prisma.user.update({ where: { id }, data: { imageUrl } });
  }
  
 +/**
 + * Verify a user's email address.
-+ * @param {string} id - The user's unique identifier.
-+ * @returns {Promise<User>} The updated user with verified email.
-+ * @throws {Error} If the user does not exist.
++ * @param id - The ID of the user to verify.
++ * @returns The updated user with emailVerified set to the current date.
 + */
  export async function verifyUserEmail(id: string): Promise<User> {
    return prisma.user.update({
      where: { id },
-@@ -82,6 +138,12 @@
+@@ -91,6 +137,11 @@ export async function verifyUserEmail(id: string): Promise<User> {
    });
  }
  
 +/**
-+ * Update a user's last login timestamp to now.
-+ * @param {string} id - The user's unique identifier.
-+ * @returns {Promise<User>} The updated user.
-+ * @throws {Error} If the user does not exist.
++ * Toggle a user's active status.
++ * @param id - The ID of the user.
++ * @returns The updated user with flipped isActive value.
 + */
- export async function updateLastLogin(id: string): Promise<User> {
-   return prisma.user.update({
-     where: { id },
-@@ -89,6 +151,13 @@
+ export async function toggleUserActiveStatus(id: string): Promise<User> {
+   const user = await prisma.user.findUnique({ where: { id } });
+   if (!user) {
+@@ -102,6 +153,12 @@ export async function toggleUserActiveStatus(id: string): Promise<User> {
    });
  }
  
 +/**
-+ * Change a user's password after verifying the current password.
-+ * @param {string} id - The user's unique identifier.
-+ * @param {string} currentPassword - The user's current plaintext password.
-+ * @param {string} newPassword - The new plaintext password to set.
-+ * @returns {Promise<User>} The updated user.
-+ * @throws {Error} If the current password is incorrect or the user does not exist.
++ * Update a user's role.
++ * @param id - The ID of the user.
++ * @param role - The new role to assign.
++ * @returns The updated user.
 + */
- export async function changePassword(
+ export async function updateUserRole(
    id: string,
-   currentPassword: string,
-@@ -105,6 +174,12 @@
-   return updateUser(id, { password: newPassword });
+   role: 'ADMIN' | 'CLIENT' | 'FREELANCER'
+@@ -109,6 +166,11 @@ export async function updateUserRole(
+   return prisma.user.update({ where: { id }, data: { role } });
  }
  
 +/**
-+ * Toggle a user's active status (soft disable/enable).
-+ * @param {string} id - The user's unique identifier.
-+ * @param {boolean} isActive - Whether the user should be active.
-+ * @returns {Promise<User>} The updated user.
-+ * @throws {Error} If the user does not exist.
++ * Retrieve all tasks associated with a user.
++ * @param userId - The ID of the user.
++ * @returns A list of tasks owned by the user.
 + */
- export async function setUserActiveStatus(id: string, isActive: boolean): Promise<User> {
-   return prisma.user.update({
-     where: { id },
-@@ -112,6 +187,12 @@
+ export async function getUserTasks(userId: string) {
+   return prisma.task.findMany({
+     where: { ownerId: userId },
+@@ -116,6 +178,11 @@ export async function getUserTasks(userId: string) {
    });
  }
  
 +/**
-+ * Retrieve a user with all related data (profile, skills, tasks, etc.).
-+ * @param {string} id - The user's unique identifier.
-+ * @returns {Promise<User | null>} The user with full relations if found, otherwise null.
++ * Retrieve all proposals submitted by a user.
++ * @param userId - The ID of the user.
++ * @returns A list of proposals with related task information.
 + */
- export async function getUserWithRelations(id: string):
+ export async function getUserProposals(userId: string) {
+   return prisma.proposal.findMany({
+     where: { freelancerId: userId },
+@@ -123,6 +190,11 @@ export async function getUserProposals(userId: string) {
+   });
+ }
+ 
++/**
++ * Retrieve all reviews received by a user.
++ * @param userId - The ID of the user.
++ * @returns A list of reviews with reviewer information.
++ */
+ export async function getUserReviews(userId: string) {
+   return prisma.review.findMany({
+     where: { revieweeId: userId },
+@@ -130,6 +202,11 @@ export async function getUserReviews(userId: string) {
+   });
+ }
+ 
++/**
++ * Retrieve all reviews written by a user.
++ * @param userId - The ID of the user.
++ * @returns A list of reviews with reviewee information.
++ */
+ export async function getUserWrittenReviews(userId: string) {
+   return prisma.review.findMany({
+     where: { reviewerId: userId },
+@@ -137,6 +214,11 @@ export async function getUserWrittenReviews(userId: string) {
+   });
+ }
+ 
++/**
++ * Retrieve all messages sent or received by a user.
++ * @param userId - The ID of the user.
++ * @returns A list of messages with sender and receiver details.
++ */
+ export async
