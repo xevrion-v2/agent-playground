@@ -5,10 +5,6 @@ import { z } from 'zod';
 
 const router = Router();
 
-router.get('/:id', userController.getUserById);
-router.put('/:id', userController.updateUser);
-router.delete('/:id', userController.deleteUser);
-
 const userIdSchema = z.object({
   id: z.string().uuid('Invalid user ID format'),
 });
@@ -31,16 +27,9 @@ const updateUserSchema = z.object({
   }),
 });
 
-// Apply validation to routes
 router.post('/', validate(createUserSchema), userController.createUser);
 router.get('/:id', validate(z.object({ params: userIdSchema })), userController.getUserById);
 router.put('/:id', validate(updateUserSchema), userController.updateUser);
 router.delete('/:id', validate(z.object({ params: userIdSchema })), userController.deleteUser);
-
-// Remove or comment out old unvalidated routes
-// router.post('/', userController.createUser);
-// router.get('/:id', userController.getUserById);
-// router.put('/:id', userController.updateUser);
-// router.delete('/:id', userController.deleteUser);
 
 export default router;
