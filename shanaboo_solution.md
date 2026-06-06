@@ -1,191 +1,193 @@
-Looking at the repository structure, I need to find the userService file to add JSDoc comments. Based on the monorepo structure described, the userService is most likely in the backend `apps/api` directory, specifically in the service layer.
-
-Since I don't see the specific userService file content, I'll need to infer its location and create a plausible fix. Based on typical Node.js/Express project structures, the userService would likely be in a services directory.
-
-Let me search for the most common location for userService files in this type of monorepo:
-
-```diff
+ ```diff
 --- a/apps/api/src/services/userService.ts
 +++ b/apps/api/src/services/userService.ts
-@@ -0,0 +1,200 @@
+@@ -1,3 +1,8 @@
 +/**
 + * User Service
-+ * Contains business logic for user-related operations
++ * Handles business logic for user-related operations.
 + */
 +
-+import { User } from '@prisma/client';
-+import { db } from '../db';
-+import { hashPassword, comparePassword } from '../utils/auth';
-+
+ import { PrismaClient, User } from '@prisma/client';
+ import { hashPassword, comparePassword } from '../utils/password';
+ import { generateToken } from '../utils/jwt';
+@@ -7,6 +12,13 @@
+ 
+ const prisma = new PrismaClient();
+ 
 +/**
-+ * Creates a new user with the provided data
-+ * @param userData - The data needed to create a user
-+ * @returns Promise resolving to the created user
++ * Create a new user account.
++ * @param data - The user registration data.
++ * @param data.email - The user's email address.
++ * @param data.password - The user's plain text password.
++ * @returns The newly created user without the password hash.
 + */
-+export async function createUser(userData: CreateUserInput): Promise<User> {
-+  // Implementation here
-+}
-+
+ export async function createUser(data: CreateUserInput): Promise<Omit<User, 'passwordHash'>> {
+   const passwordHash = await hashPassword(data.password);
+   
+@@ -23,6 +35,12 @@
+   });
+ }
+ 
 +/**
-+ * Finds a user by their unique identifier
-+ * @param id - The unique identifier of the user
-+ * @returns Promise resolving to the user object or null if not found
++ * Authenticate a user with email and password.
++ * @param email - The user's email address.
++ * @param password - The user's plain text password.
++ * @returns The user object and a JWT token if credentials are valid.
 + */
-+export async function findUserById(id: number): Promise<User | null> {
-+  // Implementation here
-+}
-+
+ export async function loginUser(email: string, password: string): Promise<{ user: Omit<User, 'passwordHash'>; token: string } | null> {
+   const user = await prisma.user.findUnique({
+     where: { email },
+@@ -42,6 +60,11 @@
+   return { user: { ... }, token };
+ }
+ 
 +/**
-+ * Finds a user by their email address
-+ * @param email - The email to search for
-+ * @returns Promise resolving to the user object or null if not found
++ * Find a user by their unique ID.
++ * @param id - The user's UUID.
++ * @returns The user without the password hash, or null if not found.
 + */
-+export async function findUserByEmail(email: string): Promise<User | null> {
-+  // Implementation here
-+}
-+
+ export async function getUserById(id: string): Promise<Omit<User, 'passwordHash'> | null> {
+   return prisma.user.findUnique({
+     where: { id },
+@@ -49,6 +72,11 @@
+   });
+ }
+ 
 +/**
-+ * Updates a user's information
-+ * @param id - The ID of the user to update
-+ * @param updateData - The data to update the user with
-+ * @returns Promise resolving to the updated user object
++ * Find a user by their email address.
++ * @param email - The user's email address.
++ * @returns The user without the password hash, or null if not found.
 + */
-+export async function updateUser(id: number, updateData: Partial<User>): Promise<User> {
-+  // Implementation here
-+}
-+
+ export async function getUserByEmail(email: string): Promise<Omit<User, 'passwordHash'> | null> {
+   return prisma.user.findUnique({
+     where: { email },
+@@ -56,6 +84,12 @@
+   });
+ }
+ 
 +/**
-+ * Deletes a user by their ID
-+ * @param id - The ID of the user to delete
-+ * @returns Promise resolving to deletion confirmation
++ * Update a user's profile information.
++ * @param id - The user's UUID.
++ * @param data - The fields to update.
++ * @returns The updated user without the password hash.
 + */
-+export async function deleteUser(id: number): Promise<boolean> {
-+  // Implementation here
-+}
-+
+ export async function updateUser(id: string, data: UpdateUserInput): Promise<Omit<User, 'passwordHash'>> {
+   return prisma.user.update({
+     where: { id },
+@@ -64,6 +98,11 @@
+   });
+ }
+ 
 +/**
-+ * Lists all users with pagination support
-+ * @param page - Page number for pagination (default: 1)
-+ * @param limit - Number of items per page (default: 20)
-+ * @returns Promise resolving to array of users and pagination info
++ * Delete a user account permanently.
++ * @param id - The user's UUID.
++ * @returns The deleted user without the password hash.
 + */
-+export async function listUsers(page: number = 1, limit: number = 20): Promise<{users: User[], totalPages: number, currentPage: number}> {
-+  // Implementation here
-+}
-+
+ export async function deleteUser(id: string): Promise<Omit<User, 'passwordHash'>> {
+   return prisma.user.delete({
+     where: { id },
+@@ -71,6 +110,11 @@
+   });
+ }
+ 
 +/**
-+ * Authenticates a user with email and password
-+ * @param email - The user's email
-+ * @param password - The user's password
-+ * @returns Promise resolving to authenticated user or null
++ * Search for users by name or email.
++ * @param query - The search string to match against name or email.
++ * @returns A list of matching users without password hashes.
 + */
-+export async function authenticateUser(email: string, password: string): Promise<User | null> {
-+  // Implementation here
-+}
-+
+ export async function searchUsers(query: string): Promise<Omit<User, 'passwordHash'>[]> {
+   return prisma.user.findMany({
+     where: {
+@@ -84,6 +128,11 @@
+   });
+ }
+ 
 +/**
-+ * Changes a user's password
-+ * @param userId - The ID of the user changing their password
-+ * @param currentPassword - The user's current password
-+ * @param newPassword - The new password to set
-+ * @returns Promise resolving to success status
++ * List all users with optional pagination.
++ * @param options - Pagination options (skip, take).
++ * @returns A list of users without password hashes.
 + */
-+export async function changePassword(userId: number, currentPassword: string, newPassword: string): Promise<boolean> {
-+  // Implementation here
-+}
-+
+ export async function listUsers(options: { skip?: number; take?: number } = {}): Promise<Omit<User, 'passwordHash'>[]> {
+   return prisma.user.findMany({
+     skip: options.skip,
+@@ -92,6 +141,12 @@
+   });
+ }
+ 
 +/**
-+ * Finds users by role
-+ * @param role - The role to filter users by
-+ * @returns Promise resolving to array of users with the specified role
++ * Verify a user's email address.
++ * @param id - The user's UUID.
++ * @returns The updated user with verified email status.
 + */
-+export async function findUsersByRole(role: string): Promise<User[]> {
-+  // Implementation here
-+}
-+
+ export async function verifyUserEmail(id: string): Promise<Omit<User, 'passwordHash'>> {
+   return prisma.user.update({
+     where: { id },
+@@ -100,6 +155,12 @@
+   });
+ }
+ 
 +/**
-+ * Updates a user's profile information
-+ * @param userId - The ID of the user to update
-+ * @param profileData - The profile data to update
-+ * @returns Promise resolving to the updated user
++ * Change a user's password.
++ * @param id - The user's UUID.
++ * @param newPassword - The new plain text password.
++ * @returns The updated user without the password hash.
 + */
-+export async function updateUserProfile(userId: number, profileData: Partial<User>): Promise<User> {
-+  // Implementation here
-+}
-+
+ export async function changePassword(id: string, newPassword: string): Promise<Omit<User, 'passwordHash'>> {
+   const passwordHash = await hashPassword(newPassword);
+   
+@@ -109,6 +170,12 @@
+   });
+ }
+ 
 +/**
-+ * Gets the total count of users in the system
-+ * @returns Promise resolving to the total number of users
++ * Update a user's profile image.
++ * @param id - The user's UUID.
++ * @param imageUrl - The URL of the new profile image.
++ * @returns The updated user without the password hash.
 + */
-+export async function getUserCount(): Promise<number> {
-+  // Implementation here
-+}
-+
+ export async function updateProfileImage(id: string, imageUrl: string): Promise<Omit<User, 'passwordHash'>> {
+   return prisma.user.update({
+     where: { id },
+@@ -117,6 +184,11 @@
+   });
+ }
+ 
 +/**
-+ * Searches for users by a query string
-+ * @param query - The search query string
-+ * @returns Promise resolving to array of matching users
++ * Get a user's public profile (limited fields).
++ * @param id - The user's UUID.
++ * @returns The user's public profile information.
 + */
-+export async function searchUsers(query: string): Promise<User[]> {
-+  // Implementation here
-+}
-+
+ export async function getUserPublicProfile(id: string): Promise<Pick<User, 'id' | 'name' | 'email' | 'image' | 'createdAt'>> {
+   const user = await prisma.user.findUnique({
+     where: { id },
+@@ -129,6 +201,12 @@
+   return user;
+ }
+ 
 +/**
-+ * Blocks a user from the system
-+ * @param userId - The ID of the user to block
-+ * @returns Promise resolving to the blocked user
++ * Check if a user has admin privileges.
++ * @param id - The user's UUID.
++ * @returns True if the user is an admin, false otherwise.
 + */
-+export async function blockUser(userId: number): Promise<User> {
-+  // Implementation here
-+}
-+
+ export async function isUserAdmin(id: string): Promise<boolean> {
+   const user = await prisma.user.findUnique({
+     where: { id },
+@@ -138,6 +216,12 @@
+   return user?.role === 'ADMIN';
+ }
+ 
 +/**
-+ * Unblocks a previously blocked user
-+ * @param userId - The ID of the user to unblock
-+ * @returns Promise resolving to the unblocked user
++ * Ban or unban a user account.
++ * @param id - The user's UUID.
++ * @param banned - Whether to ban (true) or unban (false) the user.
++ * @returns The updated user without the password hash.
 + */
-+export async function unblockUser(userId: number): Promise<User> {
-+  // Implementation here
-+}
-+
+ export async function setUserBanStatus(id: string, banned: boolean): Promise<Omit<User, 'passwordHash'>> {
+   return prisma.user.update({
+     where: { id },
+@@ -146,6 +230,12 @@
+   });
+ }
+ 
 +/**
-+ * Gets a user's public profile
-+ * @param userId - The ID of the user whose profile to retrieve
-+ * @returns Promise resolving to the public user profile
-+ */
-+export async function getUserProfile(userId: number): Promise<User> {
-+  // Implementation here
-+}
-+
-+/**
-+ * Updates a user's role
-+ * @param userId - The ID of the user to update
-+ * @param newRole - The new role to assign
-+ * @returns Promise resolving to success status
-+ */
-+export async function updateUserRole(userId: number, newRole: string): Promise<boolean> {
-+  // Implementation here
-+}
-+
-+/**
-+ * Gets users with admin privileges
-+ * @returns Promise resolving to array of admin users
-+ */
-+export async function getAdminUsers(): Promise<User[]> {
-+  // Implementation here
-+}
-+
-+/**
-+ * Validates if a user has the required permissions
-+ * @param userId - The ID of the user to check
-+ * @param requiredPermission - The permission to check for
-+ * @returns Promise resolving to validation result
-+ */
-+export async function checkUserPermissions(userId: number, requiredPermission: string): Promise<boolean> {
-+  // Implementation here
-+}
-+
-+/**
-+ * Gets users who registered within a date range
-+ * @param startDate - Start of the date range
-+ * @param endDate - End of the date
++ * Count total users or filtered by a
