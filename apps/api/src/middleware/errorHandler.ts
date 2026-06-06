@@ -1,29 +1,27 @@
 import { Request, Response, NextFunction } from 'express';
-import { APIError } from '../utils/apiError';
+import { sendApiError } from '../utils/errorHelper';
 
-export const errorHandlingMiddleware = (
-  err: APIError,
-  _req: Request,
+// Update existing error handling middleware or create a simple error handler
+export const errorHandler = (
+  err: any,
+  req: Request,
   res: Response,
-  _next: NextFunction
-) => {
-  const { statusCode, message, errors } = err;
+  next: NextFunction
+): any => {
+  console.error('API Error:', err);
   
-  // Default error response
-  const errorResponse = {
-    status: 'error',
-    statusCode: statusCode || 500,
-    message: message || 'Internal Server Error',
-    errors: errors || [],
-  };
-
-  // For development, include stack trace
   if (process.env.NODE_ENV === 'development') {
-    return res.status(statusCode || 500).json({
-      ...errorResponse,
-      stack: err.stack,
+    return res.status(500).json({
+      error: {
+        message: err.message || 'Internal Server Error',
+        stack: err.stack
+      }
     });
   }
-
-  return res.status(statusCode || 500).json(errorResponse);
+  
+  return res.status(500).json({
+    error: {
+      message: 'Internal server error'
+    }
+  });
 };
