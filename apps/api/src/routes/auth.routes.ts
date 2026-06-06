@@ -1,19 +1,24 @@
-import { Router } from 'express';
-import { sendApiError } from '../utils/apiHelpers';
-
-const router = Router();
-
-    // Registration logic here
-    res.status(201).json({ message: 'User registered successfully' });
-  } catch (error) {
-    sendApiError(res, 'Registration failed', 500, error.message);
-  }
-});
-
-
-// Other routes remain unchanged
-router.post('/login', (req, res) => {
-  res.send('Login route');
-});
-
-router.get('/oauth-callback', (req, res) => {
+import { sendApiError } from '../utils/errorHelper';
+import express from 'express';
+import { register, login, refresh } from '../controllers/auth.controller';
+import { validateRegister, validateLogin } from '../middleware/validation.middleware';
+    register
+  )
+  .post(
+    '/login', 
+    validateLogin, 
+    login
+  );
+    try {
+      // Original route logic would go here
+      // For demonstration, adding a simple error case
+      if (!req.body.email) {
+        return sendApiError(res, 'Email is required', 'MISSING_EMAIL', 400);
+      }
+      
+      // Original login logic would continue here...
+      login(req, res, next);
+    } catch (error) {
+      sendApiError(res, 'Login failed', 'LOGIN_ERROR', 500);
+    }
+  );
