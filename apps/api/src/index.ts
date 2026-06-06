@@ -1,23 +1,23 @@
 import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import helmet from 'helmet';
-import dotenv from 'dotenv';
+import { json, urlencoded } from 'body-parser';
+
 const app = express();
-const port = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3001;
 
-app.use(express.json());
+// Configure body parser with size limits
+app.use(json({ limit: '10mb' }));
+app.use(urlencoded({ limit: '10mb', extended: true }));
 
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
+app.get('/', (req, res) => {
+  res.send('TaskFlow API');
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
 app.use("/users", usersRouter);
-// Middleware
-app.use(helmet());
-app.use(cors());
-// JSON body size limit: 100kb to prevent large payload attacks
-app.use(express.json({ limit: '100kb" }));
 
-// Routes
-app.use('/api/auth', authRoutes);
+app.listen(port, () => {
+  console.log(`TaskFlow API listening on port ${port}`);
+});
