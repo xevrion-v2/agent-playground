@@ -35,6 +35,26 @@ jobs:
               "description, the better."
             ].join("\n");
 
+            // Ensure labels exist before creating issues
+            const labelsToEnsure = [
+              { name: "bounty", description: "Bounty eligible", color: "7056f7" },
+              { name: "good first issue", description: "Good for first contributors", color: "7056f7" },
+              { name: "AI agent friendly", description: "AI agents welcome", color: "7056f7" }
+            ];
+            for (const label of labelsToEnsure) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                  description: label.description,
+                  color: label.color
+                });
+              } catch (e) {
+                // Label may already exist, ignore
+              }
+            }
+
             const createdIssue = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
