@@ -1,18 +1,13 @@
-import { Router, Request, Response } from 'express';
-import { ApiError, createErrorResponse } from '../utils/apiError';
+import { Router } from 'express';
+import { errorResponse } from '../utils/apiError';
 
 const router = Router();
 
-router.get('/health', (_req: Request, res: Response) => {
+router.get('/', (req, res) => {
   try {
-    const isHealthy = true;
-    if (!isHealthy) {
-      throw new ApiError(503, 'Service unavailable');
-    }
-    res.json({ success: true, data: { status: 'ok' } });
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
   } catch (error) {
-    const err = error instanceof ApiError ? error : new ApiError(500, 'Internal server error');
-    res.status(err.statusCode).json(createErrorResponse(err));
+    return errorResponse(res, 500, 'Health check failed');
   }
 });
 
