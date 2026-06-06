@@ -1,20 +1,29 @@
 import { Response } from 'express';
 
-interface ApiError {
-  message: string;
-  statusCode: number;
-  details?: Record<string, any>;
+export class ApiError extends Error {
+  constructor(
+    public statusCode: number,
+    message: string
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
 }
 
-export const sendApiError = (res: Response, statusCode: number, message:0, details?: Record<string, any>): Response => {
-  return res.status(statusCode).json({
-    success: false,
-    error: {
-      message,
-      statusCode,
-      ...(details && { details })
-    }
-  });
+interface ErrorResponse {
+  error: string;
+  message: string;
+  details?: any;
+}
+
+export const apiError = (res: Response, statusCode: number, message: string, details?: any): Response => {
+  const errorResponse: ErrorResponse = {
+    error: 'Error',
+    message,
+    ...(details && { details })
+  };
+  
+  return res.status(statusCode).json(errorResponse);
 };
 
-export type { ApiError };
+export const sendApiError = apiError;
