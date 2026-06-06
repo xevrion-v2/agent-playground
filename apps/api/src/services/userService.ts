@@ -1,94 +1,107 @@
-import { User } from '@prisma/client';
-import { db } from '../../lib/db';
-
 /**
  * User Service
- * 
- * This service handles all user-related business logic including user management,
- * authentication checks, and user data operations.
+ * Contains business logic for user-related operations including CRUD operations, authentication,
+ * and user management functions.
  */
 
-class UserService {
-  /**
-   * Find a user by their unique identifier
-   * @param id - The unique identifier of the user
-   * @returns Promise resolving to the found user or null
-   */
-  async findById(id: string): Promise<User | null> {
-    return await db.user.findUnique({
-      where: { id }
-    });
-  }
+import { User } from '@prisma/client';
+import { prisma } from '../utils/prisma';
 
-  /**
-   * Find a user by their email address
-   * @param email - The email address to search for
-   * return Promise resolving to the found user or null
-   */
-  async findByEmail(email: string): Promise<User | null> {
-    return await db.user.findUnique({
-      where: { email }
-    });
-  }
+/**
+ * Finds a user by their unique identifier
+ * @param id - The unique identifier of the user
+ * @returns Promise resolving to the found user or null if not found
+ */
+export const findUserById = async (id: string): Promise<User | null> => {
+  return prisma.user.findUnique({
+    where: { id },
+  });
+};
 
-  /**
-   * Create a new user
-   * @param userData - The data required to create a new user
-   * @returns Promise resolving to the created user
-   */
-  async create(userData: Omit<User, 'id'>): Promise<User> {
-    return await db.user.create({
-      data: userData
-    });
-  }
+/**
+ * Finds a user by their email address
+ * @param email - The email address to search for
+ * @returns Promise resolving to the found user or null if not found
+ */
+export const findUserByEmail = async (email: string): Promise<User | null> => {
+  return prisma.user.findUnique({
+    where: { email },
+    include: { profile: true },
+  });
+};
 
-  /**
-   * Update an existing user's information
-   * @param id - The ID of the user to update
-   * @param userData - The partial user data to update
-   * @returns Promise resolving to the updated user
-   */
-  async update(id: string, userData: Partial<User>): Promise<User> {
-    return await db.user.update({
-      where: { id },
-      data: userData
-    });
-  }
+/**
+ * Creates a new user with the provided data
+ * @param data - The user data to create the new user with
+ * @returns Promise resolving to the created user
+ */
+export const createUser = async (data: any) => {
+  return prisma.user.create({ data });
+};
 
-  /**
-   * Delete a user by their ID
-   * @param id - The ID of the user to delete
-   * @returns Promise resolving to the deletion result
-   */
-  async delete(id: string): Promise<User> {
-    return await db.user.delete({
-      where: { id }
-    });
-  }
+/**
+ * Updates an existing user's information
+ * @param id - The ID of the user to update
+ * @param data - The data to update the user with
+ * @returns Promise resolving to the updated user
+ */
+export const updateUser = async (id: string, data: any) => {
+  return prisma.user.update({
+    where: { id },
+    data,
+  });
+};
 
-  /**
-   * Get all users with optional filtering
-   * @param filter - Optional filter criteria
-   * @returns Promise resolving to array of users
-   */
-  async getAll(filter?: object): Promise<User[]> {
-    return await db.user.findMany(filter);
-  }
+/**
+ * Deletes a user by their unique identifier
+ * @param id - The unique identifier of the user to delete
+ * @returns Promise resolving to the deleted user
+ */
+export const deleteUser = async (id: string) => {
+  return prisma.user.delete({
+    where: { id },
+  });
+};
 
-  /**
-   * Find users by skill
-   * @param skill - The skill to filter users by
-   * @returns Promise resolving to array of users with the specified skill
-   */
-  async findBySkill(skill: string): Promise<User[]> {
-    return await db.user.findMany({
-      where: {
-        skills: {
-          has: skill
-        }
-      }
-    });
-  }
-}
+/**
+ * Gets all users from the database
+ * @returns Promise resolving to an array of all users
+ */
+export const getAllUsers = async (): Promise<User[]> => {
+  return prisma.user.findMany();
+};
 
-export default new UserService();
+/**
+ * Finds users by role type
+ * @param role - The role to filter users by
+ * @returns Promise resolving to an array of users with the specified role
+ */
+export const findUsersByRole = async (role: string): Promise<User[]> => {
+  return prisma.user.findMany({
+    where: { role },
+  });
+};
+
+/**
+ * Updates user profile information
+ * @param userId - The user ID to update
+ * @param profileData - The profile data to update
+ * @returns Promise resolving to the updated profile
+ */
+export const updateUserProfile = async (userId: string, profileData: any) => {
+  return prisma.user.update({
+    where: { id: userId },
+    data: { profile: { update: profileData } },
+  });
+};
+
+/**
+ * Gets user profile information
+ * @param userId - The user ID to get profile for
+ * @returns Promise resolving to the user's profile data
+ */
+export const getUserProfile = async (userId: string) => {
+  return prisma.profile.findUnique({
+    where: { userId },
+  });
+};
