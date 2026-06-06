@@ -19,5 +19,5 @@ export const createErrorResponse = (success: boolean, message: string, code: str
 };
 
 export const sendApiError = (res: any, message: string, code: string = 'INTERNAL_ERROR') => {
-  return res.status(400).json(createErrorResponse(false, message, code));
+  return res.status(400).json({error: message, code: code});
 };
