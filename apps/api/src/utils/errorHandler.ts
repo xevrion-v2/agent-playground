@@ -1,4 +1,3 @@
-// Create the file with the error handling helper
 import { Request, Response, NextFunction } from 'express';
 
 export class ApiError extends Error {
