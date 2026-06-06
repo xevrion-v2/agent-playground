@@ -1,22 +1,22 @@
-import { Router } from 'express';
-import { sendApiError } from '../utils/apiErrorHelper';
+import { Router } from "express";
+import { register, login } from "../controllers/authController";
+import { validateRequest } from "../middleware/validateRequest";
+import { createErrorResponse } from "../utils/apiError";
+import { z } from "zod";
 
 const router = Router();
+  password: z.string().min(6),
+});
 
-// Example route using the error helper
-  } catch (error) {
-    return sendApiError(res, 'Login failed', 500);
+// Example route using the API error helper
+router.get("/me", (req, res) => {
+  if (!req.user) {
+    return res.status(401).json(createErrorResponse("Unauthorized", 401));
   }
+  res.json({ success: true, data: req.user });
 });
 
-// Example of a route that would use our helper
-router.get('/error-example', (req, res) => {
-  return sendApiError(
-    res, 
-    'This is an example error response', 
-    400,
-    'EXAMPLE_ERROR'
-  );
-});
+router.post("/register", validateRequest(registerSchema), register);
+router.post("/login", validateRequest(loginSchema), login);
 
 export default router;
