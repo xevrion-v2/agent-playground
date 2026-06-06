@@ -1,12 +1,142 @@
-// TaskFlow Prisma Schema
-// This file defines the database models for the TaskFlow application.
-// Models represent core domain entities and their relationships.
-
-// User model represents a registered user in the system.
-// Contains authentication details, profile information, and user preferences.
+// Model representing a user in the system
+// Model representing a user in the system
 model User {
-  id            String    @id @default(cuid())
-  name          String?
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password   String
+  name      String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  tasks     Task[]
+  proposals Proposal[]
+  reviews   Review[]
+  messages  Message[]
+}
+
+// Model representing a task in the TaskFlow system
+model Task {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description   String
+  budget       Float
+  deadline      DateTime
+  status      TaskStatus @default(OPEN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  userId       Int
+  user        User      @relation(fields: [userId], references: [id])
+  proposals   Proposal[]
+  categories   Category[]
+  skills      Skill[]
+}
+
+// Model representing a proposal for a task
+model Proposal {
+  id        Int      @id @default(autoincrement())
+  content   String
+  price     Float
+  taskId     Int
+  task      Task     @relation(fields: [taskId], references: [id])
+  userId     Int
+  user      User     @relation(fields: [userId], references: [id])
+  status    ProposalStatus @default(PENDING)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Model representing a payment transaction
+model Payment {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  currency    String
+  status    PaymentStatus @default(PENDING)
+  userId     Int
+  user      User     @relation(fields: [userId], references: [id])
+  taskId     Int?
+  task      Task?    @relation(fields: [taskId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Model representing a review for a task
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating     Int
+  comment    String?
+  reviewerId  Int
+  reviewer   User     @relation("ReviewRelation", fields: [reviewerId], references: [id])
+  revieweeId Int
+  reviewee   User     @relation("ReviewRelation", fields: [revieweeId], references: [id])
+  taskId     Int
+  task      Task     @relation(fields: [taskId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Model representing a message between users
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  senderId   Int
+  sender    User     @relation("MessageRelation", fields: [senderId], references: [id])
+  receiverId Int
+  receiver   User     @relation("MessageRelation", fields: [receiverId], references: [id])
+  taskId     Int?
+  task      Task?    @relation(fields: [taskId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Model representing a category for tasks
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  tasks     Task[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Model representing a skill associated with users and tasks
+model Skill {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  users     User[]
+  tasks     Task[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Enum for task status
+enum TaskStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  ARCHIVED
+}
+
+// Enum for proposal status
+enum ProposalStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+// Enum for payment status
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+// Enum for user roles
+enum Role {
+  USER
+  FREELANCER
+  CLIENT
+  ADMIN
+}
+  email     String   @unique
 
 datasource db {
   provider = "postgresql"
@@ -18,16 +148,12 @@ model User {
   email     String     @unique
   name      String?
   jobs      Job[]
-  tasks         Task[]
-  proposals     Proposal[]
+  proposals Proposal[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
-// Task model represents a task that can be assigned or worked on.
-// Tasks have titles, descriptions, due dates, priority levels, and status.
-// They are created by users and can be assigned to other users.
-model Task {
-  id            String    @id @default(cuid())
-  title         String
+model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
@@ -35,87 +161,8 @@ model Task {
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
   proposals   Proposal[]
-  assignedTo    User?      @relation(fields: [assignedToId], references: [id])
-}
-
-// Proposal model represents a user's proposal for a task.
-// Users can propose solutions or offers for tasks created by others.
-// Proposals include a description, price, and delivery time estimate.
-// They can be accepted or rejected by the task creator.
-model Proposal {
-  id          String    @id @default(cuid())
-  taskId      String
-  task        Task      @relation(fields: [taskId], references: [id])
-  proposerId  String
-  proposer    User      @relation(fields: [proposerId], references: [id])
-  description String
-  price       Float
-  deliveryDays Int
-  accepted    Boolean   @default(false)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-// Payment model represents a payment transaction between users.
-// Payments are linked to proposals and include amount, status, and timestamps.
-model Payment {
-  id          String    @id @default(cuid())
-  amount      Float
-  currency    String    @default("USD")
-  status      String    @default("pending")
-  proposalId String
-  proposal    Proposal  @relation(fields: [proposalId], references: [id])
-  taskId      String
-  task        Task      @relation(fields: [taskId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-// Review model represents user feedback for completed tasks or proposals.
-// Reviews include a rating, comment, and are linked to both the task and reviewer.
-model Review {
-  id          String    @id @default(cuid())
-  rating      Int
-  comment     String?
-  taskId      String
-  task        Task      @relation(fields: [taskId], references: [id])
-  reviewerId  String
-  reviewer    User      @relation(fields: [reviewerId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-// Message model represents private messages between users.
-// Messages are sent from one user to another and are associated with a task.
-model Message {
-  id          String    @id @default(cuid())
-  content     String
-  senderId    String
-  sender      User      @relation(fields: [senderId], references: [id])
-  recipientId String
-  recipient   User      @relation(fields: [recipientId], references: [id])
-  taskId      String
-  task        Task      @relation(fields: [taskId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-// Category model represents task categories for filtering and organization.
-model Category {
-  id          String    @id @default(cuid())
-  name        String
-  tasks       Task[]    @relation(name: "TaskCategories")
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-// Skill model represents user skills for task matching and filtering.
-model Skill {
-  id          String    @id @default(cuid())
-  name        String
-  users       User[]    @relation(name: "UserSkills")
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model Proposal {
