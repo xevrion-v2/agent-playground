@@ -19,3 +19,20 @@ const sendAPIError = (res, error) => {
     }
   });
 };
+
+const sendAPIErrorResponse = (res, message, statusCode = 500, details = null) => {
+  return res.status(statusCode).json({
+    error: {
+      message,
+      statusCode,
+      ...(details && { details })
+    }
+  });
+};
+
+module.exports = {
+  APIError,
+  createAPIError,
+  sendAPIError,
+  sendAPIErrorResponse
+};
