@@ -1,136 +1,98 @@
 /**
- * User service module - handles business logic for user-related operations.
- * @module services/userService
+ * User service containing business logic for user operations
+ * @module userService
  */
 
-import { PrismaClient, User, Prisma } from '@prisma/client';
-import { hashPassword, comparePassword } from '../utils/password';
-import { generateToken } from '../utils/jwt';
-
-const prisma = new PrismaClient();
+import { User } from '@prisma/client';
+import { db } from '../../packages/db';
 
 /**
- * Create a new user in the database.
- * @param data - User creation data including email and password
- * @returns The created user object (without password)
- * @throws Error if email already exists or validation fails
+ * Creates a new user with the provided data
+ * @param {Omit<User, 'id' | 'createdAt' | 'updatedAt'>} userData - The user data to create
+ * @returns {Promise<User>} A promise that resolves to the created user
  */
-export async function createUser(data: {
-  email: string;
-  password: string;
+export async function createUser(userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<User> {
+  return await db.user.create({
+    data: userData
   });
 }
 
 /**
- * Find a user by their email address.
- * @param email - The email address to search for
- * @returns The user object if found, null otherwise
- */
-export async function findUserByEmail(email: string): Promise<User | null> {
-  return prisma.user.findUnique({
-    where: { email },
-}
-
-/**
- * Find a user by their unique ID.
- * @param id - The user ID to search for
- * @returns The user object if found, null otherwise
+ * Finds a user by their ID
+ * @param {string} id - The user ID to search for
+ * @returns {Promise<User | null>} A promise that resolves to the found user or null
  */
 export async function findUserById(id: string): Promise<User | null> {
-  return prisma.user.findUnique({
-    where: { id },
-}
-
-/**
- * Authenticate a user with email and password.
- * @param email - The user's email address
- * @param password - The user's plain text password
- * @returns Object containing user (without password) and JWT token
- * @throws Error if credentials are invalid
- */
-export async function authenticateUser(
-  email: string,
-  password: string
-  };
-}
-
-/**
- * Update a user's profile information.
- * @param id - The user ID to update
- * @param data - Partial user data to update
- * @returns The updated user object
- */
-export async function updateUser(
-  id: string,
-  data: Prisma.UserUpdateInput
+  return await db.user.findUnique({
+    where: { id }
   });
 }
 
 /**
- * Soft delete a user by setting their account as inactive.
- * @param id - The user ID to delete
- * @returns The deleted user object
+ * Updates a user with the specified ID
+ * @param {string} id - The ID of the user to update
+ * @param {Partial<User>} userData - The partial user data to update
+ * @returns {Promise<User>} A promise that resolves to the updated user
+ */
+export async function updateUser(id: string, userData: Partial<User>): Promise<User> {
+  return await db.user.update({
+    where: { id },
+    data: userData
+  });
+}
+
+/**
+ * Deletes a user by their ID
+ * @param {string} id - The ID of the user to delete
+ * @returns {Promise<User>} A promise that resolves to the deleted user
  */
 export async function deleteUser(id: string): Promise<User> {
-  return prisma.user.update({
-    where: { id },
+  return await db.user.delete({
+    where: { id }
   });
 }
 
 /**
- * Search for users by name or email (case-insensitive).
- * @param query - The search string to match against name or email
- * @returns Array of matching users
+ * Finds all users with optional filtering
+ * @param {any} where - Optional filter conditions
+ * @returns {Promise<User[]>} A promise that resolves to an array of users
  */
-export async function searchUsers(query: string): Promise<User[]> {
-  return prisma.user.findMany({
-    where: {
+export async function findUsers(where?: any): Promise<User[]> {
+  return await db.user.findMany({
+    where
   });
 }
 
 /**
- * Get all users with pagination support.
- * @param options - Pagination options (skip, take)
- * @returns Array of users and total count
+ * Finds a user by their email address
+ * @param {string} email - The email to search for
+ * @returns {Promise<User | null>} A promise that resolves to the found user or null
  */
-export async function getAllUsers(options: {
-  skip?: number;
-  take?: number;
-  return { users, total };
-}
-
-/**
- * Update a user's role (admin only).
- * @param id - The user ID to update
- * @param role - The new role to assign
- * @returns The updated user object
- */
-export async function updateUserRole(
-  id: string,
-  role: string
+export async function findUserByEmail(email: string): Promise<User | null> {
+  return await db.user.findUnique({
+    where: { email }
   });
 }
 
 /**
- * Verify a user's email address.
- * @param id - The user ID to verify
- * @returns The updated user object
- * @throws Error if user not found
+ * Updates a user's profile information
+ * @param {string} userId - The ID of the user to update
+ * @param {Partial<User>} profileData - The profile data to update
+ * @returns {Promise<User>} A promise that resolves to the updated user
  */
-export async function verifyUserEmail(id: string): Promise<User> {
-  return prisma.user.update({
-    where: { id },
+export async function updateUserProfile(userId: string, profileData: Partial<User>): Promise<User> {
+  return await db.user.update({
+    where: { id: userId },
+    data: profileData
   });
 }
 
-/**
- * Change a user's password after validating the current password.
- * @param id - The user ID
- * @param currentPassword - The user's current plain text password
- * @param newPassword - The new password to set
- * @returns True if password was changed successfully
- * @throws Error if current password is incorrect
- */
-export async function changePassword(
-  id: string,
-  currentPassword: string,
+export default {
+  createUser,
+  findUserById,
+  updateUser,
+  deleteUser,
+  findUsers,
+  findUserByEmail,
+  updateUserProfile
+};
