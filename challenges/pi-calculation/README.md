@@ -1,10 +1,8 @@
 # PI Calculation Challenge
 
-A lightweight algorithm challenge that calculates the value of PI (π) using the **Nilakantha series**.
+A lightweight algorithm challenge that calculates the value of PI (π) using the **Leibniz formula** (also known as the Madhava-Leibniz series).
 
-## Algorithm: Nilakantha Series
+## Approach
 
-The Nilakantha series is an infinite series for π discovered by Indian mathematician Nilakantha Somayaji in the 15th century. It converges faster than the simple Leibniz formula.
-
-### Formula
+The Leibniz formula for π is an infinite series:
 
