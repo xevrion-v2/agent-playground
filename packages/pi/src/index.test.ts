@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 import {
   KNOWN_PI_100_DIGITS,
   calculatePiPrefix,
+  createPiPrefixCertificate,
   explainPiExactnessLimit,
   piPrefixChunks
 } from "./index.js";
@@ -28,6 +29,24 @@ describe("piPrefixChunks", () => {
 
   it("rejects invalid chunk sizes", () => {
     assert.throws(() => [...piPrefixChunks(10, 0)], /greater than 0/);
+  });
+});
+
+describe("createPiPrefixCertificate", () => {
+  it("returns auditable metadata for a finite prefix", () => {
+    assert.deepEqual(createPiPrefixCertificate(12, 5), {
+      chunkCount: 4,
+      chunkSize: 5,
+      digits: 12,
+      firstDigits: "3.141592653589",
+      lastDigits: "3.141592653589",
+      prefixLength: 14,
+      sha256: "1f0960c3ef5338a9e9f3784e332a1cca423a5fb1bbff501e8a2bad94f28b1d20"
+    });
+  });
+
+  it("rejects invalid certificate chunk sizes", () => {
+    assert.throws(() => createPiPrefixCertificate(10, 0), /greater than 0/);
   });
 });
 

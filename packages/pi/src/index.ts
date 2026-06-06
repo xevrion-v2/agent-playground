@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 export const KNOWN_PI_100_DIGITS =
   "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679";
 
@@ -6,6 +8,16 @@ const MAX_DIGITS = 100_000;
 
 export type PiPrefixOptions = {
   guardDigits?: number;
+};
+
+export type PiPrefixCertificate = {
+  chunkCount: number;
+  chunkSize: number;
+  digits: number;
+  firstDigits: string;
+  lastDigits: string;
+  prefixLength: number;
+  sha256: string;
 };
 
 export function calculatePiPrefix(digits: number, options: PiPrefixOptions = {}): string {
@@ -53,6 +65,32 @@ export function* piPrefixChunks(
   for (let offset = 0; offset < fractionalPart.length; offset += chunkSize) {
     yield fractionalPart.slice(offset, offset + chunkSize);
   }
+}
+
+export function createPiPrefixCertificate(
+  digits: number,
+  chunkSize = 50,
+  options: PiPrefixOptions = {}
+): PiPrefixCertificate {
+  assertNonNegativeInteger(chunkSize, "chunkSize");
+  if (chunkSize === 0) {
+    throw new RangeError("chunkSize must be greater than 0");
+  }
+
+  const prefix = calculatePiPrefix(digits, options);
+  const fractionalDigits = digits === 0 ? "" : prefix.split(".")[1] ?? "";
+  const chunkCount =
+    digits === 0 ? 1 : 1 + Math.ceil(fractionalDigits.length / chunkSize);
+
+  return {
+    chunkCount,
+    chunkSize,
+    digits,
+    firstDigits: prefix.slice(0, 32),
+    lastDigits: prefix.slice(-32),
+    prefixLength: prefix.length,
+    sha256: createHash("sha256").update(prefix).digest("hex")
+  };
 }
 
 export function explainPiExactnessLimit(): string {
