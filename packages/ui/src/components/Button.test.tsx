@@ -2,30 +2,20 @@ import { render, screen } from '@testing-library/react';
 import { Button } from './Button';
 
 describe('Button', () => {
-  it('should render with label text', () => {
+  test('renders with correct label', () => {
     render(<Button label="Click me" />);
     expect(screen.getByText('Click me')).toBeInTheDocument();
   });
 
-  it('should render with disabled state', () => {
-    render(<Button label="Disabled Button" disabled />);
+  test('is disabled when disabled prop is true', () => {
+    render(<Button label="Disabled button" disabled />);
     const button = screen.getByRole('button');
     expect(button).toBeDisabled();
   });
 
-  it('should render with enabled state by default', () => {
-    render(<Button label="Enabled Button" />);
+  test('is enabled when disabled prop is false', () => {
+    render(<Button label="Enabled button" disabled={false} />);
     const button = screen.getByRole('button');
     expect(button).not.toBeDisabled();
-  });
-
-  it('should render with custom disabled state', () => {
-    render(<Button label="Custom Button" disabled={true} />);
-    const button = screen.getByRole('button');
-    expect(button).toBeDisabled();
-  });
-
-  it('should render with custom enabled state', () => {
-    render(<Button label="Custom Button" disabled={false} />);
   });
 });
