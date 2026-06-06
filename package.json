@@ -1,14 +1,30 @@
 {
-  "name": "agent-playground",
-  "version": "0.1.0",
-  "private": true,
-  "description": "TaskFlow full-stack task management SaaS monorepo.",
+  "name": "taskflow-monorepo",
+  "version": "1.0.1",
+  "description": "TaskFlow monorepo",
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev": "npm run dev --workspaces",
+    "test": "npm run test --workspaces"
+  },
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "utilities"
   ],
-  "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
+  "dependencies": {
+    "typescript": "^5.0.0"
+  },
+  "keywords": [],
+  "workspaces": [
+    "apps/*",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xevrion-v2/agent-playground.git"
+  },
+  "author": "TaskFlow Team",
+  "license": "MIT"
+}
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "format": "npm run format --workspaces --if-present"
