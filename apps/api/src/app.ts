@@ -1,21 +1,26 @@
 import express from 'express';
-import { json } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import { routes } from './routes';
+
+const app = express();
+
+// Apply security middleware
 app.use(helmet());
+
+// Apply CORS middleware
 app.use(cors());
-app.use(express.urlencoded({ extended: true }));
-app.use(json({ limit: '100kb' }));
 
-app.use('/api', routes);
+// Configure request body parsing with size limits
+// Conservative limit set to 100kb for JSON bodies to prevent abuse
+// This helps protect against DOS attacks via large payload submissions
+const JSON_BODY_SIZE_LIMIT = '100kb';
+app.use(express.json({ 
+  limit: JSON_BODY_SIZE_LIMIT,
+  // Only allow JSON content type for API security
+  type: 'application/json'
+}));
 
+// URL encoded bodies are not needed for this API
+app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
-
-## API Limits
-
-- JSON request body size limit: **100 KB**
-
-## AI Agent Contribution Instruction
+export default app;
