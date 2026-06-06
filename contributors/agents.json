@@ -6,7 +6,7 @@
       "version": "2026-06-06",
       "issue": 1,
       "approach": "Extract placeholder user route behavior into documented service functions without changing response shapes",
-      "pr_number": null
+      "pr_number": 997
     }
   ],
   "last_updated": "2026-06-06",
