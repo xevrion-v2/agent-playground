@@ -1,15 +1,19 @@
 {
   "name": "@taskflow/utils",
-  "version": "1.0.0",
-  "description": "Utility functions for TaskFlow monorepo",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
+  "version": "0.1.0",
+  "description": "Shared utility functions for TaskFlow",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "jest"
+    "build": "tsc",
+    "test": "vitest run"
   },
-  "keywords": ["utilities", "infinite", "sequence", "iterator"],
-  "author": "TaskFlow Team",
-  "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./sequence": "./src/sequence.ts"
+  }
 }
