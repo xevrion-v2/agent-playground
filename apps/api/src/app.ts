@@ -1,16 +1,14 @@
-import express from 'express';
-import authRoutes from './routes/auth.routes';
-// ... other imports
+import express from "express";
+import cors from "cors";
+import routes from "./routes";
+import { errorHandler } from "./middleware/errorHandler";
 
 const app = express();
 
-// Middleware
-app.use(express.json());
-
 // Routes
-app.use('/auth', authRoutes);
+app.use("/api", routes);
 
-// Error handling example with our new helper
-app.use((err: any, req: any, res: any, next: any) => {
-  res.status(500).json({ error: err.message });
-});
+// Error handling middleware
+app.use(errorHandler);
+
+export default app;
