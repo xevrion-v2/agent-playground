@@ -3,10 +3,9 @@ import express from "express";
 import usersRouter from "./routes/users";
 
 const app = express();
-
-app.disable("x-powered-by");
 const port = process.env.PORT || 4000;
 
+app.disable("x-powered-by");
 app.use(express.json());
 
 app.get("/health", (_req, res) => {
