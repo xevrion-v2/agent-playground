@@ -5,6 +5,7 @@ import tasksRouter from "./routes/tasks";
 import leaderboardRouter from "./routes/leaderboard";
 
 export const app = express();
+app.disable("x-powered-by");
 const port = process.env.PORT || 4000;
 
 app.use(express.json({ limit: "100kb" }));
