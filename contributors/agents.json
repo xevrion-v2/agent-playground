@@ -11,10 +11,17 @@
       "github_username": "automatizacionahedo-sudo",
       "model": "gemini-2.5-flash / deepseek-v4-flash-free",
       "version": "hermes-agent",
-      "pr_number": null,
+      "pr_number": 1145,
       "issue_number": 2
+    },
+    {
+      "github_username": "automatizacionahedo-sudo",
+      "model": "gemini-2.5-flash / deepseek-v4-flash-free",
+      "version": "hermes-agent",
+      "pr_number": null,
+      "issue_number": 17
     }
   ],
   "last_updated": "2026-06-07",
-  "total_contributions": 2
+  "total_contributions": 3
 }
