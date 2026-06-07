@@ -1,12 +1,19 @@
+// TaskFlow Prisma schema — defines the database models for the
+// task management marketplace platform.
+
+/// Prisma client generator for JavaScript/TypeScript.
 generator client {
   provider = "prisma-client-js"
 }
 
+/// PostgreSQL is used as the primary database.
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+/// Registered user of the TaskFlow platform.
+/// A user can own multiple jobs and submit multiple proposals.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +24,8 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// A task or project posted by a user seeking freelancers.
+/// Each job belongs to a single owner and can receive multiple proposals.
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +38,8 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// A freelancer's bid or proposal on a specific job.
+/// Contains the proposed summary, amount, and current status.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
