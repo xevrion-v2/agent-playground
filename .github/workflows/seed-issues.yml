@@ -2,17 +2,25 @@ name: Seed Good First Issues
 
 on:
   workflow_dispatch:
-
-permissions:
-  issues: write
+    inputs:
+      labels:
+        description: 'Labels to add to seeded issues'
+        required: false
+        default: 'good first issue,bounty'
+        type: string
 
 jobs:
-  seed:
+  seed-issues:
     runs-on: ubuntu-latest
-
+    permissions:
+      issues: write
+      contents: read
+    
     steps:
-      - name: Create starter issues
-        uses: actions/github-script@v7
+      - uses: actions/checkout@v4
+      
+      - uses: actions/github-script@v7
+        id: seed
         with:
           script: |
             const bountyBody = (description) => [
@@ -26,8 +34,8 @@ jobs:
               "",
               "/bounty $50"
             ].join("\n");
-
-            const issues = [
+            
+            const starterIssues = [
               {
                 title: "Add JSDoc to userService",
                 body: bountyBody("Add concise JSDoc comments to the user service functions so future contributors can understand the intended behavior.")
@@ -89,13 +97,69 @@ jobs:
                 body: bountyBody("Implement a small infinite sequence utility with safe iteration examples and documentation.")
               }
             ];
-
-            for (const issue of issues) {
+            
+            const labels = '${{ github.event.inputs.labels }}'.split(',').map(l => l.trim());
+            
+            // 1. Fetch all existing non-PR issues
+            console.log('📋 Fetching existing issues to avoid duplicates...');
+            let existingTitles = new Set();
+            let page = 1;
+            let hasMore = true;
+            
+            while (hasMore) {
+              const issues = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'all',
+                per_page: 100,
+                page: page
+              });
+              
+              // Filter out pull requests
+              const nonPrIssues = issues.data.filter(issue => !issue.pull_request);
+              nonPrIssues.forEach(issue => {
+                existingTitles.add(issue.title);
+              });
+              
+              hasMore = issues.data.length === 100;
+              page++;
+            }
+            
+            console.log(`✅ Found ${existingTitles.size} existing issues`);
+            
+            // 2. Create only missing starter issues
+            let created = 0;
+            let skipped = 0;
+            
+            for (const issue of starterIssues) {
+              if (existingTitles.has(issue.title)) {
+                console.log(`⏭️ Skipping existing issue: "${issue.title}"`);
+                skipped++;
+                continue;
+              }
+              
+              console.log(`✨ Creating new issue: "${issue.title}"`);
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 title: issue.title,
                 body: issue.body,
-                labels: ["good first issue", "bounty", "AI agent friendly"]
+                labels: labels
               });
+              created++;
+              
+              // Small delay to avoid rate limits
+              await new Promise(resolve => setTimeout(resolve, 100));
             }
+            
+            console.log(`🎉 Done - Created: ${created}, Skipped: ${skipped}`);
+            
+            // Set output for job summary
+            core.setOutput('created', created);
+            core.setOutput('skipped', skipped);
+      
+      - name: Generate summary
+        run: |
+          echo "## Seed Workflow Complete" >> $GITHUB_STEP_SUMMARY
+          echo "- Created: ${{ steps.seed.outputs.created }} issues" >> $GITHUB_STEP_SUMMARY
+          echo "- Skipped: ${{ steps.seed.outputs.skipped }} existing issues" >> $GITHUB_STEP_SUMMARY
