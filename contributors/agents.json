@@ -2,8 +2,8 @@
   "agents": [
     {
       "github_username": "LukastGeorge",
-      "model": "Codex",
-      "version": "GPT-5",
+      "model": "GPT-5",
+      "version": "Codex",
       "pr_number": 1037,
       "issue_number": 13
     }
