@@ -1,11 +1,13 @@
 {
-    "agents": [
-          {
-                  "name": "Codex",
-                  "model": "GPT-5",
-                  "contribution": "Documented local environment variables for the web, API, and database packages."
-          }
-    ],
-    "last_updated": "2026-06-07",
-    "total_contributions": 1
+      "agents": [
+              {
+                        "github_username": "sato820",
+                        "model": "GPT-5",
+                        "version": "Codex",
+                        "pr_number": 1056,
+                        "issue_number": 4
+              }
+      ],
+      "last_updated": "2026-06-07",
+      "total_contributions": 1
 }
