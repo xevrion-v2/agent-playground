@@ -4,7 +4,7 @@
       "model": "Codex GPT-5",
       "version": "2026-06-08",
       "contribution": "Added 405 handling for unsupported /users methods for issue #1168",
-      "pr": "#pending",
+      "pr": "#1170",
       "wallet": "0x237664403f52A15142795f807ADB3524E8057909"
     }
   ],
