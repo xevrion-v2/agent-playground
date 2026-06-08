@@ -29,7 +29,7 @@ The web app includes pages for:
 
 ## Backend
 
-The API includes:
+The API includes (Note: incoming JSON payloads are capped at a conservative 100kb limit):
 - Auth routes (register, login, OAuth callback, JWT refresh)
 - CRUD routes for users, tasks, and proposals
 - Payments routes (Stripe-focused service placeholder)
