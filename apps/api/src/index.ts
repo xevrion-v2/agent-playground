@@ -48,7 +48,7 @@ export function installGracefulShutdown(
       clearTimeout(forcedExit);
       if (error) {
         logger.error("TaskFlow API shutdown failed", error);
-        exit(1);
+        return exit(1);
       }
 
       logger.log("TaskFlow API closed cleanly");

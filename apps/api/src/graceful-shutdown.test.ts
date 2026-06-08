@@ -72,3 +72,42 @@ test("graceful shutdown ignores duplicate signals while closing", async () => {
 
   assert.equal(closeCalls, 1);
 });
+
+test("graceful shutdown exits with failure when the server cannot close", async () => {
+  const events: string[] = [];
+  let exitCode: number | undefined;
+
+  const shutdown = installGracefulShutdown(
+    {
+      close(callback: (error?: Error) => void) {
+        queueMicrotask(() => callback(new Error("close failed")));
+        return this as never;
+      },
+    },
+    {
+      signals: [],
+      timeoutMs: 100,
+      exit(code) {
+        exitCode = code;
+        return undefined as never;
+      },
+      logger: {
+        log(message: string) {
+          events.push(message);
+        },
+        error(message: string) {
+          events.push(message);
+        },
+      },
+    },
+  );
+
+  shutdown("SIGTERM");
+  await new Promise((resolve) => setImmediate(resolve));
+
+  assert.equal(exitCode, 1);
+  assert.deepEqual(events, [
+    "Received SIGTERM; closing TaskFlow API gracefully",
+    "TaskFlow API shutdown failed",
+  ]);
+});
