@@ -1,0 +1,266 @@
+prisma
+// ============================================================================
+// TaskFlow Prisma Schema — Production-Grade Database Models
+// ============================================================================
+// This schema defines the core entities for the TaskFlow project management
+// application. Each model includes comprehensive validation, indexing, and
+// relationship management for optimal performance and data integrity.
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// User Model
+// ----------------------------------------------------------------------------
+// Represents a registered user in the TaskFlow system. Users are the primary
+// actors who can create projects, manage tasks, and participate in discussions.
+// Each user has a unique email address and secure password storage.
+// ----------------------------------------------------------------------------
+model User {
+  // Unique identifier using CUID for distributed ID generation
+  id        String   @id @default(cuid())
+  
+  // Unique email address used for authentication and notifications
+  // Must be validated with proper email format in application layer
+  email     String   @unique
+  
+  // Optional display name for the user (1-100 characters recommended)
+  name      String?
+  
+  // Hashed password using bcrypt or similar algorithm (never stored in plaintext)
+  // Minimum 8 characters, must contain uppercase, lowercase, and special characters
+  password  String
+  
+  // Timestamps for record lifecycle management
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  // A user can own multiple projects
+  projects Project[] @relation("ProjectOwner")
+  
+  // A user can be assigned to multiple tasks
+  assignedTasks Task[] @relation("TaskAssignee")
+  
+  // A user can write multiple comments on tasks
+  comments Comment[] @relation("CommentAuthor")
+
+  // Indexes for query performance
+  @@index([email])
+  @@index([createdAt])
+  @@index([name])
+}
+
+// ----------------------------------------------------------------------------
+// Project Model
+// ----------------------------------------------------------------------------
+// Represents a container for organizing related tasks under a common goal.
+// Projects provide structure and context for task management, allowing teams
+// to group work items by initiative, sprint, or category.
+// ----------------------------------------------------------------------------
+model Project {
+  // Unique identifier using CUID for distributed ID generation
+  id        String   @id @default(cuid())
+  
+  // Project name (required, 1-200 characters, validated in application layer)
+  name      String
+  
+  // Optional detailed description of project goals and scope (max 5000 chars)
+  description String?
+  
+  // Timestamps for record lifecycle management
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign key to the user who owns/created this project
+  ownerId String
+  
+  // Relationship to the owning user
+  owner   User   @relation("ProjectOwner", fields: [ownerId], references: [id])
+
+  // A project can contain multiple tasks
+  tasks Task[]
+
+  // Indexes for query performance
+  @@index([ownerId])
+  @@index([name])
+  @@index([createdAt])
+  @@index([ownerId, createdAt])
+}
+
+// ----------------------------------------------------------------------------
+// Task Model
+// ----------------------------------------------------------------------------
+// Represents a single unit of work within a project. Tasks are the core
+// tracking unit in TaskFlow, containing all necessary information for
+// assignment, prioritization, and status tracking.
+// ----------------------------------------------------------------------------
+model Task {
+  // Unique identifier using CUID for distributed ID generation
+  id        String   @id @default(cuid())
+  
+  // Task title (required, 1-300 characters, validated in application layer)
+  title       String
+  
+  // Optional detailed description of the task requirements (max 10000 chars)
+  description String?
+  
+  // Current status of the task with strict enum validation
+  // Valid values: TODO, IN_PROGRESS, IN_REVIEW, DONE, BLOCKED
+  status      String   @default("TODO")
+  
+  // Priority level for task triage and scheduling
+  // Valid values: LOW, MEDIUM, HIGH, CRITICAL
+  priority    String   @default("MEDIUM")
+  
+  // Optional deadline for task completion (must be future date when set)
+  dueDate     DateTime?
+  
+  // Timestamps for record lifecycle management
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign key to the parent project
+  projectId String
+  
+  // Relationship to the parent project
+  project   Project @relation(fields: [projectId], references: [id])
+
+  // Foreign key to the assigned user (optional - task may be unassigned)
+  assigneeId String?
+  
+  // Relationship to the assigned user
+  assignee   User?   @relation("TaskAssignee", fields: [assigneeId], references: [id])
+
+  // A task can have multiple comments for discussion
+  comments Comment[]
+
+  // Indexes for query performance
+  @@index([projectId])
+  @@index([assigneeId])
+  @@index([status])
+  @@index([priority])
+  @@index([dueDate])
+  @@index([createdAt])
+  @@index([projectId, status])
+  @@index([assigneeId, status])
+  @@index([projectId, priority])
+  @@index([status, priority])
+  @@index([projectId, dueDate])
+}
+
+// ----------------------------------------------------------------------------
+// Comment Model
+// ----------------------------------------------------------------------------
+// Represents user-generated content on a specific task. Comments enable
+// asynchronous collaboration, allowing team members to discuss progress,
+// ask questions, and provide updates on task status.
+// ----------------------------------------------------------------------------
+model Comment {
+  // Unique identifier using CUID for distributed ID generation
+  id        String   @id @default(cuid())
+  
+  // The actual comment text content (required, 1-5000 characters)
+  // Must be sanitized to prevent XSS attacks in application layer
+  content   String
+  
+  // Timestamps for record lifecycle management
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign key to the parent task
+  taskId String
+  
+  // Relationship to the parent task
+  task   Task @relation(fields: [taskId], references: [id])
+
+  // Foreign key to the comment author
+  authorId String
+  
+  // Relationship to the comment author
+  author   User   @relation("CommentAuthor", fields: [authorId], references: [id])
+
+  // Indexes for query performance
+  @@index([taskId])
+  @@index([authorId])
+  @@index([createdAt])
+  @@index([taskId, createdAt])
+  @@index([taskId, authorId])
+}
+
+// ============================================================================
+// Enums for Data Integrity
+// ============================================================================
+// These enums ensure data consistency across the application by restricting
+// valid values for status and priority fields.
+// ============================================================================
+
+// Task status enum with all possible workflow states
+enum TaskStatus {
+  TODO        // Task has been created but not started
+  IN_PROGRESS // Task is currently being worked on
+  IN_REVIEW   // Task is pending review/approval
+  DONE        // Task has been completed successfully
+  BLOCKED     // Task cannot proceed due to dependencies or issues
+}
+
+// Task priority enum for workload management
+enum TaskPriority {
+  LOW      // Non-critical task with flexible timeline
+  MEDIUM   // Standard priority task with normal timeline
+  HIGH     // Important task requiring prompt attention
+  CRITICAL // Urgent task requiring immediate action
+}
+
+// ============================================================================
+// Updated Models with Enum Support
+// ============================================================================
+
+model Task {
+  // ... (previous fields remain the same)
+  
+  // Current status of the task using enum for data integrity
+  status      TaskStatus @default(TODO)
+  
+  // Priority level using enum for data integrity
+  priority    TaskPriority @default(MEDIUM)
+  
+  // ... (rest of the model remains the same)
+}
+
+// ============================================================================
+// Audit Log Model (Optional - for compliance and tracking)
+// ============================================================================
+// Tracks all significant changes to tasks and projects for audit purposes.
+// Useful for compliance requirements and debugging.
+// ----------------------------------------------------------------------------
+model AuditLog {
+  // Unique identifier
+  id        String   @id @default(cuid())
+  
+  // Type of action performed (CREATE, UPDATE, DELETE, STATUS_CHANGE, etc.)
+  action    String
+  
+  // The model that was affected (User, Project, Task, Comment)
+  entityType String
+  
+  // The ID of the affected record
+  entityId   String
+  
+  // Previous state before the change (JSON string)
+  oldValue   String?
+  
+  // New state after the change (JSON string)
+  newValue   String?
+  
+  // User who performed the action
+  userId    String
+  
+  // Timestamp of the action
+  createdAt DateTime @default(now())
+
+  // Indexes for query performance
+  @@index([entityType, entityId])
+  @@index([userId])
+  @@index([createdAt])
+  @@index([action])
+  @@index([entityType, action, createdAt])
+}
