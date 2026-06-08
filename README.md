@@ -45,6 +45,17 @@ Backend architecture follows:
 - Validation schemas (Zod)
 - Utility helpers
 
+## Environment Variables
+
+For local development, the following environment variables are expected:
+
+**API (`apps/api`)**
+- `PORT`: The port for the API server (defaults to 4000)
+- `DATABASE_URL`: The Prisma database connection string
+
+**Web (`apps/web`)**
+No specific environment variables are required at this time (standard Next.js behavior applies).
+
 ## Getting Started
 
 npm install
