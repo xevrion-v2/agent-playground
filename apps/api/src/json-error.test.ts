@@ -1,39 +1,16 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
 import { test } from "node:test";
 
-async function waitForServer(port: number) {
-  const deadline = Date.now() + 5000;
-
-  while (Date.now() < deadline) {
-    try {
-      const response = await fetch(`http://127.0.0.1:${port}/health`);
-      if (response.ok) {
-        return;
-      }
-    } catch {
-      await new Promise((resolve) => setTimeout(resolve, 100));
-    }
-  }
-
-  throw new Error("API server did not become ready");
-}
+import { app } from "./index";
 
 test("malformed JSON request bodies return a JSON 400 response", async () => {
-  const port = 4517;
-  const server = spawn("tsx", ["src/index.ts"], {
-    cwd: new URL("..", import.meta.url),
-    env: {
-      ...process.env,
-      PORT: String(port)
-    },
-    stdio: "ignore"
-  });
+  const server = app.listen(0);
 
   try {
-    await waitForServer(port);
+    const address = server.address();
+    assert(address && typeof address === "object");
 
-    const response = await fetch(`http://127.0.0.1:${port}/users`, {
+    const response = await fetch(`http://127.0.0.1:${address.port}/users`, {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -47,9 +24,15 @@ test("malformed JSON request bodies return a JSON 400 response", async () => {
       error: "Invalid JSON request body"
     });
   } finally {
-    server.kill("SIGTERM");
-    await new Promise<void>((resolve) => {
-      server.once("exit", () => resolve());
+    await new Promise<void>((resolve, reject) => {
+      server.close((error) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+
+        resolve();
+      });
     });
   }
 });

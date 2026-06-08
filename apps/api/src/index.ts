@@ -2,8 +2,7 @@ import express, { type ErrorRequestHandler } from "express";
 
 import usersRouter from "./routes/users";
 
-const app = express();
-const port = process.env.PORT || 4000;
+export const app = express();
 
 app.use(express.json());
 app.use(((error, _req, res, next) => {
@@ -23,6 +22,10 @@ app.get("/health", (_req, res) => {
 
 app.use("/users", usersRouter);
 
-app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
-});
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const port = process.env.PORT || 4000;
+
+  app.listen(port, () => {
+    console.log(`TaskFlow API listening on port ${port}`);
+  });
+}
