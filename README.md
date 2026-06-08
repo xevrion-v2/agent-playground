@@ -11,7 +11,7 @@ with a modern TypeScript-first architecture.
 - `apps/web` — Next.js 14 App Router frontend
 - `apps/api` — Express.js backend with layered REST API
 - `packages/db` — Prisma schema and database package
-- `packages/ui` — Shared UI components
+- `packages/ui` — Shared UI components and utilities
 
 ## Frontend
 
@@ -83,3 +83,25 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## Utilities
+
+### Infinite Sequence Iterator
+
+The `packages/ui` package provides an infinite sequence utility with safe iteration.
+
+```typescript
+import { infiniteSequence, take } from "@taskflow/ui";
+
+// Natural numbers: 0, 1, 2, 3, ...
+const naturals = infiniteSequence(0, n => n + 1);
+console.log(take(naturals, 5)); // [0, 1, 2, 3, 4]
+
+// Even numbers: 0, 2, 4, 6, ...
+const evens = infiniteSequence(0, n => n + 2);
+for (const n of take(evens, 3)) {
+  console.log(n); // 0, 2, 4
+}
+```
+
+The `take` function safely consumes a limited number of values from an infinite sequence.
