@@ -13,6 +13,19 @@ app.get("/health", (_req, res) => {
 
 app.use("/users", usersRouter);
 
+// Global error handler - must be last middleware
+app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error("Unhandled error:", err);
+  
+  const statusCode = (err as any).statusCode || 500;
+  const message = err.message || "Internal server error";
+  
+  res.status(statusCode).json({
+    error: message,
+    ...(process.env.NODE_ENV === "development" && { stack: err.stack })
+  });
+});
+
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
 });
