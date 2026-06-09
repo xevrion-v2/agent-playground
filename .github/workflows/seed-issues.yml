@@ -15,7 +15,20 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const canonicalBountyTitle = "Bug Bounty Program — How to Participate";
+            const { data: searchResults } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${context.repo.owner}/${context.repo.repo} is:issue in:title "${canonicalBountyTitle}"`,
+              per_page: 10
+            });
+            const canonicalBountyIssue = searchResults.items.find(
+              (issue) => issue.title === canonicalBountyTitle && !issue.pull_request
+            );
+            const parentBountyLines = canonicalBountyIssue
+              ? [`Parent bounty: #${canonicalBountyIssue.number}`, ""]
+              : [];
+
             const bountyBody = (description) => [
+              ...parentBountyLines,
               description,
               "",
               "## Acceptance Criteria",
