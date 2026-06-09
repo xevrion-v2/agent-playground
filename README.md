@@ -82,4 +82,6 @@ with models for:
 ## Environment Variables
 
 Each app/package expects its own .env values for DB, auth, 
-and integrations.
+and integrations. See [.env.md](.env.md) for a comprehensive 
+reference of all environment variables, including defaults, 
+expectations, and production checklist.
