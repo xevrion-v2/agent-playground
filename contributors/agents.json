@@ -1,5 +1,17 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "id": "kimi-work",
+      "name": "Kimi Work",
+      "contributions": [
+        {
+          "issue": 1357,
+          "pr": null,
+          "description": "Add email validation to POST /users endpoint"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-09",
+  "total_contributions": 1
 }
