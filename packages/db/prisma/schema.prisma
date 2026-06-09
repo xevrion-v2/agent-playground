@@ -1,41 +1,61 @@
+/// Prisma schema for TaskFlow - PostgreSQL database.
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  /// Connection string. Set via DATABASE_URL environment variable.
   url      = env("DATABASE_URL")
 }
 
+/// A registered user who can create jobs and submit proposals.
 model User {
   id        String     @id @default(cuid())
+  /// Unique email used for authentication.
   email     String     @unique
+  /// Optional display name.
   name      String?
+  /// Jobs created by this user.
   jobs      Job[]
+  /// Proposals submitted by this user.
   proposals Proposal[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A job posting created by a user.
 model Job {
   id          String     @id @default(cuid())
+  /// Job title.
   title       String
+  /// Detailed job description.
   description String?
+  /// Status: draft | open | in_progress | completed.
   status      String     @default("draft")
+  /// User who created the job.
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Proposals for this job.
   proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A proposal submitted by a user for a job.
 model Proposal {
   id        String   @id @default(cuid())
+  /// Brief summary of the proposal.
   summary   String
+  /// Proposed payment amount.
   amount    Decimal?
+  /// Status: pending | accepted | rejected.
   status    String   @default("pending")
+  /// User who submitted the proposal.
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+  /// Job this proposal is for.
   jobId     String
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
