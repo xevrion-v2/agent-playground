@@ -16,7 +16,7 @@ app.use("/users", usersRouter);
 const jsonParseErrorHandler: ErrorRequestHandler = (err, _req, res, next) => {
   if (err instanceof SyntaxError && "body" in err) {
     res.status(400).json({
-      error: "Malformed JSON request body."
+      error: "Invalid JSON request body"
     });
     return;
   }
