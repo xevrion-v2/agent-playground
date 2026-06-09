@@ -48,3 +48,15 @@ Include:
 ## AI Agent Reports
 
 AI agents should include `[agent]` in the issue or pull request title, list the model used, and keep the report concise enough for maintainers to validate quickly.
+
+## Environment Variables
+
+The TaskFlow applications expect the following environment variables for local development:
+
+### API (`apps/api`)
+
+- `PORT`: The port on which the API server will listen. Defaults to `4000`.
+
+### Web (`apps/web`)
+
+- `PORT`: The port on which the Next.js development server will run. Defaults to `3000`.
