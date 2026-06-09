@@ -81,5 +81,22 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app or package expects its own `.env` values for DB, auth, and integrations.
+
+### `apps/web`
+
+Expected local variables:
+
+- `NEXT_PUBLIC_API_URL`: Base URL for the local API server.
+
+### `apps/api`
+
+Expected local variables:
+
+- `PORT`: Port for the Express API. Defaults to `4000` when unset.
+
+### `packages/db`
+
+Expected local variables:
+
+- `DATABASE_URL`: Prisma database connection string used by `packages/db/prisma/schema.prisma`.
