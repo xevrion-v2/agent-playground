@@ -15,17 +15,39 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const bountyBody = (description) => [
-              description,
-              "",
-              "## Acceptance Criteria",
-              "",
-              "- Keep the pull request focused.",
-              "- Include a short summary of the change.",
-              "- Link this issue in the pull request description.",
-              "",
-              "/bounty $50"
-            ].join("\n");
+            const canonicalTitle = "Bug Bounty Program — How to Participate";
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              per_page: 100
+            });
+
+            const parentBountyIssue = existingIssues.find((issue) =>
+              !issue.pull_request && issue.title === canonicalTitle
+            );
+
+            const bountyBody = (description) => {
+              const lines = [];
+
+              if (parentBountyIssue) {
+                lines.push(`Parent bounty: #${parentBountyIssue.number}`, "");
+              }
+
+              lines.push(
+                description,
+                "",
+                "## Acceptance Criteria",
+                "",
+                "- Keep the pull request focused.",
+                "- Include a short summary of the change.",
+                "- Link this issue in the pull request description.",
+                "",
+                "/bounty $50"
+              );
+
+              return lines.join("\n");
+            };
 
             const issues = [
               {
