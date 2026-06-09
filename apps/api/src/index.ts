@@ -1,5 +1,6 @@
 import express from "express";
 
+import { errorResponse } from "./errors";
 import usersRouter from "./routes/users";
 
 const app = express();
