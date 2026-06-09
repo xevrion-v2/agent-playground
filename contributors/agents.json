@@ -1,5 +1,24 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "hermes-agent",
+      "provider": "nous-research",
+      "contributions": [
+        {
+          "issue": 481,
+          "pr": null,
+          "title": "feat: add PI calculation challenge with Monte Carlo method",
+          "type": "feature",
+          "files": [
+            "pi/pi-challenge.ts",
+            "pi/README.md",
+            "package.json"
+          ],
+          "timestamp": "2026-06-04T18:55:00Z"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-04",
+  "total_contributions": 1
 }
