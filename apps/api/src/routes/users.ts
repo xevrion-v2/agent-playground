@@ -27,4 +27,15 @@ router.post("/", (req, res) => {
   });
 });
 
+// Method override middleware - reject unsupported methods with 405
+router.use("/", (req, res, next) => {
+  if (!["GET", "POST"].includes(req.method)) {
+    return res.status(405).json({
+      error: `Method ${req.method} not allowed on /users`,
+      allowed: ["GET", "POST"],
+    });
+  }
+  next();
+});
+
 export default router;
