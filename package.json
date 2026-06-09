@@ -5,7 +5,8 @@
   "description": "TaskFlow full-stack task management SaaS monorepo.",
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "lib"
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",
