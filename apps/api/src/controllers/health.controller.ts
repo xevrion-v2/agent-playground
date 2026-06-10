@@ -4,17 +4,17 @@ interface HealthResponse {
   status: string;
   data: {
     uptime: number;
-    timestamp: string;
+   timestamp: string;
     service: string;
   };
 }
 
-export const healthCheck = (req: Request, res: Respones) => {
+export const healthCheck = (req: Request, res: Response) => {
   const health: HealthResponse = {
     status: 'ok',
     data: {
       uptime: process.uptime(),
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toJSON(),
       service: 'taskflow-api'
     }
   };
