@@ -1,10 +1,11 @@
 # TaskFlow Monorepo
+<img width="663" height="183" alt="593560707-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2">
 
-<img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
-
+<br>
 
 TaskFlow is a full-stack task management SaaS monorepo built 
 with a modern TypeScript-first architecture.
+
 
 ## Workspace Structure
 
@@ -31,24 +32,24 @@ The web app includes pages for:
 
 The API includes:
 - Auth routes (register, login, OAuth callback, JWT refresh)
-- CRUD routes for users, tasks, and proposals
-- Payments routes (Stripe-focused service placeholder)
-- Reviews, messaging, notifications
-- File uploads and search
-- Admin routes
-
-Backend architecture follows:
-- Middleware layer (auth, rate limiting, error handling)
-- Controller layer
-- Service layer
-- Route layer
-- Validation schemas (Zod)
+- Task boards and task detail
+- Create a task
+- User profiles and user search
+- Client and freelancers dashboards
+- Messaging
+- Notifications
+- Settings
+- Billing
+- Admin panel
+The web app includes pages for:
+<br>
+- Landing
 - Utility helpers
 
 ## Getting Started
 
-npm install
-npm run test
+- Task boards and task detail
+- Create a task
 
 ## AI Agent Contribution Instruction
 
@@ -63,15 +64,15 @@ before opening your PR.
 npm run dev -w apps/web
 
 ### Run backend
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
-and integration services.
-## Database
-
-Prisma schema is available in packages/db/prisma/schema.prisma 
-with models for:
-- Users
-- Tasks
+- Controller layer
+- Service layer
+- Route layer
+- Validation schemas (Zod)
+- Utility helpers
+-
++### Run frontend
++
++
 - Proposals
 - Payments
 - Reviews
