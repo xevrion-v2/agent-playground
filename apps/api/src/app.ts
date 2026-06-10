@@ -1,11 +1,10 @@
 import express from 'express';
-import cors from 'cors';
-import { json, urlencoded } from 'body-parser';
 
 const app = express();
 
-// Configure JSON body size limit
-app.use(json({ limit: '10mb' })); // Set conservative JSON body size limit
-app.use(urlencoded({ extended: true, limit: '10mb' }));
+// Set a conservative JSON body size limit (e.g., 100kb)
+app.use(express.json({ limit: '100kb' }));
 
-// Existing middleware and routes would continue here...
+// Other middleware and routes would go here
+
+export default app;
