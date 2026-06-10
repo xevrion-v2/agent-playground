@@ -1,121 +1,102 @@
 /**
- * User Service
- * 
- * This service handles all user-related operations including creation, retrieval,
- * updating, and deletion of user records. It serves as the main interface between
- * the controller layer and the database for user operations.
+ * Service for managing users
+ * @namespace UserService
  */
-
 import { User } from '@prisma/client';
-import { db } from '@taskflow/db';
+import { prisma } from '../utils/prisma';
+import { hashPassword, comparePassword } from '../utils/auth';
 
 /**
- * Creates a new user in the system
- * @param userData - The data required to create a new user
- * @returns Promise resolving to the created user object
+ * Create a new user
+ * @param userData - The user data to create
+ * @param userData.email - User's email address
+ * @param userData.password - User's password (will be hashed)
+ * @param userData.name - User's full name
+ * @returns Promise resolving to the created user
  */
-export async function createUser(userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<User> {
-  return await db.user.create({
-    data: userData,
-    select: {
-      id: true,
-      email: true,
-      name: true,
-      role: true,
+export const createUser = async (userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const hashedPassword = await hashPassword(userData.password);
+  return prisma.user.create({
+    data: {
+      ...userData,
+      password: hashedPassword,
     },
   });
-}
+};
 
 /**
- * Retrieves a user by their unique identifier
- * @param id - The unique identifier of the user to retrieve
- * @returns Promise resolving to the user object or null if not found
- * @throws Error if user is not found
- */
-export async function getUserById(id: string) {
-  const user = await db.user.findUnique({
-    where: {
-      id: id,
-    },
-  });
-  
-  if (!user) {
-    throw new Error(`User with id ${id} not found`);
-  }
-  
-  return user;
-}
-
-/**
- * Retrieves a user by their email address
- * @param email - The email address of the user to retrieve
+ * Get a user by their ID
+ * @param id - The user ID to look up
  * @returns Promise resolving to the user object or null if not found
  */
-export async function getUserByEmail(email: string) {
-  return await db.user.findUnique({
+export const getUserById = async (id: number) => {
+  return prisma.user.findUnique({
     where: {
-      email: email,
+      id,
     },
   });
-}
+};
 
 /**
- * Retrieves all users from the database
- * @returns Promise resolving to an array of all users
+ * Get a user by their email
+ * @param email - The email to search for
+ * @returns Promise resolving to the user object or null if not found
  */
-export async function getAllUsers() {
-  return await db.user.findMany();
-}
+export const getUserByEmail = async (email: string) => {
+  return prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+};
 
 /**
- * Updates an existing user's information
- * @param id - The unique identifier of the user to update
+ * Update a user's information
+ * @param id - The user ID to update
  * @param userData - The data to update the user with
- * @returns Promise resolving to the updated user object
- * @throws Error if user is not found
+ * @returns Promise resolving to the updated user
  */
-export async function updateUser(id: string, userData: Partial<User>) {
-  const user = await db.user.findUnique({
-    where: { id: id }
-  });
-  
-  if (!user) {
-    throw new Error(`User with id ${id} not found`);
+export const updateUser = async (id: number, userData: Partial<User>) => {
+  if (userData.password) {
+    userData.password = await hashPassword(userData.password);
   }
-  
-  return await db.user.update({
-    where: { id: id },
+  return prisma.user.update({
+    where: { id },
     data: userData,
   });
-}
+};
 
 /**
- * Deletes a user from the system
- * @param id - The unique identifier of the user to delete
- * @returns Promise resolving to the deleted user object
- * @throws Error if user is not found
+ * Delete a user by their ID
+ * @param id - The user ID to delete
+ * @returns Promise resolving to the deleted user
  */
-export async function deleteUser(id: string) {
-  const user = await db.user.findUnique({
-    where: { id: id }
+export const deleteUser = async (id: number) => {
+  return prisma.user.delete({
+    where: { id },
   });
-  
-  if (!user) {
-    throw new Error(`User with id ${id} not found`);
-  }
-  
-  return await db.user.delete({
-    where: { id: id },
-  });
-}
+};
 
 /**
- * Searches for users by name or other criteria
+ * Get all users with pagination
+ * @param page - Page number (default: 1)
+ * @param limit - Number of users per page (default: 10)
+ * @returns Promise resolving to an array of users
+ */
+export const getAllUsers = async (page: number = 1, limit: number = 10) => {
+  return prisma.user.findMany({
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+};
+
+/**
+ * Search users by name or email
  * @param query - Search query string
- * @returns Promise resolving to an array of matching users
+ * @returns Promise resolving to array of matching users
  */
-export async function searchUsers(query: string) {
-  return await db.user.findMany({
+export const searchUsers = async (query: string) => {
+  return prisma.user.findMany({
     where: {
       OR: [
         { name: { contains: query } },
@@ -123,42 +104,4 @@ export async function searchUsers(query: string) {
       ],
     },
   });
-}
-
-/**
- * Updates a user's profile information
- * @param id - The user ID to update
- * @param profileData - The profile data to update
- * @returns Promise resolving to the updated user object
- */
-export async function updateUserProfile(id: string, profileData: Partial<User>) {
-  return await db.user.update({
-    where: { id },
-    data: profileData,
-  });
-}
-
-/**
- * Retrieves users with pagination
- * @param page - Page number (1-indexed)
- * @param limit - Number of users per page
- @returns Promise resolving to paginated users
- */
-export async function getUsersPaginated(page: number = 1, limit: number = 10) {
-  return await db.user.findMany({
-    skip: (page - 1) * limit,
-    take: limit,
-  });
-}
-
-export default {
-  createUser,
-  getUserById,
-  getUserByEmail,
-  getAllUsers,
-  updateUser,
-  deleteUser,
-  searchUsers,
-  updateUserProfile,
-  getUsersPaginated,
 };
