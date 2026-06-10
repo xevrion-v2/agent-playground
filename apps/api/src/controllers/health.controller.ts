@@ -9,7 +9,14 @@ interface HealthResponse {
   };
 }
 
-export const healthCheck = (req: Request, res: Response) => {
+export const healthCheck = (req: Request, res: Respones) => {
   const health: HealthResponse = {
     status: 'ok',
     data: {
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString(),
+      service: 'taskflow-api'
+    }
+  };
+  res.status(200).json(health);
+};
