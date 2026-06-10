@@ -1,5 +1,5 @@
-import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import { Button } from './Button';
 
 describe('Button', () => {
@@ -18,7 +18,7 @@ describe('Button', () => {
     expect(screen.getByRole('button')).not.toBeDisabled();
   });
 
-  it('is not disabled when disabled prop is not provided', () => {
+  it('is not disabled by default', () => {
     render(<Button label="Default" />);
     expect(screen.getByRole('button')).not.toBeDisabled();
   });
