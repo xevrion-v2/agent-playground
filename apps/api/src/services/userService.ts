@@ -1,106 +1,38 @@
 /**
- * User service containing business logic for user operations
- */
-class UserService {
-  /**
-   * Creates a new user with the provided data
-   * @param userData - The data for creating a new user
-   * @returns The created user object
-   */
-  async createUser(userData: CreateUserData): Promise<User> {
-    // Implementation would go here
-    return {} as User;
-  }
-
-  /**
-   * Finds a user by their unique identifier
-   * @param id - The user's ID
-   * @returns The user object if found, null otherwise
-   */
-  async findUserById(id: string): Promise<User | null> {
-    // Implementation would go here
-    return null;
-  }
-
-  /**
-   * Updates a user's information
-   * @param id - The user's ID to update
-   * @param updateData - The data to update the user with
-   * @returns The updated user object
-   */
-  async updateUser(id: string, updateData: UpdateUserData): Promise<User> {
-    // Implementation would go here
-    return {} as User;
-  }
-
-  /**
-   * Deletes a user by their ID
-   * @param id - The ID of the user to delete
-   * @returns A boolean indicating success or failure
-   */
-  async deleteUser(id: string): Promise<boolean> {
-    // Implementation would go here
-    return true;
-  }
-
-  /**
-   * Finds users by email
-   * @param email - The email to search for
-   * @returns Array of users matching the email
-   */
-  async findUsersByEmail(email: string): Promise<User[]> {
-    // Implementation would go here
-    return [];
-  }
-
-  /**
-   * Gets all users with optional filtering
-   * @param filter - Optional filter parameters
-   * @returns Array of users matching the filter
-   */
-  async getAllUsers(filter?: UserFilter): Promise<User[]> {
-    // Implementation would go here
-    return [];
-  }
-}
-
-export default UserService;
-
-// Type definitions for the service interface
-export interface CreateUserData {
-  // User creation data interface
-}
-
-export interface UpdateUserData {
-  // User update data interface
-}
-
-export interface User {
-  // User interface
-}
-
-export interface UserFilter {
-  // Filter interface for user queries
-}
-
-export interface UserService {
-  /**
-   * Comprehensive user management service
-   * Provides user creation, retrieval, update, and deletion functionality
-   */
-  // Service methods would be implemented here
-}
-
-export default UserService;
-
-/**
- * JSDoc for userService
+ * Service for managing user-related operations
  * 
- * This service handles all user-related operations including:
- * - User creation and management
- * - User data retrieval
- * - User authentication state
- * - User profile updates
+ * This service handles user creation, retrieval, update and deletion operations
+ * as well as related user business logic.
  */
+export class UserService {
 
-// Service implementation would include the actual methods
+  /**
+   * Find a user by ID
+   * @param id - The unique identifier of the user
+   * @returns Promise resolving to the user object or null if not found
+   */
+  async findById(id: number): Promise<User | null> {
+    // implementation would be here
+  }
+
+  /**
+   * Create a new user
+   * @param userData - The user data to create
+   - @param userData.name - The user's name
+   * @param userData.email - The user's email
+   * @param userData.password - The user's password
+   * @returns Promise resolving to the created user
+   */
+  async create(userData: CreateUserInput): Promise<User> {
+    // implementation would be here
+  }
+
+  /**
+   * Update a user's information
+   * @param id - The ID of the user to update
+   * @param updateData - The fields to update
+   * @returns Promise resolving to the updated user
+   */
+  async update(id: number, updateData: UpdateUserInput): Promise<User> {
+    // implementation would be here
+  }
