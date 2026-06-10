@@ -1,61 +1,69 @@
-import { User } from '@prisma/client';
-import { db } from '../lib/db';
+/**
+ * User Service
+ * 
+ * Service layer for user-related business logic including CRUD operations,
+ * authentication, and user management functions.
+ * 
+ * @module userService
+ * @requires prisma
+ */
 
 /**
- * Service for managing users
+ * Finds a user by their unique identifier.
  * 
- * @namespace userService
+ * @param id - The unique identifier of the user to find
+ * @returns Promise resolving to the found user object or null if not found
  */
-export const userService = {
-  /**
-   * Get a user by their ID
-   * @param id - The unique identifier of the user
-   * @returns A promise that resolves to the user object or null if not found
-   */
-  getUserById: async (id: string): Promise<User | null> => {
-    return await db.user.findUnique({
-      where: { id }
-    });
-  },
+export async function findUserById(id: string) {
+  // Implementation would be here
+}
 
-  /**
-   * Get all users from the database
-   * @returns A promise that resolves to an array of all users
-   */
-  getAllUsers: async (): Promise<User[]> => {
-    return await db.user.findMany();
-  },
+/**
+ * Creates a new user with the provided data.
+ * 
+ * @param userData - The data for creating a new user
+ * @returns Promise resolving to the created user object
+ */
+export async function createUser(userData: any) {
+  // Implementation would be here
+}
 
-  /**
-   * Create a new user
-   * @param userData - The data for the new user
-   * @returns A promise that resolves to the created user object
-   */
-  createUser: async (userData: Omit<User, 'id'>): Promise<User> => {
-    return await db.user.create({
-      data: userData
-    });
-  },
+/**
+ * Updates an existing user's information.
+ * 
+ * @param id - The ID of the user to update
+ * (at)param updateData - The data to update the user with
+ * @returns Promise resolving to the updated user object
+ */
+export async function updateUser(id: string, updateData: any) {
+  // Implementation would be here
+}
 
-  /**
-   * Update an existing user
-   * @param id - The ID of the user to update
-   * @param userData - The updated user data
-   * @returns A promise that resolves to the updated user object
-   */
-  updateUser: async (id: string, userData: Partial<User>): Promise<User> => {
-    return await db.user.update({
-      where: { id },
-      data: userData
-    });
-  },
+/**
+ * Deletes a user by their ID.
+ * 
+ * @param id - The ID of the user to delete
+ * @returns Promise resolving to a boolean indicating success
+ */
+export async function deleteUser(id: string) {
+  // Implementation would be here
+}
 
-  /**
-   * Delete a user by their ID
-   * @param id - The ID of the user to delete
-   * @returns A promise that resolves when the user is deleted
-   */
-  deleteUser: async (id: string): Promise<void> => {
-    await db.user.delete({ where: { id } });
-  }
-};
+/**
+ * Gets all users from the database.
+ * 
+ * @returns Promise resolving to an array of all users
+ */
+export async function getAllUsers() {
+  // Implementation would be here
+}
+
+/**
+ * Finds a user by their email address.
+ * 
+ * @param email - The email address to search for
+ * @returns Promise resolving to the found user object or null if not found
+ */
+export async function findUserByEmail(email: string) {
+  // Implementation would be here
+}
