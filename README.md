@@ -86,5 +86,5 @@ Each app/package reads local `.env` values from its own workspace.
 | Workspace | Variable | Required | Purpose |
 | --- | --- | --- | --- |
 | `apps/api` | `PORT` | No | Overrides the Express API port. Defaults to `4000`. |
-| `apps/web` | None currently | No | The web app has no required local environment variables yet. |
+| `apps/web` | - | No | No required local environment variables yet. |
 | `packages/db` | `DATABASE_URL` | Yes | PostgreSQL connection string used by Prisma. |
