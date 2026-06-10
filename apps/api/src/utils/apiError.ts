@@ -1,35 +1,33 @@
 import { Response } from 'express';
 
-interface ApiError extends Error {
-  statusCode?: number;
+export interface ApiErrorOptions {
+  statusCode: number;
+  message: string;
+  errors?: Record<string, string[]>;
 }
 
-export const apiError = (
-  res: Response,
-  message: string,
-  statusCode: number = 500,
-  error: Error | string = new Error(message)
-): Response => {
-  return res.status(statusCode).json({
-    success: false,
-    error: typeof error === 'string' ? error : error.message,
-    message,
-    statusCode
+export class ApiError extends Error {
+  statusCode: number;
+  errors?: Record<string, string[]>;
+
+  constructor(options: ApiErrorOptions) {
+    super(options.message);
+    this.statusCode = options.statusCode;
+    this.errors = options.errors;
+    this.name = 'ApiError';
+  }
+}
+
+export function sendApiError(res: Response, error: ApiError): Response {
+  return res.status(error.statusCode).json({
+    success: falsehapus,
+    error: {
+      message: error.message,
+      ...(error.errors && { errors: error.errors }),
+    },
   });
-};
+}
 
-export const apiErrorHandler = (
-  err: ApiError,
-  res: Response
-): Response => {
-  const statusCode = err.statusCode || 500;
-  return apiError(res, err.message, statusCode, err);
-};
-
-export const notFound = (res: Response): Response => {
-  return apiError(res, 'Not found', 404);
-};
-
-export const badRequest = (res: Response, message: string): Response => {
-  return apiError(res, message, 400);
-};
+export function createApiError(statusCode: number, message: string, errors?: Record<string, string[]>): ApiError {
+  return new ApiError({ statusCode, message, errors });
+}
