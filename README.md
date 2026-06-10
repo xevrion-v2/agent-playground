@@ -82,9 +82,11 @@ with models for:
 ## Environment Variables
 
 Each app/package reads local `.env` values from its own workspace.
+Copy the matching `.env.example` file to `.env` in that workspace before
+running services that require local configuration.
 
 | Workspace | Variable | Required | Purpose |
 | --- | --- | --- | --- |
-| `apps/api` | `PORT` | No | Overrides the Express API port. Defaults to `4000`. |
-| `apps/web` | - | No | No required local environment variables yet. |
-| `packages/db` | `DATABASE_URL` | Yes | PostgreSQL connection string used by Prisma. |
+| `apps/api` | `PORT` | No | Overrides the Express API port. Defaults to `4000`; see `apps/api/.env.example`. |
+| `apps/web` | - | No | No required local environment variables yet; see `apps/web/.env.example`. |
+| `packages/db` | `DATABASE_URL` | Yes | PostgreSQL connection string used by Prisma; see `packages/db/.env.example`. |
