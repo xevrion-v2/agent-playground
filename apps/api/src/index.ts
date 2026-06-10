@@ -1,21 +1,19 @@
 import express from 'express';
-import type { Request, Response, NextFunction } from 'express';
-import cors checks from './middleware/auth';
-import routes from './routes';
+import { json } from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
 const app = express();
+const port = process.env.PORT || 4000;
+
 const PORT = process.env.PORT || 3001;
 
-// Middleware
-// JSON body size limit: 100KB to prevent large payload attacks
-app.use(express.json({ limit: '100kb' }));
-app.use(express.urlencoded({ extended: true, limit: '100kb' }));
+app.use(cors());
+// JSON body size limit: 100 KB (conservative limit to prevent abuse)
+app.use(json({ limit: '100kb' }));
 
-app.use(checks);
-
-// Routes
-
-app.use("/users", usersRouter);
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
 
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
