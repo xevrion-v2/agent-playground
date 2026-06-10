@@ -1,3 +1,6 @@
+// This is the Prisma schema for TaskFlow — a freelance marketplace platform.
+// Learn more: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,16 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Core user model. Represents both freelancers and clients on the platform.
+// A user can own jobs (as a client) and submit proposals (as a freelancer).
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
-  jobs      Job[]
-  proposals Proposal[]
+  jobs      Job[]      // Jobs posted by this user (client role)
+  proposals Proposal[] // Proposals submitted by this user (freelancer role)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+// A job listing posted by a client. Moves through draft → open → in-progress → completed.
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -24,15 +30,17 @@ model Job {
   status      String     @default("draft")
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
+  proposals   Proposal[] // Incoming proposals from freelancers
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+// A proposal submitted by a freelancer for a specific job.
+// Tracks the bid amount and moves through pending → accepted → rejected.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
-  amount    Decimal?
+  amount    Decimal? // Bid amount in USD
   status    String   @default("pending")
   userId    String
   user      User     @relation(fields: [userId], references: [id])
