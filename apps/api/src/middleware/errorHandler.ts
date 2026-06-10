@@ -1,21 +1,31 @@
 import { Request, Response, NextFunction } from 'express';
-import { APIError, sendErrorResponse } from '../utils/apiError';
+import { ApiError } from '../utils/apiError';
+
+interface ErrorResponse {
+  status: string;
+  message: string;
+  statusCode: number;
+  stack?: string;
+}
 
 export const errorHandler = (
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
+  err: ApiError,
+  _req: Request,
+  res: Response<ErrorResponse>,
+  _next: NextFunction
 ) => {
-  if (err instanceof APIError) {
-    return sendErrorResponse(res, err);
+  const statusCode = err.statusCode || 500;
+  const message = err.message || 'Internal Server Error';
+  
+  const response: ErrorResponse = {
+    status: 'error',
+    statusCode,
+    message,
+  };
+
+  if (process.env.NODE_ENV === 'development') {
+    response.stack = err.stack;
   }
 
-  // Handle unexpected errors
-  console.error('Unexpected error:', err);
-  const internalError = new APIError(
-    'Internal server error',
-    500
-  );
-  return sendErrorResponse(res, internalError);
+  return res.status(statusCode).json(response);
 };
