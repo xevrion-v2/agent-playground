@@ -1,23 +1,30 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
+import { HealthCheckResponse } from '../types';
 
-const healthRouter = Router();
+const router = Router();
 
-// Standard health check with consistent envelope
-healthRouter.get('/health', (req, res) => {
-  res.status(200).json({
+router.get('/health', (req: Request, res: Response) => {
+  const healthCheck = {
     status: 'ok',
     data: {
-      message: 'Service is healthy',
-      timestamp: new Date().toISOString(),
+      version: '1.0.0',
+      timestamp: new Date().toISOString()
+    }
+  };
+  
+  res.status(200).json({
+    status: 'success',
+    data: {
+      health: healthCheck
     }
   });
 });
 
-healthRouter.get('/healthz', (req, res) => {
-  res.status(200).json({
+router.get('/health', (req: Request, res: Response) => {
+  const healthCheck = {
     status: 'ok',
-    data: { message: 'Service is healthy' }
-  });
-});
-
-export default healthRouter;
+    data: {
+      version: '1.0.0',
+      timestamp: new Date().toISOString()
+    }
+  };
