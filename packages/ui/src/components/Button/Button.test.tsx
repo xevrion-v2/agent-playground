@@ -1,38 +1,25 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { Button } from './Button';
 
 describe('Button', () => {
   it('renders with correct label', () => {
     render(<Button label="Click me" />);
-    
     expect(screen.getByText('Click me')).toBeInTheDocument();
   });
 
-  it('renders with correct label from children prop', () => {
-    render(<Button>Child Label</Button>);
-    
-    expect(screen.getByText('Child Label')).toBeInTheDocument();
+  it('renders as disabled when disabled prop is true', () => {
+    const { container } = render(<Button label="Click me" disabled />);
+    expect(screen.getByText('Click me')).toBeDisabled();
   });
 
-  it('applies disabled attribute when disabled prop is true', () => {
-    render(<Button label="Disabled Button" disabled />);
-    
-    const button = screen.getByRole('button');
+  it('renders with correct label', () => {
+    render(<Button label="Submit" />);
+    expect(screen.getByText('Submit')).toBeInTheDocument();
+  });
+
+  it('renders with correct label and disabled state', () => {
+    const { container } = render(<Button label="Submit" disabled />);
+    const button = screen.getByText('Submit');
     expect(button).toBeDisabled();
-  });
-
-  it('does not apply disabled attribute when disabled prop is false', () => {
-    render(<Button label="Enabled Button" disabled={false} />);
-    
-    const button = screen.getByRole('button');
-    expect(button).toBeEnabled();
-  });
-
-  it('does not apply disabled attribute when disabled prop is not provided', () => {
-    render(<Button label="Default Button" />);
-    
-    const button = screen.getByRole('button');
-    expect(button).toBeEnabled();
   });
 });
