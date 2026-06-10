@@ -1,11 +1,15 @@
 import { Request, Response } from 'express';
 
-export const healthCheck = async (req: Request, res: Response) => {
-  return res.status(200).json({
-    status: 'success',
+interface HealthResponse {
+  status: string;
+  data: {
+    uptime: number;
+    timestamp: string;
+    service: string;
+  };
+}
+
+export const healthCheck = (req: Request, res: Response) => {
+  const health: HealthResponse = {
+    status: 'ok',
     data: {
-      message: 'OK',
-      timestamp: new Date().toISOString(),
-    }
-  });
-};
