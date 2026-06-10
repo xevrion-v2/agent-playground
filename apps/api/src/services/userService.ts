@@ -1,93 +1,83 @@
 /**
- * User service module - handles all database operations related to users.
- * Provides CRUD operations and user-specific queries for the application.
+ * User Service
+ * 
+ * Contains business logic for user-related operations including CRUD operations,
+ * authentication helpers, and user management functions.
+ * 
+ * @module userService
  */
 
-import { PrismaClient, User, Prisma } from '@prisma/client';
-import { hashPassword } from '../utils/password';
-
-
-export type UserCreateInput = Prisma.UserCreateInput;
+import { User } from '@prisma/client';
+import { prisma } from '../../prisma/client';
 
 /**
- * Retrieves all users from the database.
- * @param {Object} options - Query options
- * @param {Omit<Prisma.UserFindManyArgs, 'where'>} [options.args] - Additional Prisma query arguments
- * @returns {Promise<User[]>} Promise resolving to array of user objects
+ * Finds a user by their unique identifier.
+ * 
+ * @param id - The unique identifier of the user to find
+ * @returns Promise resolving to the user object or null if not found
+ * @throws {Error} If database operation fails
  */
-export async function getAllUsers(options?: {
-  args?: Omit<Prisma.UserFindManyArgs, 'where'>;
-}): Promise<User[]> {
+export async function findUserById(id: string) {
+  return prisma.user.findUnique({
+    where: { id }
   });
 }
 
 /**
- * Retrieves a single user by their unique identifier.
- * @param {string} id - The UUID of the user to find
- * @param {Omit<Prisma.UserFindUniqueArgs, 'where'>} [args] - Additional Prisma query arguments
- * @returns {Promise<User | null>} Promise resolving to the user object or null if not found
+ * Creates a new user with the provided data.
+ * 
+ * @param data - Partial user object containing the user's information
+ * @returns Promise resolving to the created user object
+ * @throws {Error} If user creation fails
  */
-export async function getUserById(
-  id: string,
-  args?: Omit<Prisma.UserFindUniqueArgs, 'where'>
+export async function createUser(data: Partial<User>) {
+  return prisma.user.create({
+    data
   });
 }
 
 /**
- * Retrieves a single user by their email address.
- * @param {string} email - The email address of the user to find
- * @param {Omit<Prisma.UserFindUniqueArgs, 'where'>} [args] - Additional Prisma query arguments
- * @returns {Promise<User | null>} Promise resolving to the user object or null if not found
+ * Updates a user's information.
+ * 
+ * @param id - The unique identifier of the user to update
+ * @param data - Partial user object containing updated fields
+ * @returns Promise resolving to the updated user object
+ * @throws {Error} If user update fails or user not found
  */
-export async function getUserByEmail(
-  email: string,
-  args?: Omit<Prisma.UserFindUniqueArgs, 'where'>
+export async function updateUser(id: string, data: Partial<User>) {
+  return prisma.user.update({
+    where: { id },
+    data
   });
 }
 
 /**
- * Creates a new user in the database with a hashed password.
- * @param {UserCreateInput} data - The user data to create
- * @param {Omit<Prisma.UserCreateArgs, 'data'>} [args] - Additional Prisma create arguments
- * @returns {Promise<User>} Promise resolving to the newly created user object
+ * Deletes a user by their unique identifier.
+ * 
+ * @param id - The unique identifier of the user to delete
+ * @returns Promise resolving to the deleted user object
+ * @throws {Error} If user deletion fails or user not found
  */
-export async function createUser(
-  data: UserCreateInput,
-  args?: Omit<Prisma.UserCreateArgs, 'data'>
+export async function deleteUser(id: string) {
+  return prisma.user.delete({
+    where: { id }
   });
 }
 
 /**
- * Updates an existing user's information.
- * @param {string} id - The UUID of the user to update
- * @param {Prisma.UserUpdateInput} data - The data to update on the user
- * @param {Omit<Prisma.UserUpdateArgs, 'where' | 'data'>} [args] - Additional Prisma update arguments
- * @returns {Promise<User>} Promise resolving to the updated user object
- * @throws {Error} When user with given id is not found
+ * Finds all users in the database.
+ * 
+ * @returns Promise resolving to an array of all user objects
+ * @throws {Error} If database operation fails
  */
-export async function updateUser(
-  id: string,
-  data: Prisma.UserUpdateInput,
-  });
+export async function findAllUsers() {
+  return prisma.user.findMany();
 }
 
-/**
- * Deletes a user from the database by their ID.
- * @param {string} id - The UUID of the user to delete
- * @param {Omit<Prisma.UserDeleteArgs, 'where'>} [args] - Additional Prisma delete arguments
- * @returns {Promise<User>} Promise resolving to the deleted user object
- */
-export async function deleteUser(
-  id: string,
-  args?: Omit<Prisma.UserDeleteArgs, 'where'>
-  });
-}
-
-/**
- * Searches for users by name or email using a case-insensitive search.
- * @param {string} query - The search string to match against user names and emails
- * @returns {Promise<User[]>} Promise resolving to an array of matching user objects
- */
-export async function searchUsers(query: string): Promise<User[]> {
-  return prisma.user.findMany({
-    where: {
+export const userService = {
+  findUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  findAll: findAllUsers,
+};
