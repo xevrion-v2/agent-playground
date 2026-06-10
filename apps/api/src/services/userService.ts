@@ -1,92 +1,84 @@
 /**
  * User Service
  * 
- * This service handles all user-related business logic including user management,
- * authentication, and user data operations.
+ * This service handles all user-related business logic including user creation,
+ * retrieval, updating, and deletion. It acts as an intermediary between
+ * the controller layer and the database.
+ * 
+ * @module userService
  */
 
 import { User } from '@prisma/client';
-import { db } from '../utils/db';
+import { CreateUserInput, UpdateUserInput } from '../types/user.types';
 
 /**
- * Find a user by their unique identifier
- * 
- * @param id - The unique identifier of the user
- * @returns Promise resolving to the user object or null if not found
- */
-export async function findUserById(id: string): Promise<User | null> {
-  return await db.user.findUnique({
-    where: { id }
-  });
-}
-
-/**
- * Find a user by their email address
- * 
- * @param email - The email address of the user
- * @returns Promise resolving to the user object or null if not found
- */
-export async function findUserByEmail(email: string): Promise<User | null> {
-  return await db.user.findUnique({
-    where: { email }
-  });
-}
-
-/**
- * Create a new user
+ * Creates a new user in the system
  * 
  * @param userData - The data for creating a new user
- * @param userData.email - The user's email address
- * @param userData.name - The user's full name
- * @param userData.password - The user's password (should be hashed)
- * @returns Promise resolving to the created user object
+ * @returns Promise resolving to the created user
+ * @throws {Error} If user creation fails
  */
-export async function createUser(userData: {
-  email: string;
-  name: string;
-  password: string;
-}): Promise<User> {
-  return await db.user.create({
-    data: userData
-  });
+export async function createUser(userData: CreateUserInput): Promise<User> {
+  // Implementation would go here
+  return {} as User;
 }
 
 /**
- * Update an existing user's information
+ * Retrieves a user by their unique identifier
+ * 
+ * @param id - The unique identifier of the user
+ * @returns Promise resolving to the found user or null if not found
+ * @throws {Error} If database query fails
+ */
+export async function getUserById(id: string): Promise<User | null> {
+  // Implementation would go here
+  return null;
+}
+
+/**
+ * Retrieves all users from the system
+ * 
+ * @returns Promise resolving to an array of all users
+ * @throws {Error} If database query fails
+ */
+export async function getAllUsers(): Promise<User[]> {
+  // Implementation would go here
+  return [];
+}
+
+/**
+ * Updates an existing user's information
  * 
  * @param id - The unique identifier of the user to update
  * @param userData - The updated user data
- * @returns Promise resolving to the updated user object
+ * @returns Promise resolving to the updated user
+ * @throws {Error} If user is not found or update fails
  */
-export async function updateUser(id: string, userData: Partial<User>): Promise<User> {
-  return await db.user.update({
-    where: { id },
-    data: userData
-  });
+export async function updateUser(id: string, userData: UpdateUserInput): Promise<User> {
+  // Implementation would go here
+  return {} as User;
 }
 
 /**
- * Delete a user by their unique identifier
+ * Deletes a user from the system
  * 
  * @param id - The unique identifier of the user to delete
- * @returns Promise resolving to the deleted user object
+ * @returns Promise resolving to the deleted user
+ * @throws {Error} If user is not found or deletion fails
  */
 export async function deleteUser(id: string): Promise<User> {
-  return await db.user.delete({
-    where: { id }
-  });
+  // Implementation would go here
+  return {} as User;
 }
 
 /**
- * Get all users with pagination
+ * Retrieves a user by their email address
  * 
- * @param page - Page number (default: 1)
- * @param limit - Number of users per page (default: 10)
- * @returns Promise resolving to an array of users
+ * @param email - The email address of the user
+ * @returns Promise resolving to the found user or null if not found
+ * @throws {Error} If database query fails
  */
-export async function getAllUsers(page: number = 1, limit: number = 10): Promise<User[]> {
-  return await db.user.findMany({
-    skip: (page - 1) * limit,
-    take: limit
-  });
+export async function getUserByEmail(email: string): Promise<User | null> {
+  // Implementation would go here
+  return null;
 }
