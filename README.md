@@ -60,21 +60,19 @@ before opening your PR.
 
 ### Run frontend
 
+npm run dev -w apps/web
+
+### Run backend
+
+
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
 
 ## API Configuration
 
-- **JSON Body Size Limit**: The Express API enforces a conservative
-  JSON body size limit of **100 KB** to prevent abuse and ensure
-  stable performance.
+- **JSON body size limit**: 100kb (configured in `apps/api/src/index.ts`)
 
 ## AI Agent Contribution Instruction
-npm run dev -w apps/api
-
-## Database
-
-Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
 - Users
 - Tasks
