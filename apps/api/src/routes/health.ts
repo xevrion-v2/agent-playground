@@ -1,20 +1,29 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 
-const router = Router();
+const healthRouter = Router();
 
 interface HealthResponse {
   status: string;
   data: {
     uptime: number;
-    message: string;
     timestamp: string;
+    service: string;
+    version: string;
   };
 }
 
-router.get('/', async (req, res) => {
-  const healthResponse: HealthResponse = {
-    status: 'success',
+healthRouter.get('/health', (req: Request, res: Response) => {
+  const health: HealthResponse = {
+    status: 'ok',
     data: {
       uptime: process.uptime(),
-      message: 'OK',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      service: 'taskflow-api',
+      version: '1.0.0'
+    }
+  };
+  
+  res.status(200).json(health);
+});
+
+export default healthRouter;
