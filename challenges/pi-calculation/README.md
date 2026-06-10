@@ -1,8 +1,10 @@
 # PI Calculation Challenge
 
-A lightweight math challenge that calculates the value of PI using the **Nilakantha series**.
+A lightweight algorithm challenge that calculates the value of PI (π) with high accuracy.
 
-## Approach
+## Approach: Machin-like Formula (Bailey–Borwein–Plouffe Formula)
 
-The Nilakantha series is an infinite series that converges to PI:
+We use the **BBP (Bailey–Borwein–Plouffe) formula** for calculating PI. This formula has the advantage of being able to calculate hexadecimal digits of PI without needing to calculate the preceding digits.
+
+### Formula
 
