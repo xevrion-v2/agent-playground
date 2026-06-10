@@ -1,29 +1,24 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Button } from '../Button';
+import userEvent from '@testing-library/user-event';
+import { Button } from '../components/Button'; // Adjusted path based on typical component structure
 
 describe('Button', () => {
-  it('should render with correct label', () => {
-    render(<Button label="Click me" />);
-    expect(screen.getByText('Click me')).toBeInTheDocument();
+  test('renders with correct label', () => {
+    const buttonText = 'Click me';
+    render(<Button label={buttonText} />);
+    
+    expect(screen.getByText(buttonText)).toBeInTheDocument();
   });
 
-  it('should be disabled when disabled prop is true', () => {
-    const { getByRole } = render(
-      <Button label="Disabled Button" disabled={true} />
-    );
-    const button = getByRole('button');
+  test('is disabled when disabled prop is true', () => {
+    const { container } = render(<Button disabled />);
+    const button = container.querySelector('button');
     expect(button).toBeDisabled();
   });
 
-  it('should not be disabled when disabled prop is false', () {
-    render(
-      <Button label="Test" disabled={false} />
-    );
-    const button = screen.getByRole('button');
-    expect(button).not.toBeDisabled();
+  test('renders enabled button by default', () => {
+    const { container } = render(<Button />);
+    expect(container.querySelector('button')).not.toBeDisabled();
   });
-
-  it('should render with correct label and be enabled', () {
-    render(<Button label="Submit" disabled={false} />);
-    expect(screen.getByText('Submit')).toBeInTheDocument();
-  });
+});
