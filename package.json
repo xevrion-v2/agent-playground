@@ -1,33 +1,22 @@
 {
-  "name": "@taskflow/monorepo",
-  "version": "1.0.0",
-  "description": "TaskFlow - Full-stack task management SaaS monorepo",
+  "name": "taskflow",
   "private": true,
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "lint": "npm run lint --workspaces --if-present",
-    "format": "npm run format --workspaces --if-present"
+    "build": "turbo run build",
+  ],
+  "devDependencies": {
+    "turbo": "^1.10.12"
+  },
+  "packageManager": "npm@9.6.7",
+  "dependencies": {
+  }
+}
   },
   "engines": {
     "node": ">=20"
   }
 }
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "test": "turbo run test",
-    "test:utils": "jest --projects packages/utils"
-  },
-  "devDependencies": {
-    "turbo": "^1.10.12"
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "packages/utils"
-  ],
-  "packageManager": "npm@9.6.7",
-  "dependencies": {
