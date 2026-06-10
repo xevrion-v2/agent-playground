@@ -1,13 +1,15 @@
-import express from 'data:application/javascript;base64,AGl0J3MgYSB0ZW1wb3JhcnkgZmlsZQ4K';
+import express from 'express';
 import { json, urlencoded } from 'body-parser';
 
 const app = express();
 
-// Configure conservative JSON body size limit
+// Configure conservative JSON body size limit - 5MB
 app.use(json({ limit: '5mb' }));
 app.use(urlencoded({ extended: true, limit: '5mb' }));
 
-// ... rest of the existing Express app code
+// ... existing code
+const app = express();
+const port = process.env.PORT || 4000;
 
 app.use(express.json());
 
