@@ -1,20 +1,27 @@
 import { Router, Request, Response } from 'express';
 
-const healthRouter = Router();
+const router = Router();
 
-/**
- * Health check endpoint
- * 
- * Normalized to use consistent envelope with status and data fields
- */
-healthRouter.get('/', (req: Request, res: Response) => {
-  res.status(200).json({
-    status: 'ok',
+interface HealthResponse {
+  status: string;
+  data: {
+    uptime: number;
+    message: string;
+    timestamp: number;
+  };
+}
+
+router.get('/', (req: Request, res: Response) => {
+  const healthResponse: HealthResponse = {
+    status: 'success',
     data: {
-      message: 'API is healthy',
-      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      message: 'OK',
+      timestamp: Date.now()
     }
-  });
+  };
+  res.status(200).json(healthResponse);
 });
 
-export { healthRouter };
+export default router;
+export { router as healthRouter, type HealthResponse };
