@@ -1,30 +1,20 @@
-export class ApiError extends Error {
+import { Response } from 'express';
+
+export class APIError extends Error {
   constructor(
-    public statusCode: number,
     message: string,
-    public details?: Record<string, any>
+    public statusCode: number = 500,
+    public isOperational: boolean = true
   ) {
     super(message);
-    this.name = 'ApiError';
+    Object.setPrototypeOf(this, APIError.prototype);
   }
 }
 
-export interface ErrorResponse {
-  error: string;
-  message: string;
-  statusCode: number;
-  details?: Record<string, any>;
-}
-
-export function createErrorResponse(
-  statusCode: number,
-  message: string,
-  details?: Record<string, any>
-): ErrorResponse {
-  return {
-    error: 'API Error',
-    message,
-    statusCode,
-    details,
-  };
-}
+export const sendErrorResponse = (res: Response, error: APIError) => {
+  return res.status(error.statusCode).json({
+    success: false,
+    error: error.message,
+    statusCode: error.statusCode
+  });
+};
