@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// Represents a TaskFlow account that can own jobs and submit proposals.
+/// Represents an account that can own jobs and submit proposals.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
