@@ -5,136 +5,144 @@
  */
 
 import { PrismaClient, User, Prisma } from '@prisma/client';
-import bcrypt from 'bcryptjs';
+import { hashPassword } from '../utils/password';
 
 
-const SALT_ROUNDS = 12;
+type CreateUserInput = Omit<User, 'id' | 'createdAt' | 'updatedAt'>;
 
 /**
  * Retrieves all users from the database.
- * Excludes sensitive fields like password hashes.
- * @returns {Promise<PartialUser[]>} Array of user objects without passwords
- * @throws {Error} If database query fails
+ * @returns {Promise<User[]>} A promise that resolves to an array of all users.
+ * @throws {Error} If the database query fails.
  */
-export async function getAllUsers(): Promise<PartialUser[]> {
-  return prisma.user.findMany({
-    select: {
-  });
+export async function getAllUsers(): Promise<User[]> {
+  return prisma.user.findMany();
 }
+type GetUserByIdOptions = {
+  includeProfile?: boolean;
+};
 
 /**
  * Finds a single user by their unique identifier.
- * Excludes the password hash from the returned data.
- * @param {string} id - The user's UUID
- * @returns {Promise<PartialUser | null>} The user object or null if not found
- * @throws {Error} If database query fails
+ * @param {string} id - The unique identifier of the user.
+ * @param {GetUserByIdOptions} [options] - Optional query parameters.
+ * @returns {Promise<User | null>} A promise that resolves to the user object, or null if not found.
  */
-export async function getUserById(id: string): Promise<PartialUser | null> {
-  return prisma.user.findUnique({
-    where: { id },
+export async function getUserById(
+  id: string,
+  options: GetUserByIdOptions = {}
   });
 }
 
 /**
  * Finds a single user by their email address.
- * Includes the password hash for authentication purposes.
- * @param {string} email - The user's email address
- * @returns {Promise<User | null>} The full user object or null if not found
- * @throws {Error} If database query fails
+ * @param {string} email - The email address of the user.
+ * @returns {Promise<User | null>} A promise that resolves to the user object, or null if not found.
+ * @throws {Error} If the database query fails.
  */
 export async function getUserByEmail(email: string): Promise<User | null> {
   return prisma.user.findUnique({
     where: { email },
 }
 
-const userInclude = {
-  },
-};
-
-/**
- * Finds a single user by their email address with related data.
- * Includes associated tasks, proposals, reviews, and other relations.
- * @param {string} email - The user's email address
- * @returns {Promise<PartialUser | null>} The user with relations or null if not found
- * @throws {Error} If database query fails
- */
-export async function getUserByEmailWithRelations(
-  email: string
-): Promise<PartialUser | null> {
-  });
-}
-
-/**
- * Finds a single user by their unique identifier with related data.
- * Includes associated tasks, proposals, reviews, and other relations.
- * @param {string} id - The user's UUID
- * @returns {Promise<PartialUser | null>} The user with relations or null if not found
- * @throws {Error} If database query fails
- */
-export async function getUserByIdWithRelations(
-  id: string
-): Promise<PartialUser | null> {
-  });
-}
+type CreateUserData = Prisma.UserCreateInput;
 
 /**
  * Creates a new user in the database.
  * Hashes the provided password before storage.
- * @param {Omit<User, 'id' | 'createdAt' | 'updatedAt'> & { password: string }} data - User data with plaintext password
- * @returns {Promise<PartialUser>} The created user without password hash
- * @throws {Error} If email already exists or database operation fails
+ * @param {CreateUserData} data - The user data to create.
+ * @returns {Promise<User>} A promise that resolves to the newly created user.
+ * @throws {Error} If the email is already taken or the database operation fails.
  */
-export async function createUser(
-  data: Omit<User, 'id' | 'createdAt' | 'updatedAt'> & { password: string }
-): Promise<PartialUser> {
-  });
+export async function createUser(data: CreateUserData): Promise<User> {
+  const hashedPassword = await hashPassword(data.password);
+  return prisma.user.create({
 }
+
+type UpdateUserData = Prisma.UserUpdateInput;
 
 /**
  * Updates an existing user's information.
- * Re-hashes the password if a new one is provided.
- * @param {string} id - The user's UUID
- * @param {Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>> & { password?: string }} data - Fields to update
- * @returns {Promise<PartialUser>} The updated user without password hash
- * @throws {Error} If user not found or database operation fails
+ * @param {string} id - The unique identifier of the user to update.
+ * @param {UpdateUserData} data - The partial user data to update.
+ * @returns {Promise<User>} A promise that resolves to the updated user.
+ * @throws {Error} If the user is not found or the database operation fails.
  */
-export async function updateUser(
-  id: string,
-  data: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>> & {
-  });
-}
-
-/**
- * Permanently removes a user from the database.
- * @param {string} id - The user's UUID
- * @returns {Promise<PartialUser>} The deleted user without password hash
- * @throws {Error} If user not found or database operation fails
- */
-export async function deleteUser(id: string): Promise<PartialUser> {
-  return prisma.user.delete({
+export async function updateUser(id: string, data: UpdateUserData): Promise<User> {
+  return prisma.user.update({
     where: { id },
   });
 }
 
 /**
- * Searches for users by name or email using case-insensitive matching.
- * @param {string} query - The search string
- * @returns {Promise<PartialUser[]>} Array of matching users without passwords
- * @throws {Error} If database query fails
+ * Permanently removes a user from the database.
+ * @param {string} id - The unique identifier of the user to delete.
+ * @returns {Promise<User>} A promise that resolves to the deleted user.
+ * @throws {Error} If the user is not found or the database operation fails.
  */
-export async function searchUsers(query: string): Promise<PartialUser[]> {
-  return prisma.user.findMany({
-    where: {
+export async function deleteUser(id: string): Promise<User> {
+  return prisma.user.delete({
+    where: { id },
+}
+
+type SearchUsersOptions = {
+  /**
+   * Searches for users by name or email with pagination.
+   * @param {string} query - The search string to match against user names and emails.
+   * @param {SearchUsersOptions} [options] - Optional pagination parameters.
+   * @returns {Promise<User[]>} A promise that resolves to an array of matching users.
+   * @throws {Error} If the database query fails.
+   */
+  skip?: number;
+  take?: number;
+};
   });
 }
 
 /**
- * Retrieves a paginated list of users.
- * @param {number} page - Page number (1-based)
- * @param {number} limit - Number of users per page
- * @returns {Promise<{ users: PartialUser[]; total: number; page: number; limit: number }>} Paginated user results
- * @throws {Error} If database query fails
+ * Retrieves a user's public profile information.
+ * @param {string} id - The unique identifier of the user.
+ * @returns {Promise<{ user: User; profile: any } | null>} A promise that resolves to the user and their profile, or null if not found.
+ * @throws {Error} If the database query fails.
  */
-export async function getUsersPaginated(
-  page: number,
-  limit: number
+export async function getUserProfile(id: string) {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  return { user, profile: user.profile };
+}
+
+/**
+ * Updates a user's profile information.
+ * @param {string} id - The unique identifier of the user.
+ * @param {any} profileData - The profile data to update or create.
+ * @returns {Promise<any>} A promise that resolves to the updated profile.
+ * @throws {Error} If the user is not found or the database operation fails.
+ */
+export async function updateUserProfile(id: string, profileData: any) {
+  return prisma.profile.upsert({
+    where: { userId: id },
+}
+
+type FindUsersBySkillOptions = SearchUsersOptions;
+
+/**
+ * Finds users who have a specific skill.
+ * @param {string} skillName - The name of the skill to search for.
+ * @param {FindUsersBySkillOptions} [options] - Optional pagination parameters.
+ * @returns {Promise<User[]>} A promise that resolves to an array of users with the specified skill.
+ */
+export async function findUsersBySkill(
+  skillName: string,
+  options: FindUsersBySkillOptions = {}
+  });
+}
+
+/**
+ * Retrieves a summary of a user's activity including task counts and ratings.
+ * @param {string} id - The unique identifier of the user.
+ * @returns {Promise<{ totalTasks: number; completedTasks: number; averageRating: number | null }>} A promise that resolves to the user's activity summary.
+ * @throws {Error} If the user is not found or the database query fails.
+ */
+export async function getUserActivitySummary(id: string) {
+  const user = await prisma.user.findUnique({
+    where: { id },
