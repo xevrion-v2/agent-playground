@@ -1,6 +1,7 @@
 # TaskFlow Monorepo
 
-<img width="663" height="183" alt="TaskFlow Architecture" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
+<img width="663" height="183" alt="TaskFlow Dashboard" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
+
 
 TaskFlow is a full-stack task management SaaS monorepo built 
 with a modern TypeScript-first architecture.
@@ -16,8 +17,9 @@ with a modern TypeScript-first architecture.
 
 The web app includes pages for:
 - Landing
-
-## Getting Started
+- Task boards and task detail
+- Create a task
+- User profiles and user search
 - Client and freelancer dashboards
 - Messaging
 - Notifications
@@ -59,12 +61,11 @@ before opening your PR.
 ### Run frontend
 
 npm run dev -w apps/web
+- Utility helpers
 
-### Run backend
+## Getting Started
 
-npm run dev -w apps/api
 
-## Database
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
