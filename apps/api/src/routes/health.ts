@@ -1,15 +1,16 @@
 import { Router } from 'express';
 
-const router = Router();
+const healthRouter = Router();
 
-router.get('/health', (req, res) => {
-  res.status(200).json({ 
+healthRouter.get('/', (req, res) => {
+  res.status(200).json({
     status: 'success',
     data: {
-      message: 'API is healthy',
-      timestamp: new Date().toISOString()
+      message: 'OK',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime()
     }
   });
 });
 
-export default router;
+export default healthRouter;
