@@ -1,1 +1,2 @@
-export { InfiniteSequence, type SequenceGenerator } from './sequence';
+export { createInfiniteSequence, take, filter } from './infinite-sequence';
+export type { InfiniteSequence } from './infinite-sequence';
