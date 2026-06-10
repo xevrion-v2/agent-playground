@@ -6,10 +6,10 @@ export interface ButtonProps {
   onClick?: () => void;
 }
 
-export function Button({ label, disabled = false, onClick }: ButtonProps) {
+export const Button: React.FC<ButtonProps> = ({ label, disabled = false, onClick }) => {
   return (
-    <button onClick={onClick} disabled={disabled}>
+    <button disabled={disabled} onClick={onClick}>
       {label}
     </button>
   );
-}
+};
