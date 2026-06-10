@@ -87,6 +87,6 @@ running services that require local configuration.
 
 | Workspace | Variable | Required | Purpose |
 | --- | --- | --- | --- |
-| `apps/api` | `PORT` | No | Overrides the Express API port. Defaults to `4000`; see `apps/api/.env.example`. |
+| `apps/api` | `PORT` | No | Optional Express API port override. Defaults to `4000`; `apps/api/.env.example` keeps it commented out. |
 | `apps/web` | - | No | No required local environment variables yet; see `apps/web/.env.example`. |
 | `packages/db` | `DATABASE_URL` | Yes | PostgreSQL connection string used by Prisma; see `packages/db/.env.example`. |
