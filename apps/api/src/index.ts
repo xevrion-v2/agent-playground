@@ -1,8 +1,7 @@
-import express from 'express';
-import type { Request, Response, NextFunction } from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import dotenv from 'dotenv';
+import express from "express";
+
+import usersRouter from "./routes/users";
+
 const app = express();
 const port = process.env.PORT || 4000;
 
@@ -13,13 +12,17 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/users", usersRouter);
-// Middleware
-app.use(helmet());
-app.use(cors());
 
-// JSON body parser with conservative size limit (100 KB)
-app.use(express.json({ limit: '100kb' }));
+app.listen(port, () => {
+  console.log(`TaskFlow API listening on port ${port}`);
+import express from 'express';
+import bodyParser from 'body-parser';
 
-app.use(rateLimiter);
+const app = express();
 
-// Health check
+// Add conservative JSON body size limit
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+
+// ... rest of the existing Express app code
+});
