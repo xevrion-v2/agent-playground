@@ -1,10 +1,11 @@
 import express from 'express';
+import { configureBodyParser } from './middleware/bodyParser';
 
 const app = express();
 
-// Set a conservative JSON body size limit (e.g., 100kb)
-app.use(express.json({ limit: '100kb' }));
+// Configure body parser with size limits
+configureBodyParser(app);
 
-// Other middleware and routes would go here
+// Additional configuration...
 
 export default app;
