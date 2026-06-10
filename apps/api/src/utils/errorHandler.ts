@@ -1,8 +1,27 @@
-export * from './errorHandler';
+type ErrorResponse = {
+  message: string;
+  code?: string;
+  status: number;
+  timestamp: string;
+  requestId?: string;
+};
 
-// Placeholder for existing utilities
-// This file will be updated to export the error handler utilities
-// Currently just a placeholder to show the file exists
-export const dummy = () => {};
+export class ApiError extends Error {
+  constructor(
+    public message: string,
+    public status: number = 500,
+    public code?: string
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
 
-export default dummy;
+export const handleApiError = (error: Error, statusCode?: number): ErrorResponse => {
+  return {
+    message: error.message,
+    code: 'API_ERROR',
+    status: statusCode || 500,
+    timestamp: new Date().toISOString(),
+  };
+};
