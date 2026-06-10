@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 
 interface HealthResponse {
-  status: string;
+  status: 'ok';
   data: {
     uptime: number;
-   timestamp: string;
+    timestamp: string;
     service: string;
   };
 }
