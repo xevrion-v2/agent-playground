@@ -1,17 +1,21 @@
-import express from "express";
-
-import usersRouter from "./routes/users";
+import piRoutes from './routes/pi.routes';
+import express from 'express';
+import userRoutes from './routes/user.routes';
+import taskRoutes from './routes/task.routes';
 
 const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
 
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
-});
+const routes = require('./routes');
+const authRoutes = require('./routes/auth.routes');
+const taskRoutes = require('./routes/task.routes');
+const piRoutes = require('./routes/pi.routes');
 
-app.use("/users", usersRouter);
+app.use('/api', piRoutes);
+
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
