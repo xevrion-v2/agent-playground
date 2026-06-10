@@ -1,16 +1,19 @@
-import { sendApiError } from '../utils/errorHelper';
-import { register, login, refresh } from '../controllers/auth.controller';
-import { validateRegister, validateLogin } from '../middleware/validation.middleware';
-import { authRouter } from '../middleware/auth.middleware';
-import { Request, Response, NextFunction } from 'express';
+import { createErrorResponse } from '../utils/errorHandler';
 
-authRouter.post('/register', validateRegister, register);
+// Mock authentication routes for demonstration
+export const register = (req: any, res: any) => {
+  res.json({ message: 'Register route' });
+export const login = (req: any, res: any) => {
+  res.json({ message: 'Login route' });
+}
 
-authRouter.post('/login', validateLogin, (req: Request, res: Response, next: NextFunction) => {
+export const refreshToken = (req: any, res: any) => {
+  // Example usage of error helper
   try {
-    // Pass to original login controller
-    // This is where we'd integrate the error helper
-  } catch (error: any) {
-    sendApiError(res, error.message || 'Login failed', 'LOGIN_ERROR', 400);
+    throw new Error('Token refresh failed');
+  } catch (error) {
+    const errorResponse = createErrorResponse(401, 'Unauthorized', { reason: error.message });
+    res.status(401).json(errorResponse);
   }
-});
+}
+export default { register, login, refreshToken };
