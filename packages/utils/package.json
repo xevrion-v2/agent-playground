@@ -12,14 +12,9 @@
     "dev": "tsc --watch",
     "test": "jest"
   },
-  "keywords": [
-    "utilities",
-    "iterator",
-    "sequence"
-  ],
-  "author": "TaskFlow Team",
-  "license": "MIT",
   "devDependencies": {
     "typescript": "^5.0.0"
-  }
+  },
+  "keywords": ["utilities", "infinite", "sequence"],
+  "author": "TaskFlow Team"
 }
