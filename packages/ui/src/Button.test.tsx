@@ -1,21 +1,25 @@
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { Button } from './Button';
 
 describe('Button', () => {
-  it('should render with label text', () => {
-    render(<Button>Click me</Button>);
+  it('renders with the correct label', () => {
+    render(<Button label="Click me" />);
     expect(screen.getByText('Click me')).toBeInTheDocument();
   });
 
-  it('should be disabled when disabled prop is true', () => {
-    render(<Button disabled>Disabled Button</Button>);
-    const button = screen.getByRole('button');
-    expect(button).toBeDisabled();
+  it('is disabled when disabled prop is true', () => {
+    render(<Button label="Disabled" disabled />);
+    expect(screen.getByRole('button')).toBeDisabled();
   });
 
-  it('should not be disabled when disabled prop is false', () => {
-    render(<Button disabled={false}>Enabled Button</Button>);
+  it('is not disabled when disabled prop is false', () => {
+    render(<Button label="Enabled" disabled={false} />);
+    expect(screen.getByRole('button')).not.toBeDisabled();
+  });
+
+  it('is not disabled when disabled prop is not provided', () => {
+    render(<Button label="Default" />);
     expect(screen.getByRole('button')).not.toBeDisabled();
   });
 });
