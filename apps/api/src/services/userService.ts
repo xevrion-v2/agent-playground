@@ -1,85 +1,127 @@
 /**
- * User Service
- * 
- * This service handles user-related operations including creation, retrieval, updating, and deletion of users.
- * It provides a clean interface between the controller layer and the database operations.
+ * User service module - handles business logic for user-related operations.
+ * @module services/userService
  */
 
-import { User } from '@prisma/client';
-import { db } from '../db';
+import { PrismaClient, User, Prisma } from '@prisma/client';
+import bcrypt from 'bcryptjs';
+
+
+const SALT_ROUNDS = 10;
 
 /**
- * Finds a user by their unique ID
- * 
- * @param id - The unique identifier of the user
- * @returns Promise resolving to the user object or null if not found
+ * Find a user by their unique email address.
+ * @param {string} email - The email address to search for.
+ * @returns {Promise<User | null>} The user if found, otherwise null.
  */
-async function getUserById(id: string) {
-  return db.user.findUnique({
+export async function findUserByEmail(email: string): Promise<User | null> {
+  return prisma.user.findUnique({
+    where: { email },
+  });
+}
+
+/**
+ * Find a user by their unique ID.
+ * @param {string} id - The UUID of the user.
+ * @returns {Promise<User | null>} The user if found, otherwise null.
+ */
+export async function findUserById(id: string): Promise<User | null> {
+  return prisma.user.findUnique({
     where: { id },
   });
 }
 
 /**
- * Retrieves all users from the database
- * 
- * @returns Promise resolving to an array of all user objects
+ * Create a new user with a hashed password.
+ * @param {Object} data - The user data.
+ * @param {string} data.email - The user's email address.
+ * @param {string} data.password - The plaintext password to hash and store.
+ * @returns {Promise<User>} The newly created user.
  */
-async function getAllUsers() {
-  return db.user.findMany();
-}
-
-/**
- * Creates a new user in the database
- * 
- * @param data - The user data to create, excluding auto-generated fields
- * @returns Promise resolving to the created user object
- */
-async function createUser(data: Omit<User, 'id' | 'createdAt' | 'updatedAt'>) {
-  return db.user.create({ data });
-}
-
-/**
- * Updates an existing user's information
- * 
- * @param id - The unique identifier of the user to update
- * @param data - Partial user data to update
- * @returns Promise resolving to the updated user object
- */
-async function updateUser(id: string, data: Partial<User>) {
-  return db.user.update({
-    where: { id },
-    data,
+export async function createUser(data: {
+  email: string;
+  password: string;
   });
 }
 
 /**
- * Permanently deletes a user from the database
- * 
- * @param id - The unique identifier of the user to delete
- * @returns Promise resolving to the deleted user object
+ * Update a user's profile information.
+ * @param {string} id - The UUID of the user to update.
+ * @param {Object} data - The fields to update.
+ * @param {string} [data.name] - The user's display name.
+ * @param {string} [data.bio] - The user's bio/description.
+ * @returns {Promise<User>} The updated user.
  */
-async function deleteUser(id: string) {
-  return db.user.delete({
+export async function updateUser(
+  id: string,
+  data: { name?: string; bio?: string }
+  });
+}
+
+/**
+ * Soft-delete a user by their ID (marks as deleted, does not remove from DB).
+ * @param {string} id - The UUID of the user to delete.
+ * @returns {Promise<User>} The deleted user.
+ */
+export async function deleteUser(id: string): Promise<User> {
+  return prisma.user.delete({
     where: { id },
   });
 }
 
-export { getUserById, getAllUsers, createUser, updateUser, deleteUser, getUsersByEmail };
+/**
+ * Search for users by name or email (case-insensitive partial match).
+ * @param {string} query - The search string.
+ * @param {number} [limit=20] - Maximum number of results to return.
+ * @returns {Promise<User[]>} Array of matching users.
+ */
+export async function searchUsers(
+  query: string,
+  limit: number = 20
+  });
+}
 
 /**
- * Finds users by their email address (case-insensitive)
- * 
- * @param email - The email address to search for
- * @returns Promise resolving to an array of matching user objects
+ * Verify a user's password against the stored hash.
+ * @param {User} user - The user object containing the hashed password.
+ * @param {string} password - The plaintext password to verify.
+ * @returns {Promise<boolean>} True if the password matches, false otherwise.
  */
-async function getUsersByEmail(email: string) {
-  return db.user.findMany({
-    where: {
-      email: {
-        equals: email,
-        mode: 'insensitive',
-      }
-    }
+export async function verifyPassword(
+  user: User,
+  password: string
+  return bcrypt.compare(password, user.password);
+}
+
+/**
+ * Update a user's password after hashing.
+ * @param {string} id - The UUID of the user.
+ * @param {string} newPassword - The new plaintext password to hash and store.
+ * @returns {Promise<User>} The updated user.
+ */
+export async function updatePassword(
+  id: string,
+  newPassword: string
   });
+}
+
+/**
+ * Retrieve all users with pagination support.
+ * @param {Object} params - Pagination parameters.
+ * @param {number} [params.skip=0] - Number of records to skip.
+ * @param {number} [params.take=20] - Number of records to return.
+ * @returns {Promise<User[]>} Array of users.
+ */
+export async function getAllUsers({
+  skip = 0,
+  take = 20,
+  });
+}
+
+/**
+ * Count the total number of users in the database.
+ * @returns {Promise<number>} The total count of users.
+ */
+export async function countUsers(): Promise<number> {
+  return prisma.user.count();
 }
