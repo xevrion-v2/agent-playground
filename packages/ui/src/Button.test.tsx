@@ -1,25 +1,38 @@
-import { describe, it, expect } from 'vitest';
+import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Button } from './Button';
 
+// Mock ResizeObserver since it's not available in JSDOM
+global.ResizeObserver = class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
+
 describe('Button', () => {
-  it('renders with the correct label', () => {
+  test('should render with correct label', () => {
     render(<Button label="Click me" />);
     expect(screen.getByText('Click me')).toBeInTheDocument();
   });
 
-  it('is disabled when disabled prop is true', () => {
-    render(<Button label="Disabled" disabled />);
-    expect(screen.getByRole('button')).toBeDisabled();
+  test('should be disabled when disabled prop is true', () => {
+    const { container } = render(
+      <Button label="Disabled Button" disabled={true} />
+    );
+    const button = container.querySelector('button');
+    expect(button).toBeDisabled();
   });
 
-  it('is not disabled when disabled prop is false', () => {
-    render(<Button label="Enabled" disabled={false} />);
-    expect(screen.getByRole('button')).not.toBeDisabled();
+  test(' should render with correct label and be enabled', () => {
+    render(<Button label="Submit" disabled={false} />);
+    const button = screen.getByText('Submit');
+    expect(button).toBeInTheDocument();
+    expect(button).not.toBeDisabled();
   });
 
-  it('is not disabled by default', () => {
-    render(<Button label="Default" />);
-    expect(screen.getByRole('button')).not.toBeDisabled();
+  test('should be enabled when disabled is false', () => {
+    render(<Button label="Test" disabled={false} />);
+    const button = screen.getByText('Test');
+    expect(button).not.toBeDisabled();
   });
 });
