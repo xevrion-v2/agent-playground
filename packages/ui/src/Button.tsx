@@ -3,13 +3,14 @@ import React from 'react';
 export interface ButtonProps {
   label: string;
   disabled?: boolean;
-  onClick?: () => void;
 }
 
-export const Button: React.FC<ButtonProps> = ({ label, disabled = false, onClick }) => {
+export function Button({ label, disabled = false }: ButtonProps) {
   return (
-    <button disabled={disabled} onClick={onClick}>
+    <button disabled={disabled}>
       {label}
     </button>
   );
-};
+}
+
+export default Button;
