@@ -1,13 +1,20 @@
-import { Router } from 'express';
-import { healthCheck } from '../controllers/health.controller';
+import { Router, Request, Response } from 'express';
 
-const router = Router();
+const healthRouter = Router();
 
-router.get('/health', healthCheck);
-router.get('/', healthCheck);
-
-export default router;
-
-// Health check routes with normalized response shape
-// Returns consistent envelope with status and data fields
-// as specified in the GitHub issue
+/**
+ * Health check endpoint
+ * 
+ * Normalized to use consistent envelope with status and data fields
+ */
+healthRouter.get('/', (req: Request, res: Response) => {
+  const healthResponse = {
+    status: 'ok',
+    data: {
+      message: 'API is healthy',
+      timestamp: new Date().toISOString(),
+    }
+  };
+  
+  res.status(200).json(healthResponse);
+});
