@@ -1,157 +1,164 @@
 /**
- * User service module
- * Handles business logic for user-related operations
+ * User Service
+ * 
+ * This service handles all user-related operations including creation, retrieval,
+ * updating, and deletion of user records. It serves as the main interface between
+ * the controller layer and the database for user operations.
  */
 
-import { PrismaClient, User } from '@prisma/client';
-import { hashPassword, comparePassword } from '../utils/password';
-import { generateToken } from '../utils/jwt';
-
-const prisma = new PrismaClient();
+import { User } from '@prisma/client';
+import { db } from '@taskflow/db';
 
 /**
- * Register a new user
- * @param data - User registration data
- * @returns The created user without password
- * @throws Error if email already exists
+ * Creates a new user in the system
+ * @param userData - The data required to create a new user
+ * @returns Promise resolving to the created user object
  */
-export async function registerUser(data: {
-  email: string;
-  password: string;
+export async function createUser(userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<User> {
+  return await db.user.create({
+    data: userData,
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      role: true,
+    },
   });
 }
 
 /**
- * Authenticate a user with email and password
- * @param email - User's email address
- * @param password - User's plain text password
- * @returns JWT token and user data
- * @throws Error if credentials are invalid
- */
-export async function loginUser(email: string, password: string) {
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (!user) throw new Error('Invalid credentials');
-  return { token, user: { id: user.id, email: user.email, name: user.name, role: user.role } };
-}
-
-/**
- * Find a user by their unique ID
- * @param id - User's UUID
- * @returns User object or null if not found
+ * Retrieves a user by their unique identifier
+ * @param id - The unique identifier of the user to retrieve
+ * @returns Promise resolving to the user object or null if not found
+ * @throws Error if user is not found
  */
 export async function getUserById(id: string) {
-  return prisma.user.findUnique({
-    where: { id },
-}
-
-/**
- * Update a user's profile information
- * @param id - User's UUID
- * @param data - Partial user data to update
- * @returns Updated user object
- */
-export async function updateUser(id: string, data: Partial<User>) {
-  return prisma.user.update({
-    where: { id },
-  });
-}
-
-/**
- * Soft delete a user by setting deletedAt timestamp
- * @param id - User's UUID
- * @returns Deleted user object
- */
-export async function deleteUser(id: string) {
-  return prisma.user.update({
-    where: { id },
-  });
-}
-
-/**
- * Search for users by name or email
- * @param query - Search string to match against name or email
- * @param limit - Maximum number of results to return (default: 20)
- * @returns Array of matching users
- */
-export async function searchUsers(query: string, limit: number = 20) {
-  return prisma.user.findMany({
+  const user = await db.user.findUnique({
     where: {
+      id: id,
+    },
   });
-}
-
-/**
- * Get all users with pagination
- * @param options - Pagination options (skip and take)
- * @returns Paginated list of users
- */
-export async function getAllUsers(options: { skip?: number; take?: number } = {}) {
-  const { skip = 0, take = 50 } = options;
-  return prisma.user.findMany({
-  });
-}
-
-/**
- * Update a user's role (admin only)
- * @param id - User's UUID
- * @param role - New role to assign
- * @returns Updated user object
- */
-export async function updateUserRole(id: string, role: string) {
-  return prisma.user.update({
-    where: { id },
-  });
-}
-
-/**
- * Verify a user's email address
- * @param id - User's UUID
- * @returns Updated user with verified email
- */
-export async function verifyEmail(id: string) {
-  return prisma.user.update({
-    where: { id },
-  });
-}
-
-/**
- * Change a user's password
- * @param id - User's UUID
- * @param newPassword - New plain text password to hash and store
- * @returns Updated user object
- */
-export async function changePassword(id: string, newPassword: string) {
-  const hashed = await hashPassword(newPassword);
-  return prisma.user.update({
-  });
-}
-
-/**
- * Get a user's public profile (excludes sensitive data)
- * @param id - User's UUID
- * @returns Public user profile or null if not found
- */
-export async function getPublicProfile(id: string) {
-  const user = await prisma.user.findUnique({
-    where: { id },
+  
+  if (!user) {
+    throw new Error(`User with id ${id} not found`);
+  }
+  
   return user;
 }
 
 /**
- * Check if a user has admin privileges
- * @param id - User's UUID
- * @returns True if user is an admin, false otherwise
+ * Retrieves a user by their email address
+ * @param email - The email address of the user to retrieve
+ * @returns Promise resolving to the user object or null if not found
  */
-export async function isAdmin(id: string): Promise<boolean> {
-  const user = await prisma.user.findUnique({
-    where: { id },
-  return user?.role === 'ADMIN';
+export async function getUserByEmail(email: string) {
+  return await db.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
 }
 
 /**
- * Get user statistics (tasks created, completed, etc.)
- * @param id - User's UUID
- * @returns Object containing user statistics
+ * Retrieves all users from the database
+ * @returns Promise resolving to an array of all users
  */
-export async function getUserStats(id: string) {
-  const [tasksCreated, tasksCompleted, proposalsSent] = await Promise.all([
-    prisma.task.count({ where: { creatorId: id } }),
+export async function getAllUsers() {
+  return await db.user.findMany();
+}
+
+/**
+ * Updates an existing user's information
+ * @param id - The unique identifier of the user to update
+ * @param userData - The data to update the user with
+ * @returns Promise resolving to the updated user object
+ * @throws Error if user is not found
+ */
+export async function updateUser(id: string, userData: Partial<User>) {
+  const user = await db.user.findUnique({
+    where: { id: id }
+  });
+  
+  if (!user) {
+    throw new Error(`User with id ${id} not found`);
+  }
+  
+  return await db.user.update({
+    where: { id: id },
+    data: userData,
+  });
+}
+
+/**
+ * Deletes a user from the system
+ * @param id - The unique identifier of the user to delete
+ * @returns Promise resolving to the deleted user object
+ * @throws Error if user is not found
+ */
+export async function deleteUser(id: string) {
+  const user = await db.user.findUnique({
+    where: { id: id }
+  });
+  
+  if (!user) {
+    throw new Error(`User with id ${id} not found`);
+  }
+  
+  return await db.user.delete({
+    where: { id: id },
+  });
+}
+
+/**
+ * Searches for users by name or other criteria
+ * @param query - Search query string
+ * @returns Promise resolving to an array of matching users
+ */
+export async function searchUsers(query: string) {
+  return await db.user.findMany({
+    where: {
+      OR: [
+        { name: { contains: query } },
+        { email: { contains: query } },
+      ],
+    },
+  });
+}
+
+/**
+ * Updates a user's profile information
+ * @param id - The user ID to update
+ * @param profileData - The profile data to update
+ * @returns Promise resolving to the updated user object
+ */
+export async function updateUserProfile(id: string, profileData: Partial<User>) {
+  return await db.user.update({
+    where: { id },
+    data: profileData,
+  });
+}
+
+/**
+ * Retrieves users with pagination
+ * @param page - Page number (1-indexed)
+ * @param limit - Number of users per page
+ @returns Promise resolving to paginated users
+ */
+export async function getUsersPaginated(page: number = 1, limit: number = 10) {
+  return await db.user.findMany({
+    skip: (page - 1) * limit,
+    take: limit,
+  });
+}
+
+export default {
+  createUser,
+  getUserById,
+  getUserByEmail,
+  getAllUsers,
+  updateUser,
+  deleteUser,
+  searchUsers,
+  updateUserProfile,
+  getUsersPaginated,
+};
