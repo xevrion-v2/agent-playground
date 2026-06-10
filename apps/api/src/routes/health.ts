@@ -1,27 +1,15 @@
 import { Router } from 'express';
 
-const healthRouter = Router();
+const router = Router();
 
-// Health check endpoint
-healthRouter.get('/', (req, res) => {
-  res.status(200).json({
+router.get('/health', (req, res) => {
+  res.status(200).json({ 
     status: 'success',
     data: {
-      message: 'OK',
-      timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
+      message: 'API is healthy',
+      timestamp: new Date().toISOString()
     }
   });
 });
 
-export default healthRouter;
-
-// Alternative simple health check
-export const healthCheck = (req: any, res: any) => {
-  res.status(200).json({
-    status: 'success',
-    data: {
-      message: 'Server is healthy'
-    }
-  });
-};
+export default router;
