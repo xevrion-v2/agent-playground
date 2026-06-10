@@ -1,29 +1,23 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 
 const healthRouter = Router();
 
-interface HealthResponse {
-  status: string;
-  data: {
-    uptime: number;
-    timestamp: string;
-    service: string;
-    version: string;
-  };
-}
-
-healthRouter.get('/health', (req: Request, res: Response) => {
-  const health: HealthResponse = {
+// Health check endpoint with normalized response shape
+healthRouter.get('/health', (req, res) => {
+  res.status(200).json({
     status: 'ok',
     data: {
-      uptime: process.uptime(),
+      message: 'Service is healthy',
       timestamp: new Date().toISOString(),
-      service: 'taskflow-api',
-      version: '1.0.0'
     }
-  };
-  
-  res.status(200).json(health);
+  });
+});
+
+healthRouter.get('/healthz', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    data: { message: 'Service is healthy' }
+  });
 });
 
 export default healthRouter;
