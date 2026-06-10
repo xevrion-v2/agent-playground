@@ -22,8 +22,8 @@ export function listUsers() {
 export function createUser(payload: UserPayload) {
   return {
     data: {
-      id: "stub-user-id",
-      ...payload
+      ...payload,
+      id: "stub-user-id"
     },
     message: "User creation is not implemented yet."
   };
