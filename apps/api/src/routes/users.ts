@@ -20,52 +20,50 @@ router.post("/", (req, res) => {
 });
 
 import { Router, Request, Response } from 'express';
-import { validateRequest } from '../middleware/validation';
+import { validateRequest, userSchemas } from '../middleware/validation.middleware';
 
 const router = Router();
 
-// Placeholder for user route stubs with validation
-router.get('/users', (req: Request, res: Response) => {
-  // Return empty array or mock data for now
-  res.json([]);
-});
+// User route stubs with validation
+router.post(
+  '/', 
+  validateRequest(userSchemas.createUser),
+  (req: Request, res: Response) => {
+    // Create user logic would go here
+    res.status(201).json({ 
+      message: 'User created successfully',
+      user: req.body
+    });
+  }
+);
 
-router.get('/users/:id', (req: Request, res: Response) => {
-  // Validate that id is present and is a valid format
-  const { id } = req.params;
-  if (!id) {
-    return res.status(400).json({ error: 'User ID is required' });
+router.patch(
+  '/:id',
+  validateRequest(userSchemas.updateUser),
+  (req: Request, res: Response) => {
+    // Update user logic would go here
+    res.json({ 
+      message: 'User updated successfully',
+      userId: req.params.id,
+      updates: req.body
+    });
   }
-  // Return mock user data or 404
-  res.json({ id, name: `User ${id}` });
-});
+);
 
-router.post('/users', (req: Request, res: Response) => {
-  const { name, email } = req.body;
-  
-  // Basic validation
-  if (!name || !email) {
-    return res.status(400).json({ 
-      error: 'Validation failed',
-      details: 'Both name and email are required fields'
+router.get(
+  '/:id',
+  (req: Request, res: Response) => {
+    // Get user logic would go here
+    res.json({ 
+      message: 'User retrieved successfully',
+      userId: req.params.id
     });
   }
-  
-  if (typeof name !== 'string' || name.length < 1) {
-    return res.status(400).json({
-      error: 'Invalid name',
-      details: 'Name must be a non-empty string'
-    });
-  }
-  
-  if (typeof email !== 'string' || !email.includes('@')) {
-    return res.status(400).json({
-      error: 'Invalid email format',
-      details: 'A valid email address is required'
-    });
-  }
-  
-  res.status(201).json({ id: '123', name, email });
+);
+
+router.get('/', (req: Request, res: Response) => {
+  // Get all users logic would go here
+  res.json({ message: 'All users retrieved successfully' });
 });
 
 export default router;
