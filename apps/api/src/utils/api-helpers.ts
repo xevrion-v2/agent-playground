@@ -14,10 +14,14 @@ export const sendApiError = (
   });
 };
 
-export const sendApiErrorMessage = (
-  res: any,
-  error: string,
-  statusCode: number = 400
-): void => {
-  sendApiError(res, error, statusCode);
+export const sendApiSuccess = (
+  res: Response,
+  data: any,
+  message: string = 'success'
+) => {
+  res.json({
+    success: true,
+    message,
+    data
+  });
 };
