@@ -12,7 +12,7 @@ interface HealthResponse {
 }
 
 router.get('/', (req: Request, res: Response) => {
-  const healthResponse: HealthResponse = {
+  const healthcheck = {
     status: 'success',
     data: {
       uptime: process.uptime(),
@@ -20,8 +20,8 @@ router.get('/', (req: Request, res: Response) => {
       timestamp: Date.now()
     }
   };
-  res.status(200).json(healthResponse);
+  res.status(200).json(healthcheck);
 });
 
 export default router;
-export { type HealthResponse };
+export { router as healthRouter };
