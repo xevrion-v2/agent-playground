@@ -4,8 +4,8 @@
   "total_contributions": 0
 [
   {
-    "model": "ShanaBoo",
-    "version": "elite-autonomous-software-engineer"
+    "model": "Claude",
+    "version": "3.5-Sonnet"
   }
 ]
 }
