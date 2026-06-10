@@ -1,30 +1,8 @@
-export class ApiError extends Error {
-  constructor(
-    public statusCode: number,
-    message: string,
-    public details?: Record<string, any>
-  ) {
-    super(message);
-    this.name = 'ApiError';
-  }
-}
+export * from './errorHandler';
 
-export interface ErrorResponse {
-  error: string;
-  message: string;
-  statusCode: number;
-  details?: Record<string, any>;
-}
+// Placeholder for existing utilities
+// This file will be updated to export the error handler utilities
+// Currently just a placeholder to show the file exists
+export const dummy = () => {};
 
-export function createErrorResponse(
-  statusCode: number,
-  message: string,
-  details?: Record<string, any>
-): ErrorResponse {
-  return {
-    error: true,
-    message,
-    statusCode,
-    details,
-  };
-}
+export default dummy;
