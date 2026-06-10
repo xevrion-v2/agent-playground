@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import { sendErrorResponse, ApiError, handleApiError } from '../utils/apiError';
+import { sendError } from '../utils/apiError';
 
 const router = Router();
 
-router.get('/', (req, res) => {
-  try {
-    // Simulate a potential error condition
-    throw new ApiError(503, 'Service temporarily unavailable');
-  } catch (error) {
-    handleApiError(error, res);
-  }
+router.get('/', (_req, res) => {
+  res.json({ status: 'ok' });
+});
+
+router.get('/error', (_req, res) => {
+  // Example route demonstrating the API error helper
+  sendError(res, 'Something went wrong', 500, 'INTERNAL_ERROR');
 });
 
 export default router;
