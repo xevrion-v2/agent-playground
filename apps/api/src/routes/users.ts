@@ -4,15 +4,26 @@ const router = Router();
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function validateUserPayload(body: unknown): string | null {
+type ValidationError = {
+  field: "body" | "email";
+  message: string;
+};
+
+function validateUserPayload(body: unknown): ValidationError | null {
   if (!body || typeof body !== "object" || Array.isArray(body)) {
-    return "Request body must be a JSON object.";
+    return {
+      field: "body",
+      message: "Request body must be a JSON object."
+    };
   }
 
   const { email } = body as Record<string, unknown>;
 
   if (typeof email !== "string" || !emailPattern.test(email)) {
-    return "email must be a valid email address.";
+    return {
+      field: "email",
+      message: "email must be a valid email address."
+    };
   }
 
   return null;
@@ -31,8 +42,8 @@ router.post("/", (req, res) => {
   if (validationError) {
     return res.status(400).json({
       error: {
-        field: "email",
-        message: validationError
+        field: validationError.field,
+        message: validationError.message
       }
     });
   }
