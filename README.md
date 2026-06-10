@@ -1,6 +1,6 @@
 # TaskFlow Monorepo
 
-<img width="663" height="183" alt="TaskFlow Architecture" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
+<img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
 
 TaskFlow is a full-stack task management SaaS monorepo built 
@@ -30,10 +30,10 @@ The web app includes pages for:
 ## Backend
 
 The API includes:
-- Utility helpers
-
-## Getting Started
-
+- Auth routes (register, login, OAuth callback, JWT refresh)
+- CRUD routes for users, tasks, and proposals
+- Payments routes (Stripe-focused service placeholder)
+- Reviews, messaging, notifications
 - File uploads and search
 - Admin routes
 
@@ -70,14 +70,14 @@ npm run dev -w apps/api
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
-- Users
-- Tasks
-- Proposals
-- Payments
-- Reviews
-- Messages
-- Categories
-- Skills
+
+### Run frontend
+
+### Run backend
+
+npm run dev -w apps/web
+
+## Database
 
 ## Environment Variables
 
