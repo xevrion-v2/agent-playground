@@ -1,29 +1,26 @@
 /**
- * User service module.
- * Contains business logic for user management operations.
- * @module userService
+ * @fileoverview User service for handling user-related business logic
+ * @module services/userService
  */
 
 /**
- * Find a user by their ID
+ * Get user by ID
  * @async
- * @function findUserById
  * @param {string} userId - The unique identifier of the user
- * @returns {Promise<Object>} The user object if found, null otherwise
- * @throws {Error} If database operation fails
+ * @returns {Promise<Object|null>} The user object if found, null otherwise
+ * @throws {Error} If database query fails
  */
-async function findUserById(userId) {
+async function getUserById(userId) {
   // Implementation would go here
 }
 
 /**
  * Create a new user
  * @async
- * @function createUser
  * @param {Object} userData - The user data to create
- * @param {string} userData.email - The user's email address
- * @param {string} userData.password - The user's password
- * @param {string} userData.name - The user's full name
+ * @param {string} userData.email - The email of the user
+ * @param {string} userData.name - The name of the user
+ * @param {string} [userData.password] - The password for the user account
  * @returns {Promise<Object>} The created user object
  * @throws {Error} If user creation fails
  */
@@ -34,8 +31,7 @@ async function createUser(userData) {
 /**
  * Update an existing user
  * @async
- * @function updateUser
- * @param {string} userId - The ID of the user to update
+ * @param {string} userId - The unique identifier of the user to update
  * @param {Object} updateData - The data to update the user with
  * @returns {Promise<Object>} The updated user object
  * @throws {Error} If user update fails
@@ -45,48 +41,46 @@ async function updateUser(userId, updateData) {
 }
 
 /**
- * Delete a user by their ID
+ * Delete a user by ID
  * @async
- * @function deleteUser
  * @param {string} userId - The unique identifier of the user to delete
  * @returns {Promise<boolean>} True if deletion was successful
- * @throws {Error} If deletion fails
+ * @throws {Error} If user deletion fails
  */
 async function deleteUser(userId) {
   // Implementation would go here
 }
 
 /**
- * List all users with optional filtering
+ * Get all users with pagination
  * @async
- * @function listUsers
- * @param {Object} [filters] - Optional filters to apply
- * @param {number} [filters.limit] - Maximum number of users to return
- * @param {number} [filters.offset] - Number of users to skip
- * @returns {Promise<Array>} Array of user objects
- * @throws {Error} If listing fails
+ * @param {Object} [options] - Pagination options
+ * @param {number} [options.page=1] - Page number
+ * @param {number} [options.limit=10] - Number of users per page
+ * @returns {Promise<Object>} Object containing users array and pagination info
+ * @throws {Error} If fetching users fails
  */
-async function listUsers(filters = {}) {
+async function getAllUsers(options = {}) {
   // Implementation would go here
 }
 
 /**
- * Find a user by email address
+ * Search users by query
  * @async
- * @function findUserByEmail
- * @param {string} email - The email address to search for
- * @returns {Promise<Object>} The user object if found, null otherwise
+ * @param {string} query - Search query string
+ * @param {Object} [options] - Additional search options
+ * @returns {Promise<Array>} Array of user objects matching the search criteria
  * @throws {Error} If search fails
  */
-async function findUserByEmail(email) {
+async function searchUsers(query, options = {}) {
   // Implementation would go here
 }
 
 module.exports = {
-  findUserById,
+  getUserById,
   createUser,
   updateUser,
   deleteUser,
-  listUsers,
-  findUserByEmail
+  getAllUsers,
+  searchUsers
 };
