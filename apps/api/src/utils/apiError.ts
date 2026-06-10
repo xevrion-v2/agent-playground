@@ -1,64 +1,30 @@
-export class APIError extends Error {
-  statusCode: number;
-
-  constructor(message: string, statusCode: number = 500) {
+export class ApiError extends Error {
+  constructor(
+    public statusCode: number,
+    message: string,
+    public details?: Record<string, any>
+  ) {
     super(message);
-    this.statusCode = statusCode;
-    this.name = 'APIError';
+    this.name = 'ApiError';
   }
 }
 
 export interface ErrorResponse {
-  success: false;
   error: string;
+  message: string;
+  statusCode: number;
+  details?: Record<string, any>;
 }
 
-export function createErrorResponse(message: string, statusCode: number = 500): ErrorResponse {
+export function createErrorResponse(
+  statusCode: number,
+  message: string,
+  details?: Record<string, any>
+): ErrorResponse {
   return {
-    success: false,
-    error: message,
+    error: 'API Error',
+    message,
+    statusCode,
+    details,
   };
 }
-
-export function handleAPIError(error: unknown): { response: ErrorResponse; statusCode: number } {
-  if (error instanceof APIError) {
-    return { response: createErrorResponse(error.message), statusCode: error.statusCode };
-  }
-  if (error instanceof Error) {
-    return { response: createErrorResponse(error.message), statusCode: 500 };
-  }
-  return { response: createErrorResponse('An unknown error occurred'), statusCode: 500 };
-}
-import { Request, Response, NextFunction } from 'express';
-import { handleAPIError } from '../utils/apiError';
-
-export function errorHandler(
-  err: unknown,
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void {
-  const { response, statusCode } = handleAPIError(err);
-  res.status(statusCode).json(response);
-}
-
-export default errorHandler;
-import { Router, Request, Response, NextFunction } from 'express';
-import { APIError, createErrorResponse } from '../utils/apiError';
-
-const router = Router();
-
-router.get('/health', (req: Request, res: Response, next: NextFunction) => {
-  try {
-    // Simulate a potential error condition
-    const dbHealthy = true;
-    if (!dbHealthy) {
-      throw new APIError('Database connection failed', 503);
-    }
-    res.json({ success: true, status: 'ok' });
-  } catch (error) {
-    next(error);
-  }
-});
-
-export default router;
