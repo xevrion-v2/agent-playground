@@ -19,14 +19,17 @@ import express from 'express';
 
 const app = express();
 
-// Configure body parsing with a conservative size limit
+// Set conservative JSON body size limit to prevent potential DoS attacks
+// Issue: https://github.com/xebo/agent-playground/issues/1
 app.use(express.json({ 
-  limit: '10mb' // Set conservative JSON body size limit to prevent potential DoS attacks
+  limit: '10mb' // Conservative limit for JSON body size
 }));
 
-// URL encoded bodies
-app.use(express.urlencoded({ extended: true }));
+// Also handle URL encoded bodies with the same limit
+app.use(express.urlencoded({ 
+  extended: true,
+  limit: '10mb' 
+}));
 
-// Export or start the application
-export default app;
+// Additional middleware and routes would be configured here
 });
