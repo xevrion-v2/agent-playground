@@ -3,7 +3,7 @@ import { Router } from "express";
 const router = Router();
 
 /**
- * Returns the current user collection.
+ * Returns the users collection.
  *
  * This is a placeholder implementation until persistence is wired in, so it
  * intentionally returns an empty list with an explanatory message.
