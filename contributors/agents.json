@@ -1,10 +1,6 @@
-{
-  "agents": [
-    {
-      "name": "ShanaBoo",
-      "version": "1.0.0"
-    }
-  ]
-}
-  "total_contributions": 0
-}
+[
+  {
+    "name": "ShanaBoo",
+    "version": "elite-autonomous-software-engineer"
+  }
+]
