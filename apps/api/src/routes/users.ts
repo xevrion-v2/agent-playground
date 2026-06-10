@@ -19,47 +19,38 @@ router.post("/", (req, res) => {
   });
 });
 
+// User management routes
+// TODO: Implement comprehensive user CRUD operations with proper validation
+// TODO: Add proper input sanitization for all user endpoints
+// TODO: Add comprehensive error handling for all user-related database operations
+// TODO: Add rate limiting and request validation for user creation endpoint
+// TODO: Add proper authentication middleware for user profile access
+
 import { Router } from 'express';
 import { UserController } from '../controllers/user.controller';
-import { auth } from '../middleware/auth.middleware';
-import { validate } from '../middleware/validation.middleware';
 
 const router = Router();
 const userController = new UserController();
 
-// TODO: Implement user registration route
-// Expected behavior: Create a new user account with email/username validation and password hashing
-// TODO: Add error handling for duplicate email/username, validation errors, and database connection issues
+// TODO: Add detailed validation rules for user registration input fields
+// TODO: Implement proper error responses for validation failures
 router.post('/register', userController.register);
 
-// TODO: Implement user login route
-// Expected behavior: Authenticate user with email/password and return JWT token
-// TODO: Add error handling for invalid credentials, expired tokens, and rate limiting
+// TODO: Add comprehensive input validation and sanitization
+// TODO: Implement proper session management and JWT token refresh handling
 router.post('/login', userController.login);
 
-// TODO: Implement get user by ID route
-// Expected behavior: Return user profile information with proper authorization checks
-// TODO: Add error handling for user not found, database errors, and insufficient permissions
+// TODO: Add proper user data sanitization before returning to client
+// TODO: Implement proper authorization checks for user data access
+// TODO: Add comprehensive error handling for user not found scenarios
 router.get('/:id', userController.getById);
 
-// TODO: Implement update user route
-// Expected behavior: Allow authenticated users to update their profile information
-// TODO: Add validation for all updatable fields and proper error handling
+// TODO: Add input validation for all updateable user fields
+// TODO: Implement proper field-level validation and audit logging
 router.put('/:id', auth, userController.update);
 
-// TODO: Implement get all users route
-// Expected behavior: Return paginated list of users with search and filter capabilities
-// TODO: Add error handling for database query failures and empty result sets
-router.get('/', userController.getAll);
-
-// TODO: Implement delete user route
-// Expected behavior: Soft delete user account and remove associated data with proper cleanup
-// TODO: Add error handling for authorization checks, data integrity issues, and audit logging
-router.delete('/:id', auth, userController.delete);
-
-// TODO: Implement user search route
-// Expected behavior: Search users by various criteria (name, email, role, etc.)
-// TODO: Add error handling for search query validation and database indexing performance
+// TODO: Add search functionality with multiple filter options
+// TODO: Implement proper search indexing and performance optimization
 router.get('/search', userController.search);
 
 export default router;
