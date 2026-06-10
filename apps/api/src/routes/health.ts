@@ -1,23 +1,21 @@
-import { Router } from 'express';
-import { asyncHandler } from '../middleware/asyncHandler';
+import { Router, Request, Response } from 'express';
 
-const router = Router();
+const healthRouter = Router();
 
-router.get(
-  '/health',
-  asyncHandler(async (req, res) => {
-    const healthCheck = {
+/**
+ * @route GET /health
+ * Health check endpoint that returns a consistent response envelope
+ */
+healthRouter.get('/', async (req: Request, res: Response) => {
+  try {
+    // TODO: Implement actual health checks (database, external services, etc.)
+    const healthData = {
       status: 'ok',
-      data: {
-        uptime: process.uptime(),
-        message: 'OK',
-        timestamp: Date.now(),
-      }
+      timestamp: new Date().toISOString(),
     };
-
-    return res.status(200).json({
-      status: healthCheck.status,
-      data: healthCheck.data
-    });
-  })
-);
+    
+    res.status(200).json({ status: 'success', data: healthData });
+  } catch (error) {
+    res.status(500).json({ status: 'error', data: { message: 'Service unavailable' } });
+  }
+});
