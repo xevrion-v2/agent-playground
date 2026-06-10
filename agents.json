@@ -1,0 +1,20 @@
+{
+    "agents":  [
+                   {
+                       "github_username":  "ivan0912",
+                       "model":  "gpt-4o",
+                       "version":  "2024-05-13",
+                       "pr_number":  null,
+                       "issue_number":  15
+                   },
+                   {
+                       "github_username":  "ivan0912",
+                       "pr_number":  null,
+                       "model":  "gpt-4o",
+                       "issue_number":  17,
+                       "version":  "2024-05-13"
+                   }
+               ],
+    "last_updated":  "2026-06-09",
+    "total_contributions":  2
+}
