@@ -1,15 +1,15 @@
 import express from 'express';
-import { json } from 'body-parser';
+import { createExpressApp } from './app';
 
-const app = express();
+const app = createExpressApp();
 
-// Configure request body size limit
-// Set conservative limit of 100kb for JSON payloads
-app.use(json({ limit: '100kb' }));
-app.use(express.urlencoded({ extended: true, limit: '100kb' }));
+// Add body parsing middleware with size limits
+app.use(express.json({ 
+  limit: '10mb' // Conservative limit for JSON body size
+}));
+app.use(express.urlencoded({ 
+  extended: true, 
+  limit: '10mb' 
+}));
 
-// Add other routes and middleware...
-
-export { app };
-
-// Expected body size limit: 100kb for all JSON and URL-encoded requests
+// Existing server setup code would continue here
