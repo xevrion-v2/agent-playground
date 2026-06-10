@@ -1,23 +1,20 @@
 import { Response } from 'express';
 
-export interface ErrorResponse {
-  success: boolean;
-  error: {
-    message: string;
-    code: string;
-  };
+interface APIError {
+  message: string;
+  statusCode: number;
+  details?: any;
 }
 
-export const createErrorResponse = (success: boolean, message: string, code: string = 'INTERNAL_ERROR'): ErrorResponse => {
-  return {
-    success: success,
+export const sendAPIError = (res: Response, message: string, statusCode: number = 500, details?: any) => {
+  return res.status(statusCode).json({
+    success: false,
     error: {
       message,
-      code
+      statusCode,
+      ...(details && { details })
     }
-  };
+  });
 };
 
-export const sendApiError = (res: any, message: string, code: string = 'INTERNAL_ERROR') => {
-  return res.status(400).json({error: message, code: code});
-};
+export default sendAPIError;
