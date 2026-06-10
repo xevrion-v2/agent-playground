@@ -1,12 +1,40 @@
-export type ButtonProps = {
-  label: string;
-  disabled?: boolean;
-};
+export type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
+export type ButtonSize = "sm" | "md" | "lg";
 
-export function Button({ label, disabled = false }: ButtonProps) {
+export interface ButtonProps {
+  /** Display text for the button */
+  label: string;
+  /** Visual style variant */
+  variant?: ButtonVariant;
+  /** Size preset */
+  size?: ButtonSize;
+  /** Whether the button is disabled */
+  disabled?: boolean;
+  /** Click handler */
+  onClick?: () => void;
+}
+
+export interface ButtonRender {
+  type: "button";
+  label: string;
+  variant: ButtonVariant;
+  size: ButtonSize;
+  disabled: boolean;
+}
+
+export function Button({
+  label,
+  variant = "primary",
+  size = "md",
+  disabled = false,
+  onClick,
+}: ButtonProps): ButtonRender {
   return {
     type: "button",
     label,
-    disabled
-  };
+    variant,
+    size,
+    disabled,
+    ...(onClick && { onClick }),
+  } as ButtonRender;
 }
