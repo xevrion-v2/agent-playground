@@ -1,24 +1,19 @@
-import express from 'express';
-import { json, urlencoded } from 'body-parser';
-
-const app = express();
-
-// Configure conservative JSON body size limit - 5MB
-app.use(json({ limit: '5mb' }));
-app.use(urlencoded({ extended: true, limit: '5mb' }));
-
-// ... existing code
+import express, { Request, Response } from 'express';
+import { json } from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { routes } from './routes';
 const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
 
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
-});
 
-app.use("/users", usersRouter);
+// Middleware
+app.use(cors());
+app.use(json({ limit: '100kb' }));
 
-app.listen(port, () => {
+// Health check
+app.get('/health', (req: Request, res: Response) => {
   console.log(`TaskFlow API listening on port ${port}`);
 });
