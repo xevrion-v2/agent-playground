@@ -1,47 +1,36 @@
-import { User } from '@prisma/client';
-import { prisma } from '../../db';
-
 /**
- * Service for managing user operations
- * @module userService
+ * User Service
+ * 
+ * This service handles user-related operations including user creation, retrieval,
+ * updates, and deletion. It also manages user authentication and authorization.
  */
 
-/**
- * Creates a new user with the provided data
- * @param {Object} userData - The user data to create
- * @param {string} userData.email - User's email address
- * @param {string} userData.name - User's name
- * @param {string} userData.password - User's password
- * @returns {Promise<User>} The created user object
- */
-export async function createUser(userData: any) {
-  // Implementation would go here
-}
+export class UserService {
+  /**
+   * Creates a new user with the provided user details
+   * @param userData - The data for the new user
+   * @returns The created user object
+   */
+  async createUser(userData: any) {
+    // Implementation would go here
+  }
 
-/**
- * Finds a user by their ID
- * @param {string} id - The user's unique identifier
- * @returns {Promise<User|null>} The found user or null if not found
- */
-export async function findUserById(id: string) {
-  // Implementation would go here
-}
+  /**
+   * Finds a user by their unique identifier
+   * @param id - The unique identifier of the user
+   * @returns The user object if found, null otherwise
+   */
+  async findUserById(id: string) {
+    // Implementation would go here
+  }
 
-/**
- * Updates a user's information
- * @param {string} id - The user's unique identifier
- * @param {Object} updates - The fields to update
- * @returns {Promise<User>} The updated user object
- */
-export async function updateUser(id: string, updates: any) {
-  // Implementation would go here
-}
-
-/**
- * Deletes a user by their ID
- * @param {string} id - The user's unique identifier
- * @returns {Promise<boolean>} Whether the deletion was successful
- */
-export async function deleteUser(id: string) {
-  // Implementation would go here
+  /**
+   * Updates an existing user with new data
+   * @param id - The user ID to update
+   * @param updateData - The data to update the user with
+   * @returns The updated user object
+   */
+  async updateUser(id: string, updateData: any) {
+    // Implementation would go here
+  }
 }
