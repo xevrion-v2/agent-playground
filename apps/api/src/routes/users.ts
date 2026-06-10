@@ -4,13 +4,18 @@ const router = Router();
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function isUserPayload(body: unknown): body is Record<string, unknown> {
+function validateUserPayload(body: unknown): string | null {
   if (!body || typeof body !== "object" || Array.isArray(body)) {
-    return false;
+    return "Request body must be a JSON object.";
   }
 
   const { email } = body as Record<string, unknown>;
-  return email === undefined || (typeof email === "string" && emailPattern.test(email));
+
+  if (typeof email !== "string" || !emailPattern.test(email)) {
+    return "email must be a valid email address.";
+  }
+
+  return null;
 }
 
 router.get("/", (_req, res) => {
@@ -21,10 +26,13 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
-  if (!isUserPayload(req.body)) {
+  const validationError = validateUserPayload(req.body);
+
+  if (validationError) {
     return res.status(400).json({
       error: {
-        message: "Invalid user payload."
+        field: "email",
+        message: validationError
       }
     });
   }
