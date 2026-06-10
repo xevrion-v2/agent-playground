@@ -1,38 +1,35 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { z } from 'zod';
+
+const userSchema = z.object({
+  body: z.object({
+    name: z.string().min(1, "Name is required"),
+    email: z.string().email("Invalid email format"),
+    password: z.string().min(6, "Password must be at least 6 characters")
+  }).partial({
+    password: true // Make password optional for update operations
+});
 
 const router = Router();
 
-// Validation schemas
-const createUserSchema = z.object({
-  body: z.object({
-    name: z.string().min(1, 'Name is required').max(100, 'Name too long'),
-    email: z.string().email('Invalid email format'),
-    password: z.string().min(6, 'Password must be at least 6 characters')
-  })
-});
-
-const updateUserSchema = z.object({
-  body: z.object({
-    name: z.string().min(1, 'Name is required').max(100, 'Name too long').optional(),
-    email: z.string().email('Invalid email format').optional()
-  })
-});
-
 // Validation middleware
-const validate = (schema: z.ZodObject<any>) => (req: any, res: any, next: any) => {
+const validateRequest = (req: Request, res: Response, next: Function) => {
   try {
-    schema.parse({
-      body: req.body,
-      query: req.query,
-      params: req.params,
+    const result = userSchema.safeParse({
+      body: req.body
     });
+    
+    if (!result.success) {
+      return res.status(400).json({
+        error: "Validation failed",
+        details: result.error.errors
+      });
+    }
     next();
   } catch (error) {
-    if (error instanceof z.ZdError) {
+    if (error instanceof z.ZodError) {
       return res.status(400).json({
-        success: false,
-        error: 'Validation failed',
+        error: "Validation failed",
         details: error.errors
       });
     }
@@ -40,8 +37,7 @@ const validate = (schema: z.ZodObject<any>) => (req: any, res: any, next: any) =
   }
 };
 
-export { router, validate, createUserSchema, updateUserSchema };
-
+export { router, validateRequest };
 const router = Router();
 
 router.get("/", (_req, res) => {
