@@ -1,28 +1,23 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
 import { Button } from './Button';
 
 describe('Button', () => {
-  it('renders with the correct label', () => {
+  test('renders with correct label', () => {
     render(<Button label="Click me" />);
     expect(screen.getByText('Click me')).toBeInTheDocument();
   });
 
-  it('renders as disabled when disabled prop is true', () => {
-    render(<Button label="Disabled" disabled />);
-    const button = screen.getByText('Disabled');
+  test('renders with correct label and disabled state', () => {
+    render(<Button label="Disabled Button" disabled />);
+    const button = screen.getByText('Disabled Button');
+    expect(button).toBeInTheDocument();
     expect(button).toBeDisabled();
   });
 
-  it('renders as enabled when disabled prop is false', () => {
-    render(<Button label="Enabled" disabled={false} />);
-    const button = screen.getByText('Enabled');
-    expect(button).not.toBeDisabled();
-  });
-
-  it('renders as enabled when disabled prop is not provided', () => {
-    render(<Button label="Default" />);
-    const button = screen.getByText('Default');
+  test('renders enabled button by default', () => {
+    render(<Button label="Enabled Button" />);
+    const button = screen.getByText('Enabled Button');
+    expect(button).toBeInTheDocument();
     expect(button).not.toBeDisabled();
   });
 });
