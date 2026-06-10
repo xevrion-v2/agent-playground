@@ -1,23 +1,16 @@
 import { Router, Request, Response } from 'express';
+import { healthCheck } from '../controllers/health.controller';
 
 const router = Router();
 
-interface HealthCheckResponse {
-  status: string;
-  data: {
-    uptime: number;
-    timestamp: string;
-    service: string;
-  };
-}
+router.get('/', healthCheck);
+router.get('/health', healthCheck);
 
-router.get('/health', (req: Request, res: Response<HealthCheckResponse>) => {
-  const healthResponse: HealthCheckResponse = {
-    status: 'ok',
-    data: {
-      uptime: process.uptime(),
-      timestamp: new Date().toISOString(),
-      service: 'taskflow-api'
-    }
-  };
-  res.status(200).json(healthResponse);
+export default router;
+
+// Health check route that returns normalized response
+// This ensures we have a consistent health check response format
+// across all our services
+
+// The health check now returns a consistent envelope with status and data fields
+// as required by the issue specification
