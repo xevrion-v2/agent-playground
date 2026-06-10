@@ -1,14 +1,21 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response } from 'express';
 
-export const apiError = (error: any): any => {
-  return {
-    message: error.message || 'Internal Server Error',
-    code: error.code || 'API_ERROR',
-    status: error.status || 500,
-    timestamp: new Date().toISOString()
-  };
+interface ApiError extends Error {
+  statusCode?: number;
+  message: string;
+}
+
+export const sendApiError = (res: Response, error: ApiError, statusCode: number = 500) => {
+  return res.status(statusCode).json({
+    success: false,
+    error: {
+      message: error.message,
+      statusCode: statusCode,
+      timestamp: new Date().toISOString(),
+    }
+  });
 };
 
-export const handleApiError = (error: any) => {
-  return apiError(error);
+export const createApiError = (message: string, statusCode: number = 500): ApiError => {
+  return { message, statusCode };
 };
