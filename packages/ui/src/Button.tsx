@@ -1,21 +1,22 @@
-import * as React from 'react';
+import React from 'react';
 
-export interface ButtonProps {
+interface ButtonProps {
   label: string;
   disabled?: boolean;
   onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'danger';
 }
 
-export const Button = ({ label, disabled = false, onClick, variant = 'primary' }: ButtonProps) => {
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (onClick) {
-      onClick();
-    }
-  };
-  
+export const Button: React.FC<ButtonProps> = ({ 
+  label, 
+  disabled = false,
+  onClick,
+  ...props 
+}) => {
   return (
-    <button onClick={handleClick} disabled={disabled}>
+    <button 
+      onClick={onClick}
+      disabled={disabled}
+      {...props}>
       {label}
     </button>
   );
