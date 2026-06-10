@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { sendError } from '../utils/apiError';
+import { ApiError, sendError } from '../utils/apiError';
 
 const router = Router();
 
-router.get('/health', (req, res) => {
+router.get('/', (_req, res) => {
   try {
-    res.status(200).json({ success: true, message: 'OK' });
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
   } catch (error) {
-    sendError(res, 500, 'Internal server error');
+    sendError(res, new ApiError('Health check failed', 500, 'HEALTH_CHECK_ERROR'));
   }
 });
 
