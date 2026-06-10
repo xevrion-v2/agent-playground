@@ -5,10 +5,13 @@
   "description": "Shared UI components for TaskFlow.",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"No UI tests configured yet\"",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
     "lint": "echo \"No UI lint configured yet\""
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.4.2",
+    "ts-jest": "^29.4.11",
     "typescript": "^5.4.5"
   }
 }
