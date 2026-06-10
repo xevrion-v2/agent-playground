@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 interface HealthResponse {
-  status: 'ok';
+  status: string;
   data: {
     uptime: number;
     timestamp: string;
