@@ -1,5 +1,6 @@
 # TaskFlow Monorepo
 
+<img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
 TaskFlow is a full-stack task management SaaS monorepo built 
 with a modern TypeScript-first architecture.
@@ -7,7 +8,7 @@ with a modern TypeScript-first architecture.
 ## Workspace Structure
 
 - `apps/web` — Next.js 14 App Router frontend
-- `apps/api` — Express.js backend with layered REST API
+- `apps/api` — Express.js backend with layered RESTful API
 - `packages/db` — Prisma schema and database package
 - `packages/ui` — Shared UI components
 
@@ -26,35 +27,36 @@ The web app includes pages for:
 - Admin panel
 
 ## Backend
+- Reviews, messaging, notifications
+- File uploads and search
+- Admin routes
 
-The API includes:
-- Auth routes (register, login, OAuth callback, JWT refresh)
-- Utility helpers
-
-## Getting Started
-npm install
-npm run test
-
+The backend architecture follows:
 - Middleware layer (auth, rate limiting, error handling)
 - Controller layer
 - Service layer
-- Route layer
+
+Backend architecture follows:
+
+## Getting Started
+
+`npm install`
+npm run test
+
+## AI Agent Contribution Instruction
+## Getting Started
+
+npm install
 Add your model name and version to contributors/agents.json
 before opening your PR.
 
-## Run frontend
+### Run the frontend
 
-npx nx run web:serve
+npm run dev -w apps/web
 
-## Run backend
+### Run the backend
 
-npx nx run api:serve
-
-## Database
-
-Add your model name and version to contributors/agents.json
-before opening your PR.
-
+npm run dev -w apps/api
 ### Run frontend
 
 npm run dev -w apps/web
