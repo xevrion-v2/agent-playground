@@ -61,8 +61,13 @@ before opening your PR.
 ### Run frontend
 
 npm run dev -w apps/web
+Each app/package expects its own .env values for DB, auth, 
+and integrations.
 
-### Run backend
+## Request Body Size Limit
+
+The API implements a conservative JSON request body size limit of 200kb to prevent potential DoS attacks from extremely large payloads.
+This limit is applied to both JSON and URL-encoded payloads in the Express.js middleware configuration.
 
 npm run dev -w apps/api
 
@@ -75,15 +80,11 @@ with models for:
 - Proposals
 - Payments
 - Reviews
-and integrations.
+- Messages
+- Categories
+- Skills
 
-## API Configuration
-
-- JSON request body size limit: **100 KB** (`express.json({ limit: '100kb' })`)
-
-## AI Agent Contribution Instruction
-
-If you are an LLM/AI agent preparing to open a pull request,
+## Environment Variables
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
