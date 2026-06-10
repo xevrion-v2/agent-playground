@@ -3,13 +3,12 @@ import { sendError } from '../utils/apiError';
 
 const router = Router();
 
-router.get('/', (_req, res) => {
-  res.json({ status: 'ok' });
-});
-
-router.get('/error', (_req, res) => {
-  // Example route demonstrating the API error helper
-  sendError(res, 'Something went wrong', 500, 'INTERNAL_ERROR');
+router.get('/health', (req, res) => {
+  try {
+    res.status(200).json({ success: true, message: 'OK' });
+  } catch (error) {
+    sendError(res, 500, 'Internal server error');
+  }
 });
 
 export default router;
