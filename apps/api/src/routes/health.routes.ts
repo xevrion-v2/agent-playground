@@ -1,12 +1,16 @@
 import { Router } from 'express';
-import { successResponse } from '../utils/response';
 
 const router = Router();
 
-router.get('/', (_req, res) => {
-  res.json(successResponse({
-    healthy: true
-  }));
+// Health check endpoint
+router.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    data: {
+      message: 'OK',
+      timestamp: new Date().toISOString()
+    }
+  });
 });
 
 export default router;
