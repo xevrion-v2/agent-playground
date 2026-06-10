@@ -1,7 +1,7 @@
 # TaskFlow Monorepo
 
-TaskFlow is a full-stack task management SaaS monorepo built 
-with a modern TypeScript-first architecture.
+
+
 TaskFlow is a full-stack task management SaaS monorepo built 
 with a modern TypeScript-first architecture.
 
@@ -30,11 +30,10 @@ The web app includes pages for:
 
 The API includes:
 - Auth routes (register, login, OAuth callback, JWT refresh)
-- CRUD routes for users, tasks, and proposals
-- Payments routes (Stripe-focused service placeholder)
-- Reviews, messaging, notifications
-- File uploads and search
-- Admin routes
+
+## Getting Started
+
+
 
 Backend architecture follows:
 - Middleware layer (auth, rate limiting, error handling)
