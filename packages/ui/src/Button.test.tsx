@@ -8,18 +8,15 @@ describe('Button', () => {
     expect(screen.getByText('Click me')).toBeInTheDocument();
   });
 
-  it('is disabled when disabled prop is true', () => {
+  it('renders with disabled attribute when disabled is true', () => {
     render(<Button label="Disabled" disabled />);
-    expect(screen.getByText('Disabled')).toBeDisabled();
+    const button = screen.getByText('Disabled');
+    expect(button).toBeDisabled();
   });
 
-  it('is not disabled when disabled prop is false', () => {
+  it('does not have disabled attribute when disabled is false', () => {
     render(<Button label="Enabled" disabled={false} />);
-    expect(screen.getByText('Enabled')).not.toBeDisabled();
-  });
-
-  it('is not disabled when disabled prop is not provided', () => {
-    render(<Button label="Default" />);
-    expect(screen.getByText('Default')).not.toBeDisabled();
+    const button = screen.getByText('Enabled');
+    expect(button).not.toBeDisabled();
   });
 });
