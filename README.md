@@ -45,7 +45,8 @@ Backend architecture follows:
 - Validation schemas (Zod)
 - Utility helpers
 
-The API accepts JSON request bodies up to `100kb`.
+The API JSON body parser accepts `Content-Type: application/json` request bodies up to `100kb` by default.
+Set `JSON_BODY_LIMIT` to override the limit for local development or deployment.
 
 ## Getting Started
 
