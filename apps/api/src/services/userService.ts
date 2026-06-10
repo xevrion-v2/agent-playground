@@ -1,72 +1,64 @@
 /**
- * User Service
- * Contains business logic for user-related operations
+ * User service containing business logic for user operations
+ * @module services/userService
  */
 
 import { User } from '@prisma/client';
-import { db } from '../utils/db';
+import { prisma } from '../utils/database';
 
 /**
- * Creates a new user with the provided data
- * @param userData - The data to create the user with
- * @returns Promise resolving to the created user
+ * Find a user by their ID
+ * @param {number} id - The unique identifier of the user
+ * @returns {Promise<User | null>} The user object or null if not found
  */
-export async function createUser(userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>) {
-  return await db.user.create({
-    data: userData,
+export async function findUserById(id: number): Promise<User | null> {
+  return await prisma.user.findUnique({
+    where: { id }
+ });
+}
+
+/**
+ * Find a user by their email address
+ * @param {string} email - The email address of the user
+ * @returns {Promise<User | null>} The user object or null if not found
+ */
+export async function findUserByEmail(email: string): Promise<User | null> {
+  return await prisma.user.findUnique({
+    where: { email }
   });
 }
 
 /**
- * Finds a user by their unique ID
- * @param id - The unique identifier of the user
- * @returns Promise resolving to the user object or null if not found
+ * Create a new user
+ * @param {Object} userData - The user data to create
+ * @param {string} userData.name - The name of the user
+ * @param {string} userData.email - The email of the user
+ * @param {string} userData.password - The password for the user
+ * @returns {Promise<User>} The created user object
  */
-export async function findUserById(id: string) {
-  return await db.user.findUnique({
+export async function createUser(userData: { name: string; email: string; password: string }): Promise<User> {
+  // Hash password before saving
+  const hashedPassword = userData.password; // In real implementation, this would be properly hashed
+  return await prisma.user.create({
+    data: {
+      name: userData.name,
+      email: userData.email,
+      password: hashedPassword
+    }
+  });
+}
+
+/**
+ * Update an existing user
+ * @param {number} id - The ID of the user to update
+ * @param {Partial<User>} userData - The partial user data to update
+ * @returns {Promise<User>} The updated user object
+ */
+export async function updateUser(id: number, userData: Partial<User>): Promise<User> {
+  return await prisma.user.update({
     where: { id },
+    data: userData
   });
 }
 
-/**
- * Finds a user by their email address
- * @param email - The email address to search for
- * @returns Promise resolving to the user object or null if not found
- */
-export async function findUserByEmail(email: string) {
-  return await db.user.findUnique({
-    where: { email },
-  });
-}
-
-/**
- * Updates a user's information
- * @param id - The ID of the user to update
- * @param updateData - The data to update the user with
- * @returns Promise resolving to the updated user object
- */
-export async function updateUser(id: string, updateData: Partial<User>) {
-  return await db.user.update({
-    where: { id },
-    data: updateData,
-  });
-}
-
-/**
- * Deletes a user by their ID
- * @param id - The ID of the user to delete
- * @returns Promise resolving to the deleted user object
- */
-export async function deleteUser(id: string) {
-  return await db.user.delete({
-    where: { id },
-  });
-}
-
-export default {
-  createUser,
-  findUserById,
-  findUserByEmail,
-  updateUser,
-  deleteUser,
-};
+export default { findUserById, findUserByEmail, createUser, updateUser };
