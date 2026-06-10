@@ -1,11 +1,13 @@
 import { Response } from 'express';
 
-export const sendApiError = (
-  res: Response,
-  message: string,
-  statusCode: number = 400
-): void => {
-  res.status(statusCode).json({
+interface ApiErrorHelper {
+  message: string;
+  statusCode?: number;
+  error?: string;
+}
+
+export const sendApiError = (res: any, message: string, statusCode: number = 400) => {
+  return res.status(statusCode).json({
     success: false,
     error: {
       message,
@@ -14,14 +16,15 @@ export const sendApiError = (
   });
 };
 
-export const sendApiSuccess = (
-  res: Response,
-  data: any,
-  message: string = 'success'
-) => {
-  res.json({
+export const sendApiSuccess = (res: any, data: any, successMessage: string = 'success') => {
+  return res.json({
     success: true,
-    message,
-    data
+    message: successMessage,
+    data: data || {}
   });
+};
+
+// Helper function that can be used for consistent error responses across API endpoints
+export const sendError = (res: any, message: string, statusCode: number = 400) => {
+  return sendApiError(res, message, statusCode);
 };
