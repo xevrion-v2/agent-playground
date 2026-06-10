@@ -1,16 +1,23 @@
 import { Router } from 'express';
+import { asyncHandler } from '../middleware/asyncHandler';
 
-const healthRouter = Router();
+const router = Router();
 
-healthRouter.get('/', (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    data: {
-      message: 'OK',
-      timestamp: new Date().toISOString(),
-      uptime: process.uptime()
-    }
-  });
-});
+router.get(
+  '/health',
+  asyncHandler(async (req, res) => {
+    const healthCheck = {
+      status: 'ok',
+      data: {
+        uptime: process.uptime(),
+        message: 'OK',
+        timestamp: Date.now(),
+      }
+    };
 
-export default healthRouter;
+    return res.status(200).json({
+      status: healthCheck.status,
+      data: healthCheck.data
+    });
+  })
+);
