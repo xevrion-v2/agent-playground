@@ -1,8 +1,7 @@
-import express from 'express';
-import type { Request, Response, NextFunction } from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import dotenv from 'dotenv';
+import express from "express";
+
+import usersRouter from "./routes/users";
+
 const app = express();
 const port = process.env.PORT || 4000;
 
@@ -13,15 +12,21 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/users", usersRouter);
+
+app.listen(port, () => {
+  console.log(`TaskFlow API listening on port ${port}`);
+import express from 'express';
+
 const app = express();
 
-// Middleware
-app.use(express.json({ limit: '100kb' }));
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  if (err.type === 'entity.too.large') {
-    return res.status(413).json({ error: 'Payload too large' });
-  }
-  next(err);
+// Configure body parsing with a conservative size limit
+app.use(express.json({ 
+  limit: '10mb' // Set conservative JSON body size limit to prevent potential DoS attacks
+}));
+
+// URL encoded bodies
+app.use(express.urlencoded({ extended: true }));
+
+// Export or start the application
+export default app;
 });
-app.use(cors());
-app.use(helmet());
