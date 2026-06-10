@@ -5,19 +5,19 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = ({ label, disabled = false }) => {
+export const Button: React.FC<ButtonProps> = ({ 
+  label, 
+  disabled = false,
+  ...props 
+}) => {
   return (
     <button 
       disabled={disabled}
-      style={{
-        padding: '8px 16px',
-        backgroundColor: disabled ? '#cccccc' : '#007bff',
-        color: 'white',
-        border: 'none',
-        borderRadius: '4px',
-      }}
+      {...props}
     >
       {label}
     </button>
   );
 };
+
+export default Button;
