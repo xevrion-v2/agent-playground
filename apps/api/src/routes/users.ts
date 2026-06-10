@@ -2,6 +2,12 @@ import { Router } from "express";
 
 const router = Router();
 
+/**
+ * Returns the current user collection.
+ *
+ * This is a placeholder implementation until persistence is wired in, so it
+ * intentionally returns an empty list with an explanatory message.
+ */
 router.get("/", (_req, res) => {
   res.json({
     data: [],
@@ -9,6 +15,12 @@ router.get("/", (_req, res) => {
   });
 });
 
+/**
+ * Accepts a user payload and echoes it with a stable stub id.
+ *
+ * The handler preserves the request body shape for early API consumers while
+ * the real user service and database-backed creation flow are still pending.
+ */
 router.post("/", (req, res) => {
   res.status(201).json({
     data: {
