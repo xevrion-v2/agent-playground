@@ -1,33 +1,47 @@
-import { Response } from 'express';
-
-export interface ApiErrorOptions {
-  statusCode: number;
-  message: string;
-  errors?: Record<string, string[]>;
+interface ApiErrorResponse {
+  success: false;
+  error: {
+    message: string;
+    code?: string;
+    status: number;
+  };
 }
 
 export class ApiError extends Error {
-  statusCode: number;
-  errors?: Record<string, string[]>;
+  public status: number;
+  public code: string;
 
-  constructor(options: ApiErrorOptions) {
-    super(options.message);
-    this.statusCode = options.statusCode;
-    this.errors = options.errors;
+  constructor(message: string, status: number = 500, code: string = 'INTERNAL_ERROR') {
+    super(message);
+    this.status = status;
+    this.code = code;
     this.name = 'ApiError';
+  }
+
+  toJSON(): ApiErrorResponse {
+    return {
+      success: false,
+      error: {
+        message: this.message,
+        code: this.code,
+        status: this.status,
+      },
+    };
   }
 }
 
-export function sendApiError(res: Response, error: ApiError): Response {
-  return res.status(error.statusCode).json({
-    success: falsehapus,
-    error: {
-      message: error.message,
-      ...(error.errors && { errors: error.errors }),
-    },
-  });
-}
+export const sendError = (res: any, error: ApiError | Error): void => {
+  if (error instanceof ApiError) {
+    res.status(error.status).json(error.toJSON());
+  } else {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message || 'Internal Server Error',
+        status: 500,
+      },
+    });
+  }
+};
 
-export function createApiError(statusCode: number, message: string, errors?: Record<string, string[]>): ApiError {
-  return new ApiError({ statusCode, message, errors });
-}
+export default ApiError;
