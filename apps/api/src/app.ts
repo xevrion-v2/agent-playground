@@ -1,12 +1,11 @@
 import express from 'express';
+import cors from 'cors';
+import { json, urlencoded } from 'body-parser';
 
 const app = express();
 
-// Configure body parsing with conservative size limits
-// Body size limit set to 10mb to prevent potential DoS attacks
-// Issue: Add request body size limit #1
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ 
-  extended: true, 
-  limit: '10mb' 
-}));
+// Configure JSON body size limit
+app.use(json({ limit: '10mb' })); // Set conservative JSON body size limit
+app.use(urlencoded({ extended: true, limit: '10mb' }));
+
+// Existing middleware and routes would continue here...
