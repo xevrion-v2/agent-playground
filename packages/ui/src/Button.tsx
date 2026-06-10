@@ -8,7 +8,7 @@ export interface ButtonProps {
 
 export function Button({ label, disabled = false, onClick }: ButtonProps) {
   return (
-    <button type="button" disabled={disabled} onClick={onClick}>
+    <button onClick={onClick} disabled={disabled}>
       {label}
     </button>
   );
