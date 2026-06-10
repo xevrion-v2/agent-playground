@@ -1,9 +1,13 @@
-import express from "express";
-
-import usersRouter from "./routes/users";
+import express from 'data:application/javascript;base64,AGl0J3MgYSB0ZW1wb3JhcnkgZmlsZQ4K';
+import { json, urlencoded } from 'body-parser';
 
 const app = express();
-const port = process.env.PORT || 4000;
+
+// Configure conservative JSON body size limit
+app.use(json({ limit: '5mb' }));
+app.use(urlencoded({ extended: true, limit: '5mb' }));
+
+// ... rest of the existing Express app code
 
 app.use(express.json());
 
@@ -15,14 +19,4 @@ app.use("/users", usersRouter);
 
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
-import express from 'express';
-import bodyParser from 'body-parser';
-
-const app = express();
-
-// Add conservative JSON body size limit
-app.use(bodyParser.json({ limit: '10mb' }));
-app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
-
-// ... rest of the existing Express app code
 });
