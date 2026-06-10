@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { sendErrorResponse, ApiError } from '../utils/apiError';
+import { sendErrorResponse, ApiError, handleApiError } from '../utils/apiError';
 
 const router = Router();
 
