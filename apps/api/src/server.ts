@@ -1,19 +1,15 @@
 import express from 'express';
-import bodyParser from 'body-parser';
+import { json } from 'body-parser';
 
 const app = express();
 
-// Configure a conservative JSON body size limit
-// The limit is set to 200kb as a conservative value for JSON payloads
-// This prevents potential DoS attacks from extremely large request bodies
-app.use(bodyParser.json({ limit: '200kb' }));
-app.use(bodyParser.urlencoded({ limit: '200kb', extended: true }));
+// Configure request body size limit
+// Set conservative limit of 100kb for JSON payloads
+app.use(json({ limit: '100kb' }));
+app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 
-// Alternative approach using express.json() (if bodyParser is not used directly)
-// app.use(express.json({ limit: '200kb' }));
-// app.use(express.urlencoded({ limit: '200kb', extended: true }));
+// Add other routes and middleware...
 
-// Rest of the application setup would go here
-// app.listen() etc.
+export { app };
 
-export default app;
+// Expected body size limit: 100kb for all JSON and URL-encoded requests
