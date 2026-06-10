@@ -16,7 +16,10 @@ healthRouter.get('/health', (req, res) => {
 healthRouter.get('/healthz', (req, res) => {
   res.status(200).json({
     status: 'ok',
-    data: { message: 'Service is healthy' }
+    data: { 
+      message: 'Service is healthy',
+      uptime: process.uptime()
+    }
   });
 });
 
