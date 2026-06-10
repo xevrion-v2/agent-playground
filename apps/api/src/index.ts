@@ -1,7 +1,8 @@
-import express from "express";
-
-import usersRouter from "./routes/users";
-
+import express from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import dotenv from 'dotenv';
 const app = express();
 const port = process.env.PORT || 4000;
 
@@ -11,20 +12,24 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok", service: "taskflow-api" });
 });
 
-app.use("/users", usersRouter);
 
-app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
-import express from 'express';
+// Middleware
+app.use(helmet());
+app.use(express.json({ limit: '100kb' }));
+app.use(cors());
 
-const app = express();
-
-// Configure body parsing with conservative size limits
-// Body size limit set to 10mb to prevent potential DoS attacks
-// Issue: Add request body size limit #1
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ 
-  extended: true, 
-  limit: '10mb' 
-}));
+// Routes
+  res.json({ message: 'TaskFlow API' });
 });
+
+// Error handler for body size limit exceeded
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  if (err.type === 'entity.too.large') {
+    return res.status(413).json({ error: 'Request body too large' });
+  }
+  next(err);
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`API server running on port ${PORT}`);
