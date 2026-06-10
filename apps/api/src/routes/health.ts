@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 const healthRouter = Router();
 
-// Health check endpoint with normalized response shape
+// Standard health check with consistent envelope
 healthRouter.get('/health', (req, res) => {
   res.status(200).json({
     status: 'ok',
@@ -16,10 +16,7 @@ healthRouter.get('/health', (req, res) => {
 healthRouter.get('/healthz', (req, res) => {
   res.status(200).json({
     status: 'ok',
-    data: { 
-      message: 'Service is healthy',
-      uptime: process.uptime()
-    }
+    data: { message: 'Service is healthy' }
   });
 });
 
