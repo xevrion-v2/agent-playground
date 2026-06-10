@@ -1,26 +1,25 @@
-export class ApiError extends Error {
-  statusCode: number;
-  isOperational: boolean;
+import { Response } from 'express';
 
-  constructor(statusCode: number, message: string, isOperational = true) {
-    super(message);
-    this.statusCode = statusCode;
-    this.isOperational = isOperational;
-    Error.captureStackTrace(this, this.constructor);
-  }
+interface ApiError extends Error {
+  statusCode?: number;
 }
 
-export function createErrorResponse(statusCode: number, message: string) {
-  return {
+export const apiError = (
+  res: Response,
+  message: string,
+  statusCode: number = 500,
+  error: Error | string = new Error(message)
+): Response => {
+  return res.status(statusCode).json({
     success: false,
-    error: {
-      statusCode,
-      message,
-    },
-  };
-}
+    error: typeof error === 'string' ? error : error.message,
+    message,
+    statusCode
+  });
+};
 
-export function sendError(res: any, statusCode: number, message: string) {
-  const errorResponse = createErrorResponse(statusCode, message);
-  return res.status(statusCode).json(errorResponse);
-}
+export const apiErrorHandler = (
+  err: ApiError,
+  res: Response
+): Response => apiError(res, err.message, err.statusCode || 500, err);
+};
