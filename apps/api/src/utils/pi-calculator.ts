@@ -1,36 +1,36 @@
 /**
- * PI Calculator using Leibniz formula
+ * PI Calculator using Monte Carlo Method
  * 
- * This is a lightweight implementation of the Leibniz formula for π:
- * π/4 = 1 - 1/3 + 1/5 - 1/7 + 1/9 - ...
- * 
- * @param iterations Number of iterations to run the calculation
- * @returns Approximation of PI
+ * This module provides a simple implementation to approximate the value of PI
+ * using the Monte Carlo method. It's for demonstration purposes only.
  */
-export const calculatePI = (iterations: number = 1000000): number => {
-  let pi = 0;
-  for (let i = 0; i < iterations; i++) {
-    const denominator = 2 * i + 1;
-    const sign = i % 2 === 0 ? 1 : -1;
-    pi += sign * (1 / denominator);
-  }
-  return pi * 4;
-};
 
-export const calculatePIWithPrecision = (decimalPlaces: number): number => {
-  const targetPrecision = Math.pow(10, -decimalPlaces);
-  let pi = 0;
-  let difference = 1;
-  let iterations = 1000000;
-  let previousPi;
-  
-  // Calculate until the difference is less than the target precision
-  do {
-    previousPi = pi;
-    pi = calculatePI(iterations);
-    difference = Math.abs(pi - previousPi);
-    iterations *= 2;
-  } while (difference > targetPrecision && iterations < 100000000);
-  
-  return pi;
-};
+/**
+ * Calculates an approximation of PI using the Monte Carlo method
+ * @param {number} iterations - Number of random points to generate
+ * @returns {number} - Approximated value of PI
+ */
+export function calculatePI(iterations: number = 1000000): number {
+  let insideCircle = 0;
+
+  for (let i = 0; i < iterations; i++) {
+    const x = Math.random();
+    const y = Math.random();
+    
+    if (x * x + y * y <= 1) {
+      insideCircle++;
+    }
+  }
+
+  return 4 * insideCircle / iterations;
+}
+
+// Example usage:
+// const pi = calculatePI(1000000);
+// console.log(`Estimated PI: ${pi}`);
+
+/**
+ * The Monte Carlo method is a statistical approach that uses random sampling.
+ * It's lightweight and demonstrates algorithmic thinking without requiring 
+ * heavy computational resources.
+ */
