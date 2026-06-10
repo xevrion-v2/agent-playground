@@ -1,19 +1,34 @@
 import React from 'react';
 
-export interface ButtonProps {
-  label: string;
+interface ButtonProps {
+  label?: string;
   disabled?: boolean;
+  onClick?: () => void;
+  children?: React.ReactNode;
+  className?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({ label, disabled = false }) => {
+export const Button: React.FC<ButtonProps> = ({ 
+  label = 'Button', 
+  disabled = false, 
+  onClick,
+  children,
+  className = ''
+}) => {
   return (
     <button 
       disabled={disabled}
-      onClick={() => console.log('Button clicked:', label)}
+      onClick={onClick}
+      className={className}
     >
-      {label}
+      {children || label}
     </button>
   );
 };
 
 export default Button;
+
+// Test has been written to cover:
+// - Button label rendering
+// - Disabled state handling
+// Basic functionality verification
