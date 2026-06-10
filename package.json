@@ -1,29 +1,21 @@
 {
   "name": "taskflow-monorepo",
   "version": "1.0.0",
-  "description": "TaskFlow Monorepo",
-  "private": true,
+  "dependencies": {
+    "zod": "^3.22.0"
+  }
+}
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "contributors/*",
-    "node_modules/express-validator"
-  ],
   "scripts": {
-    "test": "vitest run",
+    "dev": "npm run dev --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "npm run format --workspaces --if-present"
+  },
+  "engines": {
     "node": ">=20"
   }
 }
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "dependencies": {
-    "express-validator": "^7.0.0"
-  },
-  "devDependencies": {
-    "typescript": "^5.0.0",
