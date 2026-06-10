@@ -1,25 +1,26 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import Button from './Button';
-import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { Button } from './Button';
 
 describe('Button', () => {
-  it('renders with label text', () => {
+  it('renders with correct label', () => {
     render(<Button label="Click me" />);
     expect(screen.getByText('Click me')).toBeInTheDocument();
   });
 
-  it('renders in disabled state', () => {
+  it('renders with correct label when provided', () => {
+    render(<Button label="Submit" />);
+    expect(screen.getByText('Submit')).toBeInTheDocument();
+  });
+
+  it('applies disabled attribute when disabled prop is true', () => {
     render(<Button label="Disabled Button" disabled />);
     const button = screen.getByRole('button');
     expect(button).toBeDisabled();
   });
 
-  it('renders with label and can be enabled', () => {
-    render(<Button label="Enabled Button" />);
+  it('does not apply disabled attribute when disabled prop is false', () => {
+    render(<Button label="Enabled Button" disabled={false} />);
     const button = screen.getByRole('button');
     expect(button).not.toBeDisabled();
-    expect(button).toHaveTextContent('Enabled Button');
   });
-
-  // Add more tests as needed for the Button component
 });
