@@ -1,12 +1,20 @@
+import { handleApiError } from '../utils/errorHandler';
 import { Router } from 'express';
-import { APIError } from '../utils/apiError';
-import { sendErrorResponse } from '../utils/apiError';
+import { registerUser, loginUser } from '../controllers/auth';
+import { authenticateToken } from '../middleware/auth';
 
-const router = Router();
-
+router.post('/register', async (req, res) => {
+  try {
+    // Validate request body
+    const { email, password } = req.body;
+    
+    // Check if user already exists would go here
+    
+    res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
-    console.error('Registration error:', error);
-    const apiError = new APIError('Registration failed', 500);
-    sendErrorResponse(res, apiError);
+    const errorResponse = handleApiError(error);
+    res.status(errorResponse.status).json({
+      error: errorResponse,
+    });
   }
 });
