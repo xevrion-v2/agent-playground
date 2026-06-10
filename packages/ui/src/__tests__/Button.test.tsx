@@ -1,35 +1,30 @@
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-
-// Mock the Button component since we don't have the actual implementation
-jest.mock('../components/Button/Button', () => ({
-  Button: ({ label, disabled, children }: { label?: string; disabled?: boolean; children?: React.ReactNode }) => (
-    <button disabled={disabled} data-testid="button">
-      {label || children}
-    </button>
-  )
-}));
-
-const { Button } = require('../components/Button/Button');
+import userEvent from '@testing-library/user-event';
+import { Button } from '../Button';
 
 describe('Button', () => {
-  it('renders with correct label', () => {
+  it('should render with the correct label', () => {
     render(<Button label="Click me" />);
-    
     expect(screen.getByText('Click me')).toBeInTheDocument();
   });
 
-  it('applies disabled attribute when disabled prop is true', () => {
-    render(<Button label="Disabled Button" disabled />);
-    
-    const button = screen.getByTestId('button');
+  it('should be enabled by default', () => {
+    render(<Button label="Click me" />);
+    const button = screen.getByRole('button', { name: /click me/i });
+    expect(button).not.toBeDisabled();
+  });
+
+  it('should be disabled when disabled prop is true', () => {
+    render(<Button label="Click me" disabled />);
+    const button = screen.getByRole('button', { name: /click me/i });
     expect(button).toBeDisabled();
   });
 
-  it('does not apply disabled attribute when disabled prop is false', () => {
-    render(<Button label="Enabled Button" disabled={false} />);
-    
-    const button = screen.getByText('Enabled Button');
-    expect(button).toBeEnabled();
+  it('should call onClick when clicked and not disabled', async () => {
+    const handleClick = jest.fn();
+    render(<Button label="Click me" onClick={handleClick} />);
+    const button = screen.getByRole('button', { name: /click me/i });
+    await userEvent.click(button);
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });
