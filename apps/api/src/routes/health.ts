@@ -1,13 +1,14 @@
 import { Router } from 'express';
-import { errorResponse } from '../utils/apiError';
+import { sendErrorResponse, ApiError } from '../utils/apiError';
 
 const router = Router();
 
 router.get('/', (req, res) => {
   try {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+    // Simulate a potential error condition
+    throw new ApiError(503, 'Service temporarily unavailable');
   } catch (error) {
-    return errorResponse(res, 500, 'Health check failed');
+    handleApiError(error, res);
   }
 });
 
