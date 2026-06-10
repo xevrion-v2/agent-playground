@@ -1,92 +1,50 @@
 /**
- * Service for user-related operations
- * Handles user management functionality including creation, retrieval, update and deletion of users
+ * User service module for handling user-related operations
+ * @module userService
+ * @requires prisma
+ * @requires bcrypt
+ * @requires jsonwebtoken
  */
 
-import { User } from '@prisma/client';
-import { db } from '../../packages/db';
+/**
+ * Creates a new user with the provided data
+ * @param userData - Object containing user information (email, password, name, etc.)
+ * @returns Promise resolving to the created user object
+ */
 
-interface UserService {
-  /**
-   * Find a user by their unique identifier
-   * @param id - The user's unique identifier
-   * @returns A promise that resolves to the user object or null if not found
-   */
-  findById: (id: number) => Promise<User | null>;
-  
-  /**
-   * Find a user by their email address
-   * @param email - The email address to search for
-   * @returns A promise that resolves to the user object or null if not found
-   */
-  findByEmail: (email: string) => Promise<User | null>;
-  
-  /**
-   * Create a new user
-   * @param userData - The data for creating a new user
-   * @returns A promise that resolves to the created user object
-   */
-  createUser: (userData: Partial<User>) => Promise<User>;
-  
-  /**
-   * Update an existing user
-   * @param id - The user's unique identifier
-   * @param userData - The data to update the user with
-   * @returns A promise that resolves to the updated user object
-   */
-  updateUser: (id: number, userData: Partial<User>) => Promise<User>;
-  
-  /**
-   * Delete a user by their unique identifier
-   * @param id - The user's unique identifier
-   * @returns A promise that resolves to the result of the deletion operation
-   */
-  deleteUser: (id: number) => Promise<boolean>;
-  
-  /**
-   * List all users with optional filtering and pagination
-   * @param filter - Optional filter criteria
-   * @param page - Page number for pagination (default: 1)
-   * @param limit - Number of items per page (default: 10)
-   * @returns A promise that resolves to an array of users
-   */
-  listUsers: (filter?: object, page?: number, limit?: number) => Promise<User[]>;
-  
-  /**
-   * Search for users by name
-   * @param query - The search query string
-   * @returns A promise that resolves to an array of matching users
-   */
-  searchUsers: (query: string) => Promise<User[]>;
-  
-  /**
-   * Get user statistics and summary information
-   * @returns A promise that resolves to an object containing user statistics
-   */
-  getUserStats: () => Promise<object>;
-  
-  /**
-   * Ban a user from the platform
-   * @param id - The user's unique identifier
-   * @param reason - The reason for banning the user
-   * @returns A promise that resolves to the updated user object
-   */
-  banUser: (id: number, reason: string) => Promise<User>;
-  
-  /**
-   * Unban a user on the platform
-   * @param id - The user's unique identifier
-   * @returns A promise that resolves to the updated user object
-   */
-  unbanUser: (id: number) => Promise<User>;
-  
-  /**
-   * Get all banned users
-   * @returns A promise that resolves to an array of banned users
-   */
-  getBannedUsers: () to an array of banned users
-   */
-  getBannedUsers: () => Promise<User[]>;
-}
+/**
+ * Authenticates a user by email and password
+ * @param email - The user's email address
+ * @param password - The user's password
+ * @returns Promise resolving to user object with access token or rejecting with authentication error
+ */
 
-export default UserService;
+/**
+ * Finds a user by their unique identifier
+ * @param id - The unique identifier of the user
+ * @returns Promise resolving to the user object or null if not found
+ */
+
+/**
+ * Finds a user by their email address
+ * @param email - The email address to search for
+ *returns Promise resolving to the user object or null if not found
+ */
+
+/**
+ * Updates user information
+ * @param id - The user's unique identifier
+ * @param updateData - Object containing fields to update
+ * @returns Promise resolving to the updated user object
+ */
+
+/**
+ * Deletes a user by their unique identifier
+ * @param id - The user's unique identifier
+ * @returns Promise resolving to the result of the delete operation
+ */
+
+/**
+ * Gets all users from the database
+ * @returns Promise resolving to array of all users
+ */
