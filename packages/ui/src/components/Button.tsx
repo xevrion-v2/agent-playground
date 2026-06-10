@@ -1,51 +1,39 @@
 import * as React from 'react';
 
 interface ButtonProps {
-  /**
-   * The content of the button
-   */
   children: React.ReactNode;
-  
-  /**
-   * Optional variant for styling
-   */
-  variant?: 'primary' | 'secondary' | 'danger' | 'outline';
-  
-  /**
-   * Optional size modifier
-   */
-  size?: 'small' | 'medium' | 'large';
-  
-  /**
-   * Optional click handler
-   */
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  
-  /**
-   * Optional disabled state
-   */
-  disabled?: boolean;
-  
-  /**
-   * Optional additional class names
-   */
+  variant?: 'primary' | 'secondary' | 'ghost' | 'link';
+  size?: 'sm' | 'md' | 'lg';
   className?: string;
+  onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  [key: string]: any;
 }
 
-export const Button: React.FC<ButtonProps> = ({
-  children,
-  variant = 'primary',
-  size = 'medium',
-  className = '',
-  ...props
-}) => {
-  // Button implementation would go here
+function Button(props: ButtonProps) {
+  const { 
+    children, 
+  variant = 'primary', 
+  size = 'md', 
+  className, 
+  onClick, 
+  type, 
+  disabled,
+  ...rest 
+} = props;
+
   return (
-    <button 
-      className={`btn btn-${variant} btn-${size} ${className}`}
-      {...props}
+    <button
+      className={className}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      {...rest}
     >
       {children}
     </button>
   );
-};
+}
+
+export default Button;
