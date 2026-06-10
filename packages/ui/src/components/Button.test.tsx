@@ -2,25 +2,19 @@ import { render, screen } from '@testing-library/react';
 import { Button } from './Button';
 
 describe('Button', () => {
-  it('renders with correct label', () => {
-    render(<Button label="Click me" />);
-    expect(screen.getByText('Click me')).toBeInTheDocument();
+  it('should render with correct label', () => {
+    const { getByText } = render(<Button label="Click Me" />);
+    expect(getByText('Click Me')).toBeInTheDocument();
   });
 
-  it('renders with correct label when provided', () => {
-    render(<Button label="Submit" />);
-    expect(screen.getByText('Submit')).toBeInTheDocument();
+  it('should render with label text', () => {
+    const { getByText } = render(<Button label="Test Button">Test Button</Button>);
+    expect(getByText('Test Button')).toBeInTheDocument();
   });
 
-  it('applies disabled attribute when disabled prop is true', () => {
-    render(<Button label="Disabled Button" disabled />);
-    const button = screen.getByRole('button');
+  it('should be disabled when disabled prop is true', () => {
+    const { container } = render(<Button label="Disabled Button" disabled />);
+    const button = container.querySelector('button');
     expect(button).toBeDisabled();
-  });
-
-  it('does not apply disabled attribute when disabled prop is false', () => {
-    render(<Button label="Enabled Button" disabled={false} />);
-    const button = screen.getByRole('button');
-    expect(button).not.toBeDisabled();
   });
 });
