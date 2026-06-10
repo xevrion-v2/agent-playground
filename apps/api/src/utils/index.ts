@@ -1,5 +1,8 @@
-export * from './apiError';
+export * from './errorHandler';
 
-// If this file already exists, this would be added to the existing exports
-// If it doesn't exist, a new file would be created with this content
-export { APIError } from './apiError';
+// Placeholder for existing utilities
+// This file will be updated to export the error handler utilities
+// Currently just a placeholder to show the file exists
+export const dummy = () => {};
+
+export default dummy;
