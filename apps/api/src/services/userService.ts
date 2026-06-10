@@ -1,114 +1,93 @@
 /**
- * User service module.
- * Provides CRUD operations and business logic for user management.
+ * User service module - handles all database operations related to users.
+ * Provides CRUD operations and user-specific queries for the application.
  */
 
-import { PrismaClient, User } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import { PrismaClient, User, Prisma } from '@prisma/client';
+import { hashPassword } from '../utils/password';
 
 
-const SALT_ROUNDS = 10;
+export type UserCreateInput = Prisma.UserCreateInput;
 
 /**
- * Retrieves a user by their unique identifier.
- *
- * @param id - The unique ID of the user to find.
- * @returns The user object if found, otherwise null.
- * @throws Will throw if a database error occurs.
+ * Retrieves all users from the database.
+ * @param {Object} options - Query options
+ * @param {Omit<Prisma.UserFindManyArgs, 'where'>} [options.args] - Additional Prisma query arguments
+ * @returns {Promise<User[]>} Promise resolving to array of user objects
  */
-export async function getUserById(id: string): Promise<User | null> {
-  return prisma.user.findUnique({
-    where: { id },
+export async function getAllUsers(options?: {
+  args?: Omit<Prisma.UserFindManyArgs, 'where'>;
+}): Promise<User[]> {
   });
 }
 
 /**
- * Retrieves a user by their email address.
- *
- * @param email - The email address to search for.
- * @returns The user object if found, otherwise null.
- * @throws Will throw if a database error occurs.
+ * Retrieves a single user by their unique identifier.
+ * @param {string} id - The UUID of the user to find
+ * @param {Omit<Prisma.UserFindUniqueArgs, 'where'>} [args] - Additional Prisma query arguments
+ * @returns {Promise<User | null>} Promise resolving to the user object or null if not found
  */
-export async function getUserByEmail(email: string): Promise<User | null> {
-  return prisma.user.findUnique({
-    where: { email },
+export async function getUserById(
+  id: string,
+  args?: Omit<Prisma.UserFindUniqueArgs, 'where'>
   });
 }
 
 /**
- * Creates a new user with a hashed password.
- *
- * @param data - The user data including email, password, and optional profile fields.
- * @returns The newly created user object.
- * @throws Will throw if the email is already in use or a database error occurs.
+ * Retrieves a single user by their email address.
+ * @param {string} email - The email address of the user to find
+ * @param {Omit<Prisma.UserFindUniqueArgs, 'where'>} [args] - Additional Prisma query arguments
+ * @returns {Promise<User | null>} Promise resolving to the user object or null if not found
  */
-export async function createUser(data: {
-  email: string;
-  password: string;
+export async function getUserByEmail(
+  email: string,
+  args?: Omit<Prisma.UserFindUniqueArgs, 'where'>
+  });
+}
+
+/**
+ * Creates a new user in the database with a hashed password.
+ * @param {UserCreateInput} data - The user data to create
+ * @param {Omit<Prisma.UserCreateArgs, 'data'>} [args] - Additional Prisma create arguments
+ * @returns {Promise<User>} Promise resolving to the newly created user object
+ */
+export async function createUser(
+  data: UserCreateInput,
+  args?: Omit<Prisma.UserCreateArgs, 'data'>
   });
 }
 
 /**
  * Updates an existing user's information.
- *
- * @param id - The unique ID of the user to update.
- * @param data - Partial user data to apply.
- * @returns The updated user object.
- * @throws Will throw if the user is not found or a database error occurs.
+ * @param {string} id - The UUID of the user to update
+ * @param {Prisma.UserUpdateInput} data - The data to update on the user
+ * @param {Omit<Prisma.UserUpdateArgs, 'where' | 'data'>} [args] - Additional Prisma update arguments
+ * @returns {Promise<User>} Promise resolving to the updated user object
+ * @throws {Error} When user with given id is not found
  */
 export async function updateUser(
   id: string,
-  data: Partial<Pick<User, 'name' | 'email' | 'avatar' | 'role'>>
+  data: Prisma.UserUpdateInput,
   });
 }
 
 /**
- * Deletes a user by their unique identifier.
- *
- * @param id - The unique ID of the user to delete.
- * @returns The deleted user object.
- * @throws Will throw if the user is not found or a database error occurs.
+ * Deletes a user from the database by their ID.
+ * @param {string} id - The UUID of the user to delete
+ * @param {Omit<Prisma.UserDeleteArgs, 'where'>} [args] - Additional Prisma delete arguments
+ * @returns {Promise<User>} Promise resolving to the deleted user object
  */
-export async function deleteUser(id: string): Promise<User> {
-  return prisma.user.delete({
-    where: { id },
+export async function deleteUser(
+  id: string,
+  args?: Omit<Prisma.UserDeleteArgs, 'where'>
   });
 }
 
 /**
- * Searches for users by a query string matching name or email.
- *
- * @param query - The search string to match against user names and emails.
- * @param limit - Maximum number of results to return (default: 20).
- * @returns An array of matching user objects.
- * @throws Will throw if a database error occurs.
+ * Searches for users by name or email using a case-insensitive search.
+ * @param {string} query - The search string to match against user names and emails
+ * @returns {Promise<User[]>} Promise resolving to an array of matching user objects
  */
-export async function searchUsers(query: string, limit: number = 20): Promise<User[]> {
+export async function searchUsers(query: string): Promise<User[]> {
   return prisma.user.findMany({
     where: {
-  });
-}
-
-/**
- * Verifies a user's password against the stored hash.
- *
- * @param plainPassword - The plain-text password to verify.
- * @param hashedPassword - The hashed password stored in the database.
- * @returns True if the password matches, otherwise false.
- */
-export async function verifyPassword(
-  plainPassword: string,
-  hashedPassword: string
-  return bcrypt.compare(plainPassword, hashedPassword);
-}
-
-/**
- * Hashes a plain-text password for secure storage.
- *
- * @param password - The plain-text password to hash.
- * @returns The hashed password string.
- * @throws Will throw if hashing fails.
- */
-export async function hashPassword(password: string): Promise<string> {
-  return bcrypt.hash(password, SALT_ROUNDS);
-}
