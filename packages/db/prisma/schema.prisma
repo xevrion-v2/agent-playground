@@ -18,7 +18,7 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
-/// Represents work posted by a user for freelancers to review and propose on.
+/// Represents work posted by a user for freelancers to review and submit proposals for.
 model Job {
   id          String     @id @default(cuid())
   title       String
