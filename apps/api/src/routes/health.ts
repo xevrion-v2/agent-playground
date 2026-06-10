@@ -1,21 +1,23 @@
 import { Router, Request, Response } from 'express';
 
-const healthRouter = Router();
+const router = Router();
 
-/**
- * @route GET /health
- * Health check endpoint that returns a consistent response envelope
- */
-healthRouter.get('/', async (req: Request, res: Response) => {
-  try {
-    // TODO: Implement actual health checks (database, external services, etc.)
-    const healthData = {
-      status: 'ok',
+interface HealthCheckResponse {
+  status: string;
+  data: {
+    uptime: number;
+    timestamp: string;
+    service: string;
+  };
+}
+
+router.get('/health', (req: Request, res: Response<HealthCheckResponse>) => {
+  const healthResponse: HealthCheckResponse = {
+    status: 'ok',
+    data: {
+      uptime: process.uptime(),
       timestamp: new Date().toISOString(),
-    };
-    
-    res.status(200).json({ status: 'success', data: healthData });
-  } catch (error) {
-    res.status(500).json({ status: 'error', data: { message: 'Service unavailable' } });
-  }
-});
+      service: 'taskflow-api'
+    }
+  };
+  res.status(200).json(healthResponse);
