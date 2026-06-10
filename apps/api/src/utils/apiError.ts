@@ -1,37 +1,35 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response } from 'express';
 
-interface ErrorResponse {
+export interface ApiErrorOptions {
+  statusCode: number;
   message: string;
-  code?: string;
-  status: number;
-  timestamp: string;
+  errors?: Record<string, string[]>;
 }
 
-export const handleApiError = (error: Error): ErrorResponse => {
-  return {
-    message: error.message,
-    code: error.name,
-    status: 500,
-    timestamp: new Date().toISOString(),
-  };
-};
+export class ApiError extends Error {
+  statusCode: number;
+  errors?: Record<string, string[]>;
 
-export const handleApiErrorMiddleware = (err: any, req: Request, res: Response, next: NextFunction) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.error(err.stack);
+  constructor(options: ApiErrorOptions) {
+    super(options.message);
+    this.statusCode = options.statusCode;
+    this.errors = options.errors;
+    this.name = 'ApiError';
   }
-  
-  const errorResponse = handleApiError(err);
-  return errorResponse;
-};
+}
 
-export const withErrorHandling = (fn: Function) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await fn(req, res, next);
-    } catch (error) {
-      const errorResponse = handleApiError(error);
-      res.status(500).json({ error: errorResponse });
-    }
-  };
-};
+export function sendApiError(res: Response, error: ApiError | Error): void {
+  if (error instanceof ApiError) {
+    res.status(error.statusCode).json({
+      success: false,
+      message: error.message,
+      errors: error.errors,
+    });
+    return;
+  }
+
+  res.status(500).json({
+    success: false,
+    message: error.message || 'Internal server error',
+  });
+}
