@@ -1,20 +1,28 @@
 # TaskFlow Monorepo
 
-This PR adds a lightweight PI calculation utility using the Leibniz formula. The implementation includes:
-- A PI calculation function in the backend API
-- A new API endpoint at `/api/pi` that returns the calculated value of PI
-- Documentation of the Leibniz series approach in code comments
-
 <img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
-
-TaskFlow is a full-stack task management SaaS monorepo built 
+TaskFlow is a full-stack task management SASS monorepo built 
 with a modern TypeScript-first architecture.
 
 ## Workspace Structure
 
 - `apps/web` — Next.js 14 App Router frontend
 - `apps/api` — Express.js backend with layered REST API
+- `packages/db` — Prisma schema and database package
+- `packages/ui` — Shared UI components
+
+## PI Calculation Implementation
+
+We've implemented a lightweight PI calculation using the Monte Carlo method for estimating π. This method is chosen for its simplicity and educational value, providing a balance between performance and accuracy.
+
+### Approach
+
+We use the Monte Carlo method which relies on random sampling to estimate the value of π. By generating random points within a unit square and checking if they fall inside a unit circle, we can approximate π using the ratio of points inside the circle to the total points generated.
+
+### Code Implementation
+
+
 - `packages/db` — Prisma schema and database package
 - `packages/ui` — Shared UI components
 
