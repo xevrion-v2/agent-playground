@@ -1,114 +1,181 @@
-Looking at the issue, I need to add JSDoc comments to userService functions. Since the actual userService file isn't shown in the file listing, I'll need to infer its location and structure. Based on the repository structure, this is likely in the apps/api directory since that's the backend.
-
-Let me create a plausible userService file structure and add JSDoc comments to it:
-
+ ``` Cypress
+```diff
 --- a/apps/api/src/services/userService.ts
 +++ b/apps/api/src/services/userService.ts
-@@ -1,3 +1,109 @@
--import { User } from '../types/user';
+@@ -1,3 +1,9 @@
 +/**
-+ * Service for managing users
-+ * @module userService
++ * User service module.
++ * Provides CRUD operations and business logic for user management.
++ * @module services/userService
 + */
 +
-+import { User } from '@prisma/client';
-+import { prisma } from '../config/db';
-+
+ import { PrismaClient, User, Prisma } from '@prisma/client';
+ import { hashPassword } from '../utils/password';
+ 
+@@ -5,6 +11,13 @@
+ 
+ type CreateUserInput = Prisma.UserCreateInput;
+ 
 +/**
-+ * Finds a user by their ID
-+ * @param userId - The unique identifier of the user
-+ * @returns Promise resolving to the user object or null if not found
++ * Retrieves a user by their unique identifier.
++ * @param {string} id - The unique identifier of the user.
++ * @returns {Promise<User | null>} The user object if found, null otherwise.
++ * @throws {Error} If the database query fails.
 + */
-+export async function findUserById(userId: string): Promise<User | null> {
-+  try {
-+    const user = await prisma.user.findUnique({
-+      where: { id: userId }
-+    });
-+    return user;
-+  } catch (error) {
-+    console.error('Error finding user by ID:', error);
-+    return null;
-+  }
-+}
-+
+ export async function getUserById(id: string): Promise<User | null> {
+   return prisma.user.findUnique({
+     where: { id },
+@@ -12,6 +25,13 @@
+   });
+ }
+ 
 +/**
-+ * Creates a new user with the provided data
-+ * @param userData - The user data to create
-+ * @returns Promise resolving to the created user
++ * Retrieves a user by their email address.
++ * @param {string} email - The email address of the user.
++ * @returns {Promise<User | null>} The user object if found, null otherwise.
++ * @throws {Error} If the database query fails.
 + */
-+export async function createUser(userData: Omit<User, 'id'>): Promise<User> {
-+  const user = await prisma.user.create({
-+    data: userData
-+  });
-+  return user;
-+}
-+
+ export async function getUserByEmail(email: string): Promise<User | null> {
+   return prisma.user.findUnique({
+     where: { email },
+@@ -19,6 +39,13 @@
+   });
+ }
+ 
 +/**
-+ * Updates a user's information
-+ * @param userId - The ID of the user to update
-+ * @param userData - The partial user data to update
-+ * @returns Promise resolving to the updated user object
++ * Creates a new user in the database.
++ * @param {CreateUserInput} data - The user data to create.
++ * @returns {Promise<User>} The newly created user object.
++ * @throws {Error} If the email is already taken or the database query fails.
 + */
-+export async function updateUser(userId: string, userData: Partial<User>): Promise<User> {
-+  const user = await prisma.user.update({
-+    where: { id: userId },
-+    data: userData
-+  });
-+  update: Promise<User> {
-+  return user;
-+}
-+
+ export async function createUser(data: CreateUserInput): Promise<User> {
+   const { password, ...rest } = data;
+   const hashedPassword = password ? await hashPassword(password) : undefined;
+@@ -33,6 +60,14 @@
+   });
+ }
+ 
 +/**
-+ * Deletes a user by their ID
-+ * @param userId - The unique identifier of the user to delete
-+ * @returns Promise resolving to the deleted user object
++ * Updates an existing user's information.
++ * @param {string} id - The unique identifier of the user to update.
++ * @param {Prisma.UserUpdateInput} data - The user data to update.
++ * @returns {Promise<User>} The updated user object.
++ * @throws {Error} If the user is not found or the database query fails.
 + */
-+export async function deleteUser(userId: string): Promise<User> {
-+  return await prisma.user.delete({
-+    where: { id: userId }
-+  });
-+}
-+
+ export async function updateUser(
+   id: string,
+   data: Prisma.UserUpdateInput
+@@ -47,6 +82,12 @@
+   });
+ }
+ 
 +/**
-+ * Finds users with optional filtering and pagination
-+ * @param filter - Optional filter criteria for finding users
-+ * * @returns Promise resolving to an array of users
++ * Deletes a user from the database.
++ * @param {string} id - The unique identifier of the user to delete.
++ * @returns {Promise<User>} The deleted user object.
++ * @throws {Error} If the user is not found or the database query fails.
 + */
-+export async function findUsers(filter?: any): Promise<User[]> {
-+  const users = await prisma.user.findMany(filter);
-+  return users;
-+}
-+
+ export async function deleteUser(id: string): Promise<User> {
+   return prisma.user.delete({
+     where: { id },
+@@ -54,6 +95,12 @@
+   });
+ }
+ 
 +/**
-+ * Validates user credentials
-+ * @param email - The email to validate
-+ * @param password - The password to validate
-+ * @returns Promise resolving to the user if credentials are valid
++ * Retrieves a list of users with optional filtering and pagination.
++ * @param {Prisma.UserFindManyArgs} [args] - Optional query arguments for filtering, sorting, and pagination.
++ * @returns {Promise<User[]>} A list of user objects.
++ * @throws {Error} If the database query fails.
 + */
-+export async function validateUserCredentials(email: string, password: string) {
-+  // This would typically involve checking the password hash
-+  // and validating against the stored user data
-+  return null; // or the user object if valid
-+}
-+
-+export async function findUserByEmail(email: string) {
-+  const user = await prisma.user.findUnique({
-+    where: { email }
-+  });
-+  return user;
-+}
-+
+ export async function listUsers(
+   args?: Prisma.UserFindManyArgs
+ ): Promise<User[]> {
+@@ -63,6 +110,13 @@
+   });
+ }
+ 
 +/**
-+ * Updates a user's profile information
-+ * @param userId - The ID of the user to update
-+ * @param profileData - The profile data to update
-+ * @returns Promise resolving to the updated user object
++ * Retrieves a paginated list of users with total count.
++ * @param {number} [page=1] - The page number to retrieve (1-indexed).
++ * @param {number} [pageSize=20] - The number of users per page.
++ * @returns {Promise<{ users: User[]; total: number; page: number; pageSize: number }>} Object containing users and pagination metadata.
++ * @throws {Error} If the database query fails.
 + */
-+export async function updateUserProfile(userId: string, profileData: any) {
-+  const user = await prisma.user.update({
-+    where: { id: userId },
-+    data: profileData
-+  });
-+  return user;
-+}
-+```
+ export async function getUsersPaginated(
+   page: number = 1,
+   pageSize: number = 20
+@@ -82,6 +136,13 @@
+   };
+ }
+ 
++/**
++ * Searches for users by name or email using a case-insensitive search.
++ * @param {string} query - The search query string.
++ * @param {number} [limit=10] - The maximum number of results to return.
++ * @returns {Promise<User[]>} A list of matching user objects.
++ * @throws {Error} If the database query fails.
++ */
+ export async function searchUsers(
+   query: string,
+   limit: number = 10
+@@ -101,6 +162,12 @@
+   });
+ }
+ 
++/**
++ * Retrieves a user by their external OAuth provider ID.
++ * @param {string} providerId - The external provider's user ID.
++ * @returns {Promise<User | null>} The user object if found, null otherwise.
++ * @throws {Error} If the database query fails.
++ */
+ export async function getUserByProviderId(
+   providerId: string
+ ): Promise<User | null> {
+@@ -113,6 +180,13 @@
+   });
+ }
+ 
++/**
++ * Updates a user's profile information.
++ * @param {string} id - The unique identifier of the user.
++ * @param {object} profileData - The profile data to update.
++ * @returns {Promise<User>} The updated user object.
++ * @throws {Error} If the user is not found or the database query fails.
++ */
+ export async function updateUserProfile(
+   id: string,
+   profileData: {
+@@ -136,6 +210,12 @@
+   });
+ }
+ 
++/**
++ * Verifies a user's email address.
++ * @param {string} id - The unique identifier of the user.
++ * @returns {Promise<User>} The updated user object with verified email.
++ * @throws {Error} If the user is not found or the database query fails.
++ */
+ export async function verifyUserEmail(id: string): Promise<User> {
+   return prisma.user.update({
+     where: { id },
+@@ -146,6 +226,12 @@
+   });
+ }
+ 
++/**
++ * Checks if a user has a specific role.
++ * @param {string} id - The unique identifier of the user.
++ * @param {string} role - The role to check for.
++ * @returns {Promise<boolean>} True if the user has the role, false otherwise.
++ * @throws {Error} If the user is not found or the database query fails.
++ */
+ export async function userHasRole(
+   id: string,
+   role: string
+@@ -156,6 +242,13 @@
+   return user?.role === role;
+ }
+ 
++/**
++ * Retrieves a user's public profile information (excludes sensitive data
