@@ -1,32 +1,33 @@
 // TODO: Implement GET /users - List all users with pagination, filtering by role/skills, and search
 import { Router } from 'express';
-import {
-  getUserById,
-
+import { getUserProfile, updateUserProfile, deleteUserAccount } from "../controllers/user.controller";
+import { authenticate } from "../middleware/auth";
 const router = Router();
 
-// TODO: GET /users - Return paginated list of users; support query params: page, limit, role, search
-// TODO: Handle error case: invalid pagination params should return 400 Bad Request
-router.get('/', getAllUsers);
+// Public routes
+// TODO: Implement GET /users/:id - Get public user profile by ID
+// TODO: Return 404 if user not found, 400 if invalid ID format
+router.get("/:id", getUserProfile);
 
-// TODO: GET /users/:id - Return single user profile by ID; include related skills and tasks
-// TODO: Handle error case: user not found should return 404 Not Found
-// TODO: Handle error case: invalid UUID format should return 400 Bad Request
-router.get('/:id', getUserById);
+// Protected routes
+// TODO: Implement PATCH /users/me - Update authenticated user's profile
+// TODO: Validate request body against UserUpdateSchema (Zod)
+// TODO: Return 400 for validation errors, 401 if unauthenticated, 409 if email/username already taken
+router.patch("/me", authenticate, updateUserProfile);
 
-// TODO: POST /users - Create new user account; validate required fields (email, password, role)
-// TODO: Handle error case: duplicate email should return 409 Conflict
-// TODO: Handle error case: weak password should return 400 Bad Request with validation details
-router.post('/', createUser);
+// TODO: Implement DELETE /users/me - Soft delete authenticated user's account
+// TODO: Cascade: anonymize profile, cancel active tasks, archive proposals
+// TODO: Return 401 if unauthenticated, 403 if user has pending disputes, 404 if already deleted
+router.delete("/me", authenticate, deleteUserAccount);
 
-// TODO: PUT /users/:id - Update user profile; restrict fields based on auth role (user can only update self, admin can update any)
-// TODO: Handle error case: unauthorized update attempt should return 403 Forbidden
-// TODO: Handle error case: attempting to change immutable fields (email) should return 400 Bad Request
-router.put('/:id', updateUser);
+// TODO: Implement GET /users/me - Get full authenticated user profile (private fields)
+// TODO: Return 401 if unauthenticated, include tasks, proposals, payments, notifications
 
-// TODO: DELETE /users/:id - Soft delete user account; only admins or the user themselves can delete
-// TODO: Handle error case: unauthorized delete should return 403 Forbidden
-// TODO: Handle error case: already deleted user should return 410 Gone
-router.delete('/:id', deleteUser);
+// TODO: Implement GET /users/search - Search users by name, skills, or category
+// TODO: Support query params: q, skills[], category, page, limit, sort
+// TODO: Return 400 for invalid query parameters
+
+// TODO: Implement POST /users/:id/verify - Admin-only route to verify freelancer identity
+// TODO: Return 403 for non-admin users, 404 if user not found, 409 if already verified
 
 export default router;
