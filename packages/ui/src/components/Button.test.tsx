@@ -1,25 +1,28 @@
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Button } from './Button';
-import '@testing/@jest';
-import React from 'react';
 
 describe('Button', () => {
-  test('renders with label text', () => {
-    // Test that the button displays the correct label
+  it('renders with the correct label', () => {
     render(<Button label="Click me" />);
-    expect(screen.getByRole('button')).toBeInTheDocument();
-    expect(screen.getByText('Click me')).toBeDefined();
+    expect(screen.getByText('Click me')).toBeInTheDocument();
   });
 
-  test('is disabled when disabled prop is true', () => {
-    render(<Button label="Disabled Button" disabled={true} />);
-    const disabledButton = screen.getByRole('button');
-    expect(disabledButton).toBeDisabled();
+  it('renders as disabled when disabled prop is true', () => {
+    render(<Button label="Disabled" disabled />);
+    const button = screen.getByRole('button', { name: 'Disabled' });
+    expect(button).toBeDisabled();
   });
 
-  test('is enabled when disabled prop is false', () => {
-    const { container } = render(<Button label="Enabled Button" disabled={false} />);
-    const button = container.querySelector('button');
-    expect(button).not.toBeDisabled();
+  it('renders as enabled when disabled prop is false', () => {
+    render(<Button label="Enabled" disabled={false} />);
+    const button = screen.getByRole('button', { name: 'Enabled' });
+    expect(button).toBeEnabled();
+  });
+
+  it('renders as enabled by default', () => {
+    render(<Button label="Default" />);
+    const button = screen.getByRole('button', { name: 'Default' });
+    expect(button).toBeEnabled();
   });
 });
