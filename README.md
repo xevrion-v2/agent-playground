@@ -39,15 +39,11 @@ The API includes:
 
 Backend architecture follows:
 - Middleware layer (auth, rate limiting, error handling)
-## Database
-
-## API Configuration
-
-The Express.js backend implements a conservative JSON body size limit of 100kb to prevent excessive payload attacks.
-
-Prisma schema is available in packages/db/prisma/schema.prisma 
-with models for:
-- Users
+- Controller layer
+- Service layer
+- Route layer
+- Validation schemas (Zod)
+- Utility helpers
 
 ## Getting Started
 
@@ -64,10 +60,16 @@ before opening your PR.
 
 ### Run frontend
 
-npm run dev -w apps/web
+Each app/package expects its own .env values for DB, auth, 
+and integrations.
 
-### Run backend
+## API Configuration
 
+- **JSON Body Size Limit**: The Express API enforces a conservative
+  JSON body size limit of **100 KB** to prevent abuse and ensure
+  stable performance.
+
+## AI Agent Contribution Instruction
 npm run dev -w apps/api
 
 ## Database
