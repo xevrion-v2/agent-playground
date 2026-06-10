@@ -1,34 +1,33 @@
-import { Response } from 'express';
-
-export interface ApiErrorOptions {
-  statusCode: number;
-  message: string;
-  errors?: Record<string, string[]>;
-}
-
 export class ApiError extends Error {
   statusCode: number;
-  errors?: Record<string, string[]>;
+  isOperational: boolean;
 
-  constructor(options: ApiErrorOptions) {
-    super(options.message);
-    this.statusCode = options.statusCode;
-    this.errors = options.errors;
-    this.name = 'ApiError';
+  constructor(statusCode: number, message: string, isOperational = true) {
+    super(message);
+    this.statusCode = statusCode;
+    this.isOperational = isOperational;
+    Error.captureStackTrace(this, this.constructor);
   }
 }
 
-export function sendApiError(res: Response, error: ApiError | Error): Response {
-  if (error instanceof ApiError) {
-    return res.status(error.statusCode).json({
-      success: false,
-      message: error.message,
-      errors: error.errors,
-    });
-  }
-
-  return res.status(500).json({
+export const sendErrorResponse = (
+  res: any,
+  statusCode: number,
+  message: string
+) => {
+  return res.status(statusCode).json({
     success: false,
-    message: error.message || 'Internal server error',
+    error: {
+      message,
+      statusCode,
+    },
   });
-}
+};
+
+export const handleApiError = (error: unknown, res: any) => {
+  if (error instanceof ApiError) {
+    return sendErrorResponse(res, error.statusCode, error.message);
+  }
+  console.error('Unexpected error:', error);
+  return sendErrorResponse(res, 500, 'Internal server error');
+};
