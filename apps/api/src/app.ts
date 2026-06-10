@@ -1,4 +1,11 @@
-// Add the body size limit configuration
-app.use(express.json({ limit: '10mb' }));
+import express from 'express';
+import cors from 'cors';
+import { env } from 'process';
 
-// Existing app configuration continues...
+const app = express();
+
+// Add request body size limit (conservative limit of 100kb for JSON payloads)
+app.use(express.json({ limit: '100kb' }));
+app.use(express.urlencoded({ extended: true, limit: '100kb' }));
+
+// Add other middleware and routes...
