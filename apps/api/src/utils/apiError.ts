@@ -21,5 +21,15 @@ export const apiError = (
 export const apiErrorHandler = (
   err: ApiError,
   res: Response
-): Response => apiError(res, err.message, err.statusCode || 500, err);
+): Response => {
+  const statusCode = err.statusCode || 500;
+  return apiError(res, err.message, statusCode, err);
+};
+
+export const notFound = (res: Response): Response => {
+  return apiError(res, 'Not found', 404);
+};
+
+export const badRequest = (res: Response, message: string): Response => {
+  return apiError(res, message, 400);
 };
