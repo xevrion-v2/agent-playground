@@ -1,13 +1,9 @@
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
 import test from "node:test";
 
-function Button({ label, disabled = false }) {
-  return {
-    type: "button",
-    label,
-    disabled,
-  };
-}
+const require = createRequire(import.meta.url);
+const { Button } = require("../.tmp-test/index.js");
 
 test("Button preserves the provided label", () => {
   assert.equal(Button({ label: "Save" }).label, "Save");
