@@ -1,99 +1,98 @@
-/**
- * User Service
- * Contains business logic for user management operations
- */
-
 import { User } from '@prisma/client';
-import { prisma } from '../utils/db';
+import { prisma } from '../../db';
 
 /**
- * Finds a user by their unique identifier
- * @param id - The unique identifier of the user
- * @returns A promise that resolves to the user object or null if not found
+ * Creates a new user with the provided data
+ * @param {Omit<User, 'id' | 'createdAt' | 'updatedAt'>} userData - The user data to create
+ * @returns {Promise<User>} The created user object
+ * @throws {Error} If user creation fails
+ * @example
+ * const newUser = await userService.createUser({
+ *   email: 'user@example.com',
+ *   name: 'John Doe'
+ * });
  */
-export const findUserById = async (id: number) => {
-  return await prisma.user.findUnique({
-    where: { id }
-  });
-};
+export async function createUser(userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<User> {
+  try {
+    const user = await prisma.user.create({
+      data: userData,
+    });
+    return user;
+  } catch (error) {
+    throw new Error(`Failed to create user: ${error.message}`);
+  }
+}
 
 /**
- * Finds a user by their email address
- * @param email - The email address to search for
- * @returns A promise that resolves to the user object or null if not found
+ * Retrieves a user by their unique ID
+ * @param {string} id - The unique identifier of the user
+ * @returns {Promise<User | null>} The user object if found, null otherwise
+ * @throws {Error} If database query fails
+ * @example
+ * const user = await userService.getUserById('user-123');
  */
-export const findUserByEmail = async (email: string) => {
-  return await prisma.user.findUnique({
-    where: { email }
-  });
-};
+export async function getUserById(id: string): Promise<User | null> {
+  try {
+    return await prisma.user.findUnique({
+      where: { id },
+    });
+  } catch (error) {
+    throw new Error(`Failed to get user by ID: ${error.message}`);
+  }
+}
 
 /**
- * Creates a new user record
- * @param userData - The data to create a new user with
- * @returns A promise that resolves to the created user object
+ * Updates a user's information
+ * @param {string} id - The ID of the user to update
+ * @param {Partial<User>} userData - The partial user data to update
+ * @returns {Promise<User>} The updated user object
+ * @throws {Error} If user update fails
+ * @example
+ * const updatedUser = await userService.updateUser('user-123', {
+ *   name: 'Jane Doe'
+ * });
  */
-export const createUser = async (userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>) => {
-  return await prisma.user.create({
-    data: userData
-  });
-};
+export async function updateUser(id: string, userData: Partial<User>): Promise<User> {
+  try {
+    const user = await prisma.user.update({
+      where: { id },
+      data: userData,
+    });
+    return user;
+  } catch (error) {
+    throw new Error(`Failed to update user: ${error.message}`);
+  }
+}
 
 /**
- * Updates an existing user's information
- * @param id - The unique identifier of the user to update
- * @param userData - The partial user data to update
- * @returns A promise that resolves to the updated user object
+ * Deletes a user by their ID
+ * @param {string} id - The ID of the user to delete
+ * @returns {Promise<User>} The deleted user object
+ * @throws {Error} If user deletion fails
+ * @example
+ * const deletedUser = await userService.deleteUser('user-123');
  */
-export const updateUser = async (id: number, userData: Partial<User>) => {
-  return await prisma.user.update({
-    where: { id },
-    data: userData
-  });
-};
+export async function deleteUser(id: string): Promise<User> {
+  try {
+    return await prisma.user.delete({
+      where: { id },
+    });
+  } catch (error) {
+    throw new Error(`Failed to delete user: ${error.message}`);
+  }
+}
 
 /**
- * Deletes a user by their unique identifier
- * @param id - The unique identifier of the user to delete
- * @returns A promise that resolves to the deleted user object
+ * Retrieves all users from the database
+ * @returns {Promise<User[]>} Array of all user objects
+ * @throws {Error} If fetching users fails
+ * @example
+ * const allUsers = await userService.getAllUsers();
  */
-export const deleteUser = async (id: number) => {
-  return await prisma.user.delete({
-    where: { id }
-  });
-};
-
-/**
- * Finds all users with optional filtering and pagination
- * @param filter - Optional filter criteria
- * @param page - Page number for pagination (default: 1)
- * @param limit - Number of records per page (default: 10)
- * @returns A promise that resolves to an array of users
- */
-export const findUsers = async (
-  filter: Partial<User> = {},
-  page: number = 1,
-  limit: number = 10
-) => {
-  return await prisma.user.findMany({
-    where: filter,
-    skip: (page - 1) * limit,
-    take: limit
-  });
-};
-
-/**
- * Searches for users by name or email
- * @param query - The search query string
- * @returns A promise that resolves to an array of matching users
- */
-export const searchUsers = async (query: string) => {
-  return await prisma.user.findMany({
-    where: {
-      OR: [
-        { name: { contains: query, mode: 'insensitive' } },
-        { email: { contains: query, mode: 'insensitive' } }
-      ]
-    }
-  });
-};
+export async function getAllUsers(): Promise<User[]> {
+  try {
+    return await prisma.user.findMany();
+  } catch (error) {
+    throw new Error(`Failed to fetch users: ${error.message}`);
+  }
+}
