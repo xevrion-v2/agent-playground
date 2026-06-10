@@ -1,5 +1,11 @@
 import express from 'express';
 
-// Existing Express app configuration would be here...
+const app = express();
 
-// Add body parser with size limit after the existing configuration
+// Add JSON body size limit middleware
+// Set a conservative limit of 10mb for JSON payloads
+app.use(express.json({ limit: '10mb' }));
+
+// Existing Express app configuration would continue here...
+
+export default app;
