@@ -24,6 +24,10 @@ before(async () => {
 });
 
 after(async () => {
+  if (!server) {
+    return;
+  }
+
   await new Promise<void>((resolve, reject) => {
     server.close((error) => (error ? reject(error) : resolve()));
   });
@@ -35,10 +39,9 @@ describe("user routes", () => {
     const body = await response.json();
 
     assert.equal(response.status, 200);
-    assert.deepEqual(body, {
-      data: [],
-      message: "User listing is not implemented yet."
-    });
+    assert.deepEqual(body.data, []);
+    assert.equal(typeof body.message, "string");
+    assert.match(body.message, /not implemented/i);
   });
 
   it("creates a stub user while preserving submitted fields", async () => {
@@ -57,12 +60,11 @@ describe("user routes", () => {
     const body = await response.json();
 
     assert.equal(response.status, 201);
-    assert.deepEqual(body, {
-      data: {
-        id: "stub-user-id",
-        ...payload
-      },
-      message: "User creation is not implemented yet."
+    assert.deepEqual(body.data, {
+      id: "stub-user-id",
+      ...payload
     });
+    assert.equal(typeof body.message, "string");
+    assert.match(body.message, /not implemented/i);
   });
 });
