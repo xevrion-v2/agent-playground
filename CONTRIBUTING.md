@@ -56,4 +56,18 @@ for bounty review.
 
 ## Code of Conduct
 
+# Contributing to TaskFlow
+
+Thank you for your interest in contributing! Please see our [Bug Bounty Program (Issue #33)](https://github.com/xevrion-v2/agent-playground/issues/33) for details on how to participate and earn rewards for your contributions.
+
+## Quick Start
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## Reporting Issues
+
+When reporting bugs or security issues, please reference [Issue #33](https://github.com/xevrion-v2/agent-playground/issues/33) and include `/bounty $[amount]` if you'd like to request a bounty.
 Collaborate respectfully in all issue and PR discussions.
