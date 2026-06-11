@@ -1,13 +1,17 @@
 {
   "name": "@taskflow/utils",
   "version": "0.1.0",
-  "description": "Shared utility functions for the TaskFlow monorepo",
+  "description": "Shared utility functions for TaskFlow",
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "test": "jest"
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
+    "tsup": "^8.0.0",
+    "vitest": "^1.0.0"
   }
 }
