@@ -1,54 +1,63 @@
 import { describe, it, expect } from 'vitest';
-import { arithmeticSequence, fibonacciSequence, infiniteSequence } from '../sequence';
+import { infiniteSequence, take, range } from '../sequence';
 
-describe('arithmeticSequence', () => {
-  it('generates default sequence starting at 0 with step 1', () => {
-    const seq = arithmeticSequence({ maxIterations: 5 });
-    expect([...seq]).toEqual([0, 1, 2, 3, 4]);
+describe('infiniteSequence', () => {
+  it('generates values based on index', () => {
+    const seq = infiniteSequence((i) => i * 2);
+    const result = take(seq, 5);
+    expect(result).toEqual([0, 2, 4, 6, 8]);
   });
 
-  it('generates sequence with custom start and step', () => {
-    const seq = arithmeticSequence({ start: 10, step: 5, maxIterations: 4 });
-    expect([...seq]).toEqual([10, 15, 20, 25]);
+  it('respects custom maxIterations', () => {
+    const seq = infiniteSequence((i) => i, { maxIterations: 3 });
+    expect(() => take(seq, 5)).toThrow('exceeded safety limit');
   });
 
-  it('respects maxIterations limit', () => {
-    const seq = arithmeticSequence({ maxIterations: 3 });
-    const result = [...seq];
-    expect(result).toHaveLength(3);
-    expect(result).toEqual([0, 1, 2]);
-  });
-
-  it('uses default maxIterations when not specified', () => {
-    const seq = arithmeticSequence();
-    const result = [...seq];
-    expect(result).toHaveLength(10000);
+  it('allows safe finite consumption', () => {
+    const seq = infiniteSequence((i) => `item-${i}`);
+    const result = take(seq, 3);
+    expect(result).toEqual(['item-0', 'item-1', 'item-2']);
   });
 });
 
-describe('fibonacciSequence', () => {
-  it('generates Fibonacci sequence', () => {
-    const seq = fibonacciSequence({ maxIterations: 7 });
-    expect([...seq]).toEqual([0, 1, 1, 2, 3, 5, 8]);
+describe('take', () => {
+  it('returns requested number of items', () => {
+    const seq = infiniteSequence((i) => i);
+    expect(take(seq, 3)).toEqual([0, 1, 2]);
   });
 
-  it('respects maxIterations limit', () => {
-    const seq = fibonacciSequence({ maxIterations: 3 });
-    const result = [...seq];
-    expect(result).toHaveLength(3);
-    expect(result).toEqual([0, 1, 1]);
+  it('returns empty array for count 0', () => {
+    const seq = infiniteSequence((i) => i);
+    expect(take(seq, 0)).toEqual([]);
   });
 
-  it('uses default maxIterations when not specified', () => {
-    const seq = fibonacciSequence();
-    const result = [...seq];
-    expect(result).toHaveLength(10000);
+  it('throws on negative count', () => {
+    expect(() => take(infiniteSequence((i) => i), -1)).toThrow('non-negative');
   });
 });
 
-describe('infiniteSequence alias', () => {
-  it('is an alias for arithmeticSequence', () => {
-    const seq = infiniteSequence({ maxIterations: 4 });
-    expect([...seq]).toEqual([0, 1, 2, 3]);
+describe('range', () => {
+  it('generates range [start, end)', () => {
+    expect([...range(0, 5)]).toEqual([0, 1, 2, 3, 4]);
+  });
+
+  it('supports negative step', () => {
+    expect([...range(5, 0, -1)]).toEqual([5, 4, 3, 2, 1]);
+  });
+
+  it('throws on zero step', () => {
+    expect(() => [...range(0, 5, 0)]).toThrow('step cannot be zero');
+  });
+});
+
+describe('integration', () => {
+  it('can be used with for...of and break', () => {
+    const seq = infiniteSequence((i) => i + 1);
+    const result: number[] = [];
+    for (const n of seq) {
+      if (n > 3) break;
+      result.push(n);
+    }
+    expect(result).toEqual([1, 2, 3]);
   });
 });
