@@ -1,37 +1,34 @@
-// TODO: Implement GET /users - List all users with pagination and search filters
+// TODO: Implement GET /users - List all users with pagination, filtering by role/skills, and search
 import { Router } from 'express';
-import { getUserProfile, updateUserProfile, deleteUserAccount } from '../controllers/user.controller';
-import { authenticate } from '../middleware/auth.middleware';
-const router = Router();
+import { authenticate, requireRole } from '../middleware/auth.middleware';
+import { validate } from '../middleware/validation.middleware';
 
-// Public routes
-// TODO: GET /users/search - Search users by name, skill, or role with query params (q, role, limit, offset)
-// TODO: Return 400 Bad Request if search query is missing or invalid
-// TODO: Return 200 with empty array if no matches found
+// GET /users - List all users (public, paginated)
+// TODO: Add pagination (limit/offset), search by name/email, filter by role/skills
+// TODO: Return 400 for invalid query parameters (negative page, invalid sort field)
+router.get('/', userController.getUsers);
 
-// TODO: GET /users/:id - Get public profile for a specific user by ID
-// TODO: Return 404 Not Found if user does not exist
-// TODO: Return 400 Bad Request if ID is not a valid UUID
+// GET /users/:id - Get single user by ID
+// TODO: Validate UUID format in param, return 404 if user not found
+// TODO: Return 400 for invalid UUID format, 404 for non-existent user
+router.get('/:id', userController.getUserById);
 
-// TODO: GET /users/:id/tasks - Get public task history for a user (completed, in-progress)
-// TODO: Return 404 Not Found if user does not exist
-// TODO: Return 200 with empty array if user has no visible tasks
+// PATCH /users/:id - Update user profile (owner or admin only)
+// TODO: Prevent role escalation (non-admins cannot change own role)
+// TODO: Return 403 if non-owner/non-admin attempts update, 404 if user not found
+// TODO: Return 409 if email/username already taken by another user
+router.patch('/:id', authenticate, userController.updateUser);
 
-// Protected routes
-router.get('/me', authenticate, getUserProfile);
-// TODO: GET /users/me - Get current authenticated user's full profile
-// TODO: Return 401 Unauthorized if auth token is missing or invalid
-// TODO: Return 200 with user object including private fields
+// DELETE /users/:id - Soft delete user (admin only)
+// TODO: Implement soft delete, cascade or handle related records
+// TODO: Return 403 if non-admin attempts delete, 404 if user not found
+// TODO: Consider 409 if user has active tasks/proposals that must be resolved first
+router.delete('/:id', authenticate, requireRole('ADMIN'), userController.deleteUser);
 
-router.patch('/me', authenticate, updateUserProfile);
-// TODO: PATCH /users/me - Update current user's profile fields
-// TODO: Return 400 Bad Request if update payload contains invalid fields
-// TODO: Return 409 Conflict if email/username already taken
-// TODO: Return 422 Unprocessable Entity if validation fails (e.g., invalid URL format)
-
-router.delete('/me', authenticate, deleteUserAccount);
-// TODO: DELETE /users/me - Soft-delete or hard-delete current user's account
-// TODO: Return 409 Conflict if user has active tasks or pending payments
-// TODO: Consider returning 204 No Content on successful deletion
+// TODO: GET /users/:id/tasks - Get tasks created by or assigned to user
+// TODO: GET /users/:id/proposals - Get proposals submitted by user
+// TODO: GET /users/:id/reviews - Get reviews for user with pagination
+// TODO: POST /users/:id/verify - Trigger email verification flow
+// TODO: POST /users/:id/resend-verification - Resend verification email
 
 export default router;
