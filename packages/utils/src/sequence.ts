@@ -2,19 +2,21 @@
  * Infinite sequence iterator utility.
  *
  * Provides a safe, lazy iterator for generating infinite sequences
- * with configurable step size and optional bounds.
+ * with configurable step sizes and optional bounds.
  */
 
 export interface SequenceOptions {
-  /** Starting value (default: 0) */
+  /** Starting value of the sequence (default: 0) */
   start?: number;
-  /** Step size between each value (default: 1) */
+  /** Step increment (default: 1) */
   step?: number;
 }
 
 /**
- * Creates an infinite sequence iterator that yields numbers
- * starting from `start` and incrementing by `step` each iteration.
+ * Creates an infinite sequence iterator.
+ *
+ * @param options - Configuration for the sequence
+ * @returns An iterable iterator that generates values on demand
  *
  * @example
  * 
