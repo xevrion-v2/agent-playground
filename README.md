@@ -2,7 +2,6 @@
 
 <img width="663" height="183" alt="TaskFlow Logo" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
-
 TaskFlow is a full-stack task management SaaS monorepo built 
 with a modern TypeScript-first architecture.
 
@@ -63,8 +62,8 @@ before opening your PR.
 npm run dev -w apps/web
 
 ### Run backend
-## Environment Variables
 
+npm run dev -w apps/api
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
 
@@ -84,6 +83,9 @@ Bounty amounts are at contributor discretion based on severity:
 - Low: $50-$200
 - Medium: $200-$500
 - High: $500-$1200
+
+All issues and PRs are welcome. The more specific your
+description, the better.
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
