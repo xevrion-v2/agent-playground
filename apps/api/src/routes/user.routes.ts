@@ -1,43 +1,42 @@
 // TODO: Implement GET /users - List all users with pagination, filtering by role/skills, and search
 import { Router } from 'express';
 import { authenticate, requireRole } from '../middleware/auth';
-import { validate } from '../middleware/validation';
+import { validate } from '../middleware/validate';
 
-router.use(authenticate);
-
-// TODO: GET /users - Return paginated user list with query params: page, limit, search, role, skills
-// TODO: Error case: Return 400 for invalid query parameters (negative page, invalid UUID format for skills)
-// TODO: Error case: Return 403 if non-admin requests list of users with admin-only filters
-router.get('/', requireRole(['admin', 'client', 'freelancer']), (req, res) => {
-  res.status(200).json({ message: 'List users' });
+router.get('/', authenticate, requireRole(['admin']), (req, res) => {
+  // TODO: Implement list users with pagination and filtering
+  // Expected behavior: Return paginated user list with optional filters (role, skills, search query)
+  // Error cases: 401 Unauthorized (missing/invalid token), 403 Forbidden (non-admin), 500 Internal Server Error
+  res.status(501).json({ message: 'Not implemented' });
 });
 
-// TODO: GET /users/:id - Return single user profile with populated skills, reviews, and task history
-// TODO: Error case: Return 404 if user ID does not exist
-// TODO: Error case: Return 400 if user ID is not a valid UUID
-router.get('/:id', (req, res) => {
-  res.status(200).json({ message: `Get user ${req.params.id}` });
+router.get('/:id', authenticate, (req, res) => {
+  // TODO: Implement get user by ID
+  // Expected behavior: Return user profile with related data (tasks, proposals, reviews)
+  // Error cases: 401 Unauthorized, 404 Not Found (user doesn't exist), 500 Internal Server Error
+  res.status(501).json({ message: 'Not implemented' });
 });
 
-// TODO: PUT /users/:id - Update user profile fields (name, bio, avatar, skills, hourlyRate)
-// TODO: Error case: Return 403 if authenticated user is not the owner or admin
-// TODO: Error case: Return 409 if email change conflicts with existing user
-// TODO: Error case: Return 400 if skills array contains invalid skill IDs
-router.put('/:id', (req, res) => {
-  res.status(200).json({ message: `Update user ${req.params.id}` });
+router.put('/:id', authenticate, validate(updateUserSchema), (req, res) => {
+  // TODO: Implement update user profile
+  // Expected behavior: Update allowed fields (name, bio, skills, avatarUrl) for own profile or admin
+  // Error cases: 401 Unauthorized, 403 Forbidden (updating another user's profile), 404 Not Found, 422 Validation Error, 500 Internal Server Error
+  res.status(501).json({ message: 'Not implemented' });
 });
 
-// TODO: DELETE /users/:id - Soft delete user account (set isActive=false, anonymize PII)
-// TODO: Error case: Return 403 if authenticated user is not the owner or admin
-// TODO: Error case: Return 409 if user has active tasks or pending payments
-// TODO: Error case: Return 404 if user ID does not exist
-router.delete('/:id', (req, res) => {
-  res.status(204).send();
+router.delete('/:id', authenticate, requireRole(['admin']), (req, res) => {
+  // TODO: Implement soft delete user
+  // Expected behavior: Soft delete user (set deletedAt), cascade or handle related data appropriately
+  // Error cases: 401 Unauthorized, 403 Forbidden (non-admin), 404 Not Found, 409 Conflict (user has active tasks/contracts), 500 Internal Server Error
+  res.status(501).json({ message: 'Not implemented' });
 });
 
-// TODO: GET /users/:id/tasks - Return tasks associated with user (created or assigned based on role)
-// TODO: Error case: Return 403 if requesting tasks of another user without permission
-// TODO: GET /users/:id/reviews - Return reviews received by user with pagination
-// TODO: Error case: Return 404 if user ID does not exist
+// TODO: Implement GET /users/:id/tasks - Get tasks created/assigned to user
+// Expected behavior: Return paginated task list for the user with optional status filter
+// Error cases: 401 Unauthorized, 404 Not Found (user doesn't exist), 500 Internal Server Error
+
+// TODO: Implement GET /users/:id/proposals - Get proposals submitted by user
+// Expected behavior: Return paginated proposal list with task details
+// Error cases: 401 Unauthorized, 404 Not Found (user doesn't exist), 500 Internal Server Error
 
 export default router;
