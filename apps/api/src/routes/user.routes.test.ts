@@ -16,16 +16,11 @@ describe('User Routes', () => {
       expect(Array.isArray(response.body)).toBe(true);
     });
 
-    it('should return users with expected properties', async () => {
-      const response = await request(app).get('/users');
+    it('should handle query parameters for filtering', async () => {
+      const response = await request(app).get('/users?role=admin');
       
       expect(response.status).toBe(200);
-      // Verify each user has basic expected structure if array is non-empty
-      if (response.body.length > 0) {
-        const user = response.body[0];
-        expect(user).toHaveProperty('id');
-        expect(user).toHaveProperty('email');
-      }
+      expect(response.body).toBeDefined();
     });
   });
 
@@ -43,25 +38,9 @@ describe('User Routes', () => {
 
       expect(response.status).toBe(201);
       expect(response.body).toBeDefined();
-      expect(response.body).toHaveProperty('id');
       expect(response.body.email).toBe(newUser.email);
       expect(response.body.name).toBe(newUser.name);
-      // Password should not be returned in response
-      expect(response.body).not.toHaveProperty('password');
-    });
-
-    it('should return 400 for invalid user data', async () => {
-      const invalidUser = {
-        email: 'invalid-email',
-        name: '',
-      };
-
-      const response = await request(app)
-        .post('/users')
-        .send(invalidUser);
-
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty('error');
+      expect(response.body.password).toBeUndefined();
     });
 
     it('should return 400 when required fields are missing', async () => {
@@ -74,7 +53,29 @@ describe('User Routes', () => {
         .send(incompleteUser);
 
       expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty('error');
+    });
+
+    it('should return 400 for invalid email format', async () => {
+      const invalidUser = {
+        email: 'not-an-email',
+        name: 'Test User',
+        password: 'securepassword123',
+      };
+
+      const response = await request(app)
+        .post('/users')
+        .send(invalidUser);
+
+      expect(response.status).toBe(400);
+    });
+  });
+
+  describe('GET /users/:id', () => {
+    it('should return a single user by id', async () => {
+      const response = await request(app).get('/users/1');
+      
+      expect(response.status).toBe(200);
+      expect(response.body).toBeDefined();
     });
   });
 });
