@@ -13,21 +13,30 @@ describe('User Routes', () => {
       
       expect(response.status).toBe(200);
       expect(response.body).toBeDefined();
-      expect(Array.isArray(response.body.users)).toBe(true);
+      expect(Array.isArray(response.body)).toBe(true);
     });
 
-    it('should return users array in response body', async () => {
+    it('should return users with expected properties', async () => {
       const response = await request(app).get('/users');
       
-      expect(response.body).toHaveProperty('users');
+      expect(response.status).toBe(200);
+      expect(Array.isArray(response.body)).toBe(true);
+      
+      // If users exist, verify structure
+      if (response.body.length > 0) {
+        const user = response.body[0];
+        expect(user).toHaveProperty('id');
+        expect(user).toHaveProperty('email');
+      }
     });
   });
 
   describe('POST /users', () => {
-    it('should create a user and return status 201', async () => {
+    it('should create a new user and return 201 status', async () => {
       const newUser = {
-        name: 'John Doe',
-        email: 'john.doe@example.com'
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'securepassword123'
       };
 
       const response = await request(app)
@@ -38,46 +47,30 @@ describe('User Routes', () => {
       expect(response.body).toBeDefined();
     });
 
-    it('should return the created user in response body', async () => {
+    it('should return the created user with an id', async () => {
       const newUser = {
-        name: 'Jane Doe',
-        email: 'jane.doe@example.com'
+        email: 'test2@example.com',
+        name: 'Another Test User',
+        password: 'anotherpassword123'
       };
 
       const response = await request(app)
         .post('/users')
         .send(newUser);
       
-      expect(response.body).toHaveProperty('user');
+      expect(response.status).toBe(201);
+      expect(response.body).toHaveProperty('id');
+      expect(response.body.email).toBe(newUser.email);
+      expect(response.body.name).toBe(newUser.name);
+      expect(response.body).not.toHaveProperty('password');
     });
 
-    it('should handle request with empty body', async () => {
+    it('should handle missing request body with 400 status', async () => {
       const response = await request(app)
         .post('/users')
         .send({});
       
-      expect(response.status).toBe(201);
-    });
-
-    it('should handle request with partial user data', async () => {
-      const partialUser = {
-        name: 'Partial User'
-      };
-
-      const response = await request(app)
-        .post('/users')
-        .send(partialUser);
-      
-      expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('user');
-    });
-  });
-
-  describe('Route configuration', () => {
-    it('should handle GET request to base path', async () => {
-      const response = await request(app).get('/users');
-      
-      expect(response.status).not.toBe(404);
+      expect(response.status).toBe(400);
     });
   });
 });
