@@ -2,7 +2,7 @@ import { Router } from "express";
 
 const router = Router();
 
-// TODO: Replace this stub with a paginated user listing that supports
+// TODO(#10): Replace this stub with a paginated user listing that supports
 // search/filter query parameters, hides soft-deleted users, and returns
 // explicit metadata for empty pages and out-of-range page requests.
 router.get("/", (_req, res) => {
@@ -12,7 +12,7 @@ router.get("/", (_req, res) => {
   });
 });
 
-// TODO: Replace this stub with schema-backed user creation that validates
+// TODO(#10): Replace this stub with schema-backed user creation that validates
 // required fields, rejects malformed or duplicate email addresses with clear
 // 400/409 responses, and avoids returning sensitive fields in the response.
 router.post("/", (req, res) => {
