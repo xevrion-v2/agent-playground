@@ -1,10 +1,14 @@
-app.use(express.json());
+import cors from 'cors';
+import helmet from 'helmet';
+import healthRoutes from './routes/health.routes';
+import { errorResponse } from './utils/response';
 
-app.get('/health', (_req, res) => {
-  res.json({
-    status: 'success',
-    data: { healthy: true }
-  });
+const app = express();
+
+
+// 404 handler
+app.use((_req, res) => {
+  res.status(404).json(errorResponse('Not found'));
 });
 
-app.use('/api', routes);
+export default app;
