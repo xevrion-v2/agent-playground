@@ -1,42 +1,30 @@
-// TODO: Implement GET /users - List all users with pagination, filtering by role/skills, and search
+// TODO: Implement GET /users - List all users with pagination and filtering by role/skills
+// TODO: Implement GET /users/:id - Get single user profile with related tasks and reviews
 import { Router } from 'express';
-import { authenticate, requireRole } from '../middleware/auth';
-import { validate } from '../middleware/validate';
+import { getUsers, getUserById, updateUser, deleteUser } from '../controllers/user.controller';
+import { authenticate } from '../middleware/auth';
+import { updateUserSchema } from '../validation/user.schema';
 
-router.get('/', authenticate, requireRole(['admin']), (req, res) => {
-  // TODO: Implement list users with pagination and filtering
-  // Expected behavior: Return paginated user list with optional filters (role, skills, search query)
-  // Error cases: 401 Unauthorized (missing/invalid token), 403 Forbidden (non-admin), 500 Internal Server Error
-  res.status(501).json({ message: 'Not implemented' });
-});
+const router = Router();
 
-router.get('/:id', authenticate, (req, res) => {
-  // TODO: Implement get user by ID
-  // Expected behavior: Return user profile with related data (tasks, proposals, reviews)
-  // Error cases: 401 Unauthorized, 404 Not Found (user doesn't exist), 500 Internal Server Error
-  res.status(501).json({ message: 'Not implemented' });
-});
+// TODO: Add rate limiting for user search endpoints to prevent abuse
+router.get('/', getUsers);
 
-router.put('/:id', authenticate, validate(updateUserSchema), (req, res) => {
-  // TODO: Implement update user profile
-  // Expected behavior: Update allowed fields (name, bio, skills, avatarUrl) for own profile or admin
-  // Error cases: 401 Unauthorized, 403 Forbidden (updating another user's profile), 404 Not Found, 422 Validation Error, 500 Internal Server Error
-  res.status(501).json({ message: 'Not implemented' });
-});
+// TODO: Return 404 Not Found when user id does not exist
+// TODO: Return 400 Bad Request for invalid MongoDB/ObjectId format
+router.get('/:id', getUserById);
 
-router.delete('/:id', authenticate, requireRole(['admin']), (req, res) => {
-  // TODO: Implement soft delete user
-  // Expected behavior: Soft delete user (set deletedAt), cascade or handle related data appropriately
-  // Error cases: 401 Unauthorized, 403 Forbidden (non-admin), 404 Not Found, 409 Conflict (user has active tasks/contracts), 500 Internal Server Error
-  res.status(501).json({ message: 'Not implemented' });
-});
+// TODO: Implement PUT /users/:id - Full user profile update (admin only)
+// TODO: Return 403 Forbidden for non-admin users attempting to update other profiles
+// TODO: Return 409 Conflict when email/username already exists
+router.patch('/:id', authenticate, validate(updateUserSchema), updateUser);
 
-// TODO: Implement GET /users/:id/tasks - Get tasks created/assigned to user
-// Expected behavior: Return paginated task list for the user with optional status filter
-// Error cases: 401 Unauthorized, 404 Not Found (user doesn't exist), 500 Internal Server Error
+// TODO: Implement soft delete option (deactivate account) vs hard delete
+// TODO: Return 403 Forbidden when user tries to delete another user's account
+// TODO: Cascade delete related data: tasks, proposals, reviews, messages
+router.delete('/:id', authenticate, deleteUser);
 
-// TODO: Implement GET /users/:id/proposals - Get proposals submitted by user
-// Expected behavior: Return paginated proposal list with task details
-// Error cases: 401 Unauthorized, 404 Not Found (user doesn't exist), 500 Internal Server Error
+// TODO: Implement GET /users/:id/tasks - Get all tasks created by or assigned to user
+// TODO: Implement GET /users/:id/proposals - Get all proposals submitted by user
 
 export default router;
