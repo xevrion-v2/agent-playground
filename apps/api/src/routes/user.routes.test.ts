@@ -13,63 +13,80 @@ describe('User Routes', () => {
       
       expect(response.status).toBe(200);
       expect(response.body).toBeDefined();
-      expect(Array.isArray(response.body.users)).toBe(true);
+      expect(Array.isArray(response.body)).toBe(true);
     });
 
-    it('should return users array in response body', async () => {
+    it('should return an empty array when no users exist', async () => {
       const response = await request(app).get('/users');
       
-      expect(response.body).toHaveProperty('users');
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual([]);
     });
   });
 
   describe('POST /users', () => {
-    it('should create a user and return status 201', async () => {
+    it('should create a new user and return 201 status', async () => {
       const newUser = {
-        email: 'test@example.com',
-        name: 'Test User',
+        name: 'John Doe',
+        email: 'john.doe@example.com',
       };
 
       const response = await request(app)
         .post('/users')
         .send(newUser);
-
+      
       expect(response.status).toBe(201);
       expect(response.body).toBeDefined();
-    });
-
-    it('should return the created user in response body', async () => {
-      const newUser = {
-        email: 'test@example.com',
-        name: 'Test User',
-      };
-
-      const response = await request(app)
-        .post('/users')
-        .send(newUser);
-
       expect(response.body).toHaveProperty('id');
-      expect(response.body.email).toBe(newUser.email);
       expect(response.body.name).toBe(newUser.name);
+      expect(response.body.email).toBe(newUser.email);
     });
 
-    it('should handle user creation with minimal data', async () => {
-      const minimalUser = {
-        email: 'minimal@example.com',
+    it('should return 400 when required fields are missing', async () => {
+      const invalidUser = {
+        name: 'Jane Doe',
       };
 
       const response = await request(app)
         .post('/users')
-        .send(minimalUser);
-
-      expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('id');
+        .send(invalidUser);
+      
+      expect(response.status).toBe(400);
+      expect(response.body).toBeDefined();
+      expect(response.body).toHaveProperty('error');
     });
 
-    it('should return 400 for invalid request body', async () => {
-      const response = await request(app).post('/users').send({});
+    it('should return 400 when email is invalid', async () => {
+      const invalidUser = {
+        name: 'Jane Doe',
+        email: 'invalid-email',
+      };
 
+      const response = await request(app)
+        .post('/users')
+        .send(invalidUser);
+      
       expect(response.status).toBe(400);
+      expect(response.body).toBeDefined();
+      expect(response.body).toHaveProperty('error');
+    });
+
+    it('should handle empty request body', async () => {
+      const response = await request(app)
+        .post('/users')
+        .send({});
+      
+      expect(response.status).toBe(400);
+      expect(response.body).toBeDefined();
+      expect(response.body).toHaveProperty('error');
+    });
+  });
+
+  describe('GET /users/:id', () => {
+    it('should return 404 for non-existent user', async () => {
+      const response = await request(app).get('/users/non-existent-id');
+      
+      expect(response.status).toBe(404);
     });
   });
 });
