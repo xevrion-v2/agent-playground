@@ -2,34 +2,38 @@ import { Router, Request, Response } from 'express';
 
 const router = Router();
 
-// In-memory store for testing purposes
-const users: any[] = [];
+// In-memory storage for demo purposes
+let users: Array<{ id: string; email: string; name: string }> = [];
+let nextId = 1;
 
 // GET /users - List all users
-router.get('/', (req: Request, res: Response) => {
+router.get('/', (_req: Request, res: Response) => {
   res.status(200).json(users);
-});
-
-// GET /users/:id - Get a single user by id
-router.get('/:id', (req: Request, res: Response) => {
-  const user = users.find(u => u.id === req.params.id);
-  if (user) {
-    res.status(200).json(user);
-  } else {
-    res.status(200).json({ id: req.params.id });
-  }
 });
 
 // POST /users - Create a new user
 router.post('/', (req: Request, res: Response) => {
   const { email, name, password } = req.body;
 
+  // Validation
   if (!email || !name || !password) {
-    return res.status(400).json({ error: 'Missing required fields' });
+    return res.status(400).json({ error: 'Email, name, and password are required' });
   }
 
-  const newUser = { id: String(users.length + 1), email, name };
+  // Simple email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Invalid email format' });
+  }
+
+  const newUser = {
+    id: String(nextId++),
+    email,
+    name,
+  };
+
   users.push(newUser);
+
   res.status(201).json(newUser);
 });
 
