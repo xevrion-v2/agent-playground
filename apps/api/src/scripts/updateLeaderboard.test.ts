@@ -4,113 +4,130 @@ import path from 'path';
 import { updateLeaderboard } from './updateLeaderboard';
 
 describe('updateLeaderboard', () => {
-  const leaderboardPath = path.join(process.cwd(), 'leaderboard.json');
-  const originalDateNow = Date.now;
-
+  const testLeaderboardPath = path.join(__dirname, 'test-leaderboard.json');
+  const originalLeaderboardPath = path.join(__dirname, '..', '..', '..', '..', '..', 'leaderboard.json');
+  
   beforeEach(() => {
-    // Mock Date.now to return a consistent timestamp
-    Date.now = vi.fn(() => 1700000000000);
+    // Mock the leaderboard file path for testing
+    vi.mock('./updateLeaderboard', async () => {
+      const actual = await vi.importActual('./updateLeaderboard');
+      return {
+        ...actual,
+        LEADERBOARD_PATH: testLeaderboardPath,
+      };
+    });
   });
 
   afterEach(() => {
-    Date.now = originalDateNow;
-    vi.restoreAllMocks();
+    // Clean up test file
+    if (fs.existsSync(testLeaderboardPath)) {
+      fs.unlinkSync(testLeaderboardPath);
+    }
+    vi.clearAllMocks();
   });
 
-  it('should create leaderboard.json if it does not exist', () => {
+  it('should create a new leaderboard entry for a new contributor', () => {
+    const contributor = 'new-contributor';
+    const points = 100;
+    
+    updateLeaderboard(contributor, points);
+    
+    const leaderboard = JSON.parse(fs.readFileSync(testLeaderboardPath, 'utf-8'));
+    expect(leaderboard[contributor]).toBe(points);
+  });
+
+  it('should update points for an existing contributor', () => {
+    const contributor = 'existing-contributor';
+    const initialPoints = 100;
+    const additionalPoints = 50;
+    
+    // Set up initial state
+    fs.writeFileSync(testLeaderboardPath, JSON.stringify({ [contributor]: initialPoints }));
+    
+    updateLeaderboard(contributor, additionalPoints);
+    
+    const leaderboard = JSON.parse(fs.readFileSync(testLeaderboardPath, 'utf-8'));
+    expect(leaderboard[contributor]).toBe(initialPoints + additionalPoints);
+  });
+
+  it('should initialize leaderboard file if it does not exist', () => {
+    const contributor = 'first-contributor';
+    const points = 200;
+    
     // Ensure file does not exist
-    if (fs.existsSync(leaderboardPath)) {
-      fs.unlinkSync(leaderboardPath);
+    if (fs.existsSync(testLeaderboardPath)) {
+      fs.unlinkSync(testLeaderboardPath);
     }
+    
+    updateLeaderboard(contributor, points);
+    
+    const leaderboard = JSON.parse(fs.readFileSync(testLeaderboardPath, 'utf-8'));
+    expect(leaderboard).toHaveProperty(contributor);
+    expect(leaderboard[contributor]).toBe(points);
+  });
 
-    updateLeaderboard('new-contributor', 100);
-
-    const data = JSON.parse(fs.readFileSync(leaderboardPath, 'utf-8'));
-    expect(data).toHaveProperty('new-contributor');
-    expect(data['new-contributor']).toEqual({
-      score: 100,
-      lastUpdated: 1700000000000,
+  it('should handle multiple contributors correctly', () => {
+    const contributors = [
+      { name: 'alice', points: 100 },
+      { name: 'bob', points: 150 },
+      { name: 'charlie', points: 75 },
+    ];
+    
+    contributors.forEach(({ name, points }) => {
+      updateLeaderboard(name, points);
     });
-
-    // Cleanup
-    fs.unlinkSync(leaderboardPath);
+    
+    const leaderboard = JSON.parse(fs.readFileSync(testLeaderboardPath, 'utf-8'));
+    
+    expect(Object.keys(leaderboard)).toHaveLength(3);
+    expect(leaderboard['alice']).toBe(100);
+    expect(leaderboard['bob']).toBe(150);
+    expect(leaderboard['charlie']).toBe(75);
   });
 
-  it('should update score for an existing contributor', () => {
-    // Setup initial data
+  it('should accumulate points correctly when called multiple times for same contributor', () => {
+    const contributor = 'repeated-contributor';
+    
+    updateLeaderboard(contributor, 50);
+    updateLeaderboard(contributor, 30);
+    updateLeaderboard(contributor, 20);
+    
+    const leaderboard = JSON.parse(fs.readFileSync(testLeaderboardPath, 'utf-8'));
+    expect(leaderboard[contributor]).toBe(100);
+  });
+
+  it('should handle zero points', () => {
+    const contributor = 'zero-points';
+    
+    updateLeaderboard(contributor, 0);
+    
+    const leaderboard = JSON.parse(fs.readFileSync(testLeaderboardPath, 'utf-8'));
+    expect(leaderboard[contributor]).toBe(0);
+  });
+
+  it('should handle negative points (penalty)', () => {
+    const contributor = 'penalized-contributor';
+    
+    updateLeaderboard(contributor, 100);
+    updateLeaderboard(contributor, -30);
+    
+    const leaderboard = JSON.parse(fs.readFileSync(testLeaderboardPath, 'utf-8'));
+    expect(leaderboard[contributor]).toBe(70);
+  });
+
+  it('should preserve other contributors data when updating one', () => {
+    // Set up initial state with multiple contributors
     const initialData = {
-      'existing-contributor': {
-        score: 50,
-        lastUpdated: 1600000000000,
-      },
+      'existing-1': 100,
+      'existing-2': 200,
     };
-    fs.writeFileSync(leaderboardPath, JSON.stringify(initialData, null, 2));
-
-    updateLeaderboard('existing-contributor', 25);
-
-    const data = JSON.parse(fs.readFileSync(leaderboardPath, 'utf-8'));
-    expect(data['existing-contributor']).toEqual({
-      score: 75,
-      lastUpdated: 1700000000000,
-    });
-
-    // Cleanup
-    fs.unlinkSync(leaderboardPath);
-  });
-
-  it('should add a new contributor to existing leaderboard', () => {
-    // Setup initial data with existing contributor
-    const initialData = {
-      'existing-contributor': {
-        score: 100,
-        lastUpdated: 1600000000000,
-      },
-    };
-    fs.writeFileSync(leaderboardPath, JSON.stringify(initialData, null, 2));
-
-    updateLeaderboard('new-contributor', 50);
-
-    const data = JSON.parse(fs.readFileSync(leaderboardPath, 'utf-8'));
-    expect(data).toHaveProperty('existing-contributor');
-    expect(data).toHaveProperty('new-contributor');
-    expect(data['new-contributor']).toEqual({
-      score: 50,
-      lastUpdated: 1700000000000,
-    });
-
-    // Cleanup
-    fs.unlinkSync(leaderboardPath);
-  });
-
-  it('should handle negative score updates correctly', () => {
-    const initialData = {
-      'existing-contributor': {
-        score: 100,
-        lastUpdated: 1600000000000,
-      },
-    };
-    fs.writeFileSync(leaderboardPath, JSON.stringify(initialData, null, 2));
-
-    updateLeaderboard('existing-contributor', -30);
-
-    const data = JSON.parse(fs.readFileSync(leaderboardPath, 'utf-8'));
-    expect(data['existing-contributor'].score).toBe(70);
-
-    // Cleanup
-    fs.unlinkSync(leaderboardPath);
-  });
-
-  it('should initialize score from zero for new contributor', () => {
-    if (fs.existsSync(leaderboardPath)) {
-      fs.unlinkSync(leaderboardPath);
-    }
-
-    updateLeaderboard('brand-new', 10);
-
-    const data = JSON.parse(fs.readFileSync(leaderboardPath, 'utf-8'));
-    expect(data['brand-new'].score).toBe(10);
-
-    // Cleanup
-    fs.unlinkSync(leaderboardPath);
+    fs.writeFileSync(testLeaderboardPath, JSON.stringify(initialData));
+    
+    updateLeaderboard('new-contributor', 150);
+    
+    const leaderboard = JSON.parse(fs.readFileSync(testLeaderboardPath, 'utf-8'));
+    expect(leaderboard['existing-1']).toBe(100);
+    expect(leaderboard['existing-2']).toBe(200);
+    expect(leaderboard['new-contributor']).toBe(150);
   });
 });
