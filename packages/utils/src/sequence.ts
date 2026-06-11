@@ -1,21 +1,24 @@
 /**
- * Infinite sequence iterator utility.
- *
- * Provides a safe, configurable way to generate infinite sequences
- * with built-in limits to prevent runaway iteration.
+ * Infinite sequence utility with safe iteration.
+ * 
+ * Provides generators for common infinite sequences with
+ * built-in safety limits to prevent accidental infinite loops.
  */
 
 export interface SequenceOptions {
-  /** Starting value (default: 0) */
-  start?: number;
-  /** Increment step (default: 1) */
-  step?: number;
-  /** Maximum safe iterations before throwing (default: 1_000_000) */
+  /** Maximum number of values to yield before stopping. */
   maxIterations?: number;
 }
 
+const DEFAULT_MAX_ITERATIONS = 10000;
+
 /**
- * Creates an infinite sequence generator with safety limits.
- *
+ * Creates an infinite sequence of natural numbers (1, 2, 3, ...).
+ * 
+ * @param start - The starting number (default: 1)
+ * @param step - The increment step (default: 1)
+ * @param options - Safety options
+ * @yields Numbers in the sequence
+ * 
  * @example
  * 
