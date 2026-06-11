@@ -1,1 +1,1 @@
-export * from './infinite-sequence';
+export * from './sequence';
