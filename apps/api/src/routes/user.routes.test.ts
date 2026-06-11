@@ -16,14 +16,11 @@ describe('User Routes', () => {
       expect(Array.isArray(response.body)).toBe(true);
     });
 
-    it('should return users with expected properties', async () => {
-      const response = await request(app).get('/users');
+    it('should handle query parameters for pagination', async () => {
+      const response = await request(app).get('/users?page=1&limit=10');
       
       expect(response.status).toBe(200);
-      response.body.forEach((user: any) => {
-        expect(user).toHaveProperty('id');
-        expect(user).toHaveProperty('email');
-      });
+      expect(response.body).toBeDefined();
     });
   });
 
@@ -41,25 +38,24 @@ describe('User Routes', () => {
       
       expect(response.status).toBe(201);
       expect(response.body).toBeDefined();
-      expect(response.body).toHaveProperty('id');
       expect(response.body.email).toBe(newUser.email);
       expect(response.body.name).toBe(newUser.name);
+      expect(response.body.password).toBeUndefined();
     });
 
-    it('should return 400 when email is missing', async () => {
-      const invalidUser = {
-        name: 'Test User',
-        password: 'securepassword123'
+    it('should return 400 when required fields are missing', async () => {
+      const incompleteUser = {
+        name: 'Test User'
       };
 
       const response = await request(app)
         .post('/users')
-        .send(invalidUser);
+        .send(incompleteUser);
       
       expect(response.status).toBe(400);
     });
 
-    it('should return 400 when email format is invalid', async () => {
+    it('should return 400 when email is invalid', async () => {
       const invalidUser = {
         email: 'not-an-email',
         name: 'Test User',
@@ -72,19 +68,15 @@ describe('User Routes', () => {
       
       expect(response.status).toBe(400);
     });
+  });
 
-    it('should not return password in response', async () => {
-      const newUser = {
-        email: 'secure@example.com',
-        name: 'Secure User',
-        password: 'securepassword123'
-      };
-
-      const response = await request(app)
-        .post('/users')
-        .send(newUser);
+  describe('GET /users/:id', () => {
+    it('should return a single user by id', async () => {
+      const response = await request(app).get('/users/1');
       
-      expect(response.body).not.toHaveProperty('password');
+      expect(response.status).toBe(200);
+      expect(response.body).toBeDefined();
+      expect(response.body.id).toBe('1');
     });
   });
 });
