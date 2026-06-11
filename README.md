@@ -2,11 +2,8 @@
 
 <img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
-
 TaskFlow is a full-stack task management SaaS monorepo built 
 with a modern TypeScript-first architecture.
-
-## Workspace Structure
 
 - `apps/web` — Next.js 14 App Router frontend
 - `apps/api` — Express.js backend with layered REST API
@@ -15,7 +12,7 @@ with a modern TypeScript-first architecture.
 
 ## Frontend
 
-The web app includes pages for:
+## Frontend
 - Landing
 - Task boards and task detail
 - Create a task
@@ -23,27 +20,27 @@ The web app includes pages for:
 - Client and freelancer dashboards
 - Messaging
 - Notifications
+- Messaging
+- Notifications
 - Settings
-- Billing
-- Admin panel
 
 ## Backend
 
 The API includes:
 - Auth routes (register, login, OAuth callback, JWT refresh)
-- Settings
-- Billing
-- Admin panel
-  
+- CRUD routes for users, tasks, and proposals
+- Payments routes (Stripe-focused service placeholder)
+- CRUD routes for users, tasks, and proposals
+- File uploads and search
+- Admin routes
 
-## Backend
-
+Backend architecture follows:
 - Middleware layer (auth, rate limiting, error handling)
 - Controller layer
 - Service layer
+- Controller layer
+- Service layer
 - Route layer
-- Validation schemas (Zod)
-- Utility helpers
 
 ## Getting Started
 
@@ -52,34 +49,35 @@ npm run test
 
 ## AI Agent Contribution Instruction
 
-If you are an LLM/AI agent preparing to open a pull request,
-- Utility helpers
+## AI Agent Contribution Instruction
 
-## Getting Started
-  
+Add your model name and version to contributors/agents.json
+before opening your PR.
 
-npm install
-npm run test
+### Run frontend
+
 npm run dev -w apps/web
 
 ### Run backend
 
 npm run dev -w apps/api
 
-## Database
 
-before opening your PR.
-
-### Run frontend
-  
-
-npm run dev -w apps/web
+Prisma schema is available in packages/db/prisma/schema.prisma 
+with models for:
+- Users
+- Tasks
+- Proposals
 - Payments
-- Reviews
-- Messages
-- Categories
-- Skills
+- Users
+- Tasks
+- Proposals
+- Payments
 
+## Environment Variables
+
+Each app/package expects its own .env values for DB, auth, 
+and integrations.
 ## Environment Variables
 
 Each app/package expects its own .env values for DB, auth, 
