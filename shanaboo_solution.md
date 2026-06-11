@@ -1,181 +1,182 @@
  ```diff
 --- /dev/null
-+++ b/apps/api/src/scripts/updateLeaderboard.test.ts
-@@ -0,0 +1,156 @@
-+import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-+import fs from 'fs';
-+import path from 'path';
++++ b/leaderboard.test.js
+@@ -0,0 +1,195 @@
++const fs = require('fs');
++const path = require('path');
 +
 +// Mock fs module
 +jest.mock('fs');
 +
-+interface Contributor {
-+  username: string;
-+  score: number;
-+  contributions: number;
-+  lastUpdated: string;
-+}
-+
-+interface LeaderboardData {
-+  contributors: Contributor[];
-+  lastUpdated: string;
-+}
-+
-+describe('updateLeaderboard', () => {
-+  const leaderboardPath = path.join(process.cwd(), '..', '..', 'leaderboard.json');
-+  const mockDate = new Date('2024-01-15T10:00:00.000Z');
-+
++describe('Leaderboard Update Script', () => {
++  const leaderboardPath = path.join(__dirname, 'leaderboard.json');
++  
++  // Mock console methods
++  let consoleLogSpy;
++  let consoleErrorSpy;
++  
 +  beforeEach(() => {
++    // Clear all mocks before each test
 +    jest.clearAllMocks();
-+    jest.useFakeTimers().setSystemTime(mockDate);
++    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
++    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 +  });
-+
++  
 +  afterEach(() => {
-+    jest.useRealTimers();
++    consoleLogSpy.mockRestore();
++    consoleErrorSpy.mockRestore();
++    jest.resetModules();
 +  });
 +
-+  describe('new contributors', () => {
-+    it('should add a new contributor to an empty leaderboard', () => {
-+      const initialData: LeaderboardData = {
-+        contributors: [],
-+        lastUpdated: mockDate.toISOString(),
-+      };
-+
-+      (fs.existsSync as jest.Mock).mockReturnValue(true);
-+      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(initialData));
-+
-+      const newContributor: Contributor = {
++  describe('New Contributors', () => {
++    test('should add a new contributor to an empty leaderboard', () => {
++      const emptyLeaderboard = { contributors: [] };
++      fs.readFileSync.mockReturnValue(JSON.stringify(emptyLeaderboard));
++      
++      const updateLeaderboard = require('./update-leaderboard');
++      const newContributor = {
 +        username: 'newuser',
 +        score: 100,
-+        contributions: 5,
-+        lastUpdated: mockDate.toISOString(),
++        contributions: 5
 +      };
-+
-+      const updatedData: LeaderboardData = {
-+        contributors: [newContributor],
-+        lastUpdated: mockDate.toISOString(),
-+      };
-+
-+      (fs.writeFileSync as jest.Mock).mockImplementation(() => {});
-+
-+      // Simulate the update logic
-+      const data = JSON.parse(fs.readFileSync(leaderboardPath, 'utf-8')) as LeaderboardData;
-+      data.contributors.push(newContributor);
-+      data.lastUpdated = mockDate.toISOString();
-+      fs.writeFileSync(leaderboardPath, JSON.stringify(data, null, 2));
-+
-+      expect(fs.writeFileSync).toHaveBeenCalledWith(
-+        leaderboardPath,
-+        JSON.stringify(updatedData, null, 2)
-+      );
++      
++      updateLeaderboard(newContributor);
++      
++      const writeCall = fs.writeFileSync.mock.calls[0];
++      const writtenData = JSON.parse(writeCall[1]);
++      
++      expect(writtenData.contributors).toHaveLength(1);
++      expect(writtenData.contributors[0].username).toBe('newuser');
++      expect(writtenData.contributors[0].score).toBe(100);
++      expect(writtenData.contributors[0].contributions).toBe(5);
 +    });
 +
-+    it('should add a new contributor to existing leaderboard', () => {
-+      const existingContributor: Contributor = {
-+        username: 'existinguser',
-+        score: 200,
-+        contributions: 10,
-+        lastUpdated: '2024-01-01T00:00:00.000Z',
++    test('should add a new contributor to existing leaderboard', () => {
++      const existingLeaderboard = {
++        contributors: [
++          { username: 'existinguser', score: 200, contributions: 10 }
++        ]
 +      };
-+
-+      const initialData: LeaderboardData = {
-+        contributors: [existingContributor],
-+        lastUpdated: '2024-01-01T00:00:00.000Z',
-+      };
-+
-+      (fs.existsSync as jest.Mock).mockReturnValue(true);
-+      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(initialData));
-+
-+      const newContributor: Contributor = {
++      fs.readFileSync.mockReturnValue(JSON.stringify(existingLeaderboard));
++      
++      const updateLeaderboard = require('./update-leaderboard');
++      const newContributor = {
 +        username: 'newuser',
 +        score: 150,
-+        contributions: 7,
-+        lastUpdated: mockDate.toISOString(),
++        contributions: 7
 +      };
++      
++      updateLeaderboard(newContributor);
++      
++      const writeCall = fs.writeFileSync.mock.calls[0];
++      const writtenData = JSON.parse(writeCall[1]);
++      
++      expect(writtenData.contributors).toHaveLength(2);
++      expect(writtenData.contributors[1].username).toBe('newuser');
++    });
 +
-+      const updatedData: LeaderboardData = {
-+        contributors: [existingContributor, newContributor],
-+        lastUpdated: mockDate.toISOString(),
++    test('should initialize leaderboard file if it does not exist', () => {
++      fs.readFileSync.mockImplementation(() => {
++        throw new Error('ENOENT: no such file or directory');
++      });
++      
++      const updateLeaderboard = require('./update-leaderboard');
++      const newContributor = {
++        username: 'firstuser',
++        score: 50,
++        contributions: 2
 +      };
-+
-+      (fs.writeFileSync as jest.Mock).mockImplementation(() => {});
-+
-+      const data = JSON.parse(fs.readFileSync(leaderboardPath, 'utf-8')) as LeaderboardData;
-+      data.contributors.push(newContributor);
-+      data.lastUpdated = mockDate.toISOString();
-+      fs.writeFileSync(leaderboardPath, JSON.stringify(data, null, 2));
-+
-+      expect(fs.writeFileSync).toHaveBeenCalledWith(
-+        leaderboardPath,
-+        JSON.stringify(updatedData, null, 2)
-+      );
++      
++      updateLeaderboard(newContributor);
++      
++      const writeCall = fs.writeFileSync.mock.calls[0];
++      const writtenData = JSON.parse(writeCall[1]);
++      
++      expect(writtenData.contributors).toHaveLength(1);
++      expect(writtenData.contributors[0].username).toBe('firstuser');
 +    });
 +  });
 +
-+  describe('existing contributors', () => {
-+    it('should update score and contributions for existing contributor', () => {
-+      const existingContributor: Contributor = {
++  describe('Existing Contributors', () => {
++    test('should update score for existing contributor', () => {
++      const existingLeaderboard = {
++        contributors: [
++          { username: 'existinguser', score: 200, contributions: 10 }
++        ]
++      };
++      fs.readFileSync.mockReturnValue(JSON.stringify(existingLeaderboard));
++      
++      const updateLeaderboard = require('./update-leaderboard');
++      const updatedContributor = {
 +        username: 'existinguser',
-+        score: 200,
-+        contributions: 10,
-+        lastUpdated: '2024-01-01T00:00:00.000Z',
++        score: 300,
++        contributions: 15
 +      };
-+
-+      const initialData: LeaderboardData = {
-+        contributors: [existingContributor],
-+        lastUpdated: '2024-01-01T00:00:00.000Z',
-+      };
-+
-+      (fs.existsSync as jest.Mock).mockReturnValue(true);
-+      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(initialData));
-+
-+      const updatedContributor: Contributor = {
-+        username: 'existinguser',
-+        score: 350,
-+        contributions: 15,
-+        lastUpdated: mockDate.toISOString(),
-+      };
-+
-+      const updatedData: LeaderboardData = {
-+        contributors: [updatedContributor],
-+        lastUpdated: mockDate.toISOString(),
-+      };
-+
-+      (fs.writeFileSync as jest.Mock).mockImplementation(() => {});
-+
-+      const data = JSON.parse(fs.readFileSync(leaderboardPath, 'utf-8')) as LeaderboardData;
-+      const index = data.contributors.findIndex(c => c.username === 'existinguser');
-+      if (index !== -1) {
-+        data.contributors[index] = updatedContributor;
-+      }
-+      data.lastUpdated = mockDate.toISOString();
-+      fs.writeFileSync(leaderboardPath, JSON.stringify(data, null, 2));
-+
-+      expect(fs.writeFileSync).toHaveBeenCalledWith(
-+        leaderboardPath,
-+        JSON.stringify(updatedData, null, 2)
-+      );
++      
++      updateLeaderboard(updatedContributor);
++      
++      const writeCall = fs.writeFileSync.mock.calls[0];
++      const writtenData = JSON.parse(writeCall[1]);
++      
++      expect(writtenData.contributors).toHaveLength(1);
++      expect(writtenData.contributors[0].score).toBe(300);
++      expect(writtenData.contributors[0].contributions).toBe(15);
 +    });
 +
-+    it('should not duplicate existing contributor', () => {
-+      const existingContributor: Contributor = {
-+        username: 'existinguser',
-+        score: 200,
-+        contributions: 10,
-+        lastUpdated: '2024-01-01T00:00:00.000Z',
++    test('should merge contributions for existing contributor', () => {
++      const existingLeaderboard = {
++        contributors: [
++          { username: 'existinguser', score: 200, contributions: 10 }
++        ]
 +      };
-+
-+      const initialData: LeaderboardData = {
-+        contributors: [existingContributor],
-+        lastUpdated: '2024-01-01T00:00:00.000Z',
-+      };
-+
-+      (fs.existsSync as jest.Mock).mockReturnValue(true);
-+      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(initialData));
-+
-+      const updatedContributor: Contributor = {
++      fs.readFileSync.mockReturnValue(JSON.stringify(existingLeaderboard));
++      
++      const updateLeaderboard = require('./update-leaderboard');
++      const updatedContributor = {
 +        username: 'existinguser',
-+        score: 350,
-+        contributions: 15,
-+        lastUpdated: mockDate.toISOString(),
++        score: 50,
++        contributions: 5
++      };
++      
++      updateLeaderboard(updatedContributor, { merge: true });
++      
++      const writeCall = fs.writeFileSync.mock.calls[0];
++      const writtenData = JSON.parse(writeCall[1]);
++      
++      expect(writtenData.contributors[0].score).toBe(250);
++      expect(writtenData.contributors[0].contributions).toBe(15);
++    });
++  });
 +
++  describe('Error Handling', () => {
++    test('should handle invalid JSON in leaderboard file', () => {
++      fs.readFileSync.mockReturnValue('invalid json');
++      
++      const updateLeaderboard = require('./update-leaderboard');
++      
++      expect(() => {
++        updateLeaderboard({ username: 'test', score: 100 });
++      }).toThrow();
++    });
++
++    test('should handle missing required fields', () => {
++      fs.readFileSync.mockReturnValue(JSON.stringify({ contributors: [] }));
++      
++      const updateLeaderboard = require('./update-leaderboard');
++      
++      expect(() => {
++        updateLeaderboard({ score: 100 });
++      }).toThrow('Username is required');
++    });
++
++    test('should handle write errors', () => {
++      fs.readFileSync.mockReturnValue(JSON.stringify({ contributors: [] }));
++      fs.writeFileSync.mockImplementation(() => {
++        throw new Error('Write permission denied');
++      });
++      
++      const updateLeaderboard = require('./update-leaderboard');
++      
++      expect(() => {
++        updateLeaderboard({ username: 'test', score: 100 });
++      }).
