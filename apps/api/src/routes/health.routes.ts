@@ -6,6 +6,7 @@ const router = Router();
 router.get('/', (_req, res) => {
   res.json(successResponse({
     uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
   }));
 });
 
