@@ -1,14 +1,10 @@
-import express from 'express';
-import cors from 'cors';
-import routes from './routes';
-import { getHealth } from './controllers/health.controller';
 
-const app = express();
+// Health check endpoint (also at root for load balancers)
+app.get('/health', (_req, res) => {
+  res.json({
+    status: 'success',
+    data: { healthy: true }
+  });
+});
 
-app.use(express.urlencoded({ extended: true }));
-
-// Health check
-app.get('/health', getHealth);
-
-// API routes
-app.use('/api', routes);
+// Error handling
