@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "test": "echo \"No web tests configured yet\"",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "next lint"
   },
   "dependencies": {
