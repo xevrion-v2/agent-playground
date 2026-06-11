@@ -34,6 +34,23 @@ describe("infinite sequence utilities", () => {
     assert.deepEqual(take(countFrom(), 0), []);
   });
 
+  it("does not advance the iterator beyond the requested count", () => {
+    let nextCalls = 0;
+
+    function* trackNextCalls() {
+      while (true) {
+        nextCalls += 1;
+        yield nextCalls;
+      }
+    }
+
+    assert.deepEqual(take(trackNextCalls(), 0), []);
+    assert.equal(nextCalls, 0);
+
+    assert.deepEqual(take(trackNextCalls(), 2), [1, 2]);
+    assert.equal(nextCalls, 2);
+  });
+
   it("rejects negative and unsafe counts", () => {
     assert.throws(() => take(countFrom(), -1), RangeError);
     assert.throws(() => take(countFrom(), Number.MAX_SAFE_INTEGER + 1), RangeError);

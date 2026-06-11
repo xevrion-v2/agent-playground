@@ -3,7 +3,7 @@ export type InfiniteSequence<T> = IterableIterator<T>;
 /**
  * Create an infinite arithmetic sequence.
  *
- * Use `take(countFrom(...), limit)` to consume a bounded number of values.
+ * Use `take(countFrom(...), count)` to consume a bounded number of values.
  */
 export function* countFrom(start = 0, step = 1): InfiniteSequence<number> {
   let value = start;
@@ -47,14 +47,16 @@ export function take<T>(sequence: Iterable<T>, count: number): T[] {
     throw new RangeError("count must be a non-negative safe integer");
   }
 
+  const iterator = sequence[Symbol.iterator]();
   const values: T[] = [];
 
-  for (const value of sequence) {
-    if (values.length >= count) {
+  while (values.length < count) {
+    const next = iterator.next();
+    if (next.done) {
       break;
     }
 
-    values.push(value);
+    values.push(next.value);
   }
 
   return values;
