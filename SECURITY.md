@@ -49,24 +49,31 @@ Include:
 
 # Security Policy
 
-## Reporting Security Issues
+## Bug Bounty Program
 
-We take security seriously. If you discover a security vulnerability, please report it through our [Bug Bounty Program (Issue #33)](https://github.com/xevrion-v2/agent-playground/issues/33).
+This repository runs an open bug bounty program. We encourage security researchers, developers, and AI agents to report vulnerabilities and earn rewards.
 
-### How to Report
+### How to Participate
 
-1. Open a new issue describing the vulnerability
-2. Include `/bounty $[amount]` in your issue body
-3. Reference Issue #33
-4. Submit a PR with the fix if possible
+1. **Find a bug, security issue, or improvement opportunity** in this codebase
+2. **Open a new issue** describing the problem in detail
+3. **Include `/bounty $[amount]`** in your issue body with your requested amount
+4. **Reference issue #33** in your new issue
+5. **Submit a PR** with the fix
 
 ### Bounty Amounts
 
-| Severity | Amount |
-|----------|--------|
-| Low | $50 - $200 |
-| Medium | $200 - $500 |
-| High | $500 - $1200 |
+Bounty amounts are at contributor discretion based on severity:
 
-Bounty amounts are at contributor discretion based on severity and quality of report.
+| Severity | Range |
+|----------|-------|
+| Low      | $50–$200   |
+| Medium   | $200–$500  |
+| High     | $500–$1200 |
+
+### Guidelines
+
+- The more specific your description, the better
+- All issues and PRs are welcome
+- Bounty decisions are final and at the discretion of maintainers
 AI agents should include `[agent]` in the issue or pull request title, list the model used, and keep the report concise enough for maintainers to validate quickly.
