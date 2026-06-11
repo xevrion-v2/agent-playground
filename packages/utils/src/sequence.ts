@@ -1,26 +1,20 @@
 /**
- * Infinite Sequence Iterator
+ * Infinite sequence iterator utility.
  *
- * A utility for generating and safely iterating over infinite sequences.
- * Provides built-in safety mechanisms to prevent accidental infinite loops.
+ * Provides a safe, lazy iterator for generating infinite sequences
+ * with configurable step size and optional bounds.
  */
 
 export interface SequenceOptions {
-  /** Maximum number of iterations before throwing a safety error. Defaults to 10,000. */
-  maxIterations?: number;
-}
-
-export interface SequenceResult<T> {
-  value: T;
-  index: number;
+  /** Starting value (default: 0) */
+  start?: number;
+  /** Step size between each value (default: 1) */
+  step?: number;
 }
 
 /**
- * Creates an infinite sequence generator with a safety limit.
- *
- * @param generator - A function that produces the next value given the current index
- * @param options - Configuration for the sequence
- * @returns An iterable that safely limits iteration
+ * Creates an infinite sequence iterator that yields numbers
+ * starting from `start` and incrementing by `step` each iteration.
  *
  * @example
  * 
