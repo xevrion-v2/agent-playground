@@ -3,7 +3,7 @@ app.use(express.json());
 app.get('/health', (_req, res) => {
   res.json({
     status: 'success',
-    data: { ok: true }
+    data: { healthy: true }
   });
 });
 
