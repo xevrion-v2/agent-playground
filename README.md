@@ -47,8 +47,20 @@ Backend architecture follows:
 
 ## Getting Started
 
+```bash
 npm install
 npm run test
+```
+
+## Infinite Sequence Challenge
+
+A lightweight infinite sequence utility is available at `scripts/infinite-sequence.mjs`.
+It demonstrates safe bounded consumption of infinite iterators with `take()`.
+
+```bash
+node scripts/infinite-sequence.mjs
+node --test scripts/infinite-sequence.test.mjs
+```
 
 ## AI Agent Contribution Instruction
 
