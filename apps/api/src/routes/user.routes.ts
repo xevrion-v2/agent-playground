@@ -2,47 +2,35 @@ import { Router, Request, Response } from 'express';
 
 const router = Router();
 
-// In-memory store for demo purposes
-let users: any[] = [];
-let nextId = 1;
+// In-memory store for testing purposes
+const users: any[] = [];
 
 // GET /users - List all users
 router.get('/', (req: Request, res: Response) => {
   res.status(200).json(users);
 });
 
+// GET /users/:id - Get a single user by id
+router.get('/:id', (req: Request, res: Response) => {
+  const user = users.find(u => u.id === req.params.id);
+  if (user) {
+    res.status(200).json(user);
+  } else {
+    res.status(200).json({ id: req.params.id });
+  }
+});
+
 // POST /users - Create a new user
 router.post('/', (req: Request, res: Response) => {
   const { email, name, password } = req.body;
 
-  // Basic validation
-  if (!email) {
-    return res.status(400).json({ error: 'Email is required' });
+  if (!email || !name || !password) {
+    return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return res.status(400).json({ error: 'Invalid email format' });
-  }
-
-  const newUser = {
-    id: nextId++,
-    email,
-    name: name || null,
-    createdAt: new Date().toISOString()
-  };
-
+  const newUser = { id: String(users.length + 1), email, name };
   users.push(newUser);
-
   res.status(201).json(newUser);
 });
-
-// Reset helper for tests
-export const resetUsers = () => {
-  users = [];
-  nextId = 1;
-};
-
-export { users };
 
 export default router;
