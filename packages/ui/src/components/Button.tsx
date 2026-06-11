@@ -1,39 +1,26 @@
-import * as React from 'react';
+import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
 
-interface ButtonProps {
-  children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'ghost' | 'link';
-  size?: 'sm' | 'md' | 'lg';
-  className?: string;
-  onClick?: () => void;
-  type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean;
-  [key: string]: any;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'danger';
+  children: ReactNode;
 }
 
-function Button(props: ButtonProps) {
-  const { 
-    children, 
-  variant = 'primary', 
-  size = 'md', 
-  className, 
-  onClick, 
-  type, 
-  disabled,
-  ...rest 
-} = props;
+export const Button: React.FC<ButtonProps> = ({
+  children,
+  onClick,
+  variant = 'primary',
+  disabled = false,
+  ...props
+}) => {
+  const baseStyles = 'px-4 py-2 rounded font-medium transition-colors';
+  const variantStyles = {
+    primary: 'bg-blue-600 text-white hover:bg-blue-700',
+    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
+    danger: 'bg-red-600 text-white hover:bg-red-700',
+  };
 
   return (
-    <button
-      className={className}
-      type={type}
-      onClick={onClick}
-      disabled={disabled}
-      {...rest}
-    >
       {children}
     </button>
   );
-}
-
-export default Button;
+};
