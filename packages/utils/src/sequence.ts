@@ -1,20 +1,21 @@
 /**
- * Infinite sequence iterator that generates values on demand.
- * Supports numeric sequences, custom generators, and safe iteration
- * with built-in limits to prevent accidental infinite loops.
+ * Infinite sequence iterator utility.
+ *
+ * Provides a safe, configurable way to generate infinite sequences
+ * with built-in limits to prevent runaway iteration.
  */
 
-export interface SequenceOptions<T> {
-  /** Initial value or starting state */
-  initial: T;
-  /** Function to generate the next value from the current one */
-  next: (current: T) => T;
-  /** Optional maximum number of iterations for safe consumption */
+export interface SequenceOptions {
+  /** Starting value (default: 0) */
+  start?: number;
+  /** Increment step (default: 1) */
+  step?: number;
+  /** Maximum safe iterations before throwing (default: 1_000_000) */
   maxIterations?: number;
 }
 
 /**
- * Creates an infinite sequence iterator with safe iteration bounds.
- * 
+ * Creates an infinite sequence generator with safety limits.
+ *
  * @example
  * 
