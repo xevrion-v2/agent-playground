@@ -1,10 +1,7 @@
-app.use('/api/health', healthRoutes);
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/health', (_req, res) => {
-  res.json({
-    status: 'success',
-    data: { healthy: true }
-  });
-});
+// Health check
+app.get('/health', getHealth);
 
-export default app;
+// API routes
+app.use('/api', routes);
