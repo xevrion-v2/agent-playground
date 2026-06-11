@@ -1,12 +1,12 @@
-import { Router } from 'express';
+import express from 'express';
+import routes from './routes';
+import healthRouter from './routes/health.routes';
 
-const router = Router();
+const app = express();
 
-router.get('/', (_req, res) => {
-  res.json({
-    status: 'success',
-    data: { healthy: true }
-  });
-});
+app.use(express.urlencoded({ extended: true }));
 
-export default router;
+app.use('/api', routes);
+app.use('/health', healthRouter);
+
+export default app;
