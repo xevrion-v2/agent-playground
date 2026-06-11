@@ -2,6 +2,7 @@
 
 <img width="663" height="183" alt="TaskFlow Logo" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
+
 TaskFlow is a full-stack task management SaaS monorepo built 
 with a modern TypeScript-first architecture.
 
@@ -64,6 +65,16 @@ npm run dev -w apps/web
 ### Run backend
 
 npm run dev -w apps/api
+
+## Database
+
+Prisma schema is available in packages/db/prisma/schema.prisma 
+with models for:
+- Users
+- Tasks
+- Proposals
+- Payments
+- Reviews
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
 
@@ -87,16 +98,6 @@ Bounty amounts are at contributor discretion based on severity:
 All issues and PRs are welcome. The more specific your
 description, the better.
 
-Prisma schema is available in packages/db/prisma/schema.prisma 
-with models for:
-- Users
-- Tasks
-- Proposals
-- Payments
-- Reviews
-- Messages
-- Categories
-- Skills
 
 ## Environment Variables
 
