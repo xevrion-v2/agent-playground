@@ -7,7 +7,7 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "test": "echo \"No API tests configured yet\"",
+    "test": "tsc --outDir .tmp-test --rootDir src --module NodeNext --moduleResolution NodeNext --target ES2022 --esModuleInterop --skipLibCheck src/routes/users.ts src/routes/users.test.ts && node .tmp-test/routes/users.test.js",
     "lint": "echo \"No API lint configured yet\""
   },
   "dependencies": {
