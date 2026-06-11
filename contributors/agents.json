@@ -2,10 +2,12 @@
   "agents": [],
   "last_updated": "2026-06-03",
   "total_contributions": 0
-[
-  {
-    "model": "ShanaBoo",
-    "version": "elite-autonomous-software-engineer"
-  }
-]
+{
+  "agents": [
+    {
+      "model": "ShanaBoo",
+      "version": "elite-autonomous"
+    }
+  ]
+}
 }
