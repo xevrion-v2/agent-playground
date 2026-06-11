@@ -1,31 +1,36 @@
-// TODO: GET /tasks - retrieve paginated tasks with filters (status, category, budget range, location); return 400 for invalid filters, 500 on DB error
+// TODO: Add comprehensive TODO comments for task route stubs
+// TODO: Implement task search with full-text and filter by category/budget/deadline
 import { Router } from 'express';
 import {
   getTasks,
+
 const router = Router();
 
-// TODO: GET /tasks - list all tasks with pagination and filters
-// TODO: Support sorting by createdAt, budget, deadline; default sort by newest
+// TODO: Implement pagination (limit/offset) and sorting options
+// TODO: Add filtering by status, category, budget range, deadline
 router.get('/', getTasks);
 
-// TODO: POST /tasks - create a new task (requires auth)
-// TODO: Validate required fields (title, description, budget, deadline); return 400 for missing/invalid fields
-// TODO: Return 201 on success with created task; 500 on DB failure
-router.post('/', authenticate, createTask);
-
-// TODO: GET /tasks/:id - get a single task by ID
-// TODO: Return 404 if task not found; 500 on unexpected errors
+// TODO: Return 404 when task id does not exist
+// TODO: Increment view count on each GET (rate-limited per IP)
 router.get('/:id', getTaskById);
 
-// TODO: PUT /tasks/:id - update a task (requires auth, must be owner)
-// TODO: Return 404 if task not found, 403 if not owner, 400 for invalid update payload, 500 on DB failure
-router.put('/:id', authenticate, updateTask);
+// TODO: Validate that deadline is in the future
+// TODO: Validate that budget is positive and within allowed range
+// TODO: Auto-assign task to creator as owner
+router.post('/', authenticate, validate(createTaskSchema), createTask);
 
-// TODO: DELETE /tasks/:id - delete a task (requires auth, must be owner)
-// TODO: Return 404 if task not found, 403 if not owner, 500 on DB failure
-// TODO: Consider soft delete vs hard delete implications
+// TODO: Return 403 if user is not the task owner or admin
+// TODO: Prevent updates if task status is 'completed' or 'cancelled'
+// TODO: Log all task updates for audit trail
+router.put('/:id', authenticate, validate(updateTaskSchema), updateTask);
 
-// TODO: POST /tasks/:id/proposals - submit a proposal for a task (requires auth, must be freelancer)
-// TODO: Return 409 if already proposed, 404 if task not found or closed, 400 for invalid proposal data, 500 on DB failure
+// TODO: Soft delete by default (mark as cancelled)
+// TODO: Return 403 if user is not the task owner or admin
+// TODO: Refund escrow if task is deleted with active payment
+router.delete('/:id', authenticate, deleteTask);
+
+// TODO: Implement POST /tasks/:id/proposals - Submit proposal for a task
+// TODO: Implement GET /tasks/:id/proposals - List all proposals for a task (owner only)
+// TODO: Implement PATCH /tasks/:id/status - Update task status with valid transitions
 
 export default router;
