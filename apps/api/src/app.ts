@@ -1,7 +1,6 @@
-app.use(express.urlencoded({ extended: true }));
+import express from 'express';
+import cors from 'cors';
+import routes from './routes';
+import { getHealth } from './controllers/health.controller';
 
-// Health check
-app.get('/health', getHealth);
-
-// API routes
-app.use('/api', routes);
+const app = express();
