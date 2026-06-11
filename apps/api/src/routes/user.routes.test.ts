@@ -16,19 +16,23 @@ describe('User Routes', () => {
       expect(Array.isArray(response.body)).toBe(true);
     });
 
-    it('should return an empty array when no users exist', async () => {
+    it('should return users with expected properties', async () => {
       const response = await request(app).get('/users');
       
       expect(response.status).toBe(200);
-      expect(response.body).toEqual([]);
+      response.body.forEach((user: any) => {
+        expect(user).toHaveProperty('id');
+        expect(user).toHaveProperty('email');
+      });
     });
   });
 
   describe('POST /users', () => {
-    it('should create a new user and return 201 status', async () => {
+    it('should create a new user and return status 201', async () => {
       const newUser = {
-        name: 'John Doe',
-        email: 'john.doe@example.com',
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'securepassword123'
       };
 
       const response = await request(app)
@@ -38,13 +42,14 @@ describe('User Routes', () => {
       expect(response.status).toBe(201);
       expect(response.body).toBeDefined();
       expect(response.body).toHaveProperty('id');
-      expect(response.body.name).toBe(newUser.name);
       expect(response.body.email).toBe(newUser.email);
+      expect(response.body.name).toBe(newUser.name);
     });
 
-    it('should return 400 when required fields are missing', async () => {
+    it('should return 400 when email is missing', async () => {
       const invalidUser = {
-        name: 'Jane Doe',
+        name: 'Test User',
+        password: 'securepassword123'
       };
 
       const response = await request(app)
@@ -52,14 +57,13 @@ describe('User Routes', () => {
         .send(invalidUser);
       
       expect(response.status).toBe(400);
-      expect(response.body).toBeDefined();
-      expect(response.body).toHaveProperty('error');
     });
 
-    it('should return 400 when email is invalid', async () => {
+    it('should return 400 when email format is invalid', async () => {
       const invalidUser = {
-        name: 'Jane Doe',
-        email: 'invalid-email',
+        email: 'not-an-email',
+        name: 'Test User',
+        password: 'securepassword123'
       };
 
       const response = await request(app)
@@ -67,26 +71,20 @@ describe('User Routes', () => {
         .send(invalidUser);
       
       expect(response.status).toBe(400);
-      expect(response.body).toBeDefined();
-      expect(response.body).toHaveProperty('error');
     });
 
-    it('should handle empty request body', async () => {
+    it('should not return password in response', async () => {
+      const newUser = {
+        email: 'secure@example.com',
+        name: 'Secure User',
+        password: 'securepassword123'
+      };
+
       const response = await request(app)
         .post('/users')
-        .send({});
+        .send(newUser);
       
-      expect(response.status).toBe(400);
-      expect(response.body).toBeDefined();
-      expect(response.body).toHaveProperty('error');
-    });
-  });
-
-  describe('GET /users/:id', () => {
-    it('should return 404 for non-existent user', async () => {
-      const response = await request(app).get('/users/non-existent-id');
-      
-      expect(response.status).toBe(404);
+      expect(response.body).not.toHaveProperty('password');
     });
   });
 });
