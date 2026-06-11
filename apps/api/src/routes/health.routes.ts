@@ -2,10 +2,10 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/', (_req, res) => {
+router.get('/health', (_req, res) => {
   res.json({
     status: 'success',
-    data: { healthy: true }
+    data: { ok: true }
   });
 });
 
