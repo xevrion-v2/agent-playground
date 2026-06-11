@@ -1,26 +1,21 @@
-import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
+import React from 'react';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps {
+  /** The content to display inside the button */
+  children: React.ReactNode;
+  /** Additional CSS class names */
+  className?: string;
+  /** Whether the button is disabled */
+  disabled?: boolean;
+  /** Click event handler */
+  onClick?: () => void;
+  /** The type of button */
+  type?: 'button' | 'submit' | 'reset';
+  /** The variant style of the button */
   variant?: 'primary' | 'secondary' | 'danger';
-  children: ReactNode;
 }
 
-export const Button: React.FC<ButtonProps> = ({
-  children,
-  onClick,
-  variant = 'primary',
-  disabled = false,
-  ...props
-}) => {
-  const baseStyles = 'px-4 py-2 rounded font-medium transition-colors';
-  const variantStyles = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700',
-    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
-    danger: 'bg-red-600 text-white hover:bg-red-700',
-  };
-
-  return (
-      {children}
-    </button>
-  );
+export const Button: React.FC<ButtonProps> = ({ children, className = '', disabled = false, onClick, type = 'button', variant = 'primary' }) => {
+  const variantClasses = variant === 'primary' ? 'bg-blue-600 hover:bg-blue-700' : variant === 'secondary' ? 'bg-gray-600 hover:bg-gray-700' : 'bg-red-600 hover:bg-red-700';
+  return <button className={`${className} ${variantClasses} px-4 py-2 rounded text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed`} disabled={disabled} onClick={onClick} type={type}>{children}</button>;
 };
