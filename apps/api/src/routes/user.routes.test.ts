@@ -1,37 +1,75 @@
 import request from 'supertest';
-import app from '../app';
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { prisma } from '@taskflow/db';
+import express from 'express';
+import userRoutes from './user.routes';
+
+const app = express();
+app.use(express.json());
+app.use('/users', userRoutes);
 
 describe('User Routes', () => {
-  describe('GET /api/users', () => {
-    it('should return a list of users', async () => {
-      const response = await request(app)
-        .get('/api/users')
-        .expect(200);
+  describe('GET /users', () => {
+    it('should return a list of users with status 200', async () => {
+      const response = await request(app).get('/users');
       
-      expect(response.body).toHaveProperty('users');
-      expect(Array.isArray(response.body.users)).toBe(true);
+      expect(response.status).toBe(200);
+      expect(response.body).toBeDefined();
+      expect(Array.isArray(response.body)).toBe(true);
+    });
+
+    it('should return an empty array when no users exist', async () => {
+      const response = await request(app).get('/users');
+      
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual([]);
     });
   });
 
-  describe('POST /api/users', () => {
-    it('should create a new user', async () => {
-      const userData = {
-        name: 'Test User',
-        email: 'test@example.com',
-        password: 'password123'
+  describe('POST /users', () => {
+    it('should create a new user and return status 201', async () => {
+      const newUser = {
+        name: 'John Doe',
+        email: 'john.doe@example.com',
       };
 
       const response = await request(app)
-        .post('/api/users')
-        .send(userData)
-        .expect(201);
+        .post('/users')
+        .send(newUser);
+
+      expect(response.status).toBe(201);
+      expect(response.body).toBeDefined();
+      expect(response.body).toHaveProperty('id');
+      expect(response.body.name).toBe(newUser.name);
+      expect(response.body.email).toBe(newUser.email);
+    });
+
+    it('should return 400 when required fields are missing', async () => {
+      const invalidUser = {
+        name: 'Jane Doe',
+      };
+
+      const response = await request(app)
+        .post('/users')
+        .send(invalidUser);
+
+      expect(response.status).toBe(400);
+    });
+
+    it('should handle empty request body', async () => {
+      const response = await request(app)
+        .post('/users')
+        .send({});
+
+      expect(response.status).toBe(400);
+    });
+  });
+
+  describe('GET /users/:id', () => {
+    it('should return a single user by id', async () => {
+      const response = await request(app).get('/users/1');
       
-      expect(response.body).toHaveProperty('user');
-      expect(response.body.user).toHaveProperty('id');
-      expect(response.body.user).toHaveProperty('name', userData.name);
-      expect(response.body.user).toHaveProperty('email', userData.email);
+      expect(response.status).toBe(200);
+      expect(response.body).toBeDefined();
+      expect(response.body).toHaveProperty('id');
     });
   });
 });
