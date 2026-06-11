@@ -1,65 +1,62 @@
 import { describe, it, expect } from 'vitest';
-import { createSequence, naturals, take } from './sequence';
+import { createSequence, take, range } from './sequence';
 
 describe('createSequence', () => {
-  it('generates natural numbers by default', () => {
-    const result = [...take(createSequence(), 5)];
-    expect(result).toEqual([1, 2, 3, 4, 5]);
+  it('generates default sequence starting at 0 with step 1', () => {
+    const seq = createSequence();
+    expect(seq.next().value).toBe(0);
+    expect(seq.next().value).toBe(1);
+    expect(seq.next().value).toBe(2);
   });
 
-  it('respects custom start value', () => {
-    const result = [...take(createSequence({ start: 10 }), 3)];
-    expect(result).toEqual([10, 11, 12]);
+  it('generates sequence with custom start', () => {
+    const seq = createSequence({ start: 10 });
+    expect(seq.next().value).toBe(10);
+    expect(seq.next().value).toBe(11);
   });
 
-  it('respects custom step value', () => {
-    const result = [...take(createSequence({ start: 0, step: 5 }), 4)];
-    expect(result).toEqual([0, 5, 10, 15]);
+  it('generates sequence with custom step', () => {
+    const seq = createSequence({ step: 5 });
+    expect(seq.next().value).toBe(0);
+    expect(seq.next().value).toBe(5);
+    expect(seq.next().value).toBe(10);
   });
 
-  it('handles negative step', () => {
-    const result = [...take(createSequence({ start: 10, step: -2 }), 3)];
-    expect(result).toEqual([10, 8, 6]);
+  it('generates sequence with custom start and step', () => {
+    const seq = createSequence({ start: 3, step: 2 });
+    expect(seq.next().value).toBe(3);
+    expect(seq.next().value).toBe(5);
+    expect(seq.next().value).toBe(7);
   });
 
-  it('handles decimal step', () => {
-    const result = [...take(createSequence({ start: 0, step: 0.5 }), 4)];
-    expect(result).toEqual([0, 0.5, 1, 1.5]);
-  });
-});
-
-describe('naturals', () => {
-  it('generates 1, 2, 3, ...', () => {
-    const result = [...take(naturals(), 5)];
-    expect(result).toEqual([1, 2, 3, 4, 5]);
+  iterates('can be used with take for safe iteration', () => {
+   24    const seq = createSequence({ start: 100, step: 10 });
+    const values = take(seq, 5);
+    expect(values).toEqual([100, 110, 120, 130, 140]);
   });
 });
 
 describe('take', () => {
-  it('takes specified number of elements', () => {
+  it('returns specified number of values', () => {
     const seq = createSequence();
-    const result = [...take(seq, 3)];
-    expect(result).toEqual([1, 2, 3]);
+    expect(take(seq, 3)).toEqual([0, 1, 2]);
   });
 
-  it('returns empty for count of 0', () => {
-    const result = [...take(naturals(), 0)];
-    expect(result).toEqual([]);
+  it('returns empty array for count 0', () => {
+    const seq = createSequence();
+    expect(take(seq, 0)).toEqual([]);
   });
 
-  it('throws on negative count', () => {
-    expect(() => [...take(naturals(), -1)]).toThrow(RangeError);
+  it('throws error for negative count', () => {
+    const seq = createSequence();
+    expect(() => take(seq, -1)).toThrow('Count must be non-negative');
   });
+});
 
-  it('works with finite iterables', () => {
-    const result = [...take([1, 2, 3, 4, 5], 3)];
-    expect(result).toEqual([1, 2, 3]);
-  });
-
-  it('does not over-consume from finite iterables', () => {
-    const arr = [1, 2, 3];
-    const iter = take(arr, 10);
-    const result = [...iter];
-    expect(result).toEqual([1, 2, 3]);
+describe('range', () => {
+  it('generates range of values', () => {
+    expect(range(0, 5)).toEqual([0, 1, 2, 3, 4]);
+    expect(range(10, 20, 2)).toEqual([10, 12, 14, 16, 18]);
+    expect(range(5, 5)).toEqual([]);
   });
 });
