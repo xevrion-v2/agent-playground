@@ -4,7 +4,8 @@ module.exports = {
   testEnvironment: 'node',
   roots: ['<rootDir>/src'],
   testMatch: ['**/*.test.ts'],
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-  },
+  moduleFileExtensions: ['ts', 'js', 'json'],
+  collectCoverageFrom: ['src/**/*.ts', '!src/**/*.test.ts'],
+  coverageDirectory: 'coverage',
+  verbose: true,
 };
