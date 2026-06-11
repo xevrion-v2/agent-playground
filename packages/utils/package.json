@@ -1,20 +1,17 @@
 {
   "name": "@taskflow/utils",
-  "version": "1.0.0",
-  "description": "Utility functions for the TaskFlow monorepo",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "test": "jest"
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "keywords": ["utilities", "infinite", "sequence"],
-  "author": "TaskFlow Team"
+    "tsup": "^8.0.0",
+    "vitest": "^1.0.0"
+  }
 }
