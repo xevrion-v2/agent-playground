@@ -2,84 +2,72 @@
  * Infinite Sequence Iterator
  *
  * A utility for generating infinite sequences with safe iteration.
- * Provides generators for common infinite sequences with built-in
- * safeguards to prevent accidental infinite loops.
+ * Provides multiple sequence types with built-in limits to prevent
+ * accidental infinite loops.
  */
 
-/**
- * Options for controlling infinite sequence iteration
- */
 export interface SequenceOptions {
-  /** Maximum number of values to generate (safety limit) */
+  /** Maximum number of iterations before stopping (default: 10000) */
   maxIterations?: number;
 }
 
-const DEFAULT_MAX_ITERATIONS = 10000;
-
 /**
  * Creates an infinite sequence generator with a safety limit.
- * Throws an error if the safety limit is exceeded.
+ * @param start - Starting number (default: 0)
+ * @param step - Increment step (default: 1)
+ * @param options - Configuration options
+ * @yields Numbers in the sequence
  */
-function createSafeGenerator<T>(
-  generator: () => Generator<T>,
+export function* infiniteSequence(
+  start: number = 0,
+  step: number = 1,
   options: SequenceOptions = {}
-): Generator<T> {
-  const maxIterations = options.maxIterations ?? DEFAULT_MAX_ITERATIONS;
+): Generator<number, void, unknown> {
+  const { maxIterations = 10000 } = options;
+  let current = start;
   let count = 0;
 
-  const inner = generator();
+  while (count < maxIterations) {
+    yield current;
+    current += step;
+    count++;
+  }
 
-  return {
-    next(): IteratorResult<T> {
-      if (count >= maxIterations) {
-        throw new Error(
-          `Infinite sequence safety limit (${maxIterations}) exceeded. ` +
-          'Use the maxIterations option to increase the limit, or ensure ' +
-          'you are breaking out of the loop appropriately.'
-        );
-      }
+  throw new Error(
+    `Infinite sequence safety limit reached (${maxIterations} iterations). ` +
+    'Use a larger maxIterations option or break out of the loop earlier.'
+  );
+}
+
+/**
+ * Creates an infinite repeating cycle from an array.
+ * @param items - Array of items to cycle through
+ * @param options - Configuration options
+ * @yields Items from the array, looping infinitely
+ */
+export function* infiniteCycle<T>(
+  items: T[],
+  options: SequenceOptions = {}
+): Generator<T, void, unknown> {
+  if (items.length === 0) {
+    throw new Error('Cannot cycle over an empty array');
+  }
+
+  const { maxIterations = 10000 } = options;
+  let count = 0;
+
+  while (count < maxIterations) {
+    for (const item of items) {
+      if (count >= maxIterations) break;
+      yield item;
       count++;
-      return inner.next();
-    },
-    return(value?: unknown): IteratorResult<T> {
-      return inner.return?.(value) ?? { done: true, value: undefined as unknown as T };
-    },
-    throw(e?: unknown): IteratorResult<T> {
-      return inner.throw?.(e) ?? { done: true, value: undefined as unknown as T };
-    },
-    [Symbol.iterator](): Generator<T> {
-      return this;
-    },
-  };
-}
-
-/**
- * Generates an infinite sequence of natural numbers (0, 1, 2, 3, ...)
- */
-export function* naturalNumbers(): Generator<number> {
-  let n = 0;
-  while (true) {
-    yield n++;
+    }
   }
+
+  throw new Error(
+    `Infinite cycle safety limit reached (${maxIterations} iterations). ` +
+    'Use a larger maxIterations option or break out of the loop earlier.'
+  );
 }
 
-/**
- * Generates an infinite sequence starting from a given number with a step.
- * @param start - The starting number (default: 0)
- * @param step - The increment step (default: 1)
- */
-export function* arithmeticSequence(start = 0, step = 1): Generator<number> {
-  let n = start;
-  while (true) {
-    yield n;
-    n += step;
-  }
-}
-
-/**
- * Creates a safe infinite iterator for natural numbers.
- * @param options - Configuration for safe iteration
- * @returns A generator that yields natural numbers with a safety limit
- *
- * @example
- * 
+export default infiniteSequence;
