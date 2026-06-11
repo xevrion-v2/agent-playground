@@ -1,32 +1,43 @@
-import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
+import React from 'react';
 
-/**
- * Props for the shared Button component.
- * Extends native button attributes while keeping the public API surface minimal.
- */
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
+
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Visual style variant of the button */
-  variant?: 'primary' | 'secondary' | 'danger';
-};
+  /** Content to render inside the button */
+  children: ReactNode;
+  /** Visual style variant */
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
+  /** Optional additional class names */
+  className?: string;
+}
 
-/**
- * Shared UI Button component.
- * Renders a styled `<button>` with support for primary, secondary, and danger variants.
- */
-export const Button: React.FC<ButtonProps> = ({
+export const Button = ({
   children,
   variant = 'primary',
+  className = '',
+  disabled = false,
+  type = 'button',
   ...rest
-}) => {
+}: ButtonProps): JSX.Element => {
   const baseStyles = 'px-4 py-2 rounded font-medium transition-colors';
+  
   const variantStyles = {
     primary: 'bg-blue-600 text-white hover:bg-blue-700',
+    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
     danger: 'bg-red-600 text-white hover:bg-red-700',
+    ghost: 'bg-transparent text-gray-700 hover:bg-gray-100',
   };
 
   return (
-    <button className={`${baseStyles} ${variantStyles[variant]}`} {...rest}>
+    <button
+      type={type}
+      disabled={disabled}
+      className={`${baseStyles} ${variantStyles[variant]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      {...rest}
+    >
       {children}
     </button>
   );
 };
+
+Button.displayName = 'Button';
