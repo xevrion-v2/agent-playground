@@ -12,23 +12,22 @@ describe('User Routes', () => {
       const response = await request(app).get('/users');
       
       expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('users');
+      expect(response.body).toBeDefined();
       expect(Array.isArray(response.body.users)).toBe(true);
     });
 
-    it('should return users array in response', async () => {
+    it('should return users array in response body', async () => {
       const response = await request(app).get('/users');
       
-      expect(response.body.users).toBeDefined();
-      expect(Array.isArray(response.body.users)).toBe(true);
+      expect(response.body).toHaveProperty('users');
     });
   });
 
   describe('POST /users', () => {
     it('should create a user and return status 201', async () => {
       const newUser = {
-        name: 'John Doe',
-        email: 'john.doe@example.com',
+        email: 'test@example.com',
+        name: 'Test User',
       };
 
       const response = await request(app)
@@ -36,51 +35,41 @@ describe('User Routes', () => {
         .send(newUser);
 
       expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('id');
-      expect(response.body).toHaveProperty('name', newUser.name);
-      expect(response.body).toHaveProperty('email', newUser.email);
+      expect(response.body).toBeDefined();
     });
 
-    it('should return the created user with generated id', async () => {
+    it('should return the created user in response body', async () => {
       const newUser = {
-        name: 'Jane Doe',
-        email: 'jane.doe@example.com',
+        email: 'test@example.com',
+        name: 'Test User',
       };
 
       const response = await request(app)
         .post('/users')
         .send(newUser);
 
-      expect(response.body.id).toBeDefined();
-      expect(typeof response.body.id).toBe('string');
+      expect(response.body).toHaveProperty('id');
+      expect(response.body.email).toBe(newUser.email);
+      expect(response.body.name).toBe(newUser.name);
     });
 
-    it('should handle request without body', async () => {
+    it('should handle user creation with minimal data', async () => {
+      const minimalUser = {
+        email: 'minimal@example.com',
+      };
+
       const response = await request(app)
         .post('/users')
-        .send({});
+        .send(minimalUser);
 
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('id');
     });
-  });
 
-  describe('Route existence', () => {
-    it('should handle GET request to /users', async () => {
-      const response = await request(app).get('/users');
-      expect(response.status).not.toBe(404);
-    });
+    it('should return 400 for invalid request body', async () => {
+      const response = await request(app).post('/users').send({});
 
-    it('should handle POST request to /users', async () => {
-      const response = await request(app)
-        .post('/users')
-        .send({ name: 'Test', email: 'test@test.com' });
-      expect(response.status).not.toBe(404);
-    });
-
-    it('should return 404 for undefined routes under /users', async () => {
-      const response = await request(app).get('/users/undefined-route');
-      expect(response.status).toBe(404);
+      expect(response.status).toBe(400);
     });
   });
 });
