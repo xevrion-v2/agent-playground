@@ -1,45 +1,37 @@
+// TODO: Implement GET /users - List all users with pagination and search filters
 import { Router } from 'express';
-
+import { getUserProfile, updateUserProfile, deleteUserAccount } from '../controllers/user.controller';
+import { authenticate } from '../middleware/auth.middleware';
 const router = Router();
 
-// TODO: GET /users - List all users with pagination and filtering
-// Expected behavior: Return paginated list of users, support query params for role, skills, availability
-// Error cases: 401 Unauthorized, 403 Forbidden (non-admin), 500 Internal Server Error
+// Public routes
+// TODO: GET /users/search - Search users by name, skill, or role with query params (q, role, limit, offset)
+// TODO: Return 400 Bad Request if search query is missing or invalid
+// TODO: Return 200 with empty array if no matches found
 
-// TODO: GET /users/:id - Get a single user by ID
-// Expected behavior: Return user profile with public fields, include related tasks/proposals if requested
-// Error cases: 400 Bad Request (invalid ID format), 401 Unauthorized, 404 Not Found, 500 Internal Server Error
+// TODO: GET /users/:id - Get public profile for a specific user by ID
+// TODO: Return 404 Not Found if user does not exist
+// TODO: Return 400 Bad Request if ID is not a valid UUID
 
-// TODO: POST /users - Create a new user (admin only)
-// Expected behavior: Create user with validated input, return 201 with created user
-// Error cases: 400 Bad Request (validation error), 401 Unauthorized, 403 Forbidden, 409 Conflict (email exists), 500 Internal Server Error
+// TODO: GET /users/:id/tasks - Get public task history for a user (completed, in-progress)
+// TODO: Return 404 Not Found if user does not exist
+// TODO: Return 200 with empty array if user has no visible tasks
 
-// TODO: PUT /users/:id - Update user profile
-// Expected behavior: Update allowed fields for authenticated user or admin, return updated user
-// Error cases: 400 Bad Request, 401 Unauthorized, 403 Forbidden (not owner/admin), 404 Not Found, 409 Conflict, 500 Internal Server Error
+// Protected routes
+router.get('/me', authenticate, getUserProfile);
+// TODO: GET /users/me - Get current authenticated user's full profile
+// TODO: Return 401 Unauthorized if auth token is missing or invalid
+// TODO: Return 200 with user object including private fields
 
-// TODO: DELETE /users/:id - Delete a user (admin only or self-delete)
-// Expected behavior: Soft delete user, cascade or handle related records, return 204
-// Error cases: 401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Internal Server Error
+router.patch('/me', authenticate, updateUserProfile);
+// TODO: PATCH /users/me - Update current user's profile fields
+// TODO: Return 400 Bad Request if update payload contains invalid fields
+// TODO: Return 409 Conflict if email/username already taken
+// TODO: Return 422 Unprocessable Entity if validation fails (e.g., invalid URL format)
 
-// TODO: GET /users/:id/tasks - Get tasks created by or assigned to user
-// Expected behavior: Return paginated tasks for the user, filter by status
-// Error cases: 400 Bad Request, 401 Unauthorized, 404 Not Found (user), 500 Internal Server Error
-
-// TODO: GET /users/:id/proposals - Get proposals submitted by user
-// Expected behavior: Return paginated proposals for the user
-// Error cases: 400 Bad Request, 401 Unauthorized, 404 Not Found (user), 500 Internal Server Error
-
-// TODO: GET /users/search - Search users by name, skills, or role
-// Expected behavior: Return paginated search results, support full-text search on name/skills
-// Error cases: 400 Bad Request (missing query), 401 Unauthorized, 500 Internal Server Error
-
-// TODO: POST /users/:id/verify - Verify user identity (admin only)
-// Expected behavior: Mark user as verified, trigger notification
-// Error cases: 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Internal Server Error
-
-// TODO: POST /users/:id/suspend - Suspend user account (admin only)
-// Expected behavior: Mark user as suspended, revoke active sessions, return updated user
-// Error cases: 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict (already suspended), 500 Internal Server Error
+router.delete('/me', authenticate, deleteUserAccount);
+// TODO: DELETE /users/me - Soft-delete or hard-delete current user's account
+// TODO: Return 409 Conflict if user has active tasks or pending payments
+// TODO: Consider returning 204 No Content on successful deletion
 
 export default router;
