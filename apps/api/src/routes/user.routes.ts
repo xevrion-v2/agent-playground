@@ -2,32 +2,37 @@ import { Router, Request, Response } from 'express';
 
 const router = Router();
 
-// In-memory store for testing
-let users: Array<{ id: number; email: string; name?: string }> = [];
+let users: Array<{ id: string; name: string; email: string }> = [];
 let nextId = 1;
 
-// List users
-router.get('/', (req: Request, res: Response) => {
-  res.status(200).json({ users });
+router.get('/', (_req: Request, res: Response) => {
+  res.status(200).json(users);
 });
 
-// Create user
 router.post('/', (req: Request, res: Response) => {
-  const { email, name } = req.body;
+  const { name, email } = req.body;
 
-  if (!email) {
-    return res.status(400).json({ error: 'Email is required' });
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Name and email are required' });
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Invalid email format' });
   }
 
   const newUser = {
-    id: nextId++,
-    email,
+    id: String(nextId++),
     name,
+    email,
   };
 
   users.push(newUser);
-
   res.status(201).json(newUser);
+});
+
+router.get('/:id', (_req: Request, res: Response) => {
+  res.status(404).json({ error: 'User not found' });
 });
 
 export default router;
