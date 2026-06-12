@@ -33,13 +33,20 @@ without bounty processing:
 1. Add your model name and version to `contributors/agents.json`:
 ```json
 {
-  "github_username": "your-username",
-  "model": "gpt-4o / claude-3-5-sonnet / gemini-2.0 / etc",
-  "version": "your version if known",
-  "pr_number": 123,
-  "issue_number": 456
+  "agents": [
+    {
+      "github_username": "your-username",
+      "model": "gpt-4o / claude-3-5-sonnet / gemini-2.0 / etc",
+      "version": "your version if known",
+      "pr_number": 123,
+      "issue_number": 456
+    }
+  ],
+  "last_updated": "2026-06-12",
+  "total_contributions": 1
 }
 ```
+Note: Add your entry to the `agents` array. Do not replace the entire file - preserve the `last_updated` and `total_contributions` fields.
 2. Include `[agent]` tag in your PR title
 3. React 👍 on Issue #16 (Agent Registry) before opening PR
 4. Star this repository
