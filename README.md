@@ -3,7 +3,7 @@
 <img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
 
-TaskFlow is a full-stack task management SaaS monorepo built 
+TaskFlow is an early-stage task management SaaS monorepo built
 with a modern TypeScript-first architecture.
 
 ## Workspace Structure
@@ -15,35 +15,36 @@ with a modern TypeScript-first architecture.
 
 ## Frontend
 
-The web app includes pages for:
-- Landing
-- Task boards and task detail
-- Create a task
+Current implemented web surface:
+
+- `apps/web/src/app/page.tsx` — a single landing page at `/`
+
+Planned but not implemented yet:
+
+- Task boards and task detail pages
+- Task creation flows
 - User profiles and user search
 - Client and freelancer dashboards
-- Messaging
-- Notifications
-- Settings
-- Billing
-- Admin panel
+- Messaging and notifications
+- Settings, billing, and admin pages
 
 ## Backend
 
-The API includes:
-- Auth routes (register, login, OAuth callback, JWT refresh)
-- CRUD routes for users, tasks, and proposals
-- Payments routes (Stripe-focused service placeholder)
-- Reviews, messaging, notifications
-- File uploads and search
-- Admin routes
+Current implemented API surface:
 
-Backend architecture follows:
-- Middleware layer (auth, rate limiting, error handling)
-- Controller layer
-- Service layer
-- Route layer
-- Validation schemas (Zod)
-- Utility helpers
+- `GET /health` — returns API health metadata
+- `GET /users` — returns an empty placeholder user list
+- `POST /users` — returns a placeholder user object from the request body
+
+Planned but not implemented yet:
+
+- Auth routes such as register, login, OAuth callback, and JWT refresh
+- CRUD routes for jobs/tasks and proposals
+- Payment, review, messaging, notification, upload, search, and admin routes
+
+Backend architecture currently consists of the Express app entrypoint plus
+the users router. Middleware, controller, service, validation, and utility
+layers can be added as features become real.
 
 ## Getting Started
 
@@ -68,18 +69,16 @@ npm run dev -w apps/api
 
 ## Database
 
-Prisma schema is available in packages/db/prisma/schema.prisma 
+Prisma schema is available in `packages/db/prisma/schema.prisma`
 with models for:
+
 - Users
-- Tasks
+- Jobs
 - Proposals
-- Payments
-- Reviews
-- Messages
-- Categories
-- Skills
+
+Payment, review, message, category, and skill models are not present yet.
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+The database package expects `DATABASE_URL` for Prisma. Auth and integration
+environment variables should be documented when those features are added.
