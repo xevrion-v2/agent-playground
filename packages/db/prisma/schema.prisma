@@ -1,3 +1,5 @@
+// Prisma schema for TaskFlow - a task management SaaS application
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +9,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/**
+ * User model - represents registered users in the TaskFlow system
+ * Users can own jobs (as clients) and submit proposals for jobs
+ */
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +23,10 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/**
+ * Job model - represents tasks/projects posted by clients
+ * Jobs can receive proposals from interested freelancers
+ */
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +39,10 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/**
+ * Proposal model - represents freelancer proposals for jobs
+ * Links a user (freelancer) to a job with pricing and status
+ */
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
