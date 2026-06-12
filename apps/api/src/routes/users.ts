@@ -7,7 +7,13 @@ const router = Router();
  * GET /users
  * Retrieves a list of users
  * 
- * Returns an empty array with a stub message since this is not yet implemented.
+ * TODO: Implement user listing from database
+ * TODO: Add pagination support (limit, offset)
+ * TODO: Add filtering by role/status if needed
+ * 
+ * Error cases:
+ * - 401 Unauthorized: If authentication is required
+ * - 500 Internal Server Error: If database query fails
  * 
  * @param _req - Express request object (unused)
  * @param res - Express response object containing user list data
@@ -22,6 +28,16 @@ router.get("/", (_req, res) => {
 /**
  * POST /users
  * Creates a new user with the provided data
+ * 
+ * TODO: Store user in database with hashed password
+ * TODO: Send verification email
+ * TODO: Return full user object without sensitive data
+ * 
+ * Error cases:
+ * - 400 Bad Request: Missing required fields
+ * - 409 Conflict: Email already exists
+ * - 422 Unprocessable Entity: Invalid field formats
+ * - 500 Internal Server Error: If database insert fails
  * 
  * @param req - Express request object containing user data in body
  * @param res - Express response object containing the created user data
