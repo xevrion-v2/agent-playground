@@ -81,5 +81,37 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package can use its own local `.env` file. Keep secrets out of
+version control and create these files only on your machine.
+
+### `apps/web`
+
+The web app does not currently require any environment variables for local
+development. If frontend integrations are added later, define public values
+with a `NEXT_PUBLIC_` prefix in `apps/web/.env.local`.
+
+```env
+# apps/web/.env.local
+# No required variables at this time.
+```
+
+### `apps/api`
+
+The API reads `PORT` from the environment. If it is not set, the server listens
+on port `4000`.
+
+```env
+# apps/api/.env
+PORT=4000
+```
+
+### `packages/db`
+
+The Prisma schema reads `DATABASE_URL` for the PostgreSQL connection string.
+Set this before running Prisma commands or any service that connects to the
+database.
+
+```env
+# packages/db/.env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/taskflow?schema=public"
+```
