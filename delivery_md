@@ -1,0 +1,18 @@
+# DELIVERY.md
+
+## How to run
+
+This workflow seeds starter bounty issues and ensures each issue body includes a parent bounty reference to the canonical Bug Bounty Program issue (if found).
+
+1. Push this workflow to your repo.
+2. Go to GitHub Actions > Seed Starter Bounty Issues > Run workflow.
+3. Enter comma-separated issue titles and bodies.
+
+Each seeded issue will include `Parent bounty: #<number>` at the top of the body if the canonical issue exists.
+
+## Example
+- Issue titles: `Bug: Widget fails on load, Bug: API returns 500`
+- Issue bodies: `Acceptance: Widget loads, /bounty $50, Acceptance: API returns 200, /bounty $50`
+
+## Requirements
+- The canonical issue must be titled exactly `Bug Bounty Program — How to Participate` and not be a PR.
