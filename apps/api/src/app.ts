@@ -1,9 +1,16 @@
 import express from "express";
+import cors from "cors";
 import usersRouter from "./routes/users";
 import piRouter from "./routes/pi";
 
 export function createApp() {
   const app = express();
+
+  // Disable ETag generation for dynamic JSON responses
+  app.set("etag", false);
+
+  // Enable CORS for cross-origin requests
+  app.use(cors());
 
   // Handle malformed JSON bodies with JSON error response
   app.use(express.json({ limit: "100kb" }), (err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
