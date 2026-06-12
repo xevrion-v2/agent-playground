@@ -44,6 +44,7 @@ Backend architecture follows:
 - Route layer
 - Validation schemas (Zod)
 - Utility helpers
+- The API accepts JSON request bodies up to `100kb`.
 
 ## Getting Started
 
