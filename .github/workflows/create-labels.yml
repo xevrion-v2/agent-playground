@@ -1,88 +1,67 @@
 name: Create Labels
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/labels.yml'
   workflow_dispatch:
-
-permissions:
-  issues: write
 
 jobs:
   create-labels:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create or update labels
-        uses: actions/github-script@v7
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          script: |
-            const fs = require("fs");
+          node-version: '20'
 
-            const content = fs.readFileSync(".github/labels.yml", "utf8");
-            const labels = [];
-            let current = null;
+      - name: Install dependencies
+        run: |
+          npm install -g js-yaml
 
-            for (const rawLine of content.split(/\r?\n/)) {
-              const line = rawLine.trim();
+      - name: Parse and Create Labels
+        id: create_labels
+        run: |
+          # Use js-yaml to parse the YAML file safely
+          # This handles colons, quotes, and escaped characters correctly
+          LABELS=$(node -e "
+            const fs = require('fs');
+            const yaml = require('js-yaml');
+            const content = fs.readFileSync('.github/labels.yml', 'utf8');
+            const labels = yaml.load(content);
+            console.log(JSON.stringify(labels));
+          ")
 
-              if (!line) {
-                continue;
-              }
-
-              if (line.startsWith("- name:")) {
-                if (current) {
-                  labels.push(current);
-                }
-
-                current = {
-                  name: line.replace("- name:", "").trim().replace(/^"|"$/g, "")
-                };
-                continue;
-              }
-
-              if (!current) {
-                continue;
-              }
-
-              const separatorIndex = line.indexOf(":");
-
-              if (separatorIndex === -1) {
-                continue;
-              }
-
-              const key = line.slice(0, separatorIndex).trim();
-              const value = line.slice(separatorIndex + 1).trim().replace(/^"|"$/g, "");
-              current[key] = value;
-            }
-
-            if (current) {
-              labels.push(current);
-            }
+          # Create labels using the GitHub API
+          # We iterate through the parsed JSON array
+          echo "$LABELS" | node -e "
+            const labels = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+            const github = require('@actions/github');
+            const token = process.env.GITHUB_TOKEN;
+            const octokit = new (require('@octokit/rest'))({ auth: token });
+            
+            const owner = github.context.repo.owner;
+            const repo = github.context.repo.repo;
 
             for (const label of labels) {
-              const color = label.color.replace(/^#/, "");
-
               try {
-                await github.rest.issues.createLabel({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
+                await octokit.issues.createOrUpdateLabel({
+                  owner,
+                  repo,
                   name: label.name,
-                  color,
-                  description: label.description || ""
+                  color: label.color,
+                  description: label.description || ''
                 });
+                console.log(\`Updated label: \${label.name}\`);
               } catch (error) {
-                if (error.status !== 422) {
-                  throw error;
-                }
-
-                await github.rest.issues.updateLabel({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  name: label.name,
-                  color,
-                  description: label.description || ""
-                });
+                console.error(\`Failed to update label \${label.name}: \`, error.message);
               }
             }
+          "
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
