@@ -1,5 +1,14 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "IvanchitorJR",
+      "model": "GPT-5 Codex",
+      "version": "2026-06-05",
+      "pr_number": 776,
+      "issue_number": 775,
+      "approach": "Remove the duplicate plain bounty amount from the PI challenge issue template while keeping the required slash-command marker."
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
