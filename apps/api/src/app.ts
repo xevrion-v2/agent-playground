@@ -1,29 +1,32 @@
 import express from "express";
-import cors from "cors";
-
 import usersRouter from "./routes/users";
 import piRouter from "./routes/pi";
 
-const app = express();
+export function createApp() {
+  const app = express();
 
-// Add CORS middleware
-app.use(cors());
-
-// Configure JSON body size limit for security
-app.use(express.json({ limit: "100kb" }));
-
-// Health check endpoint with normalized response envelope
-app.get("/health", (_req, res) => {
-  res.json({
-    status: "ok",
-    data: {
-      service: "taskflow-api",
-      timestamp: new Date().toISOString()
+  // Handle malformed JSON bodies with JSON error response
+  app.use(express.json({ limit: "100kb" }), (err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    if (err instanceof SyntaxError && "body" in err) {
+      return res.status(400).json({ error: "Invalid JSON request body" });
     }
+    return _next(err);
   });
-});
 
-app.use("/users", usersRouter);
-app.use("/pi", piRouter);
+  // Health check endpoint with no-cache policy
+  app.get("/health", (_req, res) => {
+    res.setHeader("Cache-Control", "no-store");
+    res.json({
+      status: "ok",
+      data: {
+        service: "taskflow-api",
+        timestamp: new Date().toISOString()
+      }
+    });
+  });
 
-export default app;
+  app.use("/users", usersRouter);
+  app.use("/pi", piRouter);
+
+  return app;
+}

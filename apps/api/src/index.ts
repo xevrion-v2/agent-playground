@@ -1,7 +1,9 @@
-import app from "./app";
-import { parsePort } from "./config";
+import { createApp } from "./app";
+import { getPort } from "./config";
 
-const port = parsePort();
+const port = getPort(process.env.PORT);
+
+const app = createApp();
 
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
