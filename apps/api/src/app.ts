@@ -1,11 +1,12 @@
 import express from 'express';
-import { configureBodyParser } from './middleware/bodyParser';
-
+import { json } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import { routes } from './routes';
 const app = express();
 
-// Configure body parser with size limits
-configureBodyParser(app);
+app.use(helmet());
+app.use(json({ limit: '100kb' }));
+app.use(cors());
 
-// Additional configuration...
-
-export default app;
+app.use('/api', routes);
