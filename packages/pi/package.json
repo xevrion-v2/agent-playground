@@ -1,0 +1,12 @@
+{
+  "name": "@taskflow/pi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Finite decimal prefix utilities for pi.",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test src/index.test.js",
+    "lint": "echo \"No PI lint configured yet\""
+  }
+}
