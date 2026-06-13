@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { sendBadRequest } from "../helpers/errors";
 
 const router = Router();
 
@@ -42,10 +43,7 @@ router.post("/", (req, res) => {
   }
 
   if (errors.length > 0) {
-    res.status(400).json({
-      error: "Validation failed",
-      messages: errors,
-    });
+    sendBadRequest(res, errors);
     return;
   }
 
