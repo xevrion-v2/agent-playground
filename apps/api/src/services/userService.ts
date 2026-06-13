@@ -1,82 +1,103 @@
-import { PrismaClient, User } from '@prisma/client';
-import { CreateUserInput, UpdateUserInput } from '../types/user';
-
 /**
- * Service for managing user-related database operations.
- * Provides CRUD functionality for user records.
+ * User service module.
+ * Provides CRUD operations and business logic for user management.
  * @module services/userService
  */
 
-const prisma = new PrismaClient();
+import { PrismaClient, User, Prisma } from '@prisma/client';
+import bcrypt from 'bcrypt';
+
+
+const SALT_ROUNDS = 10;
 
 /**
- * @param data - The user data to create
- * @returns The created user
+ * Hash a plaintext password using bcrypt.
+ * @param {string} password - The plaintext password to hash.
+ * @returns {Promise<string>} The hashed password.
+ * @throws {Error} If hashing fails.
  */
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, SALT_ROUNDS);
+}
+  password: string;
+}
+
 /**
- * Creates a new user in the database.
- * @param data - The user data including email, password, and profile information
- * @returns Promise resolving to the created User
- * @throws Error if a user with the same email already exists
+ * Create a new user in the database.
+ * @param {CreateUserInput} data - The user data including email and password.
+ * @returns {Promise<User>} The created user object.
+ * @throws {Error} If the user cannot be created.
  */
 export async function createUser(data: CreateUserInput): Promise<User> {
-  return prisma.user.create({ data });
+  const hashedPassword = await hashPassword(data.password);
+
+  });
 }
- * @param id - The user ID
- * @returns The user or null if not found
- */
+
 /**
- * Retrieves a single user by their unique ID.
- * @param id - The UUID of the user to find
- * @returns Promise resolving to the User or null if not found
+ * Find a user by their unique email address.
+ * @param {string} email - The email address to search for.
+ * @returns {Promise<User | null>} The user if found, otherwise null.
  */
-export async function getUserById(id: string): Promise<User | null> {
-  return prisma.user.findUnique({ where: { id } });
+export async function findUserByEmail(email: string): Promise<User | null> {
+  return prisma.user.findUnique({
+    where: { email },
+
+type UserUpdateInput = Partial<Pick<User, 'name' | 'email' | 'password' | 'role' | 'avatar'>>;
+
+/**
+ * Update a user's information by their unique ID.
+ * @param {string} id - The user's unique identifier.
+ * @param {UserUpdateInput} data - The fields to update.
+ * @returns {Promise<User>} The updated user object.
+ */
+export async function updateUser(id: string, data: UserUpdateInput): Promise<User> {
+  const updateData: Prisma.UserUpdateInput = { ...data };
+
+  });
 }
- * Get a user by email
- * @param email - The user's email
- * @returns The user or null if not found
+
 /**
- * Retrieves a single user by their email address.
- * @param email - The email address to search for
- * @returns Promise resolving to the User or null if not found
- */
- */
-export async function getUserByEmail(email: string): Promise<User | null> {
-  return prisma.user.findUnique({ where: { email } });
- * Get all users
- * @returns Array of users
- */
-/**
- * Retrieves all users from the database.
- * @returns Promise resolving to an array of all Users
- * @note Consider adding pagination for large datasets
- */
-export async function getAllUsers(): Promise<User[]> {
-  return prisma.user.findMany();
-}
- * @param id - The user ID
- * @param data - The data to update
- * @returns The updated user
-/**
- * Updates an existing user's information.
- * @param id - The UUID of the user to update
- * @param data - Partial user data to apply
- * @returns Promise resolving to the updated User
- * @throws Error if the user does not exist
- */
- */
-export async function updateUser(id: string, data: UpdateUserInput): Promise<User> {
-  return prisma.user.update({ where: { id }, data });
- * Delete a user
- * @param id - The user ID
- * @returns The deleted user
-/**
- * Permanently removes a user from the database.
- * @param id - The UUID of the user to delete
- * @returns Promise resolving to the deleted User record
- * @throws Error if the user does not exist
- */
+ * Delete a user from the database by their unique ID.
+ * @param {string} id - The user's unique identifier.
+ * @returns {Promise<User>} The deleted user object.
  */
 export async function deleteUser(id: string): Promise<User> {
-  return prisma.user.delete({ where: { id } });
+  return prisma.user.delete({
+    where: { id },
+
+type UserFilter = { role?: string; search?: string };
+
+/**
+ * Retrieve a list of users with optional filtering, pagination, and sorting.
+ * @param {UserFilter} [filter] - Optional filters for role and search text.
+ * @param {Prisma.UserFindManyArgs} [options] - Additional Prisma query options (pagination, sorting, etc.).
+ * @returns {Promise<User[]>} A list of matching users.
+ */
+export async function getUsers(
+  filter?: UserFilter,
+  options?: Prisma.UserFindManyArgs
+  });
+}
+
+/**
+ * Find a single user by their unique ID.
+ * @param {string} id - The user's unique identifier.
+ * @returns {Promise<User | null>} The user if found, otherwise null.
+ */
+export async function getUserById(id: string): Promise<User | null> {
+  return prisma.user.findUnique({
+    where: { id },
+  password: string;
+}
+
+/**
+ * Verify a user's credentials by email and password.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The plaintext password to verify.
+ * @returns {Promise<User | null>} The user if credentials are valid, otherwise null.
+ * @throws {Error} If the user is not found or the password is invalid.
+ */
+export async function verifyUserCredentials(
+  email: string,
+  password: string
