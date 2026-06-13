@@ -27,6 +27,8 @@ model Job {
   proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+
+  @@index([ownerId])
 }
 
 model Proposal {
@@ -40,4 +42,7 @@ model Proposal {
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([jobId])
 }
