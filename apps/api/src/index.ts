@@ -1,4 +1,4 @@
-import express from "express";
+import express, { type ErrorRequestHandler } from "express";
 
 import usersRouter from "./routes/users";
 
@@ -12,6 +12,19 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/users", usersRouter);
+
+const jsonParseErrorHandler: ErrorRequestHandler = (err, _req, res, next) => {
+  if (err instanceof SyntaxError && "body" in err) {
+    res.status(400).json({
+      error: "Invalid JSON request body"
+    });
+    return;
+  }
+
+  next(err);
+};
+
+app.use(jsonParseErrorHandler);
 
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
