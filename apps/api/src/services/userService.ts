@@ -1,87 +1,73 @@
 /**
- * User service module.
- * Provides CRUD operations and business logic for user management.
+ * User service for managing user-related operations.
+ * Provides CRUD operations and business logic for user accounts.
  */
 
-import { PrismaClient, User, Prisma } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import { hashPassword } from '../utils/password';
 
 
-type CreateUserInput = Prisma.UserCreateInput;
+export type UserCreateInput = Omit<User, 'id' | 'createdAt' | 'updatedAt'>;
 
 /**
  * Retrieves all users from the database.
- * Excludes sensitive fields (password, emailVerified) from the result.
- *
- * @returns {Promise<Partial<User>[]>} Array of user objects without sensitive data
+ * @returns {Promise<User[]>} A promise that resolves to an array of all users.
  */
-export async function getAllUsers(): Promise<Partial<User>[]> {
-  return prisma.user.findMany({
-    select: {
+export async function getAllUsers(): Promise<User[]>;
+
+export async function getAllUsers(): Promise<User[]> {
+  return prisma.user.findMany();
+}
+export async function getUserById(id: string): Promise<User | null> {
+  return prisma.user.findUnique({ where: { id } });
+}
+/**
+ * Finds a user by their email address.
+ * @param {string} email - The email address to search for.
+ * @returns {Promise<User | null>} A promise that resolves to the user if found, null otherwise.
+ */
+export async function getUserByEmail(email: string): Promise<User | null>;
+
+export async function getUserByEmail(email: string): Promise<User | null> {
+  return prisma.user.findUnique({ where: { email } });
+export async function createUser(data: UserCreateInput): Promise<User> {
+  const hashedPassword = await hashPassword(data.password);
+
+/**
+ * Creates a new user with a hashed password.
+ * @param {UserCreateInput} data - The user data to create.
+ * @returns {Promise<User>} A promise that resolves to the newly created user.
+ */
+export async function createUser(data: UserCreateInput): Promise<User>;
+
+export async function createUser(data: UserCreateInput): Promise<User> {
+  return prisma.user.create({
+    data: {
+      ...data,
   });
 }
 
 /**
- * Finds a single user by their unique identifier.
- * Excludes the password field from the result.
- *
- * @param {string} id - The unique user ID
- * @returns {Promise<Partial<User> | null>} The user object without password, or null if not found
+ * Updates an existing user's information.
+ * @param {string} id - The ID of the user to update.
+ * @param {Partial<User>} data - The user data to update.
+ * @returns {Promise<User>} A promise that resolves to the updated user.
  */
-export async function getUserById(id: string): Promise<Partial<User> | null> {
-  return prisma.user.findUnique({
+export async function updateUser(id: string, data: Partial<User>): Promise<User>;
+
+export async function updateUser(id: string, data: Partial<User>): Promise<User> {
+  return prisma.user.update({
     where: { id },
   });
 }
 
 /**
- * Finds a single user by their email address.
- * Includes the password hash for authentication purposes.
- *
- * @param {string} email - The user's email address
- * @returns {Promise<User | null>} The user object with password, or null if not found
+ * Deletes a user from the database.
+ * @param {string} id - The ID of the user to delete.
+ * @returns {Promise<User>} A promise that resolves to the deleted user.
  */
-export async function getUserByEmail(email: string): Promise<User | null> {
-  return prisma.user.findUnique({
-    where: { email },
-}
+export async function deleteUser(id: string): Promise<User>;
 
-// TODO: Add password hashing before creating user
-/**
- * Creates a new user in the database.
- * Hashes the provided password before storage.
- * TODO: Implement password hashing.
- *
- * @param {CreateUserInput} data - The user data to create
- * @returns {Promise<User>} The newly created user object
- */
-export async function createUser(data: CreateUserInput): Promise<User> {
-  const hashedPassword = await hashPassword(data.password as string);
-  return prisma.user.create({
-}
-
-// TODO: Add password hashing before updating user
-/**
- * Updates an existing user's information.
- * Hashes the provided password before storage if included.
- * TODO: Implement password hashing.
- *
- * @param {string} id - The unique user ID to update
- * @param {Prisma.UserUpdateInput} data - The fields to update
- * @returns {Promise<User>} The updated user object
- */
-export async function updateUser(
-  id: string,
-  data: Prisma.UserUpdateInput
-  });
-}
-
-/**
- * Permanently removes a user from the database.
- *
- * @param {string} id - The unique user ID to delete
- * @returns {Promise<User>} The deleted user object
- */
 export async function deleteUser(id: string): Promise<User> {
   return prisma.user.delete({
     where: { id },
