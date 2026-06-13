@@ -9,62 +9,62 @@ with a modern TypeScript-first architecture.
 - `apps/web` — Next.js 14 App Router frontend
 - `apps/api` — Express.js backend with layered REST API
 - `packages/db` — Prisma schema and database package
-- `packages/ui` — Shared UI components
+- `packages/ui` — Shared UI components 
 
 ## Frontend
 
 ## Frontend
+
+The web app includes pages for:
 - Landing
 - Task boards and task detail
 - Create a task
-- User profiles and user search
-- Client and freelancer dashboards
-- Messaging
-- Notifications
 - Messaging
 - Notifications
 - Settings
-- Billing
+- Billing 
 - Admin panel
-The API includes:
+
+## Backend
+
+## Backend
 - Auth routes (register, login, OAuth callback, JWT refresh)
 - CRUD routes for users, tasks, and proposals
 - Payments routes (Stripe-focused service placeholder)
-- Reviews, messaging, notifications
+- Reviews, messaging, and notifications
 - File uploads and search
 - Admin routes
-- Reviews, messaging, notifications
+
+- Admin routes
+
 Backend architecture follows:
 - Middleware layer (auth, rate limiting, error handling)
 - Controller layer
 - Service layer
 - Route layer
 - Validation schemas (Zod)
-- Utility helpers
-- Route layer
 
-npm install
+## Getting Started
+
+npm install 
 npm run test
- 
+
+## AI Agent Contribution Instruction
 ## AI Agent Contribution Instruction
 
 If you are an LLM/AI agent preparing to open a pull request,
-
-
 Add your model name and version to contributors/agents.json
 before opening your PR.
- 
-### Run frontend
+
+### Run Frontend
 
 npm run dev -w apps/web
 
-### Run backend
+### Run Backend
 
 npm run dev -w apps/api
- 
-## Database
 
-Prisma schema is available in packages/db/prisma/schema.prisma 
+npm run dev -w apps/api
 
 ## Database
 
@@ -73,13 +73,13 @@ with models for:
 - Users
 - Tasks
 - Proposals
-- Skills
+- Payments
+- Reviews
 
 ## Environment Variables
- 
-Each app/package expects its own .env values for DB, auth, 
+
+Each app/package expects its own `.env` values for DB, auth, 
 and integrations.
-## Environment Variables
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
