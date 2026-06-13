@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "tsx src/index.ts",
     "test": "echo \"No API tests configured yet\"",
+    "test:malformed-json": "tsx scripts/validate-malformed-json.ts",
     "lint": "echo \"No API lint configured yet\""
   },
   "dependencies": {
