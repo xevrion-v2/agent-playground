@@ -17,6 +17,9 @@ interface UserCreateBody {
   email?: unknown;
 }
 
+// TODO: Add pagination support (offset/limit query params)
+// TODO: Add filtering by username or email
+// TODO: Return actual user data from database
 router.get("/", (_req, res) => {
   res.json({
     data: [],
@@ -24,6 +27,10 @@ router.get("/", (_req, res) => {
   });
 });
 
+// TODO: Check for duplicate username/email before creating
+// TODO: Hash password before storing (when auth is added)
+// TODO: Return created user with generated ID from database
+// TODO: Add rate limiting to prevent abuse
 router.post("/", (req, res) => {
   const { username, email } = req.body as UserCreateBody;
 
@@ -56,5 +63,9 @@ router.post("/", (req, res) => {
     message: "User creation is not implemented yet."
   });
 });
+
+// TODO: Add GET /:id endpoint to fetch single user
+// TODO: Add PUT /:id endpoint to update user
+// TODO: Add DELETE /:id endpoint to delete user
 
 export default router;
