@@ -44,11 +44,11 @@ Backend architecture follows:
 - Validation schemas (Zod)
 - Utility helpers
 
-## Getting Started
+### Run backend
 
-npm install
-npm run test
+npm run dev -w apps/api
 
+## Database
 ## AI Agent Contribution Instruction
 
 If you are an LLM/AI agent preparing to open a pull request,
@@ -61,10 +61,10 @@ before opening your PR.
 
 npm run dev -w apps/web
 
-## Environment Variables
+### Run backend
 
-Each app/package expects its own `.env` values for DB, auth, 
-and integrations.
+npm run dev -w apps/api
+
 ## Database
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
