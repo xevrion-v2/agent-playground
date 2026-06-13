@@ -1,9 +1,10 @@
 import express from "express";
 
+import { getPort } from "./config";
 import usersRouter from "./routes/users";
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = getPort();
 
 app.use(express.json());
 
