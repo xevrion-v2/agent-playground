@@ -81,5 +81,9 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app expects its own environment variables for DB, auth, and integrations.
+
+- `apps/api/.env.example` — API server config (database, JWT, OAuth, Stripe, CORS)
+- `apps/web/.env.example` — Next.js frontend config (API URL, NextAuth, OAuth, Stripe)
+
+Copy the example file to `.env` (API) or `.env.local` (web) and fill in your values.
