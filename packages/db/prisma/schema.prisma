@@ -1,12 +1,15 @@
+/// Prisma client generation for the TaskFlow database package.
 generator client {
   provider = "prisma-client-js"
 }
 
+/// PostgreSQL datasource used by the TaskFlow app and API.
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+/// Represents a TaskFlow account owner or contributor.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +20,7 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// Stores a client task or freelance job posted in TaskFlow.
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +33,7 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// Tracks a freelancer proposal submitted against a job.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
