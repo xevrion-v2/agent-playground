@@ -1,3 +1,8 @@
+// Prisma schema for the TaskFlow domain.
+// Models represent the core entities: users who post jobs,
+// jobs that describe work to be done, and proposals from
+// freelancers who want to complete those jobs.
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,16 +12,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// A registered user who can post jobs and submit proposals.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
-  jobs      Job[]
-  proposals Proposal[]
+  jobs      Job[]        // Jobs created by this user
+  proposals Proposal[]   // Proposals submitted by this user
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A job posted by a user describing work to be completed.
+/// Status flows from "draft" → "open" → "in-progress" → "completed".
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -24,16 +32,18 @@ model Job {
   status      String     @default("draft")
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
+  proposals   Proposal[] // Proposals received for this job
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A proposal submitted by a freelancer in response to a job.
+/// Tracks the proposed amount and current review status.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
-  amount    Decimal?
-  status    String   @default("pending")
+  amount    Decimal? // Proposed price for completing the job
+  status    String   @default("pending") // pending | accepted | rejected
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   jobId     String
