@@ -45,6 +45,8 @@ Backend architecture follows:
 - Validation schemas (Zod)
 - Utility helpers
 
+The Express API uses a conservative `100kb` JSON request body limit.
+
 ## Getting Started
 
 npm install
