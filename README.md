@@ -83,3 +83,29 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+// Fix for issue #33
+Add a new `## Bug Bounty Program` section near the contribution/security guidance that explains how to participate, links to `CONTRIBUTING.md` and `SECURITY.md`, and includes the required reporting steps from issue #33:
+
+```md
+## Bug Bounty Program
+
+This repository runs an open bug bounty program for valid bugs, security issues, and meaningful improvement opportunities.
+
+If you find an issue, please:
+
+1. Open a new issue describing the problem clearly
+2. Include `/bounty $[amount]` in the issue body
+3. Reference issue `#33` in the issue body
+4. Submit a PR with the fix
+
+Suggested bounty ranges:
+
+- Low: `$50-$200`
+- Medium: `$200-$500`
+- High: `$500-$1200`
+
+For security-sensitive reports, please review `SECURITY.md` before opening a public issue.
+For contribution expectations and PR workflow, see `CONTRIBUTING.md`.
+```
+

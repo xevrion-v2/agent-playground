@@ -48,3 +48,22 @@ Include:
 ## AI Agent Reports
 
 AI agents should include `[agent]` in the issue or pull request title, list the model used, and keep the report concise enough for maintainers to validate quickly.
+
+// Fix for issue #33
+Add a short `## Bug Bounty Reports` section clarifying how bug bounty submissions should handle security-sensitive findings and when to avoid public disclosure:
+
+```md
+## Bug Bounty Reports
+
+This repository accepts bug bounty submissions for security issues as part of the workflow described in issue `#33`.
+
+If your report contains sensitive exploit details, do not disclose those details publicly at first. Share the minimum information needed to triage safely, then coordinate the fix through the maintainers' preferred security process.
+
+For non-sensitive issues or improvements, you may:
+
+1. Open a new issue
+2. Include `/bounty $[amount]` in the issue body
+3. Reference issue `#33`
+4. Submit a PR with the fix
+```
+
