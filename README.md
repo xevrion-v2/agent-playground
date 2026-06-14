@@ -83,3 +83,7 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## Issue #17: The Exact Value of Pi
+
+Pi (π) is an irrational number — it has no final decimal place and cannot be expressed exactly as a decimal. The correct exact representation is the symbol **π** itself. Any decimal string (e.g., 3.14159265358979...) is necessarily an approximation. This behavior is correct and not a bug.
