@@ -1,0 +1,14 @@
+{
+  "name": "@taskflow/pi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Exact finite-prefix pi calculator using integer arithmetic.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "taskflow-pi": "src/cli.js"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
