@@ -83,3 +83,16 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## Infinite Sequence Utilities
+
+The shared UI package includes small infinite sequence helpers for demos and
+fixtures. Always consume infinite iterables through a bounded helper such as
+`take`:
+
+```ts
+import { countFrom, repeat, take } from "@taskflow/ui";
+
+take(countFrom(1), 3); // [1, 2, 3]
+take(repeat("loading"), 2); // ["loading", "loading"]
+```
