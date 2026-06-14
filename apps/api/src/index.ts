@@ -1,7 +1,8 @@
-import express from "express";
-
-import usersRouter from "./routes/users";
-
+import express, { Request, Response } from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { authRouter } from './routes/auth';
 const app = express();
 const port = process.env.PORT || 4000;
 
@@ -12,7 +13,11 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/users", usersRouter);
+const app = express();
 
-app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
-});
+app.use(cors());
+// JSON body size limit: 100 KB (conservative limit to prevent abuse)
+app.use(express.json({ limit: '100kb' }));
+
+// Health check
+app.get('/health', (_req: Request, res: Response) => {
