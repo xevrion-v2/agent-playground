@@ -1,0 +1,16 @@
+{
+  "name": "@taskflow/pi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Exact finite pi prefix utilities for TaskFlow challenges.",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "tsx --test src/index.test.ts",
+    "demo": "tsx src/cli.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.5"
+  }
+}
