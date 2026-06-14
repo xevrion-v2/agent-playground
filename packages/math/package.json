@@ -1,0 +1,6 @@
+{
+  "name": "@taskflow/math",
+  "version": "1.0.0",
+  "main": "src/pi.ts",
+  "types": "src/pi.ts"
+}
