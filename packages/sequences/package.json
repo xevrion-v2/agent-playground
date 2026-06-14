@@ -1,0 +1,12 @@
+{
+  "name": "@taskflow/sequences",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Safe infinite sequence utilities for TaskFlow examples.",
+  "type": "module",
+  "main": "src/index.mjs",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "lint": "node --check src/index.mjs && node --check test/sequences.test.mjs"
+  }
+}
