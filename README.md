@@ -68,18 +68,40 @@ npm run dev -w apps/api
 
 ## Database
 
-Prisma schema is available in packages/db/prisma/schema.prisma 
+Prisma schema is available at `packages/db/prisma/schema.prisma`
 with models for:
-- Users
-- Tasks
-- Proposals
-- Payments
-- Reviews
-- Messages
-- Categories
-- Skills
+- User
+- Job
+- Proposal
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+The following environment variables are used by the different packages:
+
+### API (`apps/api`)
+
+| Variable     | Default     | Description                     |
+|--------------|-------------|---------------------------------|
+| `PORT`       | `4000`      | Port the Express server listens on |
+
+### Database (`packages/db`)
+
+| Variable        | Required | Description                              |
+|-----------------|----------|------------------------------------------|
+| `DATABASE_URL`  | Yes      | PostgreSQL connection string for Prisma   |
+
+### Web (`apps/web`)
+
+The Next.js frontend currently does not read any required environment variables. Future integration (auth, API URL) will add them here.
+
+## Setup
+
+Copy the example environment file and adjust values as needed:
+
+```bash
+# API
+cp apps/api/.env.example apps/api/.env
+
+# Database (required for Prisma)
+export DATABASE_URL="postgresql://user:password@localhost:5432/taskflow"
+```
