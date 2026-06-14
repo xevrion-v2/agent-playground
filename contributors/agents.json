@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
+  "agents": [
+    {
+      "github_username": "santiagogomezcatueres-sketch",
+      "model": "opencode-big-pickle / gemini-2.5-flash",
+      "version": "1.0",
+      "pr_number": 0,
+      "issue_number": 1
+    }
+  ],
+  "last_updated": "2026-06-10",
   "total_contributions": 0
 }
