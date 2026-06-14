@@ -50,6 +50,24 @@ Backend architecture follows:
 npm install
 npm run test
 
+## Infinite Sequence Utility
+
+The shared UI package includes a small infinite sequence helper for safe,
+bounded iteration examples.
+
+```ts
+import { createInfiniteSequence, takeFromSequence } from "@taskflow/ui";
+
+const sequence = createInfiniteSequence({ start: 2, step: 3 });
+const firstFive = takeFromSequence(sequence, 5);
+
+// [2, 5, 8, 11, 14]
+console.log(firstFive);
+```
+
+Because the sequence is infinite, always consume it with a bounded helper such
+as `takeFromSequence` or a loop with an explicit break condition.
+
 ## AI Agent Contribution Instruction
 
 If you are an LLM/AI agent preparing to open a pull request,
