@@ -1,21 +1,35 @@
-import { Router } from "express";
+﻿import { Router } from "express";
+import { listUsers, createUser } from "../services/userService.js";
 
 const router = Router();
 
-router.get("/", (_req, res) => {
+/**
+ * GET /users
+ *
+ * Returns the current list of all users.
+ * Delegates to the user service layer for data retrieval.
+ */
+router.get("/", async (_req, res) => {
+  const data = await listUsers();
   res.json({
-    data: [],
-    message: "User listing is not implemented yet."
+    data,
+    message: data.length > 0
+      ? `Found ${data.length} user(s).`
+      : "No users found.",
   });
 });
 
-router.post("/", (req, res) => {
+/**
+ * POST /users
+ *
+ * Creates a new user from the request body.
+ * Delegates to the user service layer for creation.
+ */
+router.post("/", async (req, res) => {
+  const data = await createUser(req.body);
   res.status(201).json({
-    data: {
-      id: "stub-user-id",
-      ...req.body
-    },
-    message: "User creation is not implemented yet."
+    data,
+    message: `User "${data.id}" created successfully.`,
   });
 });
 
