@@ -16,4 +16,18 @@
   "engines": {
     "node": ">=20"
   }
+{
+  "name": "taskflow-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces",
+    "dev": "npm run dev --workspaces",
+    "build": "npm run build --workspaces"
+  }
+}
 }
