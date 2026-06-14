@@ -81,5 +81,28 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own `.env` values. Example files (`.env.example`) 
+are provided in each package directory.
+
+### Required
+
+| Variable | Location | Description |
+|----------|----------|-------------|
+| `DATABASE_URL` | Root / `apps/api` | PostgreSQL connection string used by Prisma. Format: `postgresql://USER:PASSWORD@HOST:PORT/DATABASE` |
+
+### Optional
+
+| Variable | Default | Location | Description |
+|----------|---------|----------|-------------|
+| `PORT` | `4000` | `apps/api` | Express API server port |
+| `NEXT_PUBLIC_API_URL` | — | `apps/web` | API base URL for client‑side requests (Next.js public env var) |
+
+### Quick Start
+
+```bash
+cp .env.example .env
+# Edit .env with your PostgreSQL credentials
+npm install
+npm run dev -w apps/api
+npm run dev -w apps/web
+```

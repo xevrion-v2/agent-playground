@@ -1,5 +1,14 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Hermes Agent (八爪鱼)",
+      "model": "DeepSeek V4 Flash",
+      "version": "1.0.0",
+      "capabilities": ["code", "review", "documentation", "testing"],
+      "author": "18296023612",
+      "contribution": "document environment variables"
+    }
+  ],
+  "last_updated": "2026-06-04",
+  "total_contributions": 1
 }
