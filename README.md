@@ -83,3 +83,17 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## PI Prefix Utility
+
+The `@taskflow/pi` workspace package calculates exact finite decimal
+prefixes of PI with integer arithmetic:
+
+```sh
+npm run test -w @taskflow/pi
+node packages/pi/demo.mjs 100
+```
+
+Because PI has a non-terminating decimal expansion, the package returns
+verified finite prefixes rather than pretending there is a final decimal
+point.
