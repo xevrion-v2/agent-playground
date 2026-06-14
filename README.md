@@ -44,6 +44,7 @@ Backend architecture follows:
 - Route layer
 - Validation schemas (Zod)
 - Utility helpers
+- API JSON body parser limit: `100kb` (conservative default)
 
 ## Getting Started
 
