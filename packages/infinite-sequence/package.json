@@ -1,0 +1,12 @@
+{
+  "name": "@taskflow/infinite-sequence",
+  "version": "1.0.0",
+  "description": "Lazy infinite sequence iterator with safe bounded consumption utilities",
+  "main": "index.js",
+  "scripts": {
+    "demo": "node index.js",
+    "test": "node index.js"
+  },
+  "keywords": ["iterator", "sequence", "lazy", "infinite", "generator", "functional"],
+  "license": "MIT"
+}
