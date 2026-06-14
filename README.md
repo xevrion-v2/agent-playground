@@ -45,6 +45,8 @@ Backend architecture follows:
 - Validation schemas (Zod)
 - Utility helpers
 
+Health checks return a consistent response envelope with `status` and `data` fields.
+
 ## Getting Started
 
 npm install
