@@ -17,8 +17,8 @@ with a modern TypeScript-first architecture.
 
 The web app includes pages for:
 - Landing
-- Task boards and task detail
-- Create a task
+- Task boards and task details
+- Create tasks
 - User profiles and user search
 - Client and freelancer dashboards
 - Messaging
