@@ -37,6 +37,9 @@ The API includes:
 - File uploads and search
 - Admin routes
 
+The Express API accepts JSON request bodies up to `100kb`. Keep normal CRUD
+payloads below this limit; larger uploads should use a dedicated upload flow.
+
 Backend architecture follows:
 - Middleware layer (auth, rate limiting, error handling)
 - Controller layer
