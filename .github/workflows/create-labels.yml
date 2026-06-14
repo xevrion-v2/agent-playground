@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  contents: read
   issues: write
 
 jobs:
@@ -19,50 +20,23 @@ jobs:
         with:
           script: |
             const fs = require("fs");
+            const yaml = require("js-yaml");
 
             const content = fs.readFileSync(".github/labels.yml", "utf8");
-            const labels = [];
-            let current = null;
+            const labels = yaml.load(content);
 
-            for (const rawLine of content.split(/\r?\n/)) {
-              const line = rawLine.trim();
-
-              if (!line) {
-                continue;
-              }
-
-              if (line.startsWith("- name:")) {
-                if (current) {
-                  labels.push(current);
-                }
-
-                current = {
-                  name: line.replace("- name:", "").trim().replace(/^"|"$/g, "")
-                };
-                continue;
-              }
-
-              if (!current) {
-                continue;
-              }
-
-              const separatorIndex = line.indexOf(":");
-
-              if (separatorIndex === -1) {
-                continue;
-              }
-
-              const key = line.slice(0, separatorIndex).trim();
-              const value = line.slice(separatorIndex + 1).trim().replace(/^"|"$/g, "");
-              current[key] = value;
-            }
-
-            if (current) {
-              labels.push(current);
+            if (!Array.isArray(labels)) {
+              throw new Error("labels.yml must contain an array of label objects");
             }
 
             for (const label of labels) {
-              const color = label.color.replace(/^#/, "");
+              if (!label.name) {
+                console.warn("Skipping label without name:", label);
+                continue;
+              }
+
+              const color = (label.color || "ffffff").replace(/^#/, "");
+              const description = label.description || "";
 
               try {
                 await github.rest.issues.createLabel({
@@ -70,8 +44,9 @@ jobs:
                   repo: context.repo.repo,
                   name: label.name,
                   color,
-                  description: label.description || ""
+                  description
                 });
+                console.log(`Created label: ${label.name}`);
               } catch (error) {
                 if (error.status !== 422) {
                   throw error;
@@ -82,7 +57,8 @@ jobs:
                   repo: context.repo.repo,
                   name: label.name,
                   color,
-                  description: label.description || ""
+                  description
                 });
+                console.log(`Updated label: ${label.name}`);
               }
             }
