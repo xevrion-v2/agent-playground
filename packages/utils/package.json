@@ -1,0 +1,6 @@
+{
+  "name": "@taskflow/utils",
+  "version": "1.0.0",
+  "main": "src/iterator.ts",
+  "types": "src/iterator.ts"
+}
