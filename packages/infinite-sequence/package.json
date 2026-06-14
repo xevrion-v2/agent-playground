@@ -1,0 +1,13 @@
+{
+  "name": "@agent-playground/infinite-sequence",
+  "version": "1.0.0",
+  "description": "Infinite sequence iterator utility with safe consumption patterns",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx src/examples.ts"
+  },
+  "keywords": ["infinite", "sequence", "iterator", "generator", "typescript"],
+  "license": "MIT"
+}
