@@ -1,23 +1,12 @@
 /**
- * PI Calculator — Chudnovsky Algorithm with BigInt
+ * High-Precision PI Calculator — Chudnovsky Algorithm
+ * Computes exact finite decimal prefixes of PI to any requested precision.
+ * 
+ * Note: PI is irrational — infinite decimal expansion cannot be stored in finite space.
+ * This computes exact FINITE prefixes to any requested number of digits.
  */
 
-function isqrt(n) {
-  if (n < 0n) throw new Error("Square root of negative number");
-  if (n === 0n) return 0n;
-  let x = n;
-  let y = (x + 1n) / 2n;
-  while (y < x) {
-    x = y;
-    y = (x + n / x) / 2n;
-  }
-  return x;
-}
-
-export function computePi(digits = 100) {
-  if (!Number.isInteger(digits) || digits < 1) {
-    throw new Error("digits must be a positive integer");
-  }
+export function computePI(digits = 1000): string {
   const guard = 20;
   const precision = digits + guard;
   const one = 10n ** BigInt(precision);
@@ -29,6 +18,7 @@ export function computePi(digits = 100) {
 
   let sum = K_CONSTANT * one;
   let ak = one;
+
   const terms = Math.ceil(precision / 14) + 2;
 
   for (let k = 1; k <= terms; k++) {
@@ -47,13 +37,24 @@ export function computePi(digits = 100) {
   return absStr[0] + "." + absStr.slice(1, digits + 1);
 }
 
+function isqrt(n: bigint): bigint {
+  if (n < 0n) throw new Error("Square root of negative number");
+  if (n === 0n) return 0n;
+  let x = n;
+  let y = (x + 1n) / 2n;
+  while (y < x) {
+    x = y;
+    y = (x + n / x) / 2n;
+  }
+  return x;
+}
+
 export function getCertificate(digits = 100) {
-  const pi = computePi(digits);
+  const value = computePI(digits);
   return {
     digits,
-    value: pi,
+    value,
     algorithm: "Chudnovsky",
-    firstDigits: pi.slice(0, 12),
     timestamp: new Date().toISOString()
   };
 }
