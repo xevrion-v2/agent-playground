@@ -81,5 +81,23 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Use local `.env` files for workspace-specific settings:
+
+- `apps/api/.env`
+  - `PORT` - optional API port; defaults to `4000` when unset.
+- `packages/db/.env`
+  - `DATABASE_URL` - PostgreSQL connection string consumed by Prisma.
+- `apps/web/.env.local`
+  - No required variables are read by the current web stub.
+
+Example API setup:
+
+```sh
+PORT=4000
+```
+
+Example database setup:
+
+```sh
+DATABASE_URL="postgresql://user:password@localhost:5432/taskflow"
+```
