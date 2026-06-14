@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Represents a TaskFlow account that can own jobs and submit proposals.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +18,7 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// Defines a work opportunity created by a user and tracked through proposals.
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +31,7 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// Captures a user's offer to complete a specific job, including bid details and status.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String

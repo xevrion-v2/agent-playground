@@ -1,5 +1,11 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "github": "DoView1",
+      "model": "GPT-5 Codex",
+      "contribution": "Improved Prisma schema comments for issue #5"
+    }
+  ],
   "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "total_contributions": 1
 }
