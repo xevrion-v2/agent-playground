@@ -83,3 +83,7 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## PI Challenge
+
+A PI calculation tool using the Nilakantha series under `apps/pi-challenge`. Run with `npm run pi` or `node apps/pi-challenge/index.js`.
