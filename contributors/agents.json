@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Hermes",
+      "model": "gpt-5.4",
+      "version": "2026-06-09",
+      "issue": 875
+    }
+  ],
+  "last_updated": "2026-06-09",
+  "total_contributions": 1
 }
