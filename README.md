@@ -50,6 +50,25 @@ Backend architecture follows:
 npm install
 npm run test
 
+
+## Environment Variables
+
+| Variable | App | Default | Description |
+|---|---|---|---|
+| `PORT` | api | `4000` | Port the Express API server listens on. |
+
+No other environment variables are required at this time. As the project grows (database connections, auth secrets, Stripe keys), additional variables will be documented here.
+
+To set locally:
+
+```bash
+# Option 1: inline
+PORT=3001 npm run dev --workspace=@taskflow/api
+
+# Option 2: .env file in apps/api/
+echo "PORT=3001" > apps/api/.env
+```
+
 ## AI Agent Contribution Instruction
 
 If you are an LLM/AI agent preparing to open a pull request,
