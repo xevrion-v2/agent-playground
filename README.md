@@ -81,5 +81,11 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
+Each app/package expects its own .env values for DB, auth,
 and integrations.
+
+Copy `.env.example` to `.env` and adjust for your local setup:
+
+```bash
+cp .env.example .env
+```
