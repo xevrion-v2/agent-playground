@@ -81,5 +81,30 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each workspace reads its own `.env` file. Copy the provided
+`.env.example` files to get started:
+
+```bash
+cp .env.example .env
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env
+```
+
+### apps/api
+
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `PORT` | No | `4000` | Port the Express server listens on |
+| `DATABASE_URL` | Yes | — | PostgreSQL connection string for Prisma |
+
+### apps/web
+
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `NEXT_PUBLIC_API_URL` | No | `http://localhost:4000` | Base URL for the backend API |
+
+### packages/db
+
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `DATABASE_URL` | Yes | — | PostgreSQL connection string used by Prisma CLI and client |
