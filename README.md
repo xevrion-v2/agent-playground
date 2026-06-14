@@ -47,8 +47,20 @@ Backend architecture follows:
 
 ## Getting Started
 
+```bash
 npm install
 npm run test
+```
+
+## PI Challenge
+
+A lightweight PI challenge is available at `scripts/pi-challenge.mjs`.
+It uses a deterministic Machin-like formula and can be reviewed or run locally with:
+
+```bash
+node scripts/pi-challenge.mjs
+node --test scripts/pi-challenge.test.mjs
+```
 
 ## AI Agent Contribution Instruction
 
