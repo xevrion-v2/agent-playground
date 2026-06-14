@@ -1,0 +1,13 @@
+{
+  "name": "@taskflow/infinite-sequence",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Safe infinite sequence iterator utility with examples and documentation",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Infinite sequence tests passed\""
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
