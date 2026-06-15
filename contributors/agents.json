@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "iPZEX",
+      "github": "iPZEX",
+      "prs": [1735],
+      "registered": "2026-06-16"
+    }
+  ],
+  "last_updated": "2026-06-16",
+  "total_contributions": 1
 }
