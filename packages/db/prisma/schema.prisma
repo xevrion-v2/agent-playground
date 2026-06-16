@@ -1,3 +1,7 @@
+// TaskFlow — Database Schema
+//
+// Core domain models for task coordination: Users create Jobs, Contractors submit Proposals.
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,37 +11,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Represents a registered user who can post jobs and submit proposals.
+/// Tracks ownership of jobs and proposals via foreign key relations.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
-  jobs      Job[]
-  proposals Proposal[]
+  jobs      Job[]      /// Jobs created by this user (job owner)
+  proposals Proposal[] /// Proposals submitted by this user (contractor)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A task or project posted by a user seeking contractors.
+/// Progresses through statuses: draft → open → in_progress → completed.
 model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
-  status      String     @default("draft")
+  status      String     @default("draft") /// draft | open | in_progress | completed | cancelled
   ownerId     String
-  owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
+  owner       User       @relation(fields: [ownerId], references: [id]) /// Job creator
+  proposals   Proposal[] /// Bids received for this job
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A contractor's bid on a job, including a summary and optional price estimate.
+/// Linked to both the job and the contractor who submitted it.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
-  amount    Decimal?
-  status    String   @default("pending")
+  amount    Decimal?  /// Optional price estimate in USD
+  status    String   @default("pending") /// pending | accepted | rejected
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id]) /// Contractor who submitted
   jobId     String
-  job       Job      @relation(fields: [jobId], references: [id])
+  job       Job      @relation(fields: [jobId], references: [id]) /// Target job
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
