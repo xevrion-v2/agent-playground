@@ -71,13 +71,8 @@ npm run dev -w apps/api
 Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
 - Users
-- Tasks
+- Jobs
 - Proposals
-- Payments
-- Reviews
-- Messages
-- Categories
-- Skills
 
 ## Environment Variables
 
