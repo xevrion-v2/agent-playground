@@ -1,0 +1,1 @@
+{"name":"@xevrion/sequence","version":"1.0.0","type":"module","main":"./src/index.js","exports":{"./src/index.js":"./src/index.js","./*":"./*"},"scripts":{"test":"node --test"},"dependencies":{}}
