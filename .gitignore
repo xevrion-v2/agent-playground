@@ -8,6 +8,8 @@ node_modules/
 dist/
 build/
 coverage/
+**/.tmp-test/
+*.tsbuildinfo
 
 # Logs
 *.log
