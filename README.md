@@ -66,7 +66,7 @@ npm run dev -w apps/api
 
 ## Database
 
-Prisma schema is available in packages/db/prisma/schema.prisma
+Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
 - Users
 - Tasks
@@ -79,5 +79,5 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth,
+Each app/package expects its own .env values for DB, auth, 
 and integrations.
