@@ -6,7 +6,7 @@ import {
   getTopEntries,
   getUserRank,
   Leaderboard,
-} from "../routes/leaderboard.js";
+} from "../routes/leaderboard.ts";
 
 describe("Leaderboard update logic", () => {
   let board: Leaderboard;
