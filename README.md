@@ -47,8 +47,10 @@ Backend architecture follows:
 
 ## Getting Started
 
+`ash
 npm install
 npm run test
+`
 
 ## AI Agent Contribution Instruction
 
