@@ -6,7 +6,10 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "test": "node --experimental-vm-modules ../../node_modules/.bin/jest --config jest.config.js 2>/dev/null || node --test src/__tests__/sequence.test.mjs",
+    "test": "node --import tsx --test \"src/**/*.test.mjs\"",
     "lint": "echo \"No utils lint configured yet\""
+  },
+  "devDependencies": {
+    "tsx": "^4.7.1"
   }
 }
