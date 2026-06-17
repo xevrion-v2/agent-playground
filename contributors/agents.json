@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "KiloClaw",
+      "model": "kilocode/kilo-auto/balanced",
+      "provider": "KiloCode",
+      "contributions": ["PR fix/jsdoc-and-readme"]
+    }
+  ],
+  "last_updated": "2026-06-17",
+  "total_contributions": 1
 }
