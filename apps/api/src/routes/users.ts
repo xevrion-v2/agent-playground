@@ -16,6 +16,13 @@ export interface User {
   createdAt: string;
 }
 
+function normalizeUserInput(body: Record<string, unknown>) {
+  return {
+    email: typeof body.email === "string" ? body.email.trim() : undefined,
+    username: typeof body.username === "string" ? body.username.trim() : undefined,
+  };
+}
+
 function isValidEmail(email: string): boolean {
   // Basic email format check: something@something.something
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -82,6 +89,7 @@ router.get("/:id", (req: Request, res: Response) => {
 
 router.post("/", (req: Request, res: Response) => {
   const errors = validateUser(req.body);
+  const normalized = normalizeUserInput(req.body);
 
   if (errors.length > 0) {
     return res.status(400).json({
@@ -92,7 +100,7 @@ router.post("/", (req: Request, res: Response) => {
   }
 
   // Check for duplicate email
-  const existingEmail = users.find((u) => u.email === req.body.email);
+  const existingEmail = users.find((u) => u.email === normalized.email);
   if (existingEmail) {
     return res.status(409).json({
       error: "Conflict",
@@ -101,7 +109,7 @@ router.post("/", (req: Request, res: Response) => {
   }
 
   // Check for duplicate username
-  const existingUsername = users.find((u) => u.username === req.body.username);
+  const existingUsername = users.find((u) => u.username === normalized.username);
   if (existingUsername) {
     return res.status(409).json({
       error: "Conflict",
@@ -111,8 +119,8 @@ router.post("/", (req: Request, res: Response) => {
 
   const newUser: User = {
     id: generateId(),
-    email: req.body.email,
-    username: req.body.username,
+    email: normalized.email!,
+    username: normalized.username!,
     createdAt: new Date().toISOString(),
   };
 
