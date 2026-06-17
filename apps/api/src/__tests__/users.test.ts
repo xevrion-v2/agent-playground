@@ -4,7 +4,7 @@ import {
   isValidEmail,
   isValidUsername,
   validateUser,
-} from "../routes/users.js";
+} from "../routes/users.ts";
 
 describe("User route validation helpers", () => {
   describe("isValidEmail", () => {
