@@ -19,4 +19,14 @@ router.post("/", (req, res) => {
   });
 });
 
+router.all("/", (req, res) => {
+  res.set("Allow", "GET, POST");
+  res.status(405).json({
+    error: {
+      code: "METHOD_NOT_ALLOWED",
+      message: `Method ${req.method} is not allowed for /users.`
+    }
+  });
+});
+
 export default router;
