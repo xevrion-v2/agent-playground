@@ -1,41 +1,72 @@
-import { describe, it } from 'node:test';
+import { afterEach, describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { once } from 'node:events';
+import type { AddressInfo } from 'node:net';
+import { createApp } from '../index.ts';
 
 describe('Body Size Limit', () => {
-  it('should have BODY_SIZE_LIMIT env var support', () => {
-    // Verify the env var is documented
-    assert.ok(true, 'BODY_SIZE_LIMIT env var exists');
+  const servers: Array<import('node:http').Server> = [];
+
+  async function startServer(limit = '100kb') {
+    const app = createApp(limit);
+    const server = app.listen(0);
+    servers.push(server);
+    await once(server, 'listening');
+    const address = server.address() as AddressInfo;
+    return `http://127.0.0.1:${address.port}`;
   });
 
-  it('should default to 100kb limit', () => {
-    const defaultLimit = '100kb';
-    assert.equal(defaultLimit, '100kb');
+  afterEach(() => {
+    while (servers.length > 0) {
+      servers.pop()?.close();
+    }
   });
 
-  it('should reject payloads exceeding limit', () => {
-    // Test that oversized payloads return 413
-    const mockBody = 'x'.repeat(200 * 1024); // 200KB
-    assert.ok(mockBody.length > 100 * 1024);
+  it('defaults to a 100kb body limit', async () => {
+    const baseUrl = await startServer();
+    const response = await fetch(`${baseUrl}/users`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: 'demo-user',
+        email: 'demo@example.com',
+        blob: 'x'.repeat(90 * 1024),
+      }),
+    });
+
+    assert.notEqual(response.status, 413);
   });
 
-  it('should accept payloads within limit', () => {
-    const mockBody = 'x'.repeat(50 * 1024); // 50KB
-    assert.ok(mockBody.length < 100 * 1024);
+  it('rejects oversized payloads with 413', async () => {
+    const baseUrl = await startServer('1kb');
+    const response = await fetch(`${baseUrl}/users`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: 'demo-user',
+        email: 'demo@example.com',
+        blob: 'x'.repeat(4 * 1024),
+      }),
+    });
+    const body = await response.json();
+
+    assert.equal(response.status, 413);
+    assert.equal(body.error, 'Payload Too Large');
+    assert.match(body.message, /1kb/);
   });
 
-  it('should handle custom BODY_SIZE_LIMIT', () => {
-    process.env.BODY_SIZE_LIMIT = '500kb';
-    assert.equal(process.env.BODY_SIZE_LIMIT, '500kb');
-    delete process.env.BODY_SIZE_LIMIT;
-  });
+  it('honors a larger custom limit', async () => {
+    const baseUrl = await startServer('10kb');
+    const response = await fetch(`${baseUrl}/users`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: 'demo-user',
+        email: 'demo@example.com',
+        blob: 'x'.repeat(4 * 1024),
+      }),
+    });
 
-  it('should return 413 status for too large requests', () => {
-    const statusCode = 413;
-    assert.equal(statusCode, 413);
-  });
-
-  it('should return helpful error message', () => {
-    const errorMsg = 'Request body too large';
-    assert.ok(errorMsg.includes('too large'));
+    assert.notEqual(response.status, 413);
   });
 });
