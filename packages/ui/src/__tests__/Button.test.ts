@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { Button, ButtonProps } from "../index.js";
+import { Button } from "../index.ts";
 
 describe("Button component", () => {
   it("should return an object with correct type", () => {
