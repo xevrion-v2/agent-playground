@@ -9,6 +9,18 @@ interface ValidationError {
   message: string;
 }
 
+interface NormalizedUserInput {
+  email?: string;
+  username?: string;
+}
+
+function normalizeUserInput(body: Record<string, unknown>): NormalizedUserInput {
+  return {
+    email: typeof body.email === "string" ? body.email.trim() : undefined,
+    username: typeof body.username === "string" ? body.username.trim() : undefined,
+  };
+}
+
 function isValidEmail(email: string): boolean {
   // Basic email format check: something@something.something
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -24,27 +36,31 @@ function isValidUsername(username: string): boolean {
   return usernameRegex.test(trimmed);
 }
 
-function validateUser(body: Record<string, unknown>): ValidationError[] {
+function validateUser(body: Record<string, unknown>): {
+  errors: ValidationError[];
+  normalized: NormalizedUserInput;
+} {
   const errors: ValidationError[] = [];
+  const normalized = normalizeUserInput(body);
 
   // Validate email
-  if (!body.email || typeof body.email !== "string") {
+  if (!normalized.email) {
     errors.push({ field: "email", message: "Email is required and must be a string." });
-  } else if (!isValidEmail(body.email)) {
+  } else if (!isValidEmail(normalized.email)) {
     errors.push({ field: "email", message: "Email must be a valid email address." });
   }
 
   // Validate username
-  if (!body.username || typeof body.username !== "string") {
+  if (!normalized.username) {
     errors.push({ field: "username", message: "Username is required and must be a string." });
-  } else if (!isValidUsername(body.username)) {
+  } else if (!isValidUsername(normalized.username)) {
     errors.push({
       field: "username",
       message: "Username must be 3-30 characters long and contain only letters, numbers, underscores, or hyphens.",
     });
   }
 
-  return errors;
+  return { errors, normalized };
 }
 
 router.get("/", (_req, res) => {
@@ -55,7 +71,7 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req: Request, res: Response) => {
-  const errors = validateUser(req.body);
+  const { errors, normalized } = validateUser(req.body);
 
   if (errors.length > 0) {
     return res.status(400).json({
@@ -68,8 +84,8 @@ router.post("/", (req: Request, res: Response) => {
   res.status(201).json({
     data: {
       id: "stub-user-id",
-      email: req.body.email,
-      username: req.body.username,
+      email: normalized.email,
+      username: normalized.username,
     },
     message: "User creation is not implemented yet.",
   });
