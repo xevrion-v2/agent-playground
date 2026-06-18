@@ -4,6 +4,8 @@
   "private": true,
   "description": "Prisma schema and database utilities for TaskFlow.",
   "scripts": {
+    "generate": "prisma generate",
+    "postinstall": "npm run generate",
     "test": "echo \"No database tests configured yet\"",
     "lint": "echo \"No database lint configured yet\""
   },
