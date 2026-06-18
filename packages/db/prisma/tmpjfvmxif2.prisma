@@ -1,0 +1,53 @@
+// Generator and datasource configuration
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Core user model for authentication and profile management
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String?
+  // Jobs owned by this user (client role)
+  jobs      Job[]
+  // Proposals submitted by this user (freelancer role)
+  proposals Proposal[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+// Task/job listing model posted by clients
+model Job {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  // Current status: draft, open, in_progress, completed, cancelled
+  status      String     @default("draft")
+  ownerId     String
+  owner       User       @relation(fields: [ownerId], references: [id])
+  // Proposals submitted by freelancers for this job
+  proposals   Proposal[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+// Freelancer proposal/bid on a job listing
+model Proposal {
+  id        String   @id @default(cuid())
+  summary   String
+  // Proposed budget/rate for the job
+  amount    Decimal?
+  // Current status: pending, accepted, rejected, withdrawn
+  status    String   @default("pending")
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
