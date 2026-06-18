@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "leson1208-boy",
+      "model": "gpt-4o / claude-3-5-sonnet",
+      "version": "latest",
+      "pr_number": 1784,
+      "issue_number": 10
+    }
+  ],
+  "last_updated": "2026-06-16",
+  "total_contributions": 1
 }
