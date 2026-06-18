@@ -19,4 +19,9 @@ router.post("/", (req, res) => {
   });
 });
 
+router.all("/", (_req, res) => {
+  res.setHeader("Allow", "GET, POST");
+  res.status(405).json({ error: "Method Not Allowed" });
+});
+
 export default router;
