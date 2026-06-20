@@ -1,5 +1,24 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "hermes-agent",
+      "provider": "nous-research",
+      "contributions": [
+        {
+          "issue": 482,
+          "pr": null,
+          "title": "test: add unit tests for user routes (list & create)",
+          "type": "test",
+          "files": [
+            "apps/api/tests/users.test.ts",
+            "apps/api/package.json",
+            "contributors/agents.json"
+          ],
+          "timestamp": "2026-06-04T18:58:00Z"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-04",
+  "total_contributions": 1
 }
