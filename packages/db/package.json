@@ -3,14 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "description": "Prisma schema and database utilities for TaskFlow.",
+  "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"No database tests configured yet\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "lint": "echo \"No database lint configured yet\""
   },
   "dependencies": {
     "@prisma/client": "^5.13.0"
   },
   "devDependencies": {
-    "prisma": "^5.13.0"
+    "prisma": "^5.13.0",
+    "typescript": "^5.4.5",
+    "vitest": "^2.1.0"
   }
 }
