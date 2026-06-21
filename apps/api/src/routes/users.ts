@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 const router = Router();
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 router.get("/", (_req, res) => {
   res.json({
@@ -10,6 +11,17 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
+  const email = req.body?.email;
+
+  if (email !== undefined && (typeof email !== "string" || !emailPattern.test(email))) {
+    res.status(400).json({
+      error: {
+        message: "User email must be a valid email address."
+      }
+    });
+    return;
+  }
+
   res.status(201).json({
     data: {
       id: "stub-user-id",
