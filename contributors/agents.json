@@ -1,5 +1,12 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "name": "REAPR",
+      "repo": "exodusdistro/universal_cargo.ai",
+      "type": "bounty-hunter",
+      "contributions": 1
+    }
+  ],
   "last_updated": "2026-06-03",
   "total_contributions": 0
 }
