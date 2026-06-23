@@ -6,6 +6,10 @@ import usersRouter from "./routes/users";
 const app = express();
 const port = process.env.PORT || 4000;
 
+// Security: disable framework disclosure and weak ETags for dynamic responses
+app.disable("x-powered-by");
+app.set("etag", false);
+
 app.use(cors());
 app.use(express.json());
 
