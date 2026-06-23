@@ -81,5 +81,24 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own `.env` file at its root. Below are the expected variables:
+
+### `apps/api`
+
+| Variable       | Required | Default  | Description            |
+|----------------|----------|----------|------------------------|
+| `PORT`         | No       | `4000`   | API server port        |
+
+### `packages/db`
+
+| Variable        | Required | Default | Description                                  |
+|-----------------|----------|---------|----------------------------------------------|
+| `DATABASE_URL`  | Yes      | —       | PostgreSQL connection string for Prisma      |
+
+### `apps/web`
+
+| Variable                 | Required | Default | Description                        |
+|--------------------------|----------|---------|------------------------------------|
+| `NEXT_PUBLIC_API_URL`    | Yes      | —       | URL of the backend API             |
+
+Create a `.env` file in the respective directory and add the required values before running the app.
