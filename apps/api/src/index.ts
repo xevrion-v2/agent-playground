@@ -39,3 +39,11 @@ app.use((_req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
 });
+
+// TODO: Add auth routes (register, login, OAuth callback, JWT refresh)
+// TODO: Add tasks routes (CRUD for tasks)
+// TODO: Add proposals routes (CRUD for proposals)
+// TODO: Add payments routes (Stripe integration)
+// TODO: Add reviews, messaging, notifications routes
+// TODO: Add file uploads and search routes
+// TODO: Add admin routes
