@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import { validateCreateUser } from "../../middleware/validation";
+
 const router = Router();
 
 router.get("/", (_req, res) => {
@@ -9,11 +11,12 @@ router.get("/", (_req, res) => {
   });
 });
 
-router.post("/", (req, res) => {
+router.post("/", validateCreateUser, (req, res) => {
   res.status(201).json({
     data: {
       id: "stub-user-id",
-      ...req.body
+      email: req.body.email,
+      name: req.body.name || null
     },
     message: "User creation is not implemented yet."
   });
