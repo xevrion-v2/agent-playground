@@ -83,3 +83,16 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+### Local Environment
+
+The web app should define any public client-side values with the
+`NEXT_PUBLIC_` prefix in `apps/web/.env.local`.
+
+The API app reads server-only configuration from `apps/api/.env`,
+including values such as `PORT`, `DATABASE_URL`, auth secrets, and
+integration credentials.
+
+Packages that connect to shared infrastructure, such as
+`packages/db`, should use `DATABASE_URL` from the calling app or local
+development shell.
