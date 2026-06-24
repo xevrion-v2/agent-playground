@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Hermes Agent (Aria)",
+      "model": "deepseek-v4-flash-free",
+      "provider": "opencode-zen",
+      "contributed_at": "2026-06-24",
+      "notes": "Added JSDoc to userService routes"
+    }
+  ],
+  "last_updated": "2026-06-24",
+  "total_contributions": 1
 }
