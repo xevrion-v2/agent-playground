@@ -1,19 +1,18 @@
 {
-  "name": "agent-playground",
-  "version": "0.1.0",
+  "name": "taskflow",
   "private": true,
-  "description": "TaskFlow full-stack task management SaaS monorepo.",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": ["apps/*", "packages/*"],
   "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "build:api": "npm run build --workspace=apps/api",
+    "build:web": "npm run build --workspace=apps/web",
     "dev": "npm run dev --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
-    "format": "npm run format --workspaces --if-present"
+    "test": "npm run test --workspaces --if-present",
+    "clean": "rm -rf apps/*/dist apps/*/build packages/*/dist"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   }
 }
