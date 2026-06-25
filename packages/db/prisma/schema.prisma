@@ -7,6 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ──────────────────────────────────────────────
+// TaskFlow Domain Models
+// ──────────────────────────────────────────────
+
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -32,7 +36,8 @@ model Job {
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
-  amount    Decimal?
+  // PostgreSQL DECIMAL(10,2) — supports up to $99999999.99
+  amount    Decimal? @db.Decimal(10, 2)
   status    String   @default("pending")
   userId    String
   user      User     @relation(fields: [userId], references: [id])
