@@ -1,3 +1,6 @@
+// TaskFlow monorepo database schema
+// Maps to PostgreSQL; managed via Prisma ORM.
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Represents a registered user (client or freelancer).
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +21,7 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+// A job posting created by a user; holds proposals from freelancers.
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +34,7 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+// A freelancer's proposal submitted to a job posting.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String

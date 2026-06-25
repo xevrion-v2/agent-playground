@@ -81,5 +81,13 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Copy `.env.example` into each app's root before running locally.
+
+| Variable | Where | Description | Default |
+|---|---|---|---|
+| `PORT` | `apps/api` | HTTP listen port | `4000` |
+| `DATABASE_URL` | `packages/db` | PostgreSQL connection string | — |
+| `JWT_SECRET` | `apps/api` | Signing key for auth middleware | — |
+| `NODE_ENV` | all | Runtime environment | `"development"` |
+| `NEXT_PUBLIC_API_URL` | `apps/web` | Base URL for the API backend | `http://localhost:4000` |
+| `LOG_LEVEL` | `apps/api` | Console log verbosity | `"info"` |
