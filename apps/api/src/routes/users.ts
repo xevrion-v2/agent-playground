@@ -11,10 +11,6 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
-  // ── 1. Reject non-object bodies ──────────────────────────────────
-  // express.json() in strict mode (the default) already rejects
-  // primitives and null.  This guard is a safety net for edge cases
-  // (e.g. if the middleware config changes) and for empty bodies.
   if (
     req.body === undefined ||
     req.body === null ||
@@ -27,16 +23,11 @@ router.post("/", (req, res) => {
     return;
   }
 
-  // ── 2. Validate & normalise with Zod ─────────────────────────────
   const result = createUserSchema.safeParse(req.body);
 
   if (!result.success) {
     const message = result.error.issues
-      .map((i) => {
-        // Prefix with field name when available
-        const path = i.path.length > 0 ? `${i.path.join(".")}: ` : "";
-        return `${path}${i.message}`;
-      })
+      .map((i) => `${i.path.join(".") ? `${i.path.join(".")}: ` : ""}${i.message}`)
       .join("; ");
     res.status(400).json({ error: message });
     return;
@@ -44,14 +35,14 @@ router.post("/", (req, res) => {
 
   const { email, name } = result.data;
 
-  // ── 3. Generate server-side id (cuid-style) ─────────────────────
+  // Stub cuid — real id generation belongs in the data layer.
   const id = `c${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
 
   res.status(201).json({
     data: {
       id,
       email,
-      name: name ?? null,
+      name,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     },
