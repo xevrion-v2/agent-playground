@@ -90,7 +90,31 @@ jobs:
               }
             ];
 
+            const quoteSearchTerm = (value) => `"${value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+
+            const findOpenIssueByTitle = async (title) => {
+              const { data } = await github.rest.search.issuesAndPullRequests({
+                q: [
+                  `repo:${context.repo.owner}/${context.repo.repo}`,
+                  "is:issue",
+                  "is:open",
+                  "in:title",
+                  quoteSearchTerm(title)
+                ].join(" "),
+                per_page: 20
+              });
+
+              return data.items.find((item) => item.title === title);
+            };
+
             for (const issue of issues) {
+              const existingIssue = await findOpenIssueByTitle(issue.title);
+
+              if (existingIssue) {
+                core.info(`Skipping existing starter issue #${existingIssue.number}: ${issue.title}`);
+                continue;
+              }
+
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
