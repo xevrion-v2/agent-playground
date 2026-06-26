@@ -11,11 +11,74 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Find canonical bounty issue
+        id: find-meta
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const existingIssues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              per_page: 100
+            });
+
+            const metaIssue = existingIssues.data.find(issue =>
+              issue.title.includes("Bug Bounty Program") && issue.title.includes("Participate")
+            );
+
+            if (metaIssue) {
+              core.setOutput("meta-issue-number", metaIssue.number.toString());
+              core.info(`Found meta issue: #${metaIssue.number}`);
+            } else {
+              core.warning("No canonical bounty program issue found");
+            }
+
+      - name: Ensure labels exist
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              { name: "good first issue", color: "7057ff", description: "Good for newcomers" },
+              { name: "bounty", color: "00FF00", description: "Has a bounty" },
+              { name: "AI agent friendly", color: "FF6B6B", description: "AI agents can work on this" }
+            ];
+
+            for (const label of labels) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                  color: label.color,
+                  description: label.description
+                });
+                core.info(`Created label: ${label.name}`);
+              } catch (error) {
+                if (error.status === 422) {
+                  await github.rest.issues.updateLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    current_name: label.name,
+                    name: label.name,
+                    color: label.color,
+                    description: label.description
+                  });
+                  core.info(`Updated label: ${label.name}`);
+                } else {
+                  throw error;
+                }
+              }
+            }
+
       - name: Create starter issues
         uses: actions/github-script@v7
         with:
           script: |
+            const metaIssueNumber = "${{ steps.find-meta.outputs.meta-issue-number }}";
+
             const bountyBody = (description) => [
+              metaIssueNumber ? `Parent bounty: #${metaIssueNumber}` : "",
               description,
               "",
               "## Acceptance Criteria",
@@ -25,7 +88,17 @@ jobs:
               "- Link this issue in the pull request description.",
               "",
               "/bounty $50"
-            ].join("\n");
+            ].filter(Boolean).join("\n");
+
+            // Get existing issues to check for duplicates
+            const existingIssues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "all",
+              per_page: 100
+            });
+
+            const existingTitles = new Set(existingIssues.data.map(i => i.title));
 
             const issues = [
               {
@@ -90,12 +163,24 @@ jobs:
               }
             ];
 
+            let created = 0;
+            let skipped = 0;
+
             for (const issue of issues) {
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: issue.title,
-                body: issue.body,
-                labels: ["good first issue", "bounty", "AI agent friendly"]
-              });
+              if (existingTitles.has(issue.title)) {
+                core.info(`Skipping existing issue: ${issue.title}`);
+                skipped++;
+              } else {
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: issue.title,
+                  body: issue.body,
+                  labels: ["good first issue", "bounty", "AI agent friendly"]
+                });
+                core.info(`Created issue: ${issue.title}`);
+                created++;
+              }
             }
+
+            core.info(`Seeding complete: ${created} created, ${skipped} skipped`);
