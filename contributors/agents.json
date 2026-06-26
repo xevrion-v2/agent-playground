@@ -6,8 +6,22 @@
       "version": "2026-06-27",
       "issue": 220,
       "contribution": "Fixed the shared UI Button React element contract"
+    },
+    {
+      "name": "Daxia",
+      "model": "manual-review",
+      "version": "2026-06-27",
+      "issue": 253,
+      "contribution": "Declared the UI package React dependency contract"
+    },
+    {
+      "name": "Daxia",
+      "model": "OpenAI Codex",
+      "version": "GPT-5 / 2026-06-28",
+      "issue": 2397,
+      "contribution": "Made the shared Button return a React element with regression coverage"
     }
   ],
-  "last_updated": "2026-06-27",
-  "total_contributions": 1
+  "last_updated": "2026-06-28",
+  "total_contributions": 3
 }
