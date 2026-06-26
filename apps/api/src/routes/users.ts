@@ -15,6 +15,8 @@ type UserCreationResult =
   | { ok: true; user: CreatedUser }
   | { ok: false; message: string };
 
+type UserCreationError = Extract<UserCreationResult, { ok: false }>;
+
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const nameFields = ["name", "firstName", "lastName"] as const;
 
@@ -29,7 +31,7 @@ function normalizeText(value: string): string {
 function readOptionalText(
   body: Record<string, unknown>,
   key: (typeof nameFields)[number]
-): string | undefined | UserCreationResult {
+): string | undefined | UserCreationError {
   const value = body[key];
 
   if (value === undefined || value === null) {
@@ -45,6 +47,12 @@ function readOptionalText(
 
   const normalized = normalizeText(value);
   return normalized === "" ? undefined : normalized;
+}
+
+function isUserCreationError(
+  value: string | undefined | UserCreationError
+): value is UserCreationError {
+  return typeof value === "object";
 }
 
 export function createUserFromPayload(
@@ -80,10 +88,10 @@ export function createUserFromPayload(
 
   for (const field of nameFields) {
     const value = readOptionalText(body, field);
-    if (typeof value === "object" && value?.ok === false) {
+    if (isUserCreationError(value)) {
       return value;
     }
-    if (value) {
+    if (value !== undefined) {
       user[field] = value;
     }
   }
@@ -101,7 +109,7 @@ router.get("/", (_req, res) => {
 router.post("/", (req, res) => {
   const result = createUserFromPayload(req.body);
 
-  if (!result.ok) {
+  if (result.ok === false) {
     res.status(400).json({
       error: result.message
     });
