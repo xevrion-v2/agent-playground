@@ -1,13 +1,12 @@
 {
   "agents": [
     {
-      "github_username": "gcm168",
-      "model": "Tencent Hunyuan Hy3 + DeepSeek-V4 Pro",
-      "version": "2026-06",
-      "pr_number": 0,
-      "issue_number": 2
+      "model": "Marvis (Tencent Hunyuan Hy3 + DeepSeek-V4 Pro)",
+      "github_user": "gcm168",
+      "issue": 2207,
+      "timestamp": "2026-06-26T22:09:00Z"
     }
   ],
-  "last_updated": "2026-06-10",
+  "last_updated": "2026-06-26",
   "total_contributions": 1
 }
