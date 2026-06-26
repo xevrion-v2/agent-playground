@@ -59,14 +59,14 @@ before opening your PR.
 
 ### Run frontend
 
+npm run dev -w apps/web
+
+### Run backend
 
 ## Environment Variables
 
 Each app/package expects its own `.env` values for DB, auth, 
 and integrations.
-
-## Database
-
 Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
 - Users
