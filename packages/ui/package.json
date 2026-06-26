@@ -1,14 +1,1 @@
-{
-  "name": "@taskflow/ui",
-  "version": "0.1.0",
-  "private": true,
-  "description": "Shared UI components for TaskFlow.",
-  "main": "src/index.ts",
-  "scripts": {
-    "test": "echo \"No UI tests configured yet\"",
-    "lint": "echo \"No UI lint configured yet\""
-  },
-  "devDependencies": {
-    "typescript": "^5.4.5"
-  }
-}
+{"name":"@taskflow/ui","version":"0.0.1","private":true,"main":"./dist/index.js","types":"./dist/index.d.ts","peerDependencies":{"react":">=18.0.0"},"devDependencies":{"@types/react":"^18.0.0","typescript":"^5.0.0"}}
