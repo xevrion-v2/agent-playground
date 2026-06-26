@@ -141,12 +141,14 @@ describe("createUserFromPayload", () => {
 describe("POST /users", () => {
   it("rejects non-object request bodies", async () => {
     await withApiServer(async (baseUrl) => {
-      const response = await postUser(baseUrl, []);
+      for (const payload of [null, [], "hello", 42, true]) {
+        const response = await postUser(baseUrl, payload);
 
-      assert.equal(response.status, 400);
-      assert.deepEqual(response.body, {
-        error: "Request body must be a JSON object."
-      });
+        assert.equal(response.status, 400);
+        assert.deepEqual(response.body, {
+          error: "Request body must be a JSON object."
+        });
+      }
     });
   });
 
