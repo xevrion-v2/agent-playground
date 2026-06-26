@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Daxia",
+      "model": "manual-review",
+      "version": "2026-06-26",
+      "issue": 1771,
+      "contribution": "Split API app construction from server startup"
+    }
+  ],
+  "last_updated": "2026-06-26",
+  "total_contributions": 1
 }
