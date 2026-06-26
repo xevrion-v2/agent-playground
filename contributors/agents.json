@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Daxia",
+      "model": "manual-review",
+      "version": "2026-06-26",
+      "issue": 2207,
+      "contribution": "Validated and normalized POST /users creation payloads"
+    }
+  ],
+  "last_updated": "2026-06-26",
+  "total_contributions": 1
 }
