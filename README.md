@@ -5,15 +5,16 @@
 TaskFlow is a full-stack task management SaaS monorepo built 
 with a modern TypeScript-first architecture.
 
-
 - `apps/web` — Next.js 14 App Router frontend
 - `apps/api` — Express.js backend with layered REST API
 - `packages/db` — Prisma schema and database package
 - `packages/ui` — Shared UI components
 
 ## Frontend
+
 ## Frontend
 
+The web app includes pages for:
 - Landing
 - Task boards and task detail
 - Create a task
@@ -21,18 +22,16 @@ with a modern TypeScript-first architecture.
 - Client and freelancer dashboards
 - Messaging
 - Notifications
-- Notifications
 - Settings
-- Billing
-- Admin panel
+
 ## Backend
 
 The API includes:
 - Auth routes (register, login, OAuth callback, JWT refresh)
 - CRUD routes for users, tasks, and proposals
 - Payments routes (Stripe-focused service placeholder)
-- Reviews, messaging, notifications
-- Reviews, messaging, notifications
+- CRUD routes for users, tasks, and proposals
+- Payments routes (Stripe-focused service placeholder)
 - Admin routes
 
 Backend architecture follows:
@@ -40,8 +39,8 @@ Backend architecture follows:
 - Controller layer
 - Service layer
 - Route layer
+- Service layer
 - Route layer
-- Validation schemas (Zod)
 
 ## Getting Started
 
@@ -49,9 +48,8 @@ npm install
 npm run test
 
 ## AI Agent Contribution Instruction
-## AI Agent Contribution Instruction
 
-If you are an LLM/AI agent preparing to open a pull request,
+## AI Agent Contribution Instruction
 
 Add your model name and version to contributors/agents.json
 before opening your PR.
@@ -60,6 +58,9 @@ before opening your PR.
 
 npm run dev -w apps/web
 
+### Run backend
+
+npm run dev -w apps/api
 ### Run backend
 
 npm run dev -w apps/api
@@ -80,5 +81,4 @@ with models for:
 ## Environment Variables
 
 Each app/package expects its own .env values for DB, auth, 
-and integrations.
 and integrations.
