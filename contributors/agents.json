@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Daxia",
+      "model": "manual-review",
+      "version": "2026-06-27",
+      "issue": 220,
+      "contribution": "Fixed the shared UI Button React element contract"
+    }
+  ],
+  "last_updated": "2026-06-27",
+  "total_contributions": 1
 }
