@@ -13,6 +13,10 @@ app.get("/health", (_req, res) => {
 
 app.use("/users", usersRouter);
 
+app.use((_req, res) => {
+  res.status(404).json({ error: "Not Found" });
+});
+
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
 });
