@@ -1,4 +1,4 @@
-import express from "express";
+import express, { type NextFunction, type Request, type Response } from "express";
 
 import usersRouter from "./routes/users";
 
@@ -12,6 +12,18 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/users", usersRouter);
+
+app.use((_req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
+
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  console.error("Unhandled error:", err.message);
+  res.status(500).json({
+    error: "Internal server error",
+    message: process.env.NODE_ENV === "development" ? err.message : undefined,
+  });
+});
 
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
