@@ -7,7 +7,7 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "test": "echo \"No API tests configured yet\"",
+    "test": "tsx scripts/validate-user-input.ts",
     "lint": "echo \"No API lint configured yet\""
   },
   "dependencies": {
