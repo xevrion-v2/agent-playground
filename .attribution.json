@@ -1,0 +1,7 @@
+{
+  "contributor": "lb1192176991-lab",
+  "description": "API email validation - POST /users rejects invalid email values (non-strings, missing @, missing domain, spaces), normalizes to lowercase, generates UUID server-side.",
+  "priority": "medium",
+  "impact": "API correctness - prevents invalid email data from entering user records",
+  "issue": "https://github.com/xevrion-v2/agent-playground/issues/1357"
+}
