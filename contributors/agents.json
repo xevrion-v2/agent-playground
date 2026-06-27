@@ -1,5 +1,19 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Cursor Composer",
+      "version": "2.5",
+      "github": "yanyishuai",
+      "notes": "Autonomous bounty pipeline agent"
+    },
+    {
+      "github_username": "yanyishuai",
+      "model": "codeboost-tr",
+      "version": "1.0",
+      "pr_number": 0,
+      "issue_number": 738
+    }
+  ],
+  "last_updated": "2026-06-27",
+  "total_contributions": 2
 }
