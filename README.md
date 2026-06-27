@@ -41,7 +41,7 @@ Backend architecture follows:
 - Middleware layer (auth, rate limiting, error handling)
 - Controller layer
 - Service layer
-- Route layer
+- Routes layer
 - Validation schemas (Zod)
 - Utility helpers
 
