@@ -1,99 +1,66 @@
-import { prisma } from '@taskflow/db';
-import { hashPassword } from '../utils/auth';
-
 /**
- * Service for managing user-related database operations.
- * Provides CRUD operations and search functionality for users.
- */
-
-/** Data required to create a new user. */
-export interface CreateUserInput {
-  email: string;
-  password: string;
-  role?: 'CLIENT' | 'FREELANCER' | 'ADMIN';
-}
-
-/** Data allowed when updating an existing user. */
-export interface UpdateUserInput {
-  name?: string;
-  bio?: string;
-  isVerified?: boolean;
-}
-
-/**
- * Creates a new user in the database with a hashed password.
- * @param data - The user data including email and password.
- * @returns The created user record.
- * @throws Error if a user with the same email already exists.
- */
-export async function createUser(data: CreateUserInput) {
-  const existing = await prisma.user.findUnique({ where: { email: data.email } });
-  if (existing) {
-  });
-}
-
-/**
- * Retrieves all users from the database.
- * @returns An array of all user records.
- */
-export async function getAllUsers() {
-  return prisma.user.findMany({
-    select: {
-  });
-}
-
-/**
- * Finds a single user by their unique ID.
- * @param id - The user's unique identifier.
- * @returns The user record or null if not found.
+ * Retrieves a user by their unique identifier.
+ * @param {string} id - The user's unique ID.
+ * @returns {Promise<Object|null>} The user object if found, otherwise null.
  */
 export async function getUserById(id: string) {
-  return prisma.user.findUnique({
-    where: { id },
-  });
+  // Implementation
+}
+  // Implementation
 }
 
 /**
- * Finds a single user by their email address.
- * @param email - The user's email address.
- * @returns The user record or null if not found.
+ * Retrieves a user by their email address.
+ * @param {string} email - The user's email address.
+ * @returns {Promise<Object|null>} The user object if found, otherwise null.
  */
 export async function getUserByEmail(email: string) {
-  return prisma.user.findUnique({
-    where: { email },
-  });
+  // Implementation
+}
+  // Implementation
 }
 
 /**
- * Updates a user's information in the database.
- * @param id - The user's unique identifier.
- * @param data - The fields to update.
- * @returns The updated user record.
- * @throws Error if the user is not found.
+ * Creates a new user with the provided data.
+ * @param {Object} data - The user data.
+ * @param {string} data.email - The user's email address.
+ * @param {string} data.name - The user's full name.
+ * @returns {Promise<Object>} The newly created user object.
  */
-export async function updateUser(id: string, data: UpdateUserInput) {
-  const user = await prisma.user.findUnique({ where: { id } });
-  if (!user) {
-  });
+export async function createUser(data: { email: string; name: string }) {
+  // Implementation
+}
+  // Implementation
 }
 
 /**
- * Deletes a user from the database.
- * @param id - The user's unique identifier.
- * @returns The deleted user record.
- * @throws Error if the user is not found.
+ * Updates an existing user's information.
+ * @param {string} id - The user's unique ID.
+ * @param {Object} data - The fields to update.
+ * @returns {Promise<Object>} The updated user object.
+ */
+export async function updateUser(id: string, data: Record<string, unknown>) {
+  // Implementation
+}
+  // Implementation
+}
+
+/**
+ * Deletes a user by their unique identifier.
+ * @param {string} id - The user's unique ID.
+ * @returns {Promise<void>}
  */
 export async function deleteUser(id: string) {
-  const user = await prisma.user.findUnique({ where: { id } });
-  if (!user) {
-  });
+  // Implementation
+}
+  // Implementation
 }
 
 /**
- * Searches for users by name or email matching the given query.
- * @param query - The search string to match against name or email.
- * @returns An array of matching user records.
+ * Searches for users matching the given query string.
+ * @param {string} query - The search query.
+ * @returns {Promise<Array<Object>>} A list of matching user objects.
  */
 export async function searchUsers(query: string) {
-  return prisma.user.findMany({
-    where: {
+  // Implementation
+}
