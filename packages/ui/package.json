@@ -5,7 +5,7 @@
   "description": "Shared UI components for TaskFlow.",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"No UI tests configured yet\"",
+    "test": "tsx --test src/button.test.ts",
     "lint": "echo \"No UI lint configured yet\""
   },
   "devDependencies": {
