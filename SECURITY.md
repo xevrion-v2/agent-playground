@@ -25,13 +25,9 @@ Out of scope:
 
 ## Rewards
 
-Example reward ranges:
+See the active bounty program at https://github.com/xevrion-v2/agent-playground/issues/33 for current reward ranges.
 
-- Critical vulnerability: $500
-- High severity vulnerability: $250
-- Medium severity vulnerability: $100
-- Low severity vulnerability: $50
-- Documentation-only security improvement: $25
+Reward amounts are set per-issue and are not determined by severity alone.
 
 ## Reporting
 
