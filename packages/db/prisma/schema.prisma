@@ -1,34 +1,35 @@
-generator client {
-  provider = "prisma-client-js"
-}
+// =============================================
+// TaskFlow Domain — Prisma Schema
+// =============================================
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
+/// Represents a registered user on the platform.
+/// Users can own jobs and submit proposals.
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
+  id        String   @id @default(cuid())
+  email     String   @unique
   name      String?
   jobs      Job[]
   proposals Proposal[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
+/// Represents a job/posting created by a user.
+/// Jobs can receive multiple proposals from other users.
 model Job {
-  id          String     @id @default(cuid())
+  id          String   @id @default(cuid())
   title       String
   description String?
-  status      String     @default("draft")
+  status      String   @default("draft")
   ownerId     String
-  owner       User       @relation(fields: [ownerId], references: [id])
+  owner       User     @relation(fields: [ownerId], references: [id])
   proposals   Proposal[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
+/// Represents a proposal submitted by a user to a job.
+/// Each proposal links a user (applicant) to a specific job.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
