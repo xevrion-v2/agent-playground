@@ -1,0 +1,13 @@
+{
+  "name": "@taskflow/infinite-sequence",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lazy infinite sequence utilities with bounded consumption helpers.",
+  "type": "module",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "scripts": {
+    "test": "node --test src/index.test.js",
+    "lint": "echo \"No infinite-sequence lint configured yet\""
+  }
+}
