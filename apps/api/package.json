@@ -7,7 +7,7 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "test": "tsx src/config.test.ts",
+    "test": "tsx src/*.test.ts",
     "lint": "echo \"No API lint configured yet\""
   },
   "dependencies": {
