@@ -1,0 +1,10 @@
+{
+  "name": "@agent-playground/sequence",
+  "version": "1.0.0",
+  "description": "Infinite sequence iterator with safe bounded consumption",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "test": "node --test src/**/*.test.ts"
+  }
+}
