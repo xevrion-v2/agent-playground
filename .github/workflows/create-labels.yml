@@ -14,55 +14,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install YAML parser
+        run: npm install --no-save js-yaml
+
       - name: Create or update labels
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require("fs");
+            const yaml = require("js-yaml");
 
             const content = fs.readFileSync(".github/labels.yml", "utf8");
-            const labels = [];
-            let current = null;
+            const labels = yaml.load(content);
 
-            for (const rawLine of content.split(/\r?\n/)) {
-              const line = rawLine.trim();
-
-              if (!line) {
-                continue;
-              }
-
-              if (line.startsWith("- name:")) {
-                if (current) {
-                  labels.push(current);
-                }
-
-                current = {
-                  name: line.replace("- name:", "").trim().replace(/^"|"$/g, "")
-                };
-                continue;
-              }
-
-              if (!current) {
-                continue;
-              }
-
-              const separatorIndex = line.indexOf(":");
-
-              if (separatorIndex === -1) {
-                continue;
-              }
-
-              const key = line.slice(0, separatorIndex).trim();
-              const value = line.slice(separatorIndex + 1).trim().replace(/^"|"$/g, "");
-              current[key] = value;
-            }
-
-            if (current) {
-              labels.push(current);
+            if (!Array.isArray(labels)) {
+              throw new Error(".github/labels.yml must contain an array of label definitions.");
             }
 
             for (const label of labels) {
+              if (!label || typeof label !== "object") {
+                throw new Error("Each label entry must be an object.");
+              }
+
+              if (typeof label.name !== "string" || !label.name.trim()) {
+                throw new Error("Each label entry must include a non-empty string name.");
+              }
+
+              if (typeof label.color !== "string" || !label.color.trim()) {
+                throw new Error(`Label "${label.name}" must include a non-empty string color.`);
+              }
+
               const color = label.color.replace(/^#/, "");
+              const description = typeof label.description === "string" ? label.description : "";
 
               try {
                 await github.rest.issues.createLabel({
@@ -70,7 +53,7 @@ jobs:
                   repo: context.repo.repo,
                   name: label.name,
                   color,
-                  description: label.description || ""
+                  description
                 });
               } catch (error) {
                 if (error.status !== 422) {
@@ -82,7 +65,7 @@ jobs:
                   repo: context.repo.repo,
                   name: label.name,
                   color,
-                  description: label.description || ""
+                  description
                 });
               }
             }
