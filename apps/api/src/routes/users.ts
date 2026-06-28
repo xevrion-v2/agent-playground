@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import { validateCreateUserPayload } from "./userValidation";
+
 const router = Router();
 
 router.get("/", (_req, res) => {
@@ -10,10 +12,19 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
+  const validation = validateCreateUserPayload(req.body);
+
+  if (!validation.ok) {
+    return res.status(400).json({
+      errors: validation.errors,
+      message: "Invalid user payload."
+    });
+  }
+
   res.status(201).json({
     data: {
       id: "stub-user-id",
-      ...req.body
+      ...validation.data
     },
     message: "User creation is not implemented yet."
   });
