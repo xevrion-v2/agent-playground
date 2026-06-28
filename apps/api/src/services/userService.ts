@@ -1,59 +1,95 @@
 /**
- * Retrieves a user by their unique identifier.
- * @param {string} id - The unique ID of the user to find.
- * @returns {Promise<User | null>} The user object if found, otherwise null.
- * @throws {Error} If the database query fails.
+ * User service module.
+ * Provides CRUD operations and business logic for user management.
+ * @module services/userService
  */
-export async function getUserById(id: string) {
-  // implementation
+
+import { PrismaClient, User, Prisma } from '@prisma/client';
+import { hashPassword } from '../utils/password';
+
+
+type CreateUserInput = Omit<User, 'id' | 'createdAt' | 'updatedAt'>;
+
+/**
+ * Creates a new user in the database.
+ * Automatically hashes the provided password before storage.
+ *
+ * @param {CreateUserInput} data - The user data excluding auto-generated fields
+ * @returns {Promise<User>} The created user record
+ */
+export async function createUser(data: CreateUserInput): Promise<User> {
+  const hashedPassword = await hashPassword(data.password);
+
+  });
 }
-export async function getUserByEmail(email: string) {
-  // implementation
+
+/**
+ * Retrieves a user by their unique identifier.
+ *
+ * @param {string} id - The UUID of the user to find
+ * @returns {Promise<User | null>} The user if found, null otherwise
+ */
+export async function getUserById(id: string): Promise<User | null> {
+  return prisma.user.findUnique({
+    where: { id },
+  });
 }
+
 /**
  * Retrieves a user by their email address.
- * @param {string} email - The email address of the user to find.
- * @returns {Promise<User | null>} The user object if found, otherwise null.
- * @throws {Error} If the database query fails.
+ *
+ * @param {string} email - The email address to search for
+ * @returns {Promise<User | null>} The user if found, null otherwise
  */
-
-export async function createUser(data: CreateUserInput) {
-  // implementation
+export async function getUserByEmail(email: string): Promise<User | null> {
+  return prisma.user.findUnique({
+    where: { email },
+  });
 }
-/**
- * Creates a new user record in the database.
- * @param {CreateUserInput} data - The user data required to create a new user.
- * @returns {Promise<User>} The newly created user object.
- * @throws {Error} If the creation fails or validation errors occur.
- */
 
-export async function updateUser(id: string, data: UpdateUserInput) {
-  // implementation
-}
 /**
- * Updates an existing user's information.
- * @param {string} id - The unique ID of the user to update.
- * @param {UpdateUserInput} data - The updated user data.
- * @returns {Promise<User>} The updated user object.
- * @throws {Error} If the user is not found or the update fails.
+ * Updates a user's information.
+ *
+ * @param {string} id - The UUID of the user to update
+ * @param {Prisma.UserUpdateInput} data - The fields to update
+ * @returns {Promise<User>} The updated user record
  */
+export async function updateUser(
+  id: string,
+  data: Prisma.UserUpdateInput
+  });
+}
 
-export async function deleteUser(id: string) {
-  // implementation
-}
 /**
- * Deletes a user by their unique identifier.
- * @param {string} id - The unique ID of the user to delete.
- * @returns {Promise<void>}
- * @throws {Error} If the user is not found or the deletion fails.
+ * Permanently deletes a user from the database.
+ *
+ * @param {string} id - The UUID of the user to delete
+ * @returns {Promise<User>} The deleted user record
  */
+export async function deleteUser(id: string): Promise<User> {
+  return prisma.user.delete({
+    where: { id },
+  });
+}
 
-export async function searchUsers(query: string) {
-  // implementation
-}
 /**
- * Searches for users matching the given query string.
- * @param {string} query - The search query to match against users.
- * @returns {Promise<User[]>} A list of users matching the query.
- * @throws {Error} If the search operation fails.
+ * Retrieves all users in the system with their profiles.
+ *
+ * @param {Prisma.UserFindManyArgs} [args] - Optional query arguments for filtering, pagination, and sorting
+ * @returns {Promise<User[]>} Array of user records
  */
+export async function getAllUsers(
+  args?: Prisma.UserFindManyArgs
+): Promise<User[]> {
+  });
+}
+
+/**
+ * Searches for users by name or email using a case-insensitive search.
+ *
+ * @param {string} query - The search string to match against user names and emails
+ * @returns {Promise<User[]>} Array of matching user records
+ */
+export async function searchUsers(query: string): Promise<User[]> {
+  return prisma.user.findMany({
+    where: {
