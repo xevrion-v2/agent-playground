@@ -3,6 +3,8 @@ import express from "express";
 import usersRouter from "./routes/users";
 
 const app = express();
+app.set("etag", false);
+
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
