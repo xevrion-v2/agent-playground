@@ -1,3 +1,6 @@
+// Prisma schema for TaskFlow — a lightweight job/task marketplace.
+// Docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// A registered user who can post jobs and submit proposals.
+///
+/// Relations:
+/// - `jobs`      → jobs owned by this user
+/// - `proposals` → proposals submitted by this user
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,10 +25,18 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// A job posting created by a User.
+///
+/// Lifecycle: draft → open → in-progress → completed / cancelled
+///
+/// Relations:
+/// - `owner`    → the User who created this job
+/// - `proposals` → Proposals submitted against this job
 model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
+  /// Current lifecycle status. Defaults to `"draft"`.
   status      String     @default("draft")
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
@@ -29,10 +45,19 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// A proposal submitted by a User in response to a Job.
+///
+/// Lifecycle: pending → accepted / rejected
+///
+/// Relations:
+/// - `user` → the User who submitted this proposal
+/// - `job`  → the Job this proposal targets
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
+  /// Proposed monetary amount (nullable until the user specifies a price).
   amount    Decimal?
+  /// Current lifecycle status. Defaults to `"pending"`.
   status    String   @default("pending")
   userId    String
   user      User     @relation(fields: [userId], references: [id])
