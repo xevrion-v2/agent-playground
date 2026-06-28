@@ -1,66 +1,59 @@
 /**
  * Retrieves a user by their unique identifier.
- * @param {string} id - The user's unique ID.
- * @returns {Promise<Object|null>} The user object if found, otherwise null.
+ * @param {string} id - The unique ID of the user to find.
+ * @returns {Promise<User | null>} The user object if found, otherwise null.
+ * @throws {Error} If the database query fails.
  */
 export async function getUserById(id: string) {
-  // Implementation
+  // implementation
 }
-  // Implementation
+export async function getUserByEmail(email: string) {
+  // implementation
 }
-
 /**
  * Retrieves a user by their email address.
- * @param {string} email - The user's email address.
- * @returns {Promise<Object|null>} The user object if found, otherwise null.
+ * @param {string} email - The email address of the user to find.
+ * @returns {Promise<User | null>} The user object if found, otherwise null.
+ * @throws {Error} If the database query fails.
  */
-export async function getUserByEmail(email: string) {
-  // Implementation
-}
-  // Implementation
-}
 
+export async function createUser(data: CreateUserInput) {
+  // implementation
+}
 /**
- * Creates a new user with the provided data.
- * @param {Object} data - The user data.
- * @param {string} data.email - The user's email address.
- * @param {string} data.name - The user's full name.
- * @returns {Promise<Object>} The newly created user object.
+ * Creates a new user record in the database.
+ * @param {CreateUserInput} data - The user data required to create a new user.
+ * @returns {Promise<User>} The newly created user object.
+ * @throws {Error} If the creation fails or validation errors occur.
  */
-export async function createUser(data: { email: string; name: string }) {
-  // Implementation
-}
-  // Implementation
-}
 
+export async function updateUser(id: string, data: UpdateUserInput) {
+  // implementation
+}
 /**
  * Updates an existing user's information.
- * @param {string} id - The user's unique ID.
- * @param {Object} data - The fields to update.
- * @returns {Promise<Object>} The updated user object.
+ * @param {string} id - The unique ID of the user to update.
+ * @param {UpdateUserInput} data - The updated user data.
+ * @returns {Promise<User>} The updated user object.
+ * @throws {Error} If the user is not found or the update fails.
  */
-export async function updateUser(id: string, data: Record<string, unknown>) {
-  // Implementation
-}
-  // Implementation
-}
 
+export async function deleteUser(id: string) {
+  // implementation
+}
 /**
  * Deletes a user by their unique identifier.
- * @param {string} id - The user's unique ID.
+ * @param {string} id - The unique ID of the user to delete.
  * @returns {Promise<void>}
+ * @throws {Error} If the user is not found or the deletion fails.
  */
-export async function deleteUser(id: string) {
-  // Implementation
-}
-  // Implementation
-}
 
+export async function searchUsers(query: string) {
+  // implementation
+}
 /**
  * Searches for users matching the given query string.
- * @param {string} query - The search query.
- * @returns {Promise<Array<Object>>} A list of matching user objects.
+ * @param {string} query - The search query to match against users.
+ * @returns {Promise<User[]>} A list of users matching the query.
+ * @throws {Error} If the search operation fails.
  */
-export async function searchUsers(query: string) {
-  // Implementation
-}
