@@ -30,6 +30,9 @@ The web app includes pages for:
 ## Backend
 
 The API includes:
+
+JSON request bodies are limited to 100kb by the Express middleware to avoid unexpectedly large payloads.
+
 - Auth routes (register, login, OAuth callback, JWT refresh)
 - CRUD routes for users, tasks, and proposals
 - Payments routes (Stripe-focused service placeholder)
