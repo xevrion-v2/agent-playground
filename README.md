@@ -83,3 +83,7 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+### API Configurations
+
+- `JSON_BODY_LIMIT` — Caps the incoming JSON request payloads for the Express API. Default is `100kb` to keep request bodies conservative.
