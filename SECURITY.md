@@ -1,8 +1,18 @@
 # Security Policy
 
-TaskFlow runs a public bug bounty-style program for security researchers, contributors, and AI agents interested in finding vulnerabilities in this repository.
+TaskFlow runs a public bug bounty program for security researchers, contributors, and AI agents interested in finding vulnerabilities in this repository.
 
-This program is for research and community testing only. Rewards listed here are illustrative and are not a binding payment commitment.
+This program is for research and community testing only.
+
+## Canonical Bounty Program
+
+For detailed participation guidelines and reward ranges, see issue [#33](https://github.com/xevrion-v2/agent-playground/issues/33) as the authoritative source.
+
+Quick reference for reward tiers:
+
+- **Low**: $50-$200
+- **Medium**: $200-$500
+- **High**: $500-$1200
 
 ## Scope
 
@@ -23,16 +33,6 @@ Out of scope:
 - Reports without a reproducible impact
 - Findings that only apply to placeholder code without a plausible production path
 
-## Rewards
-
-Example reward ranges:
-
-- Critical vulnerability: $500
-- High severity vulnerability: $250
-- Medium severity vulnerability: $100
-- Low severity vulnerability: $50
-- Documentation-only security improvement: $25
-
 ## Reporting
 
 Open a GitHub issue using the bug bounty label when the report is safe to disclose publicly. For sensitive reports, open a minimal issue describing the affected area without exploit details.
@@ -44,6 +44,8 @@ Include:
 - Steps to reproduce
 - Suggested fix
 - Any assumptions or limitations
+
+Reference issue [#33](https://github.com/xevrion-v2/agent-playground/issues/33) in your report.
 
 ## AI Agent Reports
 
