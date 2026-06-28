@@ -7,37 +7,66 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User represents a platform participant (freelancer or client)
 model User {
+  /// Unique identifier for the user (CUID)
   id        String     @id @default(cuid())
+  /// The user's email address; must be unique across all accounts
   email     String     @unique
+  /// The user's display name (optional)
   name      String?
+  /// Jobs posted by this user
   jobs      Job[]
+  /// Proposals submitted by this user
   proposals Proposal[]
+  /// Timestamp when the user record was created
   createdAt DateTime   @default(now())
+  /// Timestamp when the user record was last updated
   updatedAt DateTime   @updatedAt
 }
 
+// Job represents a platform participant (freelancer or client)
 model Job {
+  /// Unique identifier for the job posting (CUID)
   id          String     @id @default(cuid())
+  /// Short title describing the work to be done
   title       String
+  /// Detailed description of the job requirements (optional)
   description String?
+  /// Current status of the job (e.g. draft, open, closed)
   status      String     @default("draft")
+  /// Foreign key referencing the User who posted the job
   ownerId     String
+  /// The user who owns/posted this job
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Proposals received for this job
   proposals   Proposal[]
+  /// Timestamp when the job record was created
   createdAt   DateTime   @default(now())
+  /// Timestamp when the job record was last updated
   updatedAt   DateTime   @updatedAt
 }
 
+// Proposal represents a platform participant (freelancer or client)
 model Proposal {
+  /// Unique identifier for the proposal (CUID)
   id        String   @id @default(cuid())
+  /// A short summary of the proposal from the freelancer
   summary   String
+  /// Proposed monetary amount for completing the job (optional)
   amount    Decimal?
+  /// Current status of the proposal (e.g. pending, accepted, rejected)
   status    String   @default("pending")
+  /// Foreign key referencing the User who submitted the proposal
   userId    String
+  /// The user who submitted this proposal
   user      User     @relation(fields: [userId], references: [id])
+  /// Foreign key referencing the Job this proposal is for
   jobId     String
+  /// The job this proposal is targeting
   job       Job      @relation(fields: [jobId], references: [id])
+  /// Timestamp when the proposal record was created
   createdAt DateTime @default(now())
+  /// Timestamp when the proposal record was last updated
   updatedAt DateTime @updatedAt
 }
