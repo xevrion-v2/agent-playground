@@ -19,4 +19,11 @@ router.post("/", (req, res) => {
   });
 });
 
+router.all("/", (req, res) => {
+  res.set("Allow", "GET, POST");
+  res.status(405).json({
+    error: `Method ${req.method} is not supported for this endpoint.`
+  });
+});
+
 export default router;
