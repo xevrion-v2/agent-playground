@@ -81,5 +81,12 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+The monorepo expects the following local environment variables for the API and database packages:
+
+### Backend API (`apps/api`)
+
+- `PORT` — The port on which the Express API server runs (default: `4000`).
+
+### Database (`packages/db`)
+
+- `DATABASE_URL` — The connection URI for the PostgreSQL database used by Prisma (e.g., `postgresql://user:password@localhost:5432/db_name`).
