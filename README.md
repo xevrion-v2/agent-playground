@@ -83,3 +83,6 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+For the API app, `JSON_BODY_LIMIT` controls the maximum accepted JSON request
+body size. It defaults to `100kb` when unset.
