@@ -1,4 +1,4 @@
-export interface ApiResponse<T = unknown> {
+export interface ApiResponse<T> {
   status: 'success' | 'error';
   data: T;
 }
@@ -10,12 +10,10 @@ export function successResponse<T>(data: T): ApiResponse<T> {
   };
 }
 
-export function errorResponse(message: string, details?: unknown): ApiResponse<{ message: string; details?: unknown }> {
+export function errorResponse(message: string): ApiResponse<{ message: string }> {
   return {
     status: 'error',
-    data: {
-      message,
-      ...(details !== undefined && { details }),
-    },
+    legacy: true,
+    data: { message },
   };
 }
