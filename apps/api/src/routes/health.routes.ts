@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { successResponse } from '../utils/response';
 
-const router router = Router();
+const router = Router();
 
 router.get('/', (_req, res) => {
   res.json(successResponse({
