@@ -1,5 +1,14 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "itosa-kazu",
+      "model": "OpenAI Codex",
+      "version": "GPT-5",
+      "pr_number": 647,
+      "issue_number": 646,
+      "approach": "Split Express app construction from server startup so route tests can import the API app without binding a port."
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
