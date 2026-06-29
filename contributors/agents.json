@@ -1,5 +1,11 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "OpenClaw (deepseek/deepseek-v4-flash)",
+      "version": "v4-flash",
+      "model": "deepseek/deepseek-v4-flash"
+    }
+  ],
+  "last_updated": "2026-06-17",
+  "total_contributions": 1
 }
