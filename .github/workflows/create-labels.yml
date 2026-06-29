@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  contents: read
   issues: write
 
 jobs:
@@ -14,63 +15,54 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install YAML parser
+        run: npm install --no-save --package-lock=false js-yaml@4.1.0
+
       - name: Create or update labels
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require("fs");
+            const yaml = require(`${process.cwd()}/node_modules/js-yaml`);
 
             const content = fs.readFileSync(".github/labels.yml", "utf8");
-            const labels = [];
-            let current = null;
+            const labels = yaml.load(content);
 
-            for (const rawLine of content.split(/\r?\n/)) {
-              const line = rawLine.trim();
-
-              if (!line) {
-                continue;
-              }
-
-              if (line.startsWith("- name:")) {
-                if (current) {
-                  labels.push(current);
-                }
-
-                current = {
-                  name: line.replace("- name:", "").trim().replace(/^"|"$/g, "")
-                };
-                continue;
-              }
-
-              if (!current) {
-                continue;
-              }
-
-              const separatorIndex = line.indexOf(":");
-
-              if (separatorIndex === -1) {
-                continue;
-              }
-
-              const key = line.slice(0, separatorIndex).trim();
-              const value = line.slice(separatorIndex + 1).trim().replace(/^"|"$/g, "");
-              current[key] = value;
+            if (!Array.isArray(labels)) {
+              throw new Error(".github/labels.yml must contain a list of labels.");
             }
 
-            if (current) {
-              labels.push(current);
-            }
+            for (const [index, label] of labels.entries()) {
+              if (!label || typeof label !== "object" || Array.isArray(label)) {
+                throw new Error(`Label entry ${index + 1} must be a mapping.`);
+              }
 
-            for (const label of labels) {
-              const color = label.color.replace(/^#/, "");
+              if (typeof label.name !== "string" || !label.name.trim()) {
+                throw new Error(`Label entry ${index + 1} is missing a name.`);
+              }
+
+              if (typeof label.color !== "string" || !label.color.trim()) {
+                throw new Error(`Label "${label.name}" is missing a color.`);
+              }
+
+              if (
+                label.description !== undefined &&
+                typeof label.description !== "string"
+              ) {
+                throw new Error(`Label "${label.name}" has a non-string description.`);
+              }
+
+              const name = label.name.trim();
+              const color = label.color.trim().replace(/^#/, "");
+              const description = label.description || "";
 
               try {
                 await github.rest.issues.createLabel({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  name: label.name,
+                  name,
                   color,
-                  description: label.description || ""
+                  description
                 });
               } catch (error) {
                 if (error.status !== 422) {
@@ -80,9 +72,10 @@ jobs:
                 await github.rest.issues.updateLabel({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  name: label.name,
+                  current_name: name,
+                  name,
                   color,
-                  description: label.description || ""
+                  description
                 });
               }
             }
