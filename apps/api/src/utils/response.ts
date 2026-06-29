@@ -10,9 +10,12 @@ export function successResponse<T>(data: T): ApiResponse<T> {
   };
 }
 
-export function errorResponse(message: string): ApiResponse<{ message: string }> {
+export function errorResponse(message: string, details?: unknown): ApiResponse<{ message: string; details?: unknown }> {
   return {
     status: 'error',
-    data: { message },
+    data: {
+      message,
+      ...(details !== undefined && { details }),
+    },
   };
 }
