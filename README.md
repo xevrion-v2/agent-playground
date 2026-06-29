@@ -83,3 +83,12 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+Recommended local values:
+
+- `apps/api/.env`
+  - `PORT` — API server port. Defaults to `4000` when unset.
+- `packages/db/.env`
+  - `DATABASE_URL` — PostgreSQL connection string consumed by Prisma.
+- `apps/web/.env.local`
+  - `NEXT_PUBLIC_API_URL` — URL of the API server used by the web app.
