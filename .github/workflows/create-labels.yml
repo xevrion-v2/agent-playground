@@ -81,6 +81,7 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   name: label.name,
+                  new_name: label.name,
                   color,
                   description: label.description || ""
                 });
