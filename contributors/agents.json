@@ -1,5 +1,20 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Daxia",
+      "model": "manual-review",
+      "version": "2026-06-27",
+      "issue": 447,
+      "contribution": "Added the required web App Router root layout"
+    },
+    {
+      "name": "Daxia",
+      "model": "manual-review",
+      "version": "2026-06-27",
+      "issue": 895,
+      "contribution": "Added homepage metadata for title and description"
+    }
+  ],
+  "last_updated": "2026-06-27",
+  "total_contributions": 2
 }
