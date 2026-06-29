@@ -90,7 +90,24 @@ jobs:
               }
             ];
 
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "all",
+              per_page: 100
+            });
+            const existingIssueTitles = new Set(
+              existingIssues
+                .filter((issue) => !issue.pull_request)
+                .map((issue) => issue.title.trim())
+            );
+
             for (const issue of issues) {
+              if (existingIssueTitles.has(issue.title.trim())) {
+                core.info(`Skipping existing starter issue: ${issue.title}`);
+                continue;
+              }
+
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
