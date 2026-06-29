@@ -1,6 +1,7 @@
 import express from "express";
 
 import usersRouter from "./routes/users";
+import { registerGracefulShutdown } from "./shutdown";
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -13,6 +14,8 @@ app.get("/health", (_req, res) => {
 
 app.use("/users", usersRouter);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
 });
+
+registerGracefulShutdown(server);
