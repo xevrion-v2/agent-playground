@@ -5,12 +5,14 @@
   "description": "Prisma schema and database utilities for TaskFlow.",
   "scripts": {
     "test": "echo \"No database tests configured yet\"",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "echo \"No database lint configured yet\""
   },
   "dependencies": {
     "@prisma/client": "^5.13.0"
   },
   "devDependencies": {
-    "prisma": "^5.13.0"
+    "prisma": "^5.13.0",
+    "typescript": "^5.4.5"
   }
 }
