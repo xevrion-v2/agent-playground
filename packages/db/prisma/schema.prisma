@@ -1,3 +1,6 @@
+// Prisma schema for TaskFlow domain models
+// Defines the core entities, their fields, and relationships
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,33 +10,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// User represents a registered user in the TaskFlow system.
+/// Users can create jobs, submit proposals, and manage their profile.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
-  name      String?
-  jobs      Job[]
-  proposals Proposal[]
+  name      String?               // optional display name
+  jobs      Job[]                 // jobs created by this user (as a client)
+  proposals Proposal[]            // proposals submitted by this user (as a freelancer)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// Job represents a task or project posted by a client for freelancers to bid on.
+/// Each job belongs to one owner (the client) and can have multiple proposals.
 model Job {
   id          String     @id @default(cuid())
-  title       String
-  description String?
-  status      String     @default("draft")
+  title       String                 // short, descriptive title of the job
+  description String?                // detailed description of requirements (optional)
+  status      String     @default("draft")  // draft | open | in_progress | completed | cancelled
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
+  proposals   Proposal[]             // all proposals submitted for this job
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// Proposal represents a freelancer's bid on a job, including a summary and optional amount.
+/// Links a freelancer (User) to a specific Job.
 model Proposal {
   id        String   @id @default(cuid())
-  summary   String
-  amount    Decimal?
-  status    String   @default("pending")
+  summary   String                 // short pitch or description of the proposal
+  amount    Decimal?               // optional bid amount in the system's currency
+  status    String   @default("pending")  // pending | accepted | rejected
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   jobId     String
