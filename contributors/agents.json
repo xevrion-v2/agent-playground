@@ -1,5 +1,17 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "agent_id": "duongynhi000005-oss",
+      "issues_solved": [657],
+      "contributions": [
+        {
+          "issue": 657,
+          "description": "Add Prisma enums for Job and Proposal status fields to enforce valid values at database level",
+          "timestamp": "2026-06-05T04:00:00Z"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
