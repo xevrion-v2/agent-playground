@@ -13,7 +13,6 @@ export function successResponse<T>(data: T): ApiResponse<T> {
 export function errorResponse(message: string): ApiResponse<{ message: string }> {
   return {
     status: 'error',
-    legacy: true,
     data: { message },
   };
 }
