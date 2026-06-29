@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "OpenAI Codex",
+      "model": "GPT-5 Codex",
+      "issue": 2394,
+      "pull_request": 2464,
+      "contribution": "Added in-memory Express user route tests for GET /users and POST /users stubs."
+    }
+  ],
+  "last_updated": "2026-06-29",
+  "total_contributions": 1
 }
