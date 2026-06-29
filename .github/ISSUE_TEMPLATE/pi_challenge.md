@@ -18,7 +18,4 @@ Implement or document a small PI calculation challenge for TaskFlow's internal e
 - [ ] Reference this issue in the pull request.
 
 ## Bounty Amount
-
-$50
-
 /bounty $50
