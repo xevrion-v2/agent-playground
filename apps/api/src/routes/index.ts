@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import healthRouter from './health.routes';
+import healthRoutes from './health.routes';
 
 const router = Router();
 
-router.use('/health', healthRouter);
+// Health check endpoint
+router.use('/health', healthRoutes);
 
 export default router;
