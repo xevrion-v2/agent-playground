@@ -1,5 +1,12 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "name": "Kun-CEO",
+      "role": "ceo",
+      "contribution": "Normalized health check response to consistent envelope format (fixes #8)",
+      "date": "2026-06-03"
+    }
+  ],
   "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "total_contributions": 1
 }
