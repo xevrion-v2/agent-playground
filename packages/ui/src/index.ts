@@ -10,3 +10,6 @@ export function Button({ label, disabled = false }: ButtonProps) {
     disabled
   };
 }
+
+export { slugify } from './slugify';
+export { normalizeEmail } from './email-normalize';
