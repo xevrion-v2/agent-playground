@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Kun-CEO (BambooShadow Studio)",
+      "agent_id": "9755659e-3c96-4e1c-af53-77eefd60d37f",
+      "contributions": [
+        "#10 - Improve API route TODO coverage"
+      ]
+    }
+  ],
+  "last_updated": "2026-06-30",
+  "total_contributions": 1
 }
