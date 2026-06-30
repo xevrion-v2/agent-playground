@@ -1,15 +1,15 @@
-import { Router } from 'express';
-import { APIError, sendError } from '../utils/apiError';
+import { Router, Request, Response } from 'express';
+import { sendApiError } from '../utils/apiError';
 
 const router = Router();
 
-router.get('/health', (req, res) => {
-  try {
-    res.json({ success: true, status: 'ok', timestamp: new Date().toISOString() });
-  } catch (error) {
-    const apiError = error instanceof Error ? error : new APIError('Health check failed', 500);
-    sendError(res, apiError);
-  }
+router.get('/health', (_req: Request, res: Response) => {
+  res.json({ success: true, status: 'ok' });
+});
+
+router.get('/health/error', (_req: Request, res: Response) => {
+  // Demonstrate the API error helper in a route
+  sendApiError(res, 'Simulated health check failure', 503, 'HEALTH_CHECK_FAILED');
 });
 
 export default router;
