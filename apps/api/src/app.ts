@@ -1,10 +1,10 @@
 app.use('/health', healthRoutes);
 
-app.get('/health', (_req, res) => {
+app.get('/', (_req, res) => {
   res.json({
     status: 'success',
-    data: { healthy: true }
+    data: { message: 'API is running' }
   });
 });
 
-// ... existing routes ...
+export default app;
