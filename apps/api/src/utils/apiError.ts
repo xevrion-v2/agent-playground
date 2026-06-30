@@ -1,47 +1,31 @@
-interface ApiErrorResponse {
+export class APIError extends Error {
+  statusCode: number;
+  isOperational: boolean;
+
+  constructor(message: string, statusCode: number = 500, isOperational: boolean = true) {
+    super(message);
+    this.statusCode = statusCode;
+    this.isOperational = isOperational;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+export interface ErrorResponse {
   success: false;
-  error: {
-    message: string;
-    code?: string;
-    status: number;
+  error: string;
+  statusCode: number;
+}
+
+export function createErrorResponse(error: Error | APIError): ErrorResponse {
+  const statusCode = error instanceof APIError ? error.statusCode : 500;
+  return {
+    success: false,
+    error: error.message || 'Internal Server Error',
+    statusCode,
   };
 }
 
-export class ApiError extends Error {
-  public status: number;
-  public code: string;
-
-  constructor(message: string, status: number = 500, code: string = 'INTERNAL_ERROR') {
-    super(message);
-    this.status = status;
-    this.code = code;
-    this.name = 'ApiError';
-  }
-
-  toJSON(): ApiErrorResponse {
-    return {
-      success: false,
-      error: {
-        message: this.message,
-        code: this.code,
-        status: this.status,
-      },
-    };
-  }
+export function sendError(res: any, error: Error | APIError): void {
+  const response = createErrorResponse(error);
+  res.status(response.statusCode).json(response);
 }
-
-export const sendError = (res: any, error: ApiError | Error): void => {
-  if (error instanceof ApiError) {
-    res.status(error.status).json(error.toJSON());
-  } else {
-    res.status(500).json({
-      success: false,
-      error: {
-        message: error.message || 'Internal Server Error',
-        status: 500,
-      },
-    });
-  }
-};
-
-export default ApiError;
