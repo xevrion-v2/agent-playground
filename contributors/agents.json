@@ -1,5 +1,13 @@
-{
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
-}
+[
+  {
+    "name": "Your Name",
+    "pr": {
+      "url": "https://github.com/xevrion-v2/agent-playground/pull/YOUR_PR_NUMBER",
+      "number": YOUR_PR_NUMBER
+    },
+    "issue": {
+      "url": "https://github.com/xevrion-v2/agent-playground/issues/0",
+      "number": 0
+    }
+  }
+]
