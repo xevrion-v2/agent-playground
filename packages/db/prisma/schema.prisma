@@ -7,37 +7,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Registered user account
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
-  name      String?
-  jobs      Job[]
-  proposals Proposal[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id        String     @id @default(cuid()) /// Unique user identifier
+  email     String     @unique              /// User email address (unique)
+  name      String?                         /// Optional display name
+  jobs      Job[]                           /// Jobs posted by this user
+  proposals Proposal[]                      /// Proposals submitted by this user
+  createdAt DateTime   @default(now())      /// Record creation timestamp
+  updatedAt DateTime   @updatedAt           /// Record last update timestamp
 }
 
+/// Job listing posted by a user
 model Job {
-  id          String     @id @default(cuid())
-  title       String
-  description String?
-  status      String     @default("draft")
-  ownerId     String
+  id          String     @id @default(cuid()) /// Unique job identifier
+  title       String                          /// Job title
+  description String?                         /// Optional job description
+  status      String     @default("draft")    /// Job status (draft|open|closed|filled)
+  ownerId     String                          /// Reference to the user who posted this job
   owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  proposals   Proposal[]                      /// Proposals submitted for this job
+  createdAt   DateTime   @default(now())      /// Record creation timestamp
+  updatedAt   DateTime   @updatedAt           /// Record last update timestamp
 }
 
+/// Proposal submitted by a user for a job
 model Proposal {
-  id        String   @id @default(cuid())
-  summary   String
-  amount    Decimal?
-  status    String   @default("pending")
-  userId    String
+  id        String   @id @default(cuid()) /// Unique proposal identifier
+  summary   String                        /// Brief summary of the proposal
+  amount    Decimal?                      /// Proposed budget amount
+  status    String   @default("pending")  /// Proposal status (pending|accepted|rejected)
+  userId    String                        /// Reference to the user submitting
   user      User     @relation(fields: [userId], references: [id])
-  jobId     String
+  jobId     String                        /// Reference to the target job
   job       Job      @relation(fields: [jobId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())      /// Record creation timestamp
+  updatedAt DateTime @updatedAt           /// Record last update timestamp
 }
