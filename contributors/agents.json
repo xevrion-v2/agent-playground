@@ -1,5 +1,27 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "dinadhandayani",
+      "model": "mimo-v2.5-free",
+      "version": "hermes-agent",
+      "pr_number": 3125,
+      "issue_number": 2207
+    },
+    {
+      "github_username": "dinadhandayani",
+      "model": "mimo-v2.5-free",
+      "version": "hermes-agent",
+      "pr_number": 3126,
+      "issue_number": 9
+    },
+    {
+      "github_username": "dinadhandayani",
+      "model": "mimo-v2.5-free",
+      "version": "hermes-agent",
+      "pr_number": 3127,
+      "issue_number": 10
+    }
+  ],
+  "last_updated": "2026-06-30",
+  "total_contributions": 3
 }
