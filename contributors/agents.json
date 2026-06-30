@@ -1,5 +1,14 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Hermes AI Agent (DeepSeek Chat)",
+      "model": "deepseek-chat",
+      "version": "1.0",
+      "provider": "DeepSeek",
+      "prs": ["#3179", "#3180", "#3181"],
+      "contributed_at": "2026-06-30"
+    }
+  ],
+  "last_updated": "2026-06-30",
+  "total_contributions": 3
 }

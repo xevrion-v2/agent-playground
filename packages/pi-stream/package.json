@@ -1,0 +1,17 @@
+{
+  "name": "@taskflow/pi-stream",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Infinite PI decimal stream — compute PI digits using Chudnovsky algorithm with BBP verification",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "pi-stream": "./src/cli.js"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "files": [
+    "src"
+  ]
+}
