@@ -1,22 +1,25 @@
 import { Router } from "express";
+import { apiError, apiSuccess } from "../utils/api-error";
 
 const router = Router();
 
 router.get("/", (_req, res) => {
-  res.json({
-    data: [],
-    message: "User listing is not implemented yet."
-  });
+  return apiSuccess(res, [], 200);
 });
 
 router.post("/", (req, res) => {
-  res.status(201).json({
-    data: {
-      id: "stub-user-id",
-      ...req.body
-    },
-    message: "User creation is not implemented yet."
-  });
+  const { name } = req.body;
+  if (!name) {
+    return apiError(res, 400, "Name is required");
+  }
+  return apiSuccess(res, {
+    id: "stub-user-id",
+    ...req.body
+  }, 201);
+});
+
+router.get("/:id", (req, res) => {
+  return apiError(res, 404, `User ${req.params.id} not found`);
 });
 
 export default router;

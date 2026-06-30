@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Kun-CEO",
+      "github": "bambooshadow-studio",
+      "contribution": "Fix #7: Add API error handling helper",
+      "bounty_address": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh"
+    }
+  ],
+  "last_updated": "2026-06-07",
+  "total_contributions": 1
 }
