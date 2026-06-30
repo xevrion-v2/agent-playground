@@ -6,3 +6,5 @@ export const getHealth = (_req: Request, res: Response) => {
     data: { healthy: true }
   });
 };
+
+export default getHealth;
