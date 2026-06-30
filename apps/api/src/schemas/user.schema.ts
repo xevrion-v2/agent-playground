@@ -1,27 +1,22 @@
 import { z } from 'zod';
 
+export const userIdSchema = z.object({
+  id: z.string().uuid('Invalid user ID format'),
+});
+
 export const createUserSchema = z.object({
-  body: z.object({
-    email: z.string().email('Invalid email address'),
-    password: z.string().min(8, 'Password must be at least 8 characters'),
-    name: z.string().min(1, 'Name is required').max(100, 'Name must be 100 characters or less'),
-    role: z.enum(['CLIENT', 'FREELANCER', 'ADMIN']).optional(),
-  }),
+  email: z.string().email('Invalid email format'),
+  name: z.string().min(1, 'Name is required').max(100, 'Name must be 100 characters or less'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
 export const updateUserSchema = z.object({
-  body: z.object({
-    email: z.string().email('Invalid email address').optional(),
-    name: z.string().min(1, 'Name is required').max(100, 'Name must be 100 characters or less').optional(),
-    bio: z.string().max(500, 'Bio must be 500 characters or less').optional(),
-    avatarUrl: z.string().url('Invalid URL').optional(),
-    skills: z.array(z.string()).optional(),
-    hourlyRate: z.number().min(0, 'Hourly rate must be non-negative').optional(),
-  }),
+  email: z.string().email('Invalid email format').optional(),
+  name: z.string().min(1, 'Name is required').max(100, 'Name must be 100')).optional(),
+  password: z.string().min(8, 'Password must be at least 8 characters').optional(),
+}).refine((data) => Object.keys(data).length > 0, {
+  message: 'At least one field must be provided for update',
 });
 
-export const userIdSchema = z.object({
-  params: z.object({
-    id: z.string().uuid('Invalid user ID'),
-  }),
-});
+export type CreateUserInput = z.infer<typeof createUserSchema>;
+export type UpdateUserInput = z.infer<typeof updateUserSchema>;
