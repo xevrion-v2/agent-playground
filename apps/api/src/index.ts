@@ -1,18 +1,39 @@
-import express from "express";
-
-import usersRouter from "./routes/users";
+import express, { Request, Response, NextFunction } from 'express';
+import { usersRouter } from './routes/users';
 
 const app = express();
-const port = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
+// Health check route
+app.get('/health', (req: Request, res: Response) => {
+  res.json({ status: 'ok' });
 });
 
-app.use("/users", usersRouter);
+// User routes
+app.use('/users', usersRouter);
 
-app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
+// 404 Handler for API routes
+// This must be placed after all defined routes
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    error: 'Not Found',
+    message: `Cannot ${req.method} ${req.path}`,
+  });
 });
+
+// Global error handler (optional but good practice)
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).json({
+    error: 'Internal Server Error',
+    message: err.message,
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+export default app;
