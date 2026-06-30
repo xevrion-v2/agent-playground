@@ -1,5 +1,20 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "id": "agent-001",
+      "name": "System Agent",
+      "status": "active",
+      "contributions": []
+    }
+  ],
+  "recent_contributions": [
+    {
+      "issue_number": 0,
+      "pr_number": null,
+      "contributor": "system",
+      "timestamp": "2023-10-27T10:00:00Z",
+      "status": "in_progress",
+      "description": "Added integer parsing helper utility"
+    }
+  ]
 }
