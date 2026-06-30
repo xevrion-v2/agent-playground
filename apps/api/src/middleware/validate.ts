@@ -1,24 +1,36 @@
 import { Request, Response, NextFunction } from 'express';
-import { ZodSchema, ZodError } from 'zod';
+import { ZodSchema } from 'zod';
 
-export const validate = (schema: ZodSchema, source: 'body' | 'params' | 'query' = 'body') => {
+interface ValidationConfig {
+  body?: ZodSchema;
+  params?: ZodSchema;
+  query?: ZodSchema;
+}
+
+export const validate = (schemas: ValidationConfig) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = schema.parse(req[source]);
-      req[source] = data;
-      next();
-    } catch (error) {
-      if (error instanceof ZodError) {
-        return res.status(400).json({
-          success: false,
-          message: 'Validation failed',
-          errors: error.errors.map((err) => ({
-            path: err.path.join('.'),
-            message: err.message,
-          })),
-        });
+      if (schemas.body) {
+        schemas.body.parse(req.body);
       }
-      next(error);
+      if (schemas.params) {
+        schemas.params.parse(req.params);
+      }
+      if (schemas.query) {
+        schemas.query.parse(req.query);
+      }
+      next();
+    } catch (error: any) {
+      const issues = error.issues?.map((issue: any) => ({
+        path: issue.path.join('.'),
+        message: issue.message,
+      })) || [{ path: 'unknown', message: 'Validation failed' }];
+
+      res.status(400).json({
+        success: false,
+        error: 'Validation Error',
+        details: issues,
+      });
     }
   };
 };
