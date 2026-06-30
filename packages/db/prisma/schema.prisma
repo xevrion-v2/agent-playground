@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Core user account tied to authentication and profile
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -29,6 +30,7 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// Freelancer bid/application for a task
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
