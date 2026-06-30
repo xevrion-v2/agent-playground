@@ -1,18 +1,10 @@
-import express from "express";
+import { OrderedDictionary } from './utils/OrderedDictionary';
 
-import usersRouter from "./routes/users";
+export { OrderedDictionary };
 
-const app = express();
-const port = process.env.PORT || 4000;
-
-app.use(express.json());
-
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
-});
-
-app.use("/users", usersRouter);
-
-app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
-});
+// Existing API entry point logic would go here
+// For example:
+// import express from 'express';
+// const app = express();
+// ...
+// export default app;
