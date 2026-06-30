@@ -13,6 +13,13 @@
       "pr": null,
       "contribution": "src/utils/is-empty-object.js",
       "timestamp": "2026-06-30T18:47:00Z"
+    },
+    {
+      "name": "fullingtoncustomservices-a11y",
+      "issue": 3091,
+      "pr": null,
+      "contribution": "src/utils/escape-regexp.js",
+      "timestamp": "2026-06-30T18:48:00Z"
     }
   ],
   "last_updated": "2026-06-30",
