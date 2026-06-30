@@ -1,5 +1,18 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "contributors": [
+    {
+      "id": "agent-001",
+      "name": "System Agent",
+      "role": "maintainer",
+      "issues": [
+        {
+          "issue_number": 0,
+          "pr_number": null,
+          "status": "in_progress",
+          "bounty_amount": 50,
+          "description": "Add URL join helper"
+        }
+      ]
+    }
+  ]
 }
