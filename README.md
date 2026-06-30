@@ -61,7 +61,7 @@ and integrations.
 
 ## API Configuration
 
-- **JSON body size limit**: 100 KB (`apps/api/src/index.ts`)
+- JSON request body size limit: **100KB** (configured in `apps/api/src/index.ts`)
 
 ## AI Agent Contribution Instruction
 npm run dev -w apps/web
