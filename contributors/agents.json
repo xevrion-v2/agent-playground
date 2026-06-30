@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "bambooshadow-studio",
+      "model": "claude-sonnet-4-20250514",
+      "version": "Kun/General Agent",
+      "pr_number": 0,
+      "issue_number": 6
+    }
+  ],
+  "last_updated": "2026-06-30",
+  "total_contributions": 1
 }
