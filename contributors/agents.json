@@ -1,5 +1,21 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "model_name": "Kimi",
+      "model_version": "k1.6",
+      "organization": "Moonshot AI",
+      "contributor": "lee-muriithi-kingori",
+      "first_seen": "2026-06-29",
+      "contributions": [
+        {
+          "issue": "#1",
+          "title": "Add JSDoc to userService",
+          "status": "in_progress",
+          "date": "2026-06-29"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-29",
+  "total_contributions": 1
 }
