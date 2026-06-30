@@ -1,31 +1,37 @@
-export class APIError extends Error {
-  statusCode: number;
-  isOperational: boolean;
+/**
+ * Standardized API error response helper.
+ * Provides a consistent shape for error responses across the Express app.
+ */
 
-  constructor(message: string, statusCode: number = 500, isOperational: boolean = true) {
-    super(message);
-    this.statusCode = statusCode;
-    this.isOperational = isOperational;
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
-
-export interface ErrorResponse {
+export interface ApiErrorResponse {
   success: false;
-  error: string;
-  statusCode: number;
-}
-
-export function createErrorResponse(error: Error | APIError): ErrorResponse {
-  const statusCode = error instanceof APIError ? error.statusCode : 500;
-  return {
-    success: false,
-    error: error.message || 'Internal Server Error',
-    statusCode,
+  error: {
+    message: string;
+    code?: string;
+    statusCode: number;
   };
 }
 
-export function sendError(res: any, error: Error | APIError): void {
-  const response = createErrorResponse(error);
-  res.status(response.statusCode).json(response);
+export function createApiError(
+  message: string,
+  statusCode: number = 500,
+  code?: string
+): ApiErrorResponse {
+  return {
+    success: false,
+    error: {
+      message,
+      statusCode,
+      ...(code && { code }),
+    },
+  };
+}
+
+export function sendApiError(
+  res: any,
+  message: string,
+  statusCode: number = 500,
+  code?: string
+): void {
+  res.status(statusCode).json(createApiError(message, statusCode, code));
 }
