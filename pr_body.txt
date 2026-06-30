@@ -1,0 +1,16 @@
+/claim #17
+
+## Summary
+Implemented the Chudnovsky algorithm for computing PI to thousands of decimal places, with a thorough explanation of why exact PI is mathematically impossible.
+
+## Algorithm
+The **Chudnovsky series** converges at ~14 digits per term, making it the fastest known algorithm for PI computation. Our implementation uses native `BigInt` for arbitrary-precision integer arithmetic, avoiding any floating-point limitations.
+
+## Demo
+
+https://github.com/KHHH2312/agent-playground/releases/download/demo-v2/demo.webm
+
+💳 Payment Details:
+Method: USDC
+Address: 0x43991A9dC8Ddf492eab6E55685644c2cb9B001D2
+Network: Base
