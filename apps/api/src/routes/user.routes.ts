@@ -1,22 +1,14 @@
 import { Router } from 'express';
-import { UserController } from '../controllers/user.controller';
+import * as userController from '../controllers/user.controller';
 import { validate } from '../middleware/validate';
-import { createUserSchema, updateUserSchema, userIdSchema } from '../schemas/user.schema';
+import { userCreateSchema, userUpdateSchema, userIdParamSchema } from '../schemas/user.schema';
 
 const router = Router();
-const userController = new UserController();
-router.get('/', userController.getAllUsers.bind(userController));
 
-// Get user by ID
-router.get('/:id', validate(userIdSchema, 'params'), userController.getUserById.bind(userController));
-
-// Create user
-router.post('/', validate(createUserSchema, 'body'), userController.createUser.bind(userController));
-
-// Update user
-router.put('/:id', validate(userIdSchema, 'params'), validate(updateUserSchema, 'body'), userController.updateUser.bind(userController));
-
-// Delete user
-router.delete('/:id', validate(userIdSchema, 'params'), userController.deleteUser.bind(userController));
+router.get('/', userController.getAllUsers);
+router.get('/:id', validate({ params: userIdParamSchema }), userController.getUserById);
+router.post('/', validate({ body: userCreateSchema }), userController.createUser);
+router.put('/:id', validate({ params: userIdParamSchema, body: userUpdateSchema }), userController.updateUser);
+router.delete('/:id', validate({ params: userIdParamSchema }), userController.deleteUser);
 
 export default router;
