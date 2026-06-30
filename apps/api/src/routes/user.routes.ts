@@ -1,30 +1,57 @@
-// TODO: Implement GET /users - List all users with pagination and filtering by role/skills
-// TODO: Implement GET /users/:id - Get single user profile with related tasks and reviews
 import { Router } from 'express';
-import { getUsers, getUserById, updateUser, deleteUser } from '../controllers/user.controller';
 import { authenticate } from '../middleware/auth';
-import { updateUserSchema } from '../validation/user.schema';
+import { validate } from '../middleware/validate';
+import { userSchemas } from '../schemas/user.schemas';
 
 const router = Router();
 
-// TODO: Add rate limiting for user search endpoints to prevent abuse
-router.get('/', getUsers);
+// TODO: Implement full CRUD operations for user management
+// TODO: Add proper error handling for each route with specific HTTP status codes
+// TODO: Implement pagination for list endpoints (query params: page, limit)
+// TODO: Add sorting and filtering capabilities to GET /users
+// TODO: Implement soft delete instead of hard delete for user records
+// TODO: Add rate limiting specifically for user-related endpoints
+// TODO: Implement proper authorization checks (admin vs regular user vs self)
 
-// TODO: Return 404 Not Found when user id does not exist
-// TODO: Return 400 Bad Request for invalid MongoDB/ObjectId format
-router.get('/:id', getUserById);
+// GET /users - List all users
+// TODO: Return paginated list of users with optional filters (role, status, skills)
+// TODO: Error cases: 401 Unauthorized (missing/invalid token), 403 Forbidden (non-admin)
+// TODO: Error cases: 500 Internal Server Error (database failure)
+router.get('/', authenticate, (req, res) => {
+  res.status(501).json({ message: 'Not implemented' });
+});
 
-// TODO: Implement PUT /users/:id - Full user profile update (admin only)
-// TODO: Return 403 Forbidden for non-admin users attempting to update other profiles
-// TODO: Return 409 Conflict when email/username already exists
-router.patch('/:id', authenticate, validate(updateUserSchema), updateUser);
+// GET /users/:id - Get user by ID
+// TODO: Return user profile with related data (skills, reviews summary)
+// TODO: Error cases: 401 Unauthorized, 404 Not Found (user doesn't exist)
+// TODO: Error cases: 400 Bad Request (invalid ID format)
+router.get('/:id', authenticate, (req, res) => {
+  res.status(501).json({ message: 'Not implemented' });
+});
 
-// TODO: Implement soft delete option (deactivate account) vs hard delete
-// TODO: Return 403 Forbidden when user tries to delete another user's account
-// TODO: Cascade delete related data: tasks, proposals, reviews, messages
-router.delete('/:id', authenticate, deleteUser);
+// POST /users - Create a new user
+// TODO: Validate request body against user creation schema
+// TODO: Hash password before storing, send verification email
+// TODO: Error cases: 400 Bad Request (validation failure, duplicate email)
+// TODO: Error cases: 409 Conflict (email already registered)
+router.post('/', validate(userSchemas.create), (req, res) => {
+  res.status(501).json({ message: 'Not implemented' });
+});
 
-// TODO: Implement GET /users/:id/tasks - Get all tasks created by or assigned to user
-// TODO: Implement GET /users/:id/proposals - Get all proposals submitted by user
+// PATCH /users/:id - Update user profile
+// TODO: Allow partial updates to user fields (name, bio, skills, avatar)
+// TODO: Error cases: 401 Unauthorized, 403 Forbidden (updating another user)
+// TODO: Error cases: 404 Not Found, 400 Bad Request (invalid fields)
+router.patch('/:id', authenticate, (req, res) => {
+  res.status(501).json({ message: 'Not implemented' });
+});
 
-export default router;
+// DELETE /users/:id - Delete a user
+// TODO: Implement soft delete (set deletedAt timestamp, don't remove record)
+// TODO: Error cases: 401 Unauthorized, 403 Forbidden (non-admin deleting others)
+// TODO: Error cases: 404 Not Found, 409 Conflict (user has active tasks/proposals)
+router.delete('/:id', authenticate, (req, res) => {
+  res.status(501).json({ message: 'Not implemented' });
+});
+
+export { router as userRouter };
