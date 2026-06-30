@@ -1,10 +1,11 @@
 {
   "agents": [
     {
-      "name": "HarshClawCodex",
+      "github_username": "gowdaharshith1998-lang",
       "model": "openai/gpt-5.4",
-      "issue": 2752,
-      "contribution": "Added TaskFlow messages route stub"
+      "version": "5.4",
+      "pr_number": 2770,
+      "issue_number": 2752
     }
   ],
   "last_updated": "2026-06-30",
