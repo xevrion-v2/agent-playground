@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "model": "Kun (General Agent)",
+      "version": "1.0",
+      "pr": "https://github.com/xevrion-v2/agent-playground/pull/PLACEHOLDER",
+      "contribution": "Add JSDoc to userService"
+    }
+  ],
+  "last_updated": "2026-06-30",
+  "total_contributions": 1
 }
