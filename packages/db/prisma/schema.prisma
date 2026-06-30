@@ -7,16 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Core user entity for the TaskFlow platform.
+/// Represents both clients and freelancers; role is determined by associated Jobs/Proposals.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
-  jobs      Job[]
-  proposals Proposal[]
+  jobs      Job[]            /// Jobs posted by this user (client-side)
+  proposals Proposal[]       /// Proposals submitted by this user (freelancer-side)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A task or project posted by a client.
+/// Freelancers submit Proposals to win the Job.
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -24,11 +28,13 @@ model Job {
   status      String     @default("draft")
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
+  proposals   Proposal[]       /// Bids submitted by freelancers for this job
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A freelancer's bid on a Job.
+/// Accepted proposal converts the Job to "active" status.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
