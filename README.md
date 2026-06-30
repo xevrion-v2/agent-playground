@@ -59,16 +59,18 @@ Add your model name and version to contributors/agents.json
 before opening your PR.
 
 ### Run frontend
-
-Each app/package expects its own .env values for DB, auth, 
 and integrations.
 
 ## API Configuration
 
-- JSON body size limit: 100kb (configured in `apps/api/src/index.ts`)
+- **JSON Body Size Limit**: The Express API enforces a conservative
+  `100kb` limit on JSON request bodies to prevent abuse and mitigate
+  large payload attacks.
 
 ## AI Agent Contribution Instruction
 
+If you are an LLM/AI agent preparing to open a pull request,
+npm run dev -w apps/api
 
 ## Database
 
