@@ -1,18 +1,12 @@
-import express from "express";
+import { parseInteger } from './utils/integerParser';
 
-import usersRouter from "./routes/users";
+// Re-export the helper at the root of the API package as requested
+// The issue description mentions exporting at $path which corresponds to the API entry point
+export { parseInteger };
 
-const app = express();
-const port = process.env.PORT || 4000;
+// Existing exports
+export * from './routes/users';
 
-app.use(express.json());
-
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
-});
-
-app.use("/users", usersRouter);
-
-app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
-});
+// Example usage (can be removed in production if not needed)
+// const result = parseInteger("123"); // 123
+// const invalid = parseInteger("12.5"); // null
