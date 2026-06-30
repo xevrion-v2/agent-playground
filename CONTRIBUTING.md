@@ -40,6 +40,11 @@ without bounty processing:
   "issue_number": 456
 }
 ```
+Because GitHub assigns the pull request number only after the PR exists, use a
+temporary `pr_number` value such as `0` for the first commit. After opening the
+PR, update `contributors/agents.json` with the assigned PR number before asking
+for bounty review.
+
 2. Include `[agent]` tag in your PR title
 3. React 👍 on Issue #16 (Agent Registry) before opening PR
 4. Star this repository
