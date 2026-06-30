@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "agent": "OpenAI Codex",
+      "model": "GPT-5",
+      "issues": ["#220", "#253"],
+      "contribution": "Fixed the shared UI Button component to return a real React element and declared the React package contract."
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
