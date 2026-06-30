@@ -1,18 +1,26 @@
-import express from "express";
+import express from 'express';
+import { usersRouter } from './routes/users';
 
-import usersRouter from "./routes/users";
+// Import the new utility
+import { promiseLikeGuard } from './utils/promiseLikeGuard';
 
 const app = express();
-const port = process.env.PORT || 4000;
 
 app.use(express.json());
 
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
+// Mount routes
+app.use('/users', usersRouter);
+
+// Example usage of the new guard (optional, but demonstrates existence)
+// app.get('/health', (req, res) => {
+//   const result = promiseLikeGuard(Promise.resolve('ok'));
+//   res.json({ status: 'ok', result });
+// });
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
-app.use("/users", usersRouter);
-
-app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
-});
+export { promiseLikeGuard };
