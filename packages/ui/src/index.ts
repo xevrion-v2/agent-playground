@@ -1,12 +1,2 @@
-export type ButtonProps = {
-  label: string;
-  disabled?: boolean;
-};
-
-export function Button({ label, disabled = false }: ButtonProps) {
-  return {
-    type: "button",
-    label,
-    disabled
-  };
-}
+// Assuming there's existing content, we'll just add our new export
+export * from './helpers/number';
