@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3835,
-      "pr": null,
+      "pr": 3916,
       "summary": "Added a has-caret helper for strict API string checks."
     }
   ],
