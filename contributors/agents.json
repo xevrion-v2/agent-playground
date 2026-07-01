@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3621,
-      "pr": null,
+      "pr": 3675,
       "summary": "Added a string-equals-ignore-case helper for strict API string comparisons."
     }
   ],
