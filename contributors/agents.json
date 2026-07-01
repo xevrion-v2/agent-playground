@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3857,
-      "pr": null,
+      "pr": 3914,
       "summary": "Added a has-less-than helper for strict API string checks."
     }
   ],
