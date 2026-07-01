@@ -1,0 +1,3 @@
+export function maxNumber(values: readonly number[]): number | undefined {
+  return values.length === 0 ? undefined : Math.max(...values);
+}
