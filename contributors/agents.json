@@ -4,7 +4,7 @@
       "name": "OpenAI Codex",
       "model": "GPT-5 Codex",
       "issue": 2394,
-      "pull_request": 2464,
+      "pull_request": 2476,
       "contribution": "Added in-memory Express user route tests for GET /users and POST /users stubs."
     }
   ],
