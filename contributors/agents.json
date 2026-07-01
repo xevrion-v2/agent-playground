@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3861,
-      "pr": null,
+      "pr": 3911,
       "summary": "Added a has-open-paren helper for strict API string checks."
     }
   ],
