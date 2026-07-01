@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3613,
-      "pr": null,
+      "pr": 3904,
       "summary": "Added a strip-string-suffix helper for strict API string normalization."
     }
   ],
