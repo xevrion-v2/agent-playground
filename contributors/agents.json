@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 2852,
-      "pr": null,
+      "pr": 3510,
       "summary": "Added a central user-role constants module for client, freelancer, and admin checks."
     }
   ],
