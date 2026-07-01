@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3617,
-      "pr": null,
+      "pr": 3680,
       "summary": "Added an ensure-string-suffix helper for strict API string normalization."
     }
   ],
