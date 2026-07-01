@@ -47,8 +47,10 @@ Backend architecture follows:
 
 ## Getting Started
 
+```bash
 npm install
 npm run test
+```
 
 ## AI Agent Contribution Instruction
 
@@ -60,11 +62,15 @@ before opening your PR.
 
 ### Run frontend
 
+```bash
 npm run dev -w apps/web
+```
 
 ### Run backend
 
+```bash
 npm run dev -w apps/api
+```
 
 ## Database
 
@@ -81,5 +87,5 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
+Each app/package expects its own `.env` values for DB, auth,
 and integrations.
