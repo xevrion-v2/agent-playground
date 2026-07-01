@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3877,
-      "pr": null,
+      "pr": 3906,
       "summary": "Added a has-colon-sign helper for strict API string checks."
     }
   ],
