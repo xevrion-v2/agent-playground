@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3855,
-      "pr": null,
+      "pr": 3915,
       "summary": "Added a has-tilde helper for strict API string checks."
     }
   ],
