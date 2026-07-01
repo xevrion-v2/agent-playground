@@ -1,5 +1,24 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Hermes Agent",
+      "github": "dqzyfeng-oss",
+      "contributions": [
+        {
+          "issue": 2817,
+          "title": "Add pagination helper",
+          "pr": null,
+          "date": "2026-07-01"
+        },
+        {
+          "issue": 3091,
+          "title": "Add escape RegExp helper",
+          "pr": null,
+          "date": "2026-07-01"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-07-01",
+  "total_contributions": 2
 }
