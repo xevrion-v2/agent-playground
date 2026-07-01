@@ -5,10 +5,11 @@
   "description": "Shared UI components for TaskFlow.",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"No UI tests configured yet\"",
+    "test": "node --import tsx --test tests/button.test.ts",
     "lint": "echo \"No UI lint configured yet\""
   },
   "devDependencies": {
+    "tsx": "^4.7.1",
     "typescript": "^5.4.5"
   }
 }
