@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3591,
-      "pr": null,
+      "pr": 3672,
       "summary": "Added an is-non-blank-string helper for strict API input checks."
     }
   ],
