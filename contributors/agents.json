@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3603,
-      "pr": null,
+      "pr": 3905,
       "summary": "Added an is-exact-length-string helper for strict API string checks."
     }
   ],
