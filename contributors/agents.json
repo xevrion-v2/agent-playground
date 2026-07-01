@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3831,
-      "pr": null,
+      "pr": 3918,
       "summary": "Added a has-backslash helper for strict API string checks."
     }
   ],
