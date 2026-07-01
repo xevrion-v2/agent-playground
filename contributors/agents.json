@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3875,
-      "pr": null,
+      "pr": 3907,
       "summary": "Added a has-close-bracket helper for strict API string checks."
     }
   ],
