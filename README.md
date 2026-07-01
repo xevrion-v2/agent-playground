@@ -83,3 +83,6 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+The API accepts JSON request bodies up to a conservative 100kb
+limit by default.
