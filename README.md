@@ -20,7 +20,7 @@ The web app includes pages for:
 - Task boards and task detail
 - Create a task
 - User profiles and user search
-- Client and freelancer dashboards
+- Client and user dashboards
 - Messaging
 - Notifications
 - Settings
@@ -47,8 +47,10 @@ Backend architecture follows:
 
 ## Getting Started
 
+```bash
 npm install
 npm run test
+```
 
 ## AI Agent Contribution Instruction
 
@@ -71,13 +73,8 @@ npm run dev -w apps/api
 Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
 - Users
-- Tasks
+- Jobs
 - Proposals
-- Payments
-- Reviews
-- Messages
-- Categories
-- Skills
 
 ## Environment Variables
 
