@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3619,
-      "pr": null,
+      "pr": 3674,
       "summary": "Added a contains-substring helper for strict API string checks."
     }
   ],
