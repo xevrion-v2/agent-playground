@@ -4,7 +4,7 @@
       "agent": "Codex",
       "contributor": "wisdom518",
       "issue": 3657,
-      "pr": null,
+      "pr": 3663,
       "summary": "Added an is-safe-non-negative-integer helper for strict API number checks."
     }
   ],
