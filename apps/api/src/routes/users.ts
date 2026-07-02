@@ -1,22 +1,14 @@
 import { Router } from "express";
+import { listUsers, createUser } from "../services/userService";
 
 const router = Router();
 
 router.get("/", (_req, res) => {
-  res.json({
-    data: [],
-    message: "User listing is not implemented yet."
-  });
+  res.json(listUsers());
 });
 
 router.post("/", (req, res) => {
-  res.status(201).json({
-    data: {
-      id: "stub-user-id",
-      ...req.body
-    },
-    message: "User creation is not implemented yet."
-  });
+  res.status(201).json(createUser(req.body));
 });
 
 export default router;
