@@ -1,39 +1,46 @@
 import React from 'react';
 
-export interface ButtonProps {
-  /** The visual style variant of the button */
+/**
+ * Shared Button component props.
+ * Extend this interface when creating button variants.
+ */
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Visual style variant of the button */
   variant?: 'primary' | 'secondary' | 'danger';
-  /** The size of the button */
+  /** Button size */
   size?: 'sm' | 'md' | 'lg';
-  /** Whether the button is disabled */
+  /** Disables the button and applies disabled styling */
   disabled?: boolean;
-  /** Click handler */
-  onClick?: () => void;
-  /** The content inside the button */
-  children: React.ReactNode;
-  /** Additional CSS classes */
-  className?: string;
-  /** HTML type attribute */
-  type?: 'button' | 'submit' | 'reset';
-  /** Accessible label for screen readers */
-  'aria-label'?: string;
+  /** Loading state - shows a spinner and disables interactions */
+  loading?: boolean;
+  /** Optional icon rendered before the button text */
+  leftIcon?: React.ReactNode;
+  /** Optional icon rendered after the button text */
+  rightIcon?: React.ReactNode;
 }
 
-export function Button({
+export const Button: React.FC<ButtonProps> = ({
   size = 'md',
   disabled = false,
-  onClick,
-  type = 'button',
+  loading = false,
+  leftIcon,
+  rightIcon,
   children,
-  className = '',
-  'aria-label': ariaLabel,
-}: ButtonProps): React.ReactElement {
+  ...rest
+}) => {
   return (
-    <button
-      type={type}
-      disabled={disabled}
-      onClick={onClick}
-      aria-label={ariaLabel}
-      className={`btn btn-${variant} btn-${size} ${className}`}
+      disabled={disabled || loading}
+      {...rest}
     >
-      {children}
+      {loading ? (
+        <span className="button-loading">Loading...</span>
+      ) : (
+        <>
+          {leftIcon && <span className="button-icon button-icon-left">{leftIcon}</span>}
+          {children}
+          {rightIcon && <span className="button-icon button-icon-right">{rightIcon}</span>}
+        </>
+      )}
+    </button>
+  );
+};
