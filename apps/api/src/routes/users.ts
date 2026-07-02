@@ -10,6 +10,14 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res.status(400).json({
+      error: {
+        message: "Request body is required."
+      }
+    });
+  }
+
   res.status(201).json({
     data: {
       id: "stub-user-id",
