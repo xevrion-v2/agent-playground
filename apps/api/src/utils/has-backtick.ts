@@ -1,0 +1,1 @@
+﻿/**`n * Checks if a string contains a backtick character.`n * @param value - The string to check.`n * @returns true if the string contains a backtick, false otherwise.`n */`nexport function hasBacktick(value: string): boolean {`n  return value.includes("`");`n}
