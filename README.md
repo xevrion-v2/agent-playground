@@ -81,5 +81,7 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Current local environment variables:
+
+- `apps/web`: no required environment variables at the moment.
+- `apps/api`: `PORT` is optional and defaults to `4000` when unset.
