@@ -1,0 +1,1 @@
+﻿/**`n * Checks if a string contains an underscore character.`n * @param value - The string to check.`n * @returns true if the string contains "_", false otherwise.`n */`nexport function hasUnderscoreCharacter(value: string): boolean {`n  return value.includes("_");`n}
