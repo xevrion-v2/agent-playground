@@ -7,33 +7,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Represents a registered user in the TaskFlow system.
+/// Users can act as client owners (creating jobs) or freelancers (submitting proposals).
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
-  jobs      Job[]
-  proposals Proposal[]
+  jobs      Job[]      // Jobs created by this user
+  proposals Proposal[] // Proposals submitted by this user
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// Represents a job posting listed by a client user.
+/// Freelancers can submit proposals for active job postings.
 model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
-  status      String     @default("draft")
+  status      String     @default("draft") // Status: draft, active, completed, etc.
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
+  proposals   Proposal[] // List of proposals submitted for this job
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// Represents a bid or proposal submitted by a user for a specific job.
 model Proposal {
   id        String   @id @default(cuid())
-  summary   String
-  amount    Decimal?
-  status    String   @default("pending")
+  summary   String   // Details of the proposal/bid
+  amount    Decimal? // Bid amount/price
+  status    String   @default("pending") // Status: pending, accepted, rejected
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   jobId     String
