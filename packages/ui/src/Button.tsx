@@ -1,35 +1,25 @@
-import React from 'react';
+import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Visual style variant of the button */
-  variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
-  /** Size of the button */
-  size?: 'sm' | 'md' | 'lg';
-  /** Whether the button is in a loading state */
-  loading?: boolean;
-  /** Optional icon to display before the button text */
-  leftIcon?: React.ReactNode;
-  /** Optional icon to display after the button text */
-  rightIcon?: React.ReactNode;
+/**
+ * Props for the shared Button component.
+ * Extends native button attributes while keeping the public API minimal.
+ */
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Content rendered inside the button */
+  children: ReactNode;
+  /** Visual style variant */
+  variant?: 'primary' | 'secondary' | 'danger';
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      variant = 'primary',
-      size = 'md',
-      loading = false,
-      leftIcon,
-      rightIcon,
-      children,
-      disabled,
-      ...props
-    },
-    ref
-  ) => {
-    // Stub implementation
-    return <button ref={ref} disabled={disabled || loading} {...props} />;
-  }
-);
+/**
+ * Shared UI Button component.
+ */
+export const Button: React.FC<ButtonProps> = ({
+  children,
+  variant = 'primary',
+  ...rest
+}) => {
+  return <button {...rest}>{children}</button>;
+};
 
-Button.displayName = 'Button';
+export default Button;
