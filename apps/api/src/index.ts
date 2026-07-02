@@ -13,6 +13,39 @@ app.get("/health", (_req, res) => {
 
 app.use("/users", usersRouter);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
 });
+
+const shutdownTimeoutMs = Number(process.env.GRACEFUL_SHUTDOWN_TIMEOUT_MS ?? 10000);
+let isShuttingDown = false;
+
+function shutdown(signal: NodeJS.Signals): void {
+  if (isShuttingDown) {
+    return;
+  }
+
+  isShuttingDown = true;
+  console.log(`Received ${signal}; closing TaskFlow API server`);
+
+  const forceExitTimer = setTimeout(() => {
+    console.error("Graceful shutdown timed out; forcing process exit");
+    process.exit(1);
+  }, shutdownTimeoutMs);
+  forceExitTimer.unref();
+
+  server.close((error?: Error) => {
+    clearTimeout(forceExitTimer);
+
+    if (error) {
+      console.error("TaskFlow API server shutdown failed", error);
+      process.exit(1);
+    }
+
+    console.log("TaskFlow API server closed");
+    process.exit(0);
+  });
+}
+
+process.once("SIGTERM", shutdown);
+process.once("SIGINT", shutdown);
