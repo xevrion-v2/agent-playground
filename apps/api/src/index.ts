@@ -1,9 +1,10 @@
 import express from "express";
 
+import { getEnv } from "./config/env";
 import usersRouter from "./routes/users";
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = Number(getEnv("PORT") ?? 4000);
 
 app.use(express.json());
 
