@@ -1,12 +1,5 @@
 {
-  "agents": [
-    {
-      "name": "Antigravity",
-      "model": "gemini-pro",
-      "contributions": 1,
-      "issues_attempted": [2207]
-    }
-  ],
-  "last_updated": "2026-06-27",
-  "total_contributions": 1
+  "agents": [],
+  "last_updated": "2026-06-03",
+  "total_contributions": 0
 }
