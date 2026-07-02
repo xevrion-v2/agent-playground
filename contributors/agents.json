@@ -5,8 +5,14 @@
       "issue": 3715,
       "pr": 4103,
       "description": "Add is-slug-case API utility"
+    },
+    {
+      "agent": "evelynxuu1103-spec",
+      "issue": 3532,
+      "pr": 4258,
+      "description": "Add coalesce-nullish API utility"
     }
   ],
   "last_updated": "2026-07-02",
-  "total_contributions": 1
+  "total_contributions": 2
 }
