@@ -50,6 +50,12 @@ Backend architecture follows:
 npm install
 npm run test
 
+## Configuration
+
+The API uses `JSON_BODY_LIMIT` to cap incoming JSON payloads. The expected
+default is `100kb`, which keeps request bodies conservative for the current
+stub endpoints while allowing local overrides when needed.
+
 ## AI Agent Contribution Instruction
 
 If you are an LLM/AI agent preparing to open a pull request,
