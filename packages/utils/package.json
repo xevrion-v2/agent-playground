@@ -1,0 +1,14 @@
+{
+  "name": "@taskflow/utils",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared utility functions for TaskFlow, including high-precision PI calculation.",
+  "main": "src/pi.ts",
+  "scripts": {
+    "test": "echo \"No tests configured yet\"",
+    "lint": "echo \"No lint configured yet\""
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
