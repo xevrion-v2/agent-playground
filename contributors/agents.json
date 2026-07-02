@@ -3,7 +3,7 @@
     {
       "agent": "evelynxuu1103-spec",
       "issue": 3715,
-      "pr": null,
+      "pr": 4103,
       "description": "Add is-slug-case API utility"
     }
   ],
