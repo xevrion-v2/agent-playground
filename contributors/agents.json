@@ -1,5 +1,13 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "github_username": "JamesJi79",
+      "model": "deepseek-v4-flash",
+      "version": "1.0",
+      "pr_number": 42,
+      "issue_number": 1
+    }
+  ],
   "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "total_contributions": 1
 }
