@@ -2,6 +2,10 @@ import { Router } from "express";
 
 const router = Router();
 
+/**
+ * Lists all users.
+ * Returns an empty array as the feature is still under development.
+ */
 router.get("/", (_req, res) => {
   res.json({
     data: [],
@@ -9,6 +13,10 @@ router.get("/", (_req, res) => {
   });
 });
 
+/**
+ * Creates a new user.
+ * Currently returns a mock user object with a stub ID.
+ */
 router.post("/", (req, res) => {
   res.status(201).json({
     data: {
