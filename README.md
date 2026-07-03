@@ -83,3 +83,8 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## API request body limit
+
+The API uses `express.json({ limit: "100kb" })` for JSON payloads. Keep request bodies small and move large file-style data to dedicated upload/storage flows.
+
