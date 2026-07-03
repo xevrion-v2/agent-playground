@@ -1,15 +1,10 @@
 import express from 'express';
-import { errorHandler, notFoundHandler } from './middleware/errorHandler';
-import healthRouter from './routes/health';
-
+import taskRoutes from './routes/tasks';
+import { errorHandler } from './middleware/errorHandler';
 const app = express();
-
-app.use(express.json());
-
-app.use('/api', healthRouter);
-
-app.use(notFoundHandler);
-
+// Routes
+app.use('/api/tasks', taskRoutes);
+// Error handling middleware (must be last)
 app.use(errorHandler);
 
 export default app;
