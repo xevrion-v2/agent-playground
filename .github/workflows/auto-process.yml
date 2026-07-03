@@ -38,9 +38,7 @@ jobs:
           if [ ! -f leaderboard.json ]; then
             printf '{}\n' > leaderboard.json
           fi
-          tmp_file="$(mktemp)"
-          jq --arg user "${PR_USER}" '.[$user] = ((.[$user] // 0) + 1)' leaderboard.json > "${tmp_file}"
-          mv "${tmp_file}" leaderboard.json
+          node .github/scripts/update-leaderboard.mjs leaderboard.json "${PR_USER}"
           git add leaderboard.json
           if git diff --cached --quiet -- leaderboard.json; then
             echo "No leaderboard changes to commit."
