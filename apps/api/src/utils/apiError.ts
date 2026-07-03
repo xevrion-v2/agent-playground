@@ -1,37 +1,41 @@
-/**
- * Standardized API error response helper.
- * Provides a consistent shape for error responses across the Express app.
- */
+import { Response } from 'express';
 
-export interface ApiErrorResponse {
-  success: false;
-  error: {
-    message: string;
-    code?: string;
-    statusCode: number;
-  };
+export class ApiError extends Error {
+  public statusCode: number;
+  public details?: unknown;
+
+  constructor(statusCode: number, message: string, details?: unknown) {
+    super(message);
+    this.statusCode = statusCode;
+    this.details = details;
+    this.name = 'ApiError';
+  }
 }
 
-export function createApiError(
-  message: string,
-  statusCode: number = 500,
-  code?: string
-): ApiErrorResponse {
-  return {
-    success: false,
+export function sendError(res: Response, error: unknown): void {
+  if (error instanceof ApiError) {
+    res.status(error.statusCode).json({
+      error: {
+        message: error.message,
+        ...(error.details && { details: error.details }),
+      },
+    });
+    return;
+  }
+
+  if (error instanceof Error) {
+    res.status(500).json({
+      error: {
+        message: 'Internal server error',
+      },
+    });
+    console.error('Unhandled error:', error);
+    return;
+  }
+
+  res.status(500).json({
     error: {
-      message,
-      statusCode,
-      ...(code && { code }),
+      message: 'An unexpected error occurred',
     },
-  };
-}
-
-export function sendApiError(
-  res: any,
-  message: string,
-  statusCode: number = 500,
-  code?: string
-): void {
-  res.status(statusCode).json(createApiError(message, statusCode, code));
+  });
 }
