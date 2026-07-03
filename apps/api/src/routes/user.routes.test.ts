@@ -8,7 +8,7 @@ app.use('/users', userRoutes);
 
 describe('User Routes', () => {
   describe('GET /users', () => {
-    it('should return a list of users with status 200', async () => {
+    it('should return a list of users with 200 status', async () => {
       const response = await request(app).get('/users');
       
       expect(response.status).toBe(200);
@@ -16,22 +16,32 @@ describe('User Routes', () => {
       expect(Array.isArray(response.body.users)).toBe(true);
     });
 
-    it('should return users array in the response', async () => {
+    it('should return users with default pagination', async () => {
       const response = await request(app).get('/users');
       
-      expect(response.body).toEqual(
-        expect.objectContaining({
-          users: expect.any(Array)
-        })
-      );
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('page', 1);
+      expect(response.body).toHaveProperty('limit');
+      expect(response.body).toHaveProperty('total');
+    });
+
+    it('should handle query parameters for pagination', async () => {
+      const response = await request(app)
+        .get('/users')
+        .query({ page: 2, limit: 10 });
+      
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('page', 2);
+      expect(response.body).toHaveProperty('limit', 10);
     });
   });
 
   describe('POST /users', () => {
-    it('should create a user and return status 201', async () => {
+    it('should create a new user and return 201 status', async () => {
       const newUser = {
-        name: 'John Doe',
-        email: 'john@example.com'
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'securePassword123'
       };
 
       const response = await request(app)
@@ -40,45 +50,37 @@ describe('User Routes', () => {
       
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('id');
-      expect(response.body).toHaveProperty('name', newUser.name);
       expect(response.body).toHaveProperty('email', newUser.email);
+      expect(response.body).toHaveProperty('name', newUser.name);
+      expect(response.body).not.toHaveProperty('password');
     });
 
-    it('should create a user with the provided data', async () => {
-      const newUser = {
-        name: 'Jane Smith',
-        email: 'jane@example.com'
+    it('should return 400 for missing required fields', async () => {
+      const invalidUser = {
+        name: 'Test User'
       };
 
       const response = await request(app)
         .post('/users')
-        .send(newUser);
+        .send(invalidUser);
       
-      expect(response.body).toMatchObject(newUser);
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('error');
     });
 
-    it('should handle empty request body', async () => {
-      const response = await request(app)
-        .post('/users')
-        .send({});
-      
-      expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('id');
-    });
-
-    it('should handle request with extra fields', async () => {
-      const userWithExtra = {
-        name: 'Extra User',
-        email: 'extra@example.com',
-        extraField: 'should be ignored or handled'
+    it('should return 400 for invalid email format', async () => {
+      const invalidUser = {
+        email: 'not-an-email',
+        name: 'Test User',
+        password: 'securePassword123'
       };
 
       const response = await request(app)
         .post('/users')
-        .send(userWithExtra);
+        .send(invalidUser);
       
-      expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('name', 'Extra User');
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('error');
     });
   });
 });
