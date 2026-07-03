@@ -1,10 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
 import { json } from 'express';
 import { errorHandler } from './middleware/errorHandler';
 import { authRouter } from './routes/auth';
 import { userRouter } from './routes/users';
+const port = process.env.PORT || 4000;
 
 app.use(express.json());
 
@@ -13,14 +13,14 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/users", usersRouter);
-
-app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
-app.use(helmet());
-app.use(cors());
-// Conservative JSON body size limit to prevent large payload attacks
+const app = express();
+const PORT = process.env.PORT || 3001;
+// Configure conservative JSON body size limit (100kb)
 app.use(json({ limit: '100kb' }));
 
-// Routes
-app.use('/api/auth', authRouter);
-app.use('/api/users', userRouter);
+app.use(cors());
+app.use(express.json());
+
+  console.log(`API server running on port ${PORT}`);
+});
+export default app;
