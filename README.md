@@ -66,6 +66,8 @@ npm run dev -w apps/web
 
 npm run dev -w apps/api
 
+The backend JSON parser uses a conservative request body limit of `100kb`.
+
 ## Database
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
