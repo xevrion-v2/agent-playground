@@ -1,30 +1,30 @@
 import { Router } from 'express';
-import { validate } from '../middleware/validate.middleware';
+import { validateBody, validateQuery, validateParams } from '../middleware/validate';
 import {
   createUserSchema,
   updateUserSchema,
   userIdParamSchema,
   userQuerySchema,
-} from '../validation/user.validation';
+} from '../validation/user.schema';
 
 const router = Router();
 
-// GET /users - list users with query validation
-router.get('/', validate(userQuerySchema, 'query'), (req, res) => {
-  // TODO: implement controller logic
-  res.json({ message: 'List users', query: req.query });
+// GET /users - List users with query validation
+router.get('/', validateQuery(userQuerySchema), (req, res) => {
+  res.json({ success: true, data: [] });
 });
 
-// POST /users - create user with body validation
-router.post('/', validate(createUserSchema, 'body'), (req, res) => {
-  // TODO: implement controller logic
-  res.status(201).json({ message: 'User created', data: req.body });
+// POST /users - Create user with body validation
+router.post('/', validateBody(createUserSchema), (req, res) => {
+  res.status(201).json({ success: true, data: req.body });
 });
 
-// GET /users/:id - get user by ID with param validation
-router.get('/:id', validate(userIdParamSchema, 'params'), (req, res) => {
-  // TODO: implement controller logic
-  res.json({ message: 'Get user', id: req.params.id });
+// GET /users/:id - Get user by ID with param validation
+router.get('/:id', validateParams(userIdParamSchema), (req, res) => {
+  res.json({ success: true, data: { id: req.params.id } });
 });
 
-export default router;
+// PATCH /users/:id - Update user with param and body validation
+router.patch('/:id', validateParams(userIdParamSchema), validateBody(updateUserSchema), (req, res) => {
+  res.json({ success: true, data: { id: req.params.id, ...req.body } });
+});
