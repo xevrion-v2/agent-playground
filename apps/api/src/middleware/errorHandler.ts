@@ -1,29 +1,28 @@
 import { Request, Response, NextFunction } from 'express';
+import { ApiError } from '../utils/apiError';
 
-interface ErrorResponse {
-  success: boolean;
-  error: {
-    message: string;
-    statusCode: number;
-    timestamp: string;
-  };
-}
-
-export const apiErrorHandler = (
-  err: any,
-  req: Request,
+export function errorHandler(
+  err: Error,
+  _req: Request,
   res: Response,
-  next: NextFunction
-) => {
-  const statusCode = err.statusCode || 500;
-  const errorResponse: ErrorResponse = {
-    success: false,
-    error: {
-      message: err.message || 'Internal Server Error',
-      statusCode: statusCode,
-      timestamp: new Date().toISOString(),
-    }
-  };
+  _next: NextFunction
+): void {
+  if (err instanceof ApiError) {
+    res.status(err.statusCode).json({
+      error: {
+        code: err.code,
+        message: err.message,
+        ...(err.details ? { details: err.details } : {}),
+      },
+    });
+    return;
+  }
 
-  res.status(statusCode).json(errorResponse);
-};
+  console.error('Unhandled error:', err);
+  res.status(500).json({
+    error: {
+      code: 'INTERNAL_ERROR',
+      message: 'An unexpected error occurred',
+    },
+  });
+}
