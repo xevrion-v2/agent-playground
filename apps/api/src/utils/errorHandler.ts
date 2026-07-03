@@ -1,21 +1,47 @@
 import { Response } from 'express';
 
-interface ApiError extends Error {
-  statusCode?: number;
-  message: string;
+export interface ApiErrorResponse {
+  success: false;
+  error: {
+    code: string;
+    message: string;
+    details?: unknown;
+  };
 }
 
-export const sendApiError = (res: Response, error: ApiError, statusCode: number = 500) => {
-  return res.status(statusCode).json({
+export class AppError extends Error {
+  public readonly statusCode: number;
+  public readonly code: string;
+  public readonly details?: unknown;
+
+  constructor(
+    statusCode: number,
+    code: string,
+    message: string,
+    details?: unknown
+  ) {
+    super(message);
+    this.statusCode = statusCode;
+    this.code = code;
+    this.details = details;
+    Object.setPrototypeOf(this, AppError.prototype);
+  }
+}
+
+export function sendError(
+  res: Response,
+  statusCode: number,
+  code: string,
+  message: string,
+  details?: unknown
+): void {
+  const response: ApiErrorResponse = {
     success: false,
     error: {
-      message: error.message,
-      statusCode: statusCode,
-      timestamp: new Date().toISOString(),
-    }
-  });
-};
-
-export const createApiError = (message: string, statusCode: number = 500): ApiError => {
-  return { message, statusCode };
-};
+      code,
+      message,
+      ...(details !== undefined && { details }),
+    },
+  };
+  res.status(statusCode).json(response);
+}
