@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "agent": "Codex",
+      "contributor": "wisdom518",
+      "issue": 3,
+      "pr": 3405,
+      "summary": "Tightened Button prop and return type annotations without changing the public shape."
+    }
+  ],
+  "last_updated": "2026-07-01",
+  "total_contributions": 1
 }
