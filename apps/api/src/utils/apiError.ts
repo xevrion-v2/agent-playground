@@ -1,41 +1,43 @@
-import { Response } from 'express';
-
 export class ApiError extends Error {
   public statusCode: number;
+  public code: string;
   public details?: unknown;
 
-  constructor(statusCode: number, message: string, details?: unknown) {
+  constructor(
+    statusCode: number,
+    message: string,
+    code?: string,
+    details?: unknown
+  ) {
     super(message);
-    this.statusCode = statusCode;
-    this.details = details;
     this.name = 'ApiError';
-  }
-}
-
-export function sendError(res: Response, error: unknown): void {
-  if (error instanceof ApiError) {
-    res.status(error.statusCode).json({
-      error: {
-        message: error.message,
-        ...(error.details && { details: error.details }),
-      },
-    });
-    return;
+    this.statusCode = statusCode;
+    this.code = code || 'INTERNAL_ERROR';
+    this.details = details;
+    Object.setPrototypeOf(this, ApiError.prototype);
   }
 
-  if (error instanceof Error) {
-    res.status(500).json({
-      error: {
-        message: 'Internal server error',
-      },
-    });
-    console.error('Unhandled error:', error);
-    return;
+  static badRequest(message: string, details?: unknown): ApiError {
+    return new ApiError(400, message, 'BAD_REQUEST', details);
   }
 
-  res.status(500).json({
-    error: {
-      message: 'An unexpected error occurred',
-    },
-  });
+  static unauthorized(message: string): ApiError {
+    return new ApiError(401, message, 'UNAUTHORIZED');
+  }
+
+  static forbidden(message: string): ApiError {
+    return new ApiError(403, message, 'FORBIDDEN');
+  }
+
+  static notFound(message: string): ApiError {
+    return new ApiError(404, message, 'NOT_FOUND');
+  }
+
+  static conflict(message: string): ApiError {
+    return new ApiError(409, message, 'CONFLICT');
+  }
+
+  static internal(message: string): ApiError {
+    return new ApiError(500, message, 'INTERNAL_ERROR');
+  }
 }
