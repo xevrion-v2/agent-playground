@@ -83,3 +83,16 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## Environment variables
+
+Local development expects the following environment variables when the related package is running:
+
+| Package | Variable | Purpose | Example |
+| --- | --- | --- | --- |
+| `apps/api` | `PORT` | Optional Express API port. Defaults to `4000` when unset. | `4000` |
+| `packages/db` | `DATABASE_URL` | PostgreSQL connection string used by Prisma. | `postgresql://user:pass@localhost:5432/taskflow` |
+| `apps/web` | `NEXT_PUBLIC_API_URL` | Optional browser-facing API base URL for the web app. | `http://localhost:4000` |
+
+Keep secrets in local `.env` files and do not commit real credentials.
+
