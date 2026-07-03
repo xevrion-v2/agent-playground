@@ -5,7 +5,7 @@
       "model": "GPT-5",
       "version": "codex-cli",
       "github_username": "leo1987820",
-      "pr_number": null,
+      "pr_number": 4929,
       "issue_number": 3141,
       "contribution_type": "code",
       "description": "Added a finite positive number type guard with node:test coverage."
