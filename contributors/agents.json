@@ -6,7 +6,7 @@
         {
           "issue_number": 2207,
           "description": "Validate user creation payloads",
-          "pr_url": "https://github.com/xevrion-v2/agent-playground/pull/__TBD__",
+          "pr_url": "https://github.com/xevrion-v2/agent-playground/pull/5228",
           "submitted_at": "2026-07-04"
         }
       ]
