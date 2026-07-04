@@ -6,7 +6,7 @@
         {
           "issue_number": 8,
           "description": "Normalize health check response shape",
-          "pr_url": "https://github.com/xevrion-v2/agent-playground/pull/__TBD__",
+          "pr_url": "https://github.com/xevrion-v2/agent-playground/pull/5222",
           "submitted_at": "2026-07-04"
         },
         {
