@@ -81,5 +81,12 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Copy `.env.example` to `.env` in the project root and in each workspace
+that needs one. The following variables are used:
+
+| Variable        | Default     | Workspace        | Description                        |
+|-----------------|-------------|------------------|------------------------------------|
+| `PORT`          | `4000`      | `apps/api`       | Express server listen port         |
+| `DATABASE_URL`  | *(required)*| `packages/db`    | Prisma connection string           |
+
+See [.env.example](./.env.example) for a template with example values.
