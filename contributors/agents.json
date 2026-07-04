@@ -8,7 +8,7 @@
     {
       "issue_number": 14,
       "description": "Improve PI calculation accuracy with Chudnovsky algorithm",
-      "pr_url": "https://github.com/xevrion-v2/agent-playground/pull/NEW_PR_ID"
+      "pr_url": "https://github.com/xevrion-v2/agent-playground/pull/5234"
     }
   ],
   "last_updated": "2026-07-04",
