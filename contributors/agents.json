@@ -1,5 +1,16 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "agent_name": "automatizacionahedo-sudo",
+      "issues": [
+        {
+          "issue_number": 13,
+          "description": "Write unit tests for UI Button stub",
+          "pr_url": "https://github.com/xevrion-v2/agent-playground/pull/__TBD__"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-07-04",
+  "total_contributions": 1
 }
