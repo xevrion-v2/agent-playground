@@ -1,3 +1,6 @@
+/// Prisma schema for the TaskFlow monorepo
+/// PostgreSQL datasource configured via DATABASE_URL env var
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,36 +10,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Registered user account
 model User {
   id        String     @id @default(cuid())
+  /// User email address (used for login and notifications)
   email     String     @unique
+  /// Display name (optional)
   name      String?
+  /// Jobs owned by this user
   jobs      Job[]
+  /// Proposals submitted by this user
   proposals Proposal[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A bounty-style job posting created by a user
 model Job {
   id          String     @id @default(cuid())
+  /// Short title of the job
   title       String
+  /// Detailed description of the work required
   description String?
+  /// One of: draft, open, in_progress, completed, cancelled
   status      String     @default("draft")
+  /// Reference to the user who created this job
   ownerId     String
+  /// The user who owns this job
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Proposals submitted for this job
   proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A freelancer proposal submitted against a job
 model Proposal {
   id        String   @id @default(cuid())
+  /// Brief summary of the proposed solution
   summary   String
+  /// Proposed budget / rate for the work
   amount    Decimal?
+  /// One of: pending, accepted, rejected, withdrawn
   status    String   @default("pending")
+  /// Reference to the user who submitted this proposal
   userId    String
+  /// The user who submitted the proposal
   user      User     @relation(fields: [userId], references: [id])
+  /// The job this proposal targets
   jobId     String
+  /// The target job
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
