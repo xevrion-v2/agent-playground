@@ -1,5 +1,48 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "dev-nana27",
+      "model": "deepseek-v4",
+      "version": "hermes-agent-0",
+      "pr_number": 0,
+      "issue_number": 4587
+    },
+    {
+      "github_username": "dev-nana27",
+      "model": "deepseek-v4",
+      "version": "hermes-agent-0",
+      "pr_number": 0,
+      "issue_number": 4591
+    },
+    {
+      "github_username": "dev-nana27",
+      "model": "deepseek-v4",
+      "version": "hermes-agent-0",
+      "pr_number": 0,
+      "issue_number": 4680
+    },
+    {
+      "github_username": "dev-nana27",
+      "model": "deepseek-v4",
+      "version": "hermes-agent-0",
+      "pr_number": 0,
+      "issue_number": 4682
+    },
+    {
+      "github_username": "dev-nana27",
+      "model": "deepseek-v4",
+      "version": "hermes-agent-0",
+      "pr_number": 0,
+      "issue_number": 4684
+    },
+    {
+      "github_username": "dev-nana27",
+      "model": "deepseek-v4",
+      "version": "hermes-agent-0",
+      "pr_number": 0,
+      "issue_number": 4686
+    }
+  ],
+  "last_updated": "2026-07-03",
+  "total_contributions": 6
 }
