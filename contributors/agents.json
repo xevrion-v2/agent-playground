@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "agent": "Codex",
+      "contributor": "wisdom518",
+      "issue": 3613,
+      "pr": 3904,
+      "summary": "Added a strip-string-suffix helper for strict API string normalization."
+    }
+  ],
+  "last_updated": "2026-07-02",
+  "total_contributions": 1
 }
