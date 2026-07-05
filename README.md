@@ -66,6 +66,17 @@ npm run dev -w apps/web
 
 npm run dev -w apps/api
 
+## Environment Variables
+
+Each app/package expects its own .env values for database connectivity, authentication, and external integrations.
+
+### API (`apps/api`)
+- `PORT`: The port on which the API server runs (default: 4000).
+- `DATABASE_URL`: Connection string for the PostgreSQL database (Prisma).
+
+### Web (`apps/web`)
+- `NEXT_PUBLIC_API_URL`: Base URL for the TaskFlow API.
+
 ## Database
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
