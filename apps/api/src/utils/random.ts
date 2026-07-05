@@ -1,25 +1,25 @@
-const crypto = require("node:crypto");
+import crypto from "node:crypto";
 
 /**
  * Generates a random integer between min and max (inclusive).
  * If only one argument is provided, it is treated as max and min is 0.
  *
- * @param {number} min - The minimum value.
- * @param {number} [max] - The maximum value.
+ * @param {any} min - The minimum value.
+ * @param {any} [max] - The maximum value.
  * @returns {number} The random integer.
  */
-function randomInt(min, max) {
-  if (max === undefined) {
-    max = min;
-    min = 0;
-  }
-
-  if (typeof min !== "number" || typeof max !== "number" || Number.isNaN(min) || Number.isNaN(max)) {
-    throw new TypeError("Arguments must be numbers");
-  }
-
+export function randomInt(min: any, max?: any): number {
   let actualMin = min;
   let actualMax = max;
+
+  if (actualMax === undefined) {
+    actualMax = actualMin;
+    actualMin = 0;
+  }
+
+  if (typeof actualMin !== "number" || typeof actualMax !== "number" || Number.isNaN(actualMin) || Number.isNaN(actualMax)) {
+    throw new TypeError("Arguments must be numbers");
+  }
 
   if (actualMin > actualMax) {
     const temp = actualMin;
@@ -33,25 +33,26 @@ function randomInt(min, max) {
 /**
  * Generates a random alphanumeric string of a given length.
  *
- * @param {number} [length=8] - The length of the string.
+ * @param {any} [length=8] - The length of the string.
  * @returns {string} The random string.
  */
-function randomString(length = 8) {
-  if (length === null || length === undefined) {
-    length = 8;
+export function randomString(length: any = 8): string {
+  let actualLength = length;
+  if (actualLength === null || actualLength === undefined) {
+    actualLength = 8;
   }
 
-  if (typeof length !== "number" || Number.isNaN(length)) {
+  if (typeof actualLength !== "number" || Number.isNaN(actualLength)) {
     throw new TypeError("Length must be a number");
   }
 
-  if (length < 0) {
+  if (actualLength < 0) {
     throw new RangeError("Length must be non-negative");
   }
 
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
-  for (let i = 0; i < length; i++) {
+  for (let i = 0; i < actualLength; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return result;
@@ -62,31 +63,24 @@ function randomString(length = 8) {
  *
  * @returns {string} The generated UUID.
  */
-function randomUUID() {
+export function randomUUID(): string {
   return crypto.randomUUID();
 }
 
 /**
  * Picks a random element from an array.
  *
- * @param {Array} array - The array to pick from.
- * @returns {*} The randomly picked element.
+ * @param {any} array - The array to pick from.
+ * @returns {any} The randomly picked element.
  */
-function randomPick(array) {
+export function randomPick<T = any>(array: any): T {
   if (!Array.isArray(array)) {
     throw new TypeError("Expected an array");
   }
 
   if (array.length === 0) {
-    return undefined;
+    return undefined as any;
   }
 
   return array[Math.floor(Math.random() * array.length)];
 }
-
-module.exports = {
-  randomInt,
-  randomString,
-  randomUUID,
-  randomPick,
-};

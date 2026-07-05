@@ -1,6 +1,6 @@
-const test = require("node:test");
-const assert = require("node:assert");
-const { randomInt, randomString, randomUUID, randomPick } = require("./random");
+import { test } from "node:test";
+import assert from "node:assert";
+import { randomInt, randomString, randomUUID, randomPick } from "./random";
 
 test("random utility tests", async (t) => {
   // --- randomInt Tests (7 tests) ---
@@ -29,7 +29,7 @@ test("random utility tests", async (t) => {
   });
 
   await t.test("randomInt throws TypeError for non-numeric inputs", () => {
-    assert.throws(() => randomInt("5", 10), TypeError);
+    assert.throws(() => randomInt("5" as any, 10), TypeError);
   });
 
   await t.test("randomInt returns min when min === max", () => {
@@ -62,7 +62,7 @@ test("random utility tests", async (t) => {
   });
 
   await t.test("randomString throws TypeError for non-numeric length", () => {
-    assert.throws(() => randomString("10"), TypeError);
+    assert.throws(() => randomString("10" as any), TypeError);
   });
 
   await t.test("randomString returns only alphanumeric characters by default", () => {
@@ -94,7 +94,7 @@ test("random utility tests", async (t) => {
   });
 
   await t.test("randomPick throws TypeError for non-array inputs", () => {
-    assert.throws(() => randomPick("hello"), TypeError);
+    assert.throws(() => randomPick("hello" as any), TypeError);
   });
 
   await t.test("randomPick works with arrays of different types", () => {
