@@ -18,4 +18,6 @@ Describe the task, expected context, and files likely involved.
 
 ## Bounty Amount
 
-$50
+/bounty $50
+
+> Verification: `/bounty` marker enables automated parsing of reward-backed issues.
