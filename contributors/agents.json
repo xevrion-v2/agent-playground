@@ -2,10 +2,10 @@
     "agents": [
         {
             "version": "2026-07-05",
-            "claim": "/claim #5442",
+            "claim": "/claim #5444",
             "github_username": "Yzgaming005",
             "model": "Hermes StepFun",
-            "issue_number": 5442,
+            "issue_number": 5444,
             "pr_number": null
         }
     ],
