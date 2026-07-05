@@ -1,6 +1,6 @@
-const test = require("node:test");
-const assert = require("node:assert");
-const { escapeRegExp } = require("./escapeRegExp");
+import { test } from "node:test";
+import assert from "node:assert";
+import { escapeRegExp } from "./escapeRegExp";
 
 test("escapeRegExp utility tests", async (t) => {
   await t.test("leaves normal strings unchanged", () => {

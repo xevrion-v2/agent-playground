@@ -1,10 +1,10 @@
 /**
  * Escapes the RegExp special characters in a string.
  *
- * @param {string} text - The input text to escape.
+ * @param {any} text - The input text to escape.
  * @returns {string} The escaped string.
  */
-function escapeRegExp(text) {
+export function escapeRegExp(text: any): string {
   if (text === null || text === undefined) {
     return "";
   }
@@ -13,5 +13,3 @@ function escapeRegExp(text) {
 
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
-
-module.exports = { escapeRegExp };
