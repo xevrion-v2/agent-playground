@@ -6,8 +6,15 @@
       "version": "latest",
       "pr_number": null,
       "issue_number": 2
+    },
+    {
+      "github_username": "g0spel",
+      "model": "deepseek-v4-flash",
+      "version": "latest",
+      "pr_number": null,
+      "issue_number": 4
     }
   ],
   "last_updated": "2026-07-05",
-  "total_contributions": 1
+  "total_contributions": 2
 }

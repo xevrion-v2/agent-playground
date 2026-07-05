@@ -87,5 +87,24 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+The monorepo expects the following environment variables across its apps and packages. Create a `.env` file at the root or in the relevant app/package directory (see `.gitignore` for supported env file patterns).
+
+### `apps/api`
+
+| Variable     | Description                | Default | Required |
+|-------------|----------------------------|---------|----------|
+| `PORT`      | Port the Express server listens on | `4000` | No       |
+
+*Referenced in `apps/api/src/index.ts` via `process.env.PORT`.*
+
+### `packages/db` (Prisma)
+
+| Variable        | Description                                      | Default | Required |
+|----------------|--------------------------------------------------|---------|----------|
+| `DATABASE_URL` | PostgreSQL connection string for Prisma ORM      | —       | Yes      |
+
+*Referenced in `packages/db/prisma/schema.prisma` via `env("DATABASE_URL")`.*
+
+### `apps/web`
+
+The Next.js frontend currently has **no** environment variable references in its source code. As the app grows, expected variables such as `NEXT_PUBLIC_API_URL` or API tokens should be added here.
