@@ -3,10 +3,10 @@
  * Replaces spaces and underscores with hyphens, removes special characters,
  * converts to lowercase, and handles empty or non-string inputs gracefully.
  *
- * @param {string} text - The input text to slugify.
+ * @param {any} text - The input text to slugify.
  * @returns {string} The URL-friendly slug.
  */
-function slugify(text) {
+export function slugify(text: any): string {
   if (text === null || text === undefined) {
     return "";
   }
@@ -26,5 +26,3 @@ function slugify(text) {
     // Remove leading and trailing hyphens
     .replace(/^-+|-+$/g, "");
 }
-
-module.exports = { slugify };

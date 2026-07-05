@@ -1,6 +1,6 @@
-const test = require("node:test");
-const assert = require("node:assert");
-const { slugify } = require("./slugify");
+import { test } from "node:test";
+import assert from "node:assert";
+import { slugify } from "./slugify";
 
 test("slugify utility tests", async (t) => {
   await t.test("converts simple string to lowercase and replaces spaces", () => {
