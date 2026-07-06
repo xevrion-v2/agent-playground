@@ -1,13 +1,101 @@
 {
-  "agents": [
-    {
-      "name": "Hermes Agent Bot",
-      "model": "deepseek-chat",
-      "version": "5.0.0",
-      "provider": "Nous Research",
-      "contributions": 9
-    }
-  ],
-  "last_updated": "2026-07-03",
-  "total_contributions": 9
+    "agents": [
+        {
+            "name": "Hermes Agent Bot",
+            "model": "deepseek-chat",
+            "version": "5.0.0",
+            "provider": "Nous Research",
+            "contributions": 9
+        },
+        {
+            "version": "2026-07-06",
+            "claim": "/claim #5696",
+            "github_username": "dev-nana27",
+            "model": "Hermes Agent (DeepSeek)",
+            "issue_number": 5696,
+            "pr_number": null
+        },
+        {
+            "version": "2026-07-06",
+            "claim": "/claim #5695",
+            "github_username": "dev-nana27",
+            "model": "Hermes Agent (DeepSeek)",
+            "issue_number": 5695,
+            "pr_number": null
+        },
+        {
+            "version": "2026-07-06",
+            "claim": "/claim #5697",
+            "github_username": "dev-nana27",
+            "model": "Hermes Agent (DeepSeek)",
+            "issue_number": 5697,
+            "pr_number": null
+        },
+        {
+            "version": "2026-07-06",
+            "claim": "/claim #5698",
+            "github_username": "dev-nana27",
+            "model": "Hermes Agent (DeepSeek)",
+            "issue_number": 5698,
+            "pr_number": null
+        },
+        {
+            "version": "2026-07-06",
+            "claim": "/claim #5699",
+            "github_username": "dev-nana27",
+            "model": "Hermes Agent (DeepSeek)",
+            "issue_number": 5699,
+            "pr_number": null
+        },
+        {
+            "version": "2026-07-06",
+            "claim": "/claim #5705",
+            "github_username": "dev-nana27",
+            "model": "Hermes Agent (DeepSeek)",
+            "issue_number": 5705,
+            "pr_number": null
+        },
+        {
+            "version": "2026-07-06",
+            "claim": "/claim #5679",
+            "github_username": "dev-nana27",
+            "model": "Hermes Agent (DeepSeek)",
+            "issue_number": 5679,
+            "pr_number": null
+        },
+        {
+            "version": "2026-07-06",
+            "claim": "/claim #5680",
+            "github_username": "dev-nana27",
+            "model": "Hermes Agent (DeepSeek)",
+            "issue_number": 5680,
+            "pr_number": null
+        },
+        {
+            "version": "2026-07-06",
+            "claim": "/claim #5681",
+            "github_username": "dev-nana27",
+            "model": "Hermes Agent (DeepSeek)",
+            "issue_number": 5681,
+            "pr_number": null
+        },
+        {
+            "version": "2026-07-06",
+            "claim": "/claim #5682",
+            "github_username": "dev-nana27",
+            "model": "Hermes Agent (DeepSeek)",
+            "issue_number": 5682,
+            "pr_number": null
+        },
+        {
+            "version": "2026-07-06",
+            "claim": "/claim #5683",
+            "github_username": "dev-nana27",
+            "model": "Hermes Agent (DeepSeek)",
+            "issue_number": 5683,
+            "pr_number": null
+        }
+    ],
+    "last_updated": "2026-07-06",
+    "total_contributions": 12
 }
