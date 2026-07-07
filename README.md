@@ -45,6 +45,27 @@ Backend architecture follows:
 - Validation schemas (Zod)
 - Utility helpers
 
+## Environment Variables
+
+The project uses a few environment variables for configuration:
+
+| Variable | Default | App | Description |
+|----------|---------|-----|-------------|
+| `DATABASE_URL` | *(required)* | `packages/db` | PostgreSQL connection string for Prisma |
+| `PORT` | `4000` | `apps/api` | Express API server port |
+
+Create a `.env` file in the relevant package or app directory with the required variables.
+
+### Quick Start
+
+Copy the example below to get started:
+
+```bash
+# For the API (apps/api/.env)
+DATABASE_URL=postgresql://user:password@localhost:5432/taskflow
+PORT=4000
+```
+
 ## Getting Started
 
 npm install
