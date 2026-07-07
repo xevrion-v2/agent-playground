@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
+    "test": "npm run test:leaderboard && npm run test --workspaces --if-present",
+    "test:leaderboard": "node --test scripts/*.test.mjs",
     "lint": "npm run lint --workspaces --if-present",
     "format": "npm run format --workspaces --if-present"
   },
