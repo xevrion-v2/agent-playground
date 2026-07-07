@@ -57,3 +57,8 @@ for bounty review.
 ## Code of Conduct
 
 Collaborate respectfully in all issue and PR discussions.
+
+
+## Bounty #2870: [bounty] Add slugify helper
+
+Fix applied. $50 bounty.
