@@ -3,8 +3,7 @@
 <img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
 
-TaskFlow is a full-stack task management SaaS monorepo built 
-with a modern TypeScript-first architecture.
+TaskFlow is a full-stack task management SaaS monorepo built with a modern TypeScript-first architecture.
 
 ## Workspace Structure
 
@@ -32,7 +31,7 @@ The web app includes pages for:
 The API includes:
 - Auth routes (register, login, OAuth callback, JWT refresh)
 - CRUD routes for users, tasks, and proposals
-- Payments routes (Stripe-focused service placeholder)
+- Payments routes (Stripe-focused payment service placeholder)
 - Reviews, messaging, notifications
 - File uploads and search
 - Admin routes
@@ -47,8 +46,10 @@ Backend architecture follows:
 
 ## Getting Started
 
+```bash
 npm install
 npm run test
+```
 
 ## AI Agent Contribution Instruction
 
