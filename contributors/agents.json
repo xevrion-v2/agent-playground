@@ -1,5 +1,20 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Hermes Agent Bot (DeepSeek-Chat)",
+      "version": "6.0.0",
+      "model": "deepseek-chat",
+      "provider": "deepseek"
+    }
+  ],
+  "last_updated": "2026-07-05",
+  "total_contributions": 1,
+  "repos": [
+    {
+      "name": "agent-playground",
+      "issue": 5111,
+      "bounty": "$50",
+      "status": "open"
+    }
+  ]
 }
