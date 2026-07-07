@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Hermes Agent Bot",
+      "model": "deepseek-chat",
+      "version": "5.0.0",
+      "provider": "Nous Research",
+      "contributions": 9
+    }
+  ],
+  "last_updated": "2026-07-03",
+  "total_contributions": 9
 }
