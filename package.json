@@ -15,5 +15,8 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2"
   }
 }
