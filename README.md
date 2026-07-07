@@ -83,3 +83,12 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+### API (`apps/api`)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | `4000` | Port the Express API listens on |
+| `DATABASE_URL` | **Yes** | — | PostgreSQL connection string used by Prisma |
+
+Copy `.env.example` to `.env` in the repo root (or inside `apps/api`) and fill in your values:
