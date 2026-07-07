@@ -57,3 +57,8 @@ for bounty review.
 ## Code of Conduct
 
 Collaborate respectfully in all issue and PR discussions.
+
+
+## Bounty #3091: [bounty] Add escape RegExp
+
+Fix applied. $50 bounty.
