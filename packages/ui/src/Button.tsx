@@ -1,25 +1,37 @@
 import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
 
-/**
- * Props for the shared Button component.
- * Extends native button attributes while keeping the public API minimal.
- */
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Content rendered inside the button */
-  children: ReactNode;
-  /** Visual style variant */
   variant?: 'primary' | 'secondary' | 'danger';
+  size?: 'sm' | 'md' | 'lg';
 }
 
-/**
- * Shared UI Button component.
- */
 export const Button: React.FC<ButtonProps> = ({
   children,
+  onClick,
+  disabled,
+  type = 'button',
   variant = 'primary',
+  size = 'md',
   ...rest
 }) => {
-  return <button {...rest}>{children}</button>;
-};
+  const baseStyles = 'rounded font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
+  const variantStyles = {
+    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500',
+  };
+  const sizeStyles = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2 text-base',
+  };
 
-export default Button;
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]}`}
+      {...rest}
+    >
+      {children}
+    </button>
+  );
