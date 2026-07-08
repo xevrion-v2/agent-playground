@@ -1,5 +1,13 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "github_username": "evelynxuu1103-spec",
+      "model": "gpt-5",
+      "version": "0.0",
+      "pr_number": 5244,
+      "issue_number": 4485
+    }
+  ],
   "last_updated": "2026-06-03",
   "total_contributions": 0
 }
