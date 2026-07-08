@@ -1,17 +1,17 @@
-import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
+import React, { ButtonHTMLAttributes, ReactNode } from 'react';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger';
+  children: ReactNode;
 }
 
-export function Button({
+export const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
-  disabled,
   variant = 'primary',
-  type = 'button',
-  ...rest
-}: ButtonProps): ReactNode {
+  disabled = false,
+  ...props
+}) => {
   const baseStyles = 'px-4 py-2 rounded font-medium transition-colors';
   const variantStyles = {
     primary: 'bg-blue-600 text-white hover:bg-blue-700',
@@ -19,18 +19,8 @@ export function Button({
     danger: 'bg-red-600 text-white hover:bg-red-700',
   };
 
-  const className = `${baseStyles} ${variantStyles[variant]} ${
-  }`;
-
   return (
-    <button
-      className={className}
-      onClick={onClick}
-      disabled={disabled}
-      type={type}
-      {...rest}
-    >
       {children}
     </button>
   );
-}
+};
