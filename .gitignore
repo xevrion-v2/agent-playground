@@ -33,3 +33,5 @@ Thumbs.db
 
 # Vercel
 .vercel/
+node_modules/
+package-lock.json
