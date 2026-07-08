@@ -90,7 +90,24 @@ jobs:
               }
             ];
 
+            async function openIssueWithTitleExists(title) {
+              const openItems = await github.paginate(github.rest.issues.listForRepo, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: "open",
+                per_page: 100
+              });
+
+              return openItems.some((item) => !item.pull_request && item.title === title);
+            }
+
             for (const issue of issues) {
+              const alreadyExists = await openIssueWithTitleExists(issue.title);
+              if (alreadyExists) {
+                core.info(`Skipping existing starter issue: ${issue.title}`);
+                continue;
+              }
+
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
