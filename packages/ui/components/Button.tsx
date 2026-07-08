@@ -1,20 +1,36 @@
-import React from 'react';
+import React, { type ButtonHTMLAttributes, type ReactNode } from 'react';
 
-export interface ButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  disabled?: boolean;
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger';
-  size?: 'small' | 'medium' | 'large';
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export function Button({
   children,
   onClick,
   disabled,
   variant = 'primary',
-  size = 'medium',
-}) => {
+  type = 'button',
+  ...rest
+}: ButtonProps): ReactNode {
+  const baseStyles = 'px-4 py-2 rounded font-medium transition-colors';
+  const variantStyles = {
+    primary: 'bg-blue-600 text-white hover:bg-blue-700',
+    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
+    danger: 'bg-red-600 text-white hover:bg-red-700',
+  };
+
+  const className = `${baseStyles} ${variantStyles[variant]} ${
+  }`;
+
   return (
     <button
+      className={className}
       onClick={onClick}
+      disabled={disabled}
+      type={type}
+      {...rest}
+    >
+      {children}
+    </button>
+  );
+}
