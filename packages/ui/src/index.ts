@@ -9,5 +9,5 @@ export function Button({ label, disabled = false }: ButtonProps) {
     label,
     disabled
   };
-export { Button, type ButtonProps } from './Button';
+export { Button, type ButtonProps } from './components/Button';
 }
