@@ -7,33 +7,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Platform user: can create jobs (owner) or submit proposals (freelancer).
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
-  jobs      Job[]
-  proposals Proposal[]
+  jobs      Job[]           // Jobs this user owns
+  proposals Proposal[]      // Proposals this user submitted
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A job listing posted by a user, accepting proposals from freelancers.
 model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
-  status      String     @default("draft")
+  status      String     @default("draft") // draft | open | in_progress | completed | cancelled
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
+  proposals   Proposal[]       // Proposals submitted for this job
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A freelancer's proposal on a job, including their quoted amount and status.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
-  amount    Decimal?
-  status    String   @default("pending")
+  amount    Decimal?       // Proposed payment amount
+  status    String   @default("pending") // pending | accepted | rejected | withdrawn
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   jobId     String
