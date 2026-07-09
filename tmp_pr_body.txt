@@ -1,0 +1,12 @@
+/claim #2
+
+## Summary
+Implemented the fix for: Fix README formatting and code blocks. The changes have been thoroughly tested and verified to meet all requirements.
+
+## Demo
+![Demo video](https://raw.githubusercontent.com/KHHH2312/agent-playground/fix/issue-2-readme-typo/demo.gif)
+
+💳 Payment Details:
+Method: USDC
+Address: 0x43991A9dC8Ddf492eab6E55685644c2cb9B001D2
+Network: Base
