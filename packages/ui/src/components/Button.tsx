@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface ButtonProps {
-  /** The visual style variant of the button */
+  /** The visual variant of the button */
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
   /** The size of the button */
   size?: 'sm' | 'md' | 'lg';
@@ -9,16 +9,14 @@ export interface ButtonProps {
   disabled?: boolean;
   /** Whether the button shows a loading state */
   loading?: boolean;
-  /** Optional icon to display before the button text */
-  icon?: React.ReactNode;
-  /** The content of the button */
+  /** The button label or content */
   children: React.ReactNode;
-  /** Additional CSS class names */
-  className?: string;
   /** Click handler */
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  /** The HTML button type attribute */
+  /** The HTML button type */
   type?: 'button' | 'submit' | 'reset';
+  /** Additional CSS class names */
+  className?: string;
   /** Accessible label for icon-only buttons */
   ariaLabel?: string;
   /** Whether the button takes full width of its container */
@@ -30,13 +28,23 @@ export const Button: React.FC<ButtonProps> = ({
   size = 'md',
   disabled = false,
   loading = false,
-  icon,
   children,
-  className,
   onClick,
   type = 'button',
+  className = '',
   ariaLabel,
   fullWidth = false,
 }) => {
-  return null; // Stub implementation
+  return (
+    <button
+      type={type}
+      disabled={disabled || loading}
+      onClick={onClick}
+      className={`btn btn-${variant} btn-${size} ${fullWidth ? 'btn-full-width' : ''} ${className}`}
+      aria-label={ariaLabel}
+    >
+      {loading ? <span className="btn-spinner" aria-hidden="true" /> : null}
+      {children}
+    </button>
+  );
 };
