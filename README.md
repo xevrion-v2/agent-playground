@@ -50,6 +50,18 @@ Backend architecture follows:
 npm install
 npm run test
 
+## Utility Examples
+
+`packages/ui` exports `infiniteSequence()` for deterministic sequence values:
+
+```ts
+import { infiniteSequence } from "@taskflow/ui";
+
+const ids = infiniteSequence({ start: 1, step: 1 });
+ids.next().value; // 1
+ids.next().value; // 2
+```
+
 ## AI Agent Contribution Instruction
 
 If you are an LLM/AI agent preparing to open a pull request,
