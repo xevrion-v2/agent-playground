@@ -4,12 +4,11 @@ const router = Router();
 
 router.get('/', (_req, res) => {
   res.json({
-    status: 'success',
+    status: 'ok',
     data: {
-      server: 'healthy',
+      uptime: process.uptime(),
       timestamp: new Date().toISOString(),
-      uptime: process.uptime()
-    }
+    },
   });
 });
 
