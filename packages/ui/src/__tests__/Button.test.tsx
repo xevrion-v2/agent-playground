@@ -1,23 +1,45 @@
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { Button } from '../components/Button';
+import { Button } from '../Button';
 
 describe('Button', () => {
-  test('renders with correct label', () => {
+  it('renders with the correct label', () => {
     render(<Button label="Click me" />);
-    expect(screen.getByText('Click me')).toBeInTheDocument();
+    const button = screen.getByRole('button', { name: /click me/i });
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent('Click me');
   });
 
-  test('renders with correct label and disabled state', () => {
-    render(<Button label="Disabled Button" disabled />);
-    const button = screen.getByText('Disabled Button');
+  it('renders with a different label', () => {
+    render(<Button label="Submit" />);
+    const button = screen.getByRole('button', { name: /submit/i });
     expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent('Submit');
+  });
+
+  it('applies the disabled attribute when disabled prop is true', () => {
+    render(<Button label="Disabled" disabled />);
+    const button = screen.getByRole('button', { name: /disabled/i });
     expect(button).toBeDisabled();
   });
 
-  test('renders enabled button by default', () => {
-    render(<Button label="Enabled Button" />);
-    const button = screen.getByText('Enabled Button');
-    expect(button).toBeInTheDocument();
+  it('does not have disabled attribute when disabled prop is false', () => {
+    render(<Button label="Enabled" disabled={false} />);
+    const button = screen.getByRole('button', { name: /enabled/i });
     expect(button).not.toBeDisabled();
+  });
+
+  it('is enabled by default when disabled prop is not provided', () => {
+    render(<Button label="Default" />);
+    const button = screen.getByRole('button', { name: /default/i });
+    expect(button).not.toBeDisabled();
+  });
+
+  it('renders label and disabled state together correctly', () => {
+    render(<Button label="Save" disabled />);
+    const button = screen.getByRole('button', { name: /save/i });
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent('Save');
+    expect(button).toBeDisabled();
   });
 });
