@@ -1,0 +1,9 @@
+{
+  "tool": "list_files",
+  "arguments": {
+    "target_directory": "/",
+    "depth": 3,
+    "offset": 0,
+    "limit": 200
+  }
+}
