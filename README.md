@@ -83,3 +83,8 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## Contributing
+
+<!-- gfi-2 -->
+Thanks for considering a contribution! See open issues labeled `good first issue`.
