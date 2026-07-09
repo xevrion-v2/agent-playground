@@ -3,6 +3,7 @@ import { apiError } from "../utils/errors";
 
 const router = Router();
 
+// TODO: add pagination (limit/offset query params) and optional search/filter params
 router.get("/", (_req, res) => {
   res.json({
     data: [],
@@ -10,6 +11,8 @@ router.get("/", (_req, res) => {
   });
 });
 
+// TODO: persist user to DB via Prisma, handle duplicate email (409), validate password strength
+// TODO: return created user without password field
 router.post("/", (req, res) => {
   if (!req.body || typeof req.body !== "object") {
     return apiError(res, 400, "Request body must be a JSON object");
