@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Button, ButtonProps } from "../index";
+import { Button } from "../index";
 
 describe("Button", () => {
   it("returns an object with type 'button'", () => {
