@@ -1,26 +1,26 @@
 import React from 'react';
 
 export interface ButtonProps {
-  /** The visual variant of the button */
+  /** Button variant style */
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
-  /** The size of the button */
+  /** Button size */
   size?: 'sm' | 'md' | 'lg';
   /** Whether the button is disabled */
   disabled?: boolean;
   /** Whether the button shows a loading state */
   loading?: boolean;
-  /** Optional icon to display before the label */
-  icon?: React.ReactNode;
-  /** The content of the button */
-  children: React.ReactNode;
   /** Click handler */
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  /** Button type attribute */
+  type?: 'button' | 'submit' | 'reset';
   /** Additional CSS class names */
   className?: string;
-  /** The HTML button type */
-  type?: 'button' | 'submit' | 'reset';
-  /** Accessible label for screen readers */
+  /** Button label or content */
+  children?: React.ReactNode;
+  /** Accessible label for icon-only buttons */
   ariaLabel?: string;
+  /** Whether the button takes full width of its container */
+  fullWidth?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -28,20 +28,26 @@ export const Button: React.FC<ButtonProps> = ({
   size = 'md',
   disabled = false,
   loading = false,
-  icon,
-  children,
   onClick,
-  className,
   type = 'button',
+  className = '',
+  children,
   ariaLabel,
+  fullWidth = false,
 }) => {
   return (
     <button
       type={type}
       disabled={disabled || loading}
       onClick={onClick}
-      className={className}
+      className={`btn btn-${variant} btn-${size} ${fullWidth ? 'btn-full-width' : ''} ${className}`}
       aria-label={ariaLabel}
-    >{children}</button>
+      aria-busy={loading}
+    >
+      {loading ? <span className="btn-spinner" aria-hidden="true" /> : null}
+      {children}
+    </button>
   );
 };
+
+export default Button;
