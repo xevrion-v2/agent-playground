@@ -20,12 +20,12 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   variant = 'primary',
   size = 'md',
-  className = '',
+  className,
   type = 'button',
   ariaLabel,
 }) => {
   return (
-    <button onClick={onClick} disabled={disabled} className={`btn btn-${variant} btn-${size} ${className}`} type={type} aria-label={ariaLabel}>
+    <button type={type} onClick={onClick} disabled={disabled} aria-label={ariaLabel} className={`btn btn-${variant} btn-${size} ${className ?? ''}`}>
       {children}
     </button>
   );
