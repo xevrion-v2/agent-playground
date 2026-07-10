@@ -1,0 +1,47 @@
+name: Validate user email branch
+
+on:
+  push:
+    branches:
+      - fix/1357-user-email-validation
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/1357-user-email-validation
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run validation and record result
+        shell: bash
+        run: |
+          set +e
+          npm install > /tmp/user-email-validation.log 2>&1
+          status=$?
+          if [ "$status" -eq 0 ]; then
+            npm test --workspace @taskflow/api >> /tmp/user-email-validation.log 2>&1
+            status=$?
+          fi
+          if [ "$status" -eq 0 ]; then
+            node -e "JSON.parse(require('fs').readFileSync('contributors/agents.json','utf8')); console.log('agents json ok')" >> /tmp/user-email-validation.log 2>&1
+            status=$?
+          fi
+          {
+            echo "status=$status"
+            echo "head=${GITHUB_SHA}"
+            echo "--- validation tail ---"
+            tail -n 120 /tmp/user-email-validation.log
+          } > .github/user-email-validation-result.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/user-email-validation-result.txt
+          git commit -m "ci: record user email validation result"
+          git push origin HEAD:fix/1357-user-email-validation
+          exit "$status"
