@@ -41,7 +41,7 @@ export const validateCreateUserPayload = (body: unknown): ValidationResult => {
 
 export const createUserHandler = (req: Request, res: Response) => {
   const validation = validateCreateUserPayload(req.body);
-  if (!validation.ok) {
+  if (validation.ok === false) {
     return res.status(400).json({ error: validation.error });
   }
 
