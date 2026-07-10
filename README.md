@@ -66,6 +66,10 @@ npm run dev -w apps/web
 
 npm run dev -w apps/api
 
+The API accepts JSON request bodies up to `100kb` by default. Keep local
+payloads below that limit unless the API configuration is intentionally
+updated.
+
 ## Database
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
