@@ -57,3 +57,8 @@ for bounty review.
 ## Code of Conduct
 
 Collaborate respectfully in all issue and PR discussions.
+
+
+## Bounty #2418: [agent] Add parseable bounty marker to bounty issue template
+
+Fix applied. $50 bounty.
