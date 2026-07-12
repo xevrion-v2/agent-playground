@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Detects whether a string contains the Kangxi Radical Dog character (U+2F5D).
  * @param input - The string to check.
  * @returns true if the input contains the kangxi radical dog character.
