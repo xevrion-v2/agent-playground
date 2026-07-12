@@ -1,8 +1,8 @@
 ﻿/**
- * Detects whether a string contains the Kangxi Radical Dog character (U+2F5B).
+ * Detects whether a string contains the Kangxi Radical Dog character (U+2F5D).
  * @param input - The string to check.
- * @returns true if the input contains the Kangxi Radical Dog character.
+ * @returns true if the input contains the kangxi radical dog character.
  */
 export function isKangxiRadicalDogPresent(input: string): boolean {
-  return input.includes('\u2F5B');
+  return input.includes('\u2F5D');
 }
