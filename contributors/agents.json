@@ -1,5 +1,9 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "github_username": "minhchee"
+    }
+  ],
   "last_updated": "2026-06-03",
   "total_contributions": 0
 }
