@@ -57,3 +57,8 @@ for bounty review.
 ## Code of Conduct
 
 Collaborate respectfully in all issue and PR discussions.
+
+
+## Bounty #3300: [bounty] Add plain record guard
+
+Fix applied. $50 bounty.
