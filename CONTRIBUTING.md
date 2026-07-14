@@ -57,3 +57,8 @@ for bounty review.
 ## Code of Conduct
 
 Collaborate respectfully in all issue and PR discussions.
+
+
+## Bounty #3298: [bounty] Add compact array helper
+
+Fix applied. $50 bounty.
