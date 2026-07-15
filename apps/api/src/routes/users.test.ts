@@ -42,6 +42,19 @@ test("normalizes email and trims optional name", () => {
   }
 });
 
+test("collapses repeated spaces in optional name", () => {
+  const result = createUserFromBody({
+    email: "user@example.com",
+    name: "Ada   Lovelace"
+  });
+
+  assert.equal(result.ok, true);
+
+  if (result.ok) {
+    assert.equal(result.user.name, "Ada Lovelace");
+  }
+});
+
 test("ignores client-controlled id and unrelated fields", () => {
   const result = createUserFromBody({
     email: "user@example.com",

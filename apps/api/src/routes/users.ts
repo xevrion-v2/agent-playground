@@ -41,7 +41,7 @@ function normalizeName(value: unknown): string | null {
     return null;
   }
 
-  const name = value.trim();
+  const name = value.trim().replace(/\s+/g, " ");
 
   return name.length > 0 ? name : null;
 }
