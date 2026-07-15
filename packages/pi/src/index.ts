@@ -24,9 +24,11 @@ export { chudnovskyPiScaled } from "./chudnovsky.js";
 export { machinPiScaled } from "./machin.js";
 export { bbpHexDigits } from "./bbp.js";
 
-/** Practical per-call ceiling. Chudnovsky+binary splitting stays fast well
- * beyond this, but an explicit bound keeps accidental huge inputs in check. */
-export const MAX_DIGITS = 1_000_000;
+/** Practical per-call ceiling. The algorithm scales far beyond this (the
+ * engine-level ceiling is V8's 2^30-bit BigInt cap, ~3*10^8 decimal digits);
+ * an explicit bound keeps accidental huge inputs in check. 10^7 digits has
+ * been computed and verified on commodity hardware. */
+export const MAX_DIGITS = 10_000_000;
 
 export type PiEngine = "chudnovsky" | "machin";
 

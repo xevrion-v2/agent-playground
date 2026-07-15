@@ -1,9 +1,10 @@
 # @taskflow/pi
 
-Exact finite decimal prefixes of π to arbitrary length — up to 1,000,000
-digits in well under a minute — with **zero runtime dependencies**, built on
-native `bigint`, and cross-verified by three mathematically independent
-methods discovered across three different centuries.
+Exact finite decimal prefixes of π to arbitrary length — 1,000,000 digits in
+under 30 seconds, 10,000,000 in under 40 minutes — with **zero runtime
+dependencies**, built on native `bigint`, and cross-verified by three
+mathematically independent methods discovered across three different
+centuries.
 
 Resolves issue **#17** ("Calculate the exact value of PI").
 
@@ -109,10 +110,20 @@ Measured on Node 24, Windows 11, single thread (`packages/pi/bench.ts`):
 | 10,000 | 5.6 ms |
 | 100,000 | 218 ms |
 | 1,000,000 | 26.7 s |
+| 10,000,000 | 2,316 s (38.6 min) |
 
-External sanity anchor: the millionth decimal digit of π is famously `1`;
-`computePiDigits(1_000_000)` ends `...5779458151`, matching published
-references exactly.
+External validation:
+
+- the full `computePiDigits(1_000_000)` output matches Wikimedia Commons'
+  published million-digit reference in **all 1,000,000 decimal places**
+  (and ends `...5779458151` — the famous millionth digit `1`);
+- the full `computePiDigits(10_000_000)` output matches an independent
+  published 10-million-digit reference in **all 10,000,000 decimal places**,
+  and its first 7.45M digits match a second, independent 2005 computation
+  (QPI, Chudnovsky-based) digit-for-digit;
+- BBP hex extraction at positions 1,000,000 / 4,000,000 / 8,300,000 after
+  the hexadecimal point agrees with the hex expansion derived from the
+  decimal output at all probed windows.
 
 ## Design constraints honored
 
