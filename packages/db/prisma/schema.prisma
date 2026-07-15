@@ -40,4 +40,6 @@ model Proposal {
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([userId, jobId])
 }
