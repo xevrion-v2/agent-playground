@@ -7,7 +7,7 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "test": "node --test --import tsx test/is-vertical-tab-symbol-present.test.ts test/users.test.ts",
+    "test": "node --test --import tsx test/is-vertical-tab-symbol-present.test.ts test/is-hiragana-letter-small-wa-present.test.ts test/users.test.ts",
     "lint": "echo \"No API lint configured yet\""
   },
   "dependencies": {
