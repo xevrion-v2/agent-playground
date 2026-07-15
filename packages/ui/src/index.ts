@@ -7,6 +7,8 @@ export function Button({ label, disabled = false }: ButtonProps) {
   return {
     type: "button",
     label,
-    disabled
+    disabled,
   };
 }
+
+export { slugify, default as slugifyDefault } from "./slugify";
