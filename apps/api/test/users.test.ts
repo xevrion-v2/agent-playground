@@ -66,3 +66,20 @@ test("POST /users returns the stub created user payload", async () => {
     message: "User creation is not implemented yet."
   });
 });
+
+test("POST /users rejects non-object payloads", async () => {
+  const response = await fetch(`${baseUrl}/users`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify(["invalid"])
+  });
+
+  const payload = await response.json();
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(payload, {
+    error: "Request body must be a JSON object."
+  });
+});
