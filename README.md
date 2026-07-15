@@ -81,5 +81,23 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Local development currently expects these variables:
+
+### `apps/api`
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `PORT` | No | HTTP listen port (default `4000`) |
+| `DATABASE_URL` | Yes (when using Prisma/db) | PostgreSQL connection string |
+
+### `apps/web`
+
+No environment variables are required for local development right now. Next.js defaults apply (`PORT` defaults to `3000` if set).
+
+### `packages/db`
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DATABASE_URL` | Yes | PostgreSQL URL used by Prisma (`schema.prisma`) |
+
+Create a `.env` file in the app or package directory that needs the value. Do not commit secrets.
