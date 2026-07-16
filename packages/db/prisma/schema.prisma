@@ -7,37 +7,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Registered users of the TaskFlow platform.
+/// Users can post jobs and submit proposals for tasks.
 model User {
   id        String     @id @default(cuid())
-  email     String     @unique
-  name      String?
-  jobs      Job[]
-  proposals Proposal[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  email     String     @unique /// Unique email address used for authentication
+  name      String?    /// Optional display name shown on profile
+  jobs      Job[]      /// Jobs posted by this user (one-to-many)
+  proposals Proposal[] /// Proposals submitted by this user (one-to-many)
+  createdAt DateTime   @default(now()) /// Timestamp when the account was created
+  updatedAt DateTime   @updatedAt /// Timestamp of the last profile update
 }
 
+/// Represents a task or project posted by a user on TaskFlow.
+/// Jobs go through a lifecycle from draft to published to completed.
 model Job {
   id          String     @id @default(cuid())
-  title       String
-  description String?
-  status      String     @default("draft")
-  ownerId     String
+  title       String     /// Short descriptive title of the task
+  description String?    /// Detailed description of requirements and scope
+  status      String     @default("draft") /// Current state: draft, published, in_progress, completed
+  ownerId     String     /// Reference to the user who created this job
   owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  proposals   Proposal[] /// Proposals submitted for this job (one-to-many)
+  createdAt   DateTime   @default(now()) /// When the job was first posted
+  updatedAt   DateTime   @updatedAt /// Last modification timestamp
 }
 
+/// A bid or application submitted by a user in response to a job posting.
+/// Proposals include an optional monetary offer and track their approval status.
 model Proposal {
   id        String   @id @default(cuid())
-  summary   String
-  amount    Decimal?
-  status    String   @default("pending")
-  userId    String
+  summary   String   /// Brief description of the proposed approach
+  amount    Decimal? /// Optional bid amount for the task
+  status    String   @default("pending") /// Approval state: pending, accepted, rejected
+  userId    String   /// Reference to the submitting user
   user      User     @relation(fields: [userId], references: [id])
-  jobId     String
+  jobId     String   /// Reference to the job being applied for
   job       Job      @relation(fields: [jobId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) /// When the proposal was submitted
+  updatedAt DateTime @updatedAt /// Last update to the proposal
 }
