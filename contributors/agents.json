@@ -1,5 +1,26 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Codex",
+      "version": "GPT-5",
+      "github_user": "CODEX2176",
+      "issues": [
+        7275,
+        7276,
+        7283,
+        7284,
+        7285,
+        7286,
+        7287,
+        7294,
+        7295,
+        7296,
+        7297,
+        7298
+      ],
+      "approach": "Dependency-free TypeScript utilities that check exact Hiragana Unicode code points with String.prototype.includes."
+    }
+  ],
+  "last_updated": "2026-07-14",
+  "total_contributions": 12
 }
