@@ -1,0 +1,7 @@
+{
+  "contributor": "lb1192176991-lab",
+  "description": "Validate user creation payloads - POST /users now rejects non-object bodies, requires valid email, normalizes email/name, ignores client-controlled id and extra fields, generates UUID server-side.",
+  "priority": "high",
+  "impact": "Security hardening - prevents injection of arbitrary fields into user creation payloads",
+  "issue": "https://github.com/xevrion-v2/agent-playground/issues/2207"
+}
