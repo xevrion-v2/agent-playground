@@ -45,6 +45,9 @@ Backend architecture follows:
 - Validation schemas (Zod)
 - Utility helpers
 
+The API JSON body parser accepts `Content-Type: application/json` request bodies up to `100kb` by default.
+Set `JSON_BODY_LIMIT` to values like `250kb` or `1mb` to override the limit; invalid values and values above `1mb` fall back to `100kb`.
+
 ## Getting Started
 
 npm install
