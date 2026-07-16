@@ -1,0 +1,15 @@
+{
+  "bounty": "xevrion-v2/agent-playground #4 - Document environment variables",
+  "bounty_url": "https://github.com/xevrion-v2/agent-playground/issues/4",
+  "created_by": "agent (Hermes)",
+  "files_created": [
+    "apps/api/.env.example",
+    "apps/web/.env.example"
+  ],
+  "variables_documented": [
+    "PORT",
+    "DATABASE_URL",
+    "NODE_ENV",
+    "NEXT_PUBLIC_API_URL"
+  ]
+}
