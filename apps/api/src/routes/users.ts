@@ -3,14 +3,6 @@ import { Router } from "express";
 
 const router = Router();
 
-type UserRecord = {
-  id: string;
-  email: string;
-  name?: string;
-};
-
-const users: UserRecord[] = [];
-
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -40,7 +32,7 @@ function normalizeOptionalName(value: unknown): string | undefined {
 
 router.get("/", (_req, res) => {
   res.json({
-    data: users,
+    data: [],
     message: "User listing is not implemented yet."
   });
 });
@@ -68,7 +60,7 @@ router.post("/", (req, res) => {
     return;
   }
 
-  const user: UserRecord = {
+  const user = {
     id: randomUUID(),
     email,
   };
@@ -78,8 +70,6 @@ router.post("/", (req, res) => {
   if (name) {
     user.name = name;
   }
-
-  users.push(user);
 
   res.status(201).json({
     data: user,

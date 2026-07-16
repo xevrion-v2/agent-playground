@@ -67,6 +67,16 @@ after(async () => {
   await once(server, "exit");
 });
 
+test("GET /users preserves the stub list response", async () => {
+  const response = await fetch(`${apiUrl}/users`);
+
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), {
+    data: [],
+    message: "User listing is not implemented yet.",
+  });
+});
+
 test("POST /users rejects non-object JSON bodies", async () => {
   const response = await fetch(`${apiUrl}/users`, {
     method: "POST",
