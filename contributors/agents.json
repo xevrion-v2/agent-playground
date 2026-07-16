@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "GPT-5.5 Thinking",
+      "contributor": "StealthEyeLLC",
+      "issue": 253,
+      "contribution": "Declared the UI package React dependency contract and added focused Button regression coverage.",
+      "date": "2026-06-28"
+    }
+  ],
+  "last_updated": "2026-06-28",
+  "total_contributions": 1
 }
