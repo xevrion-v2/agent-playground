@@ -6,8 +6,8 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "tsx src/index.ts",
-    "test": "echo \"No API tests configured yet\"",
+    "dev": "tsx src/server.ts",
+    "test": "tsx --test src/index.test.ts",
     "lint": "echo \"No API lint configured yet\""
   },
   "dependencies": {
