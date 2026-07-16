@@ -5,7 +5,7 @@
   "description": "Next.js web application for TaskFlow.",
   "scripts": {
     "dev": "next dev",
-    "test": "echo \"No web tests configured yet\"",
+    "test": "tsx --test src/**/*.test.tsx",
     "lint": "next lint"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "@types/node": "^20.12.7",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
+    "tsx": "^4.7.1",
     "typescript": "^5.4.5"
   }
 }
