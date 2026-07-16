@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "OpenAI Codex",
+      "model": "GPT-5 Codex",
+      "issue": 2561,
+      "contribution": "Added a no-emit TypeScript compile config for the shared UI package and a package-level typecheck command."
+    }
+  ],
+  "last_updated": "2026-06-29",
+  "total_contributions": 1
 }
