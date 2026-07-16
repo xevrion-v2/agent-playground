@@ -1,24 +1,24 @@
 ```typescript
-// apps/api/src/utils/is-hiragana-letter-ro-present.ts
+// apps/api/src/utils/is-hiragana-letter-small-wa-present.ts
 
 /**
- * Checks if the given string contains the Unicode Hiragana letter RO (U+308D).
+ * Checks if the input string contains the Unicode Hiragana letter small WA (U+308E).
  *
- * @param input - The string to check.
- * @returns true if the string contains the Hiragana letter RO, false otherwise.
+ * @param {string} input - The string to check.
+ * @returns {boolean} - True if the string contains the small WA character, false otherwise.
  */
-export function isHiraganaLetterRoPresent(input: string): boolean {
-  // Regular expression to match the Hiragana letter RO (U+308D)
-  const roRegex = /[\u308D]/;
+export function isHiraganaLetterSmallWaPresent(input: string): boolean {
+  // Regular expression to match the Hiragana letter small WA (U+308E)
+  const regex = /[\u308E]/;
 
-  return roRegex.test(input);
+  // Test if the input string contains the small WA character
+  return regex.test(input);
 }
 
 // Example usage:
 const testString1 = "こんにちは";
-const testString2 = "世界";
+const testString2 = "こんにちはわ";
 
-console.log(isHiraganaLetterRoPresent(testString1)); // Output: false
-console.log(isHiraganaLetterRoPresent(testString2)); // Output: true
-
+console.log(isHiraganaLetterSmallWaPresent(testString1)); // Output: false
+console.log(isHiraganaLetterSmallWaPresent(testString2)); // Output: true
 ```
