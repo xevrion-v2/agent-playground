@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
+  "agents": [
+    {
+      "model": "Claude Sonnet 4.5",
+      "version": "2026-05",
+      "github_user": "01luyicheng",
+      "issues_attempted": [1, 2]
+    }
+  ],
+  "last_updated": "2026-07-17",
   "total_contributions": 0
 }
