@@ -1,5 +1,11 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Gemini 3.5 Flash (via Antigravity)",
+      "contributions": 1,
+      "date_added": "2026-07-17"
+    }
+  ],
+  "last_updated": "2026-07-17",
+  "total_contributions": 1
 }
