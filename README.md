@@ -81,5 +81,17 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own `.env` file (not committed). Typical local values:
+
+### apps/api
+- `PORT` — port the Express server listens on (default 4000)
+- `DATABASE_URL` — PostgreSQL connection string used by Prisma
+- `JWT_SECRET` — secret used to sign auth tokens
+- `STRIPE_SECRET_KEY` — (optional) Stripe API key for payments
+
+### apps/web
+- `NEXT_PUBLIC_API_URL` — base URL of the API the frontend calls
+- `NEXT_PUBLIC_APP_URL` — public base URL of the web app
+- `DATABASE_URL` — (optional) used by Prisma tooling
+
+Copy `.env.example` → `.env` in each workspace and fill in local values.
