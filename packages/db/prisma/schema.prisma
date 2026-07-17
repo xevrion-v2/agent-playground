@@ -7,36 +7,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// A registered TaskFlow account (freelancer or client).
 model User {
+  /// Primary key (Prisma cuid).
   id        String     @id @default(cuid())
+  /// Unique login email.
   email     String     @unique
+  /// Display name (optional).
   name      String?
+  /// Jobs this user owns.
   jobs      Job[]
+  /// Proposals this user has submitted.
   proposals Proposal[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A task posted by a client.
 model Job {
+  /// Primary key (Prisma cuid).
   id          String     @id @default(cuid())
+  /// Human-readable job title.
   title       String
+  /// Free-form job description (optional).
   description String?
+  /// Lifecycle state of the job (e.g. draft, open, in_progress, done).
   status      String     @default("draft")
+  /// Foreign key referencing the owning {@link User}.
   ownerId     String
+  /// The user who posted this job.
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Proposals submitted against this job.
   proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A freelancer's bid on a {@link Job}.
 model Proposal {
+  /// Primary key (Prisma cuid).
   id        String   @id @default(cuid())
+  /// Short summary of the proposal.
   summary   String
+  /// Proposed price (optional).
   amount    Decimal?
+  /// Review state of the proposal (e.g. pending, accepted, rejected).
   status    String   @default("pending")
+  /// Foreign key referencing the submitting {@link User}.
   userId    String
+  /// The user who submitted this proposal.
   user      User     @relation(fields: [userId], references: [id])
+  /// Foreign key referencing the {@link Job} this proposal targets.
   jobId     String
+  /// The job this proposal is for.
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
