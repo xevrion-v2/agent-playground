@@ -1,0 +1,53 @@
+## Katakana Letter Detection Utilities (Batch 4 - 20 utilities)
+
+Closes #7669, #7670, #7805, #7806, #7807, #7808, #7809, #7815, #7816, #7817, #7818, #7819, #7825, #7826, #7827, #7828, #7829, #7835, #7836, #7837
+
+### Summary
+
+Adds 20 Katakana letter detection API utilities under apps/api/src/utils/. Each utility exports a dependency-free function that returns true only when the input string contains the specified Unicode Katakana character.
+
+### Files Added
+
+| File | Character | Issue |
+|------|-----------|-------|
+| is-katakana-letter-small-a-present.ts | U+30A1 | #7669 |
+| is-katakana-letter-a-present.ts | U+30A2 | #7670 |
+| is-katakana-letter-small-i-present.ts | U+30A3 | #7805 |
+| is-katakana-letter-i-present.ts | U+30A4 | #7806 |
+| is-katakana-letter-small-e-present.ts | U+30A7 | #7807 |
+| is-katakana-letter-e-present.ts | U+30A8 | #7808 |
+| is-katakana-letter-small-o-present.ts | U+30A9 | #7809 |
+| is-katakana-letter-ka-present.ts | U+30AB | #7815 |
+| is-katakana-letter-ga-present.ts | U+30AC | #7816 |
+| is-katakana-letter-ki-present.ts | U+30AD | #7817 |
+| is-katakana-letter-gi-present.ts | U+30AE | #7818 |
+| is-katakana-letter-ku-present.ts | U+30AF | #7819 |
+| is-katakana-letter-gu-present.ts | U+30B0 | #7825 |
+| is-katakana-letter-ke-present.ts | U+30B1 | #7826 |
+| is-katakana-letter-ge-present.ts | U+30B2 | #7827 |
+| is-katakana-letter-ko-present.ts | U+30B3 | #7828 |
+| is-katakana-letter-go-present.ts | U+30B4 | #7829 |
+| is-katakana-letter-sa-present.ts | U+30B5 | #7835 |
+| is-katakana-letter-za-present.ts | U+30B6 | #7836 |
+| is-katakana-letter-si-present.ts | U+30B7 | #7837 |
+
+/claim #7669
+/claim #7670
+/claim #7805
+/claim #7806
+/claim #7807
+/claim #7808
+/claim #7809
+/claim #7815
+/claim #7816
+/claim #7817
+/claim #7818
+/claim #7819
+/claim #7825
+/claim #7826
+/claim #7827
+/claim #7828
+/claim #7829
+/claim #7835
+/claim #7836
+/claim #7837
