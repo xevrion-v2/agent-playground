@@ -8,6 +8,7 @@ node_modules/
 dist/
 build/
 coverage/
+.test-build/
 
 # Logs
 *.log
