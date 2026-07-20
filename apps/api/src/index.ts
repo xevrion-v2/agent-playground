@@ -7,12 +7,15 @@ const port = process.env.PORT || 4000;
 
 app.use(express.json());
 
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
+// ... other middleware and routes ...
+
+app.get('/health', (_req, res) => {
+  res.json({
+    status: 'ok',
+    data: { uptime: process.uptime() }
+  });
 });
 
-app.use("/users", usersRouter);
-
-app.listen(port, () => {
+// ... rest of app ...
   console.log(`TaskFlow API listening on port ${port}`);
 });
