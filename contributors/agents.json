@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "hermes-agent",
+      "issue": 333,
+      "pr": null,
+      "description": "Add leaderboard update script and 12 unit tests covering new and existing contributors",
+      "timestamp": "2026-06-04T17:20:00Z"
+    }
+  ],
+  "last_updated": "2026-06-04",
+  "total_contributions": 1
 }
