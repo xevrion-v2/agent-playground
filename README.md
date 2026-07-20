@@ -81,5 +81,22 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+To run the TaskFlow application locally, you need to configure environment variables for the frontend, backend, and database package. Example files are provided in each package directory.
+
+### API (`apps/api`)
+Create a `.env` file in `apps/api/` based on `apps/api/.env.example`:
+- `PORT` (optional): The port on which the API server runs (default: `4000`).
+- `DATABASE_URL`: The PostgreSQL connection URL used by Prisma.
+- `JWT_SECRET`: Secret key used for signing and verifying JWT tokens for authentication.
+- `STRIPE_SECRET_KEY`: Stripe API secret key for payment integration workflows.
+- `STRIPE_WEBHOOK_SECRET`: Stripe Webhook signing secret.
+
+### Web (`apps/web`)
+Create a `.env.local` file in `apps/web/` based on `apps/web/.env.example`:
+- `NEXT_PUBLIC_API_URL`: The URL of the API backend (default: `http://localhost:4000`).
+- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`: Client-side Stripe publishable API key for payment checkout flows.
+
+### Database (`packages/db`)
+Create a `.env` file in `packages/db/` based on `packages/db/.env.example`:
+- `DATABASE_URL`: The PostgreSQL connection URL used by Prisma migrations and client generation.
+
