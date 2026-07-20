@@ -81,5 +81,23 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package can keep its own local `.env` file. Do not commit real
+credentials.
+
+### `apps/web`
+
+No required environment variables are currently read by the frontend stub.
+Add public browser-safe values with a `NEXT_PUBLIC_` prefix only when a
+feature needs them.
+
+### `apps/api`
+
+| Variable | Required | Default | Purpose |
+| --- | --- | --- | --- |
+| `PORT` | No | `4000` | Local Express server port. |
+
+### `packages/db`
+
+| Variable | Required | Default | Purpose |
+| --- | --- | --- | --- |
+| `DATABASE_URL` | Yes | None | PostgreSQL connection string used by Prisma. |
