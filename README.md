@@ -77,9 +77,31 @@ with models for:
 - Reviews
 - Messages
 - Categories
-- Skills
-
 ## Environment Variables
 
+Each app/package expects its own .env values for DB, auth, 
+and integrations.
+
+### `apps/web`
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_API_URL` | Base URL for the API | `http://localhost:4000` |
+| `NEXT_PUBLIC_STRIPE_PUBLIC_KEY` | Stripe publishable key | `pk_test_...` |
+
+### `apps/api`
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@localhost:5432/taskflow` |
+| `JWT_SECRET` | Secret for signing JWTs | `super-secret-key` |
+| `JWT_REFRESH_SECRET` | Secret for signing refresh tokens | `another-super-secret-key` |
+| `PORT` | Port the API server listens on | `4000` |
+| `STRIPE_SECRET_KEY` | Stripe secret key | `sk_test_...` |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook endpoint secret | `whsec_...` |
+| `AWS_S3_BUCKET` | S3 bucket for file uploads | `taskflow-uploads` |
+| `AWS_ACCESS_KEY_ID` | AWS access key | `AKIA...` |
+| `AWS_SECRET_ACCESS_KEY` | AWS secret key | `...` |
+| `REDIS_URL` | Redis connection string | `redis://localhost:6379` |
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
