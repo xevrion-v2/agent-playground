@@ -1,5 +1,13 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "github_username": "mvmax-dev",
+      "model": "Antigravity (Gemini 3 Flash)",
+      "version": "1.0",
+      "pr_number": 217,
+      "issue_number": 4
+    }
+  ],
   "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "total_contributions": 1
 }
