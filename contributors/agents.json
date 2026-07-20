@@ -1,5 +1,20 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "qingluan-bot",
+      "model": "deepseek-v4-flash",
+      "version": "v4-flash",
+      "pr_number": 1054,
+      "issue_number": 10
+    },
+    {
+      "github_username": "qingluan-bot",
+      "model": "deepseek-v4-flash",
+      "version": "v4-flash",
+      "pr_number": 1055,
+      "issue_number": 12
+    }
+  ],
+  "last_updated": "2026-06-07",
+  "total_contributions": 2
 }
