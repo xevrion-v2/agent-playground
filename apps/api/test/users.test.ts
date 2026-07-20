@@ -1,58 +1,43 @@
 import assert from "node:assert/strict";
 import { after, before, test } from "node:test";
-import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
-import { once } from "node:events";
+import type { AddressInfo } from "node:net";
 
-const port = 43123;
-const apiRoot = new URL("..", import.meta.url);
-const apiUrl = `http://127.0.0.1:${port}`;
+import { app } from "../src/index.ts";
 
-let server: ChildProcessWithoutNullStreams | null = null;
+let baseUrl = "";
+let server: ReturnType<typeof app.listen> | null = null;
 
-async function waitForServerReady(child: ChildProcessWithoutNullStreams): Promise<void> {
-  await new Promise<void>((resolve, reject) => {
-    const onData = (chunk: Buffer) => {
-      if (chunk.toString().includes(`TaskFlow API listening on port ${port}`)) {
-        cleanup();
-        resolve();
-      }
-    };
+function getBaseUrl() {
+  return baseUrl;
+}
 
-    const onError = (error: Error) => {
-      cleanup();
-      reject(error);
-    };
+function getServerAddress() {
+  const address = server?.address();
 
-    const onExit = (code: number | null, signal: NodeJS.Signals | null) => {
-      cleanup();
-      reject(new Error(`API exited before starting (code=${code}, signal=${signal})`));
-    };
+  if (!address || typeof address === "string") {
+    throw new Error("Test server did not start on an IP port.");
+  }
 
-    const cleanup = () => {
-      child.stdout.off("data", onData);
-      child.stderr.off("data", onData);
-      child.off("error", onError);
-      child.off("exit", onExit);
-    };
+  return address as AddressInfo;
+}
 
-    child.stdout.on("data", onData);
-    child.stderr.on("data", onData);
-    child.on("error", onError);
-    child.on("exit", onExit);
-  });
+async function request(path: string, init?: RequestInit) {
+  const response = await fetch(`${getBaseUrl()}${path}`, init);
+  const body = await response.json();
+
+  return { response, body };
 }
 
 before(async () => {
-  server = spawn(process.execPath, ["src/index.ts"], {
-    cwd: apiRoot,
-    env: {
-      ...process.env,
-      PORT: String(port),
-    },
-    stdio: ["ignore", "pipe", "pipe"],
+  server = app.listen(0);
+
+  await new Promise<void>((resolve, reject) => {
+    server?.once("listening", resolve);
+    server?.once("error", reject);
   });
 
-  await waitForServerReady(server);
+  const address = getServerAddress();
+  baseUrl = `http://127.0.0.1:${address.port}`;
 });
 
 after(async () => {
@@ -60,93 +45,90 @@ after(async () => {
     return;
   }
 
-  if (server.exitCode === null && server.signalCode === null) {
-    server.kill();
-  }
+  await new Promise<void>((resolve, reject) => {
+    server?.close((error) => {
+      if (error) {
+        reject(error);
+        return;
+      }
 
-  await once(server, "exit");
+      resolve();
+    });
+  });
 });
 
 test("GET /users preserves the stub list response", async () => {
-  const response = await fetch(`${apiUrl}/users`);
+  const { response, body } = await request("/users");
 
   assert.equal(response.status, 200);
-  assert.deepEqual(await response.json(), {
+  assert.deepEqual(body, {
     data: [],
-    message: "User listing is not implemented yet.",
+    message: "User listing is not implemented yet."
   });
 });
 
 test("POST /users rejects non-object JSON bodies", async () => {
-  const response = await fetch(`${apiUrl}/users`, {
+  const { response, body } = await request("/users", {
     method: "POST",
     headers: {
-      "content-type": "application/json",
+      "content-type": "application/json"
     },
-    body: JSON.stringify(["not", "an", "object"]),
+    body: JSON.stringify(["not", "an", "object"])
   });
 
   assert.equal(response.status, 400);
-  assert.deepEqual(await response.json(), {
+  assert.deepEqual(body, {
     error: "Validation failed",
     details: {
-      body: ["Request body must be a JSON object."],
-    },
+      body: ["Request body must be a JSON object."]
+    }
   });
 });
 
-test("POST /users normalizes the email and optional name while ignoring extra fields", async () => {
-  const response = await fetch(`${apiUrl}/users`, {
+test("POST /users rejects invalid email addresses", async () => {
+  const { response, body } = await request("/users", {
     method: "POST",
     headers: {
-      "content-type": "application/json",
+      "content-type": "application/json"
+    },
+    body: JSON.stringify({
+      email: "not-an-email",
+      name: "Ada"
+    })
+  });
+
+  assert.equal(response.status, 400);
+  assert.deepEqual(body, {
+    error: "Validation failed",
+    details: {
+      email: ["A valid email address is required."]
+    }
+  });
+});
+
+test("POST /users normalizes email and name while ignoring client-controlled fields", async () => {
+  const { response, body } = await request("/users", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json"
     },
     body: JSON.stringify({
       id: "client-id",
       email: "  Ada@Example.COM  ",
       name: "  Ada Lovelace  ",
-      role: "admin",
-    }),
+      role: "admin"
+    })
   });
 
   assert.equal(response.status, 201);
-
-  const payload = await response.json() as {
-    data: {
-      id: string;
-      email: string;
-      name?: string;
-    };
-    message: string;
-  };
-
-  assert.equal(payload.message, "User created");
-  assert.notEqual(payload.data.id, "client-id");
-  assert.match(payload.data.id, /^[0-9a-f-]{36}$/i);
-  assert.deepEqual(payload.data, {
-    id: payload.data.id,
+  assert.equal(body.message, "User created");
+  assert.equal(body.data.email, "ada@example.com");
+  assert.equal(body.data.name, "Ada Lovelace");
+  assert.notEqual(body.data.id, "client-id");
+  assert.match(body.data.id, /^[0-9a-f-]{36}$/i);
+  assert.deepEqual(body.data, {
+    id: body.data.id,
     email: "ada@example.com",
-    name: "Ada Lovelace",
-  });
-});
-
-test("POST /users rejects invalid email addresses", async () => {
-  const response = await fetch(`${apiUrl}/users`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      email: "not-an-email",
-      name: "Ada",
-    }),
-  });
-
-  assert.equal(response.status, 400);
-  assert.deepEqual(await response.json(), {
-    error: "Validation failed",
-    details: {
-      email: ["A valid email address is required."],
-    },
+    name: "Ada Lovelace"
   });
 });
