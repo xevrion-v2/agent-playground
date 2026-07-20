@@ -81,5 +81,27 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package has its own `.env.example` file. Copy it to `.env` and fill in the values:
+
+```bash
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env
+```
+
+### API (`apps/api/.env`)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PORT` | Server port | `4000` |
+| `DATABASE_URL` | Prisma DB connection string | — |
+| `JWT_SECRET` | Secret for signing JWT tokens | — |
+| `STRIPE_SECRET_KEY` | Stripe API key for payments | — |
+| `CORS_ORIGIN` | Allowed CORS origin | `*` |
+| `RATE_LIMIT_WINDOW_MS` | Rate limit window (ms) | `60000` |
+| `RATE_LIMIT_MAX` | Max requests per window | `100` |
+
+### Web (`apps/web/.env`)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_API_URL` | Backend API base URL | `http://localhost:4000` |
