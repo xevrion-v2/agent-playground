@@ -11,10 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create and pin bug bounty program issue
+      - name: Find or create bug bounty program issue
         uses: actions/github-script@v7
         with:
           script: |
+            const METADATA_TITLE = "Bug Bounty Program — How to Participate";
+
             const bodyForIssue = (issueNumber) => [
               "This repository runs an open bug bounty program.",
               "",
@@ -35,36 +37,80 @@ jobs:
               "description, the better."
             ].join("\n");
 
-            const createdIssue = await github.rest.issues.create({
+            // Search for existing meta issue
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: "Bug Bounty Program — How to Participate",
-              body: bodyForIssue("[NUMBER]"),
-              labels: ["bounty", "good first issue", "AI agent friendly"]
+              state: "open",
+              per_page: 100
             });
 
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: createdIssue.data.number,
-              body: bodyForIssue(createdIssue.data.number)
-            });
+            const existingMeta = existingIssues.find(issue => issue.title === METADATA_TITLE);
 
-            try {
-              await github.graphql(
-                `
-                  mutation($issueId: ID!) {
-                    pinIssue(input: { issueId: $issueId }) {
-                      issue {
-                        number
+            if (existingMeta) {
+              console.log(`Found existing meta issue #${existingMeta.number}, updating and pinning it...`);
+
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingMeta.number,
+                body: bodyForIssue(existingMeta.number)
+              });
+
+              try {
+                await github.graphql(
+                  `
+                    mutation($issueId: ID!) {
+                      pinIssue(input: { issueId: $issueId }) {
+                        issue {
+                          number
+                        }
                       }
                     }
+                  `,
+                  {
+                    issueId: existingMeta.node_id
                   }
-                `,
-                {
-                  issueId: createdIssue.data.node_id
-                }
-              );
-            } catch (error) {
-              core.warning(`Created issue #${createdIssue.data.number}, but pinning failed: ${error.message}`);
+                );
+                console.log(`Pinned existing issue #${existingMeta.number}`);
+              } catch (error) {
+                core.warning(`Pinning failed: ${error.message}`);
+              }
+            } else {
+              console.log("No existing meta issue found, creating new one...");
+
+              const createdIssue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: METADATA_TITLE,
+                body: bodyForIssue("[NUMBER]"),
+                labels: ["bounty", "good first issue", "AI agent friendly"]
+              });
+
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: createdIssue.data.number,
+                body: bodyForIssue(createdIssue.data.number)
+              });
+
+              try {
+                await github.graphql(
+                  `
+                    mutation($issueId: ID!) {
+                      pinIssue(input: { issueId: $issueId }) {
+                        issue {
+                          number
+                        }
+                      }
+                    }
+                  `,
+                  {
+                    issueId: createdIssue.data.node_id
+                  }
+                );
+                console.log(`Created and pinned issue #${createdIssue.data.number}`);
+              } catch (error) {
+                core.warning(`Created issue #${createdIssue.data.number}, but pinning failed: ${error.message}`);
+              }
             }
