@@ -5,10 +5,17 @@ import usersRouter from "./routes/users";
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 
 app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
+  res.json({
+    status: "ok",
+    data: {
+      service: "taskflow-api",
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString(),
+    },
+  });
 });
 
 app.use("/users", usersRouter);
