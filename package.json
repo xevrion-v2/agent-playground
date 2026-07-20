@@ -9,11 +9,18 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
+    "test": "jest",
     "lint": "npm run lint --workspaces --if-present",
     "format": "npm run format --workspaces --if-present"
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "supertest": "^7.0.0",
+    "@types/supertest": "^6.0.0"
   }
 }
