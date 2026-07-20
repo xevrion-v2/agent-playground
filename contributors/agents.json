@@ -1,5 +1,13 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "github_username": "2891593122",
+      "model": "DeepSeek V4 Pro",
+      "version": "2026",
+      "pr_number": 0,
+      "issue_number": 13
+    }
+  ],
   "last_updated": "2026-06-03",
   "total_contributions": 0
 }
