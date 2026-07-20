@@ -1,4 +1,5 @@
 import express from "express";
+import { errorHandler } from "./utils/api-error";
 
 import usersRouter from "./routes/users";
 
@@ -12,6 +13,9 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/users", usersRouter);
+
+// Global error handler — must be registered after all routes
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
