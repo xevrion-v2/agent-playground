@@ -7,37 +7,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// User represents an active user in the TaskFlow ecosystem.
+/// A user can take on the role of a client (by creating and owning Jobs)
+/// or a freelancer/contributor (by submitting Proposals to existing Jobs).
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
-  jobs      Job[]
-  proposals Proposal[]
+  jobs      Job[]      // Jobs created and owned by this user (client role)
+  proposals Proposal[] // Proposals submitted by this user (freelancer role)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// Job represents a project, task, or freelance gig posted by a User.
+/// It contains project metadata and tracks status transitions from draft to active.
 model Job {
   id          String     @id @default(cuid())
-  title       String
-  description String?
-  status      String     @default("draft")
+  title       String     // Title of the task or freelance gig
+  description String?    // Detailed description of the job requirements
+  status      String     @default("draft") // Lifecycle state (e.g., draft, active, completed)
   ownerId     String
-  owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
+  owner       User       @relation(fields: [ownerId], references: [id]) // The client who posted the job
+  proposals   Proposal[] // List of bids/proposals submitted for this job
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// Proposal represents a bid or response submitted by a freelancer for a specific Job.
+/// It tracks the proposed terms, budget amount, and status transitions of the application.
 model Proposal {
   id        String   @id @default(cuid())
-  summary   String
-  amount    Decimal?
-  status    String   @default("pending")
+  summary   String   // The freelancer's cover letter or solution summary
+  amount    Decimal? // Proposed financial bid/budget for the job
+  status    String   @default("pending") // Review status (e.g., pending, accepted, rejected)
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id]) // The freelancer submitting the proposal
   jobId     String
-  job       Job      @relation(fields: [jobId], references: [id])
+  job       Job      @relation(fields: [jobId], references: [id])  // The targeted job they are bidding on
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
