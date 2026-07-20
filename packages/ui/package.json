@@ -5,7 +5,7 @@
   "description": "Shared UI components for TaskFlow.",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"No UI tests configured yet\"",
+    "test": "rm -rf .test-dist && tsc --module Node16 --moduleResolution Node16 --target ES2022 --outDir .test-dist src/index.ts src/index.test.ts && node --test .test-dist/index.test.js",
     "lint": "echo \"No UI lint configured yet\""
   },
   "devDependencies": {
