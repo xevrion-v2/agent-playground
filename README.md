@@ -44,6 +44,7 @@ Backend architecture follows:
 - Route layer
 - Validation schemas (Zod)
 - Utility helpers
+- Health check response envelope: `{ status, data }`
 
 ## Getting Started
 
