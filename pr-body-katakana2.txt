@@ -1,0 +1,49 @@
+## Katakana Letter Detection Utilities (Batch 2 - 18 utilities)
+
+Closes #8069, #8070, #8071, #8072, #8073, #8081, #8082, #8083, #8084, #8085, #8086, #8087, #8088, #8089, #8090, #8091, #8092, #8093
+
+### Summary
+
+Adds 18 Katakana letter detection API utilities under apps/api/src/utils/. Each utility exports a dependency-free function that returns true only when the input string contains the specified Unicode Katakana character.
+
+### Files Added
+
+| File | Character | Issue |
+|------|-----------|-------|
+| is-katakana-letter-ra-present.ts | U+30E9 | #8069 |
+| is-katakana-letter-ri-present.ts | U+30EA | #8070 |
+| is-katakana-letter-ru-present.ts | U+30EB | #8071 |
+| is-katakana-letter-re-present.ts | U+30EC | #8072 |
+| is-katakana-letter-ro-present.ts | U+30ED | #8073 |
+| is-katakana-letter-small-wa-present.ts | U+30EE | #8081 |
+| is-katakana-letter-wa-present.ts | U+30EF | #8082 |
+| is-katakana-letter-wi-present.ts | U+30F0 | #8083 |
+| is-katakana-letter-we-present.ts | U+30F1 | #8084 |
+| is-katakana-letter-wo-present.ts | U+30F2 | #8085 |
+| is-katakana-letter-n-present.ts | U+30F3 | #8086 |
+| is-katakana-letter-vu-present.ts | U+30F4 | #8087 |
+| is-katakana-letter-small-ka-present.ts | U+30F5 | #8088 |
+| is-katakana-letter-small-ke-present.ts | U+30F6 | #8089 |
+| is-katakana-letter-va-present.ts | U+30F7 | #8090 |
+| is-katakana-letter-vi-present.ts | U+30F8 | #8091 |
+| is-katakana-letter-ve-present.ts | U+30F9 | #8092 |
+| is-katakana-letter-vo-present.ts | U+30FA | #8093 |
+
+/claim #8069
+/claim #8070
+/claim #8071
+/claim #8072
+/claim #8073
+/claim #8081
+/claim #8082
+/claim #8083
+/claim #8084
+/claim #8085
+/claim #8086
+/claim #8087
+/claim #8088
+/claim #8089
+/claim #8090
+/claim #8091
+/claim #8092
+/claim #8093
