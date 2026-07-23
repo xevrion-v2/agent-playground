@@ -83,3 +83,25 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+### Local App Variables
+
+Create environment files only for the apps you run locally.
+
+`apps/api/.env`:
+
+```sh
+PORT=4000
+DATABASE_URL="postgresql://user:password@localhost:5432/taskflow"
+JWT_SECRET="replace-with-a-local-development-secret"
+```
+
+`apps/web/.env.local`:
+
+```sh
+NEXT_PUBLIC_API_URL="http://localhost:4000"
+```
+
+The API reads `PORT` when starting the Express server. The database
+package reads `DATABASE_URL` from the Prisma schema, and the web app
+can use `NEXT_PUBLIC_API_URL` for browser-safe API calls.
