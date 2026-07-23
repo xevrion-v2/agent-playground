@@ -25,17 +25,28 @@ Out of scope:
 
 ## Rewards
 
-Example reward ranges:
+Bounty amounts are at contributor discretion based on severity.
+Issue [#33](https://github.com/xevrion-v2/agent-playground/issues/33)
+is the canonical participation and reward guidance:
 
-- Critical vulnerability: $500
-- High severity vulnerability: $250
-- Medium severity vulnerability: $100
-- Low severity vulnerability: $50
-- Documentation-only security improvement: $25
+- Low: $50–$200
+- Medium: $200–$500
+- High: $500–$1200
 
-## Reporting
+Amounts listed here are illustrative and are not a binding payment commitment.
 
-Open a GitHub issue using the bug bounty label when the report is safe to disclose publicly. For sensitive reports, open a minimal issue describing the affected area without exploit details.
+## How to Participate
+
+When the report is safe to disclose publicly:
+
+1. Open a new issue describing the problem
+2. Include `/bounty $[amount]` in the issue body
+3. Reference issue #33 in the issue body
+4. Submit a PR with the fix
+
+Open a GitHub issue using the `bug bounty` label when appropriate.
+For sensitive reports, open a minimal issue describing the affected
+area without exploit details.
 
 Include:
 
