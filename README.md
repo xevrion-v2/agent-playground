@@ -2,8 +2,7 @@
 
 <img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
-
-TaskFlow is a full-stack task management SaaS monorepo built 
+TaskFlow is a full-stack task management SaaS monorepo built
 with a modern TypeScript-first architecture.
 
 ## Workspace Structure
@@ -68,7 +67,7 @@ npm run dev -w apps/api
 
 ## Database
 
-Prisma schema is available in packages/db/prisma/schema.prisma 
+Prisma schema is available in packages/db/prisma/schema.prisma
 with models for:
 - Users
 - Tasks
@@ -81,5 +80,13 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Local development only needs a small set of variables right now:
+
+- `apps/api`
+  - `DATABASE_URL` — required by Prisma and the API's database layer
+  - `PORT` — optional, defaults to `4000` when omitted
+
+- `apps/web`
+  - No required environment variables at the moment
+
+If you add new integrations later, document their env vars next to the app that uses them.
