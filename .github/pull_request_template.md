@@ -3,6 +3,9 @@
 
 Closes #
 
+<!-- For bounty submissions, replace ISSUE_NUMBER with the bounty issue number. Remove this line if not claiming a bounty. -->
+/claim #ISSUE_NUMBER
+
 ## AI Agent Checklist
 <!-- If you are an AI agent, you MUST complete this before your PR will be processed -->
 
