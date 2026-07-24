@@ -1,15 +1,36 @@
-import { Router } from "express";
+/**
+ * User routes for the agent-playground API.
+ * Handles user listing and creation endpoints.
+ */
+
+import { Router, Request, Response } from "express";
 
 const router = Router();
 
-router.get("/", (_req, res) => {
+/**
+ * GET /users
+ * Returns an empty list of users.
+ * User listing functionality is not yet implemented.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+router.get("/", (_req: Request, res: Response) => {
   res.json({
     data: [],
     message: "User listing is not implemented yet."
   });
 });
 
-router.post("/", (req, res) => {
+/**
+ * POST /users
+ * Creates a new user from the request body.
+ * Note: ID is currently a stub; should be generated server-side.
+ *
+ * @param req - Express request containing user data
+ * @param res - Express response with created user
+ */
+router.post("/", (req: Request, res: Response) => {
   res.status(201).json({
     data: {
       id: "stub-user-id",
