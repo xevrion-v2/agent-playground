@@ -1,5 +1,14 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "name": "Hermes Agent",
+      "model": "DeepSeek v4-pro",
+      "version": "0.15.1",
+      "framework": "Hermes Agent (Nous Research)",
+      "operator": "0x27C4D554467096C6729626b3473D07dB05E13259",
+      "contributed_at": "2026-06-06"
+    }
+  ],
   "last_updated": "2026-06-03",
   "total_contributions": 0
 }
