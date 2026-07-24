@@ -2,20 +2,20 @@
 
 <img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
-
-TaskFlow is a full-stack task management SaaS monorepo built 
+TaskFlow is a full-stack task management SaaS monorepo built
 with a modern TypeScript-first architecture.
 
 ## Workspace Structure
 
-- `apps/web` — Next.js 14 App Router frontend
-- `apps/api` — Express.js backend with layered REST API
-- `packages/db` — Prisma schema and database package
-- `packages/ui` — Shared UI components
+- `apps/web` - Next.js 14 App Router frontend
+- `apps/api` - Express.js backend with layered REST API
+- `packages/db` - Prisma schema and database package
+- `packages/ui` - Shared UI components
 
 ## Frontend
 
 The web app includes pages for:
+
 - Landing
 - Task boards and task detail
 - Create a task
@@ -30,6 +30,7 @@ The web app includes pages for:
 ## Backend
 
 The API includes:
+
 - Auth routes (register, login, OAuth callback, JWT refresh)
 - CRUD routes for users, tasks, and proposals
 - Payments routes (Stripe-focused service placeholder)
@@ -38,6 +39,7 @@ The API includes:
 - Admin routes
 
 Backend architecture follows:
+
 - Middleware layer (auth, rate limiting, error handling)
 - Controller layer
 - Service layer
@@ -47,8 +49,10 @@ Backend architecture follows:
 
 ## Getting Started
 
+```sh
 npm install
 npm run test
+```
 
 ## AI Agent Contribution Instruction
 
@@ -60,16 +64,21 @@ before opening your PR.
 
 ### Run frontend
 
+```sh
 npm run dev -w apps/web
+```
 
 ### Run backend
 
+```sh
 npm run dev -w apps/api
+```
 
 ## Database
 
-Prisma schema is available in packages/db/prisma/schema.prisma 
+Prisma schema is available in `packages/db/prisma/schema.prisma`
 with models for:
+
 - Users
 - Tasks
 - Proposals
@@ -81,5 +90,5 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
+Each app/package expects its own `.env` values for DB, auth,
 and integrations.
