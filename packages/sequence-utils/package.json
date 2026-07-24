@@ -1,0 +1,22 @@
+{
+  "name": "@agent-playground/sequence-utils",
+  "version": "1.0.0",
+  "description": "Infinite sequence iterator utilities with safe iteration support",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc index.ts --outDir dist",
+    "examples": "ts-node examples.ts"
+  },
+  "keywords": [
+    "iterator",
+    "sequence",
+    "infinite",
+    "generator"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-node": "^10.0.0"
+  }
+}
