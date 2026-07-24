@@ -83,3 +83,8 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+### API
+
+- `PORT` - Optional API server port. Defaults to `4000`.
+- `JSON_BODY_LIMIT` - Maximum accepted JSON request body size. Defaults to `100kb`.
