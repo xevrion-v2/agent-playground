@@ -1,0 +1,18 @@
+{
+  "name": "@taskflow/pi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Exact finite decimal prefixes of pi via binary-splitting Chudnovsky, cross-verified with Machin and BBP. Zero runtime dependencies.",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "tsx --test test/pi.test.ts",
+    "lint": "tsc --noEmit",
+    "demo": "tsx src/cli.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.5"
+  }
+}
