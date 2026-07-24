@@ -5,6 +5,7 @@ on:
 
 permissions:
   issues: write
+  contents: read
 
 jobs:
   create-labels:
@@ -14,55 +15,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install js-yaml
+        run: npm install js-yaml
+
       - name: Create or update labels
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require("fs");
+            const yaml = require("js-yaml");
 
-            const content = fs.readFileSync(".github/labels.yml", "utf8");
-            const labels = [];
-            let current = null;
-
-            for (const rawLine of content.split(/\r?\n/)) {
-              const line = rawLine.trim();
-
-              if (!line) {
-                continue;
-              }
-
-              if (line.startsWith("- name:")) {
-                if (current) {
-                  labels.push(current);
-                }
-
-                current = {
-                  name: line.replace("- name:", "").trim().replace(/^"|"$/g, "")
-                };
-                continue;
-              }
-
-              if (!current) {
-                continue;
-              }
-
-              const separatorIndex = line.indexOf(":");
-
-              if (separatorIndex === -1) {
-                continue;
-              }
-
-              const key = line.slice(0, separatorIndex).trim();
-              const value = line.slice(separatorIndex + 1).trim().replace(/^"|"$/g, "");
-              current[key] = value;
+            const parsed = yaml.load(fs.readFileSync(".github/labels.yml", "utf8"));
+            if (!Array.isArray(parsed)) {
+              throw new Error("Expected .github/labels.yml to contain a list of labels");
             }
 
-            if (current) {
-              labels.push(current);
-            }
+            for (const label of parsed) {
+              if (!label?.name || !label?.color) {
+                throw new Error(`Invalid label entry: ${JSON.stringify(label)}`);
+              }
 
-            for (const label of labels) {
-              const color = label.color.replace(/^#/, "");
+              const color = String(label.color).replace(/^#/, "");
 
               try {
                 await github.rest.issues.createLabel({
