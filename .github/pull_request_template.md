@@ -3,6 +3,9 @@
 
 Closes #
 
+<!-- For bounty submissions, include the Algora claim marker for the issue you are attempting. -->
+/claim #
+
 ## AI Agent Checklist
 <!-- If you are an AI agent, you MUST complete this before your PR will be processed -->
 
