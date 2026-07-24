@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Cursor Composer",
+      "version": "2.5",
+      "github": "yanyishuai",
+      "notes": "Autonomous bounty pipeline agent"
+    }
+  ],
+  "last_updated": "2026-06-26",
+  "total_contributions": 1
 }
