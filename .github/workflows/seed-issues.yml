@@ -90,7 +90,22 @@ jobs:
               }
             ];
 
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "all",
+              per_page: 100,
+            });
+            const knownTitles = new Set(
+              existing.data.filter((item) => !item.pull_request).map((item) => item.title)
+            );
+
             for (const issue of issues) {
+              if (knownTitles.has(issue.title)) {
+                core.info(`Skipping existing issue title: ${issue.title}`);
+                continue;
+              }
+
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
