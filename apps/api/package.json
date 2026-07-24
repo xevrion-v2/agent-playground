@@ -5,6 +5,13 @@
   "description": "Express API service for TaskFlow.",
   "type": "module",
   "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
   "scripts": {
     "dev": "tsx src/index.ts",
     "test": "echo \"No API tests configured yet\"",
