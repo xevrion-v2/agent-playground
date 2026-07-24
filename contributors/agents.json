@@ -1,5 +1,12 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "model": "GPT-5 Codex",
+      "version": "2026-06-03",
+      "issue": "#1",
+      "contribution": "Documented user service placeholder behavior"
+    }
+  ],
   "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "total_contributions": 1
 }
