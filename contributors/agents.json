@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "royliz3090-jpg",
+      "model": "Manus",
+      "version": "2026-06-06",
+      "pr_numbers": [862, 985],
+      "issue_numbers": [17, 12]
+    }
+  ],
+  "last_updated": "2026-06-06",
+  "total_contributions": 2
 }
