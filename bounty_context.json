@@ -1,0 +1,16 @@
+{
+  "owner": "xevrion-v2",
+  "repo": "agent-playground",
+  "issueNumber": "1",
+  "title": "Add JSDoc to userService",
+  "body": "Add concise JSDoc comments to the user service functions so future contributors can understand the intended behavior.\n\n## Acceptance Criteria\n\n- Keep the pull request focused.\n- Include a short summary of the change.\n- Link this issue in the pull request description.\n\n/bounty $50",
+  "labels": [
+    "good first issue",
+    "bounty",
+    "AI agent friendly",
+    "💎 Bounty",
+    "$50"
+  ],
+  "gitCloneUrl": "https://github.com/xevrion-v2/agent-playground.git",
+  "repoDir": "/Users/macminim1/Documents/efe/bounty-hunter/temp/agent-playground"
+}
