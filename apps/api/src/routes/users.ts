@@ -10,11 +10,19 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
+  const body = req.body && typeof req.body === "object" ? req.body : {};
+  const { email, name } = body as { email?: unknown; name?: unknown };
+
+  const data: Record<string, unknown> = { id: "stub-user-id" };
+  if (email !== undefined) {
+    data.email = email;
+  }
+  if (name !== undefined) {
+    data.name = name;
+  }
+
   res.status(201).json({
-    data: {
-      id: "stub-user-id",
-      ...req.body
-    },
+    data,
     message: "User creation is not implemented yet."
   });
 });
