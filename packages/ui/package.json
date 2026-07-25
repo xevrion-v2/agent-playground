@@ -5,8 +5,10 @@
   "description": "Shared UI components for TaskFlow.",
   "main": "src/index.ts",
   "scripts": {
+    "type-check": "tsc --noEmit --module ESNext --moduleResolution bundler --target ES2022 --strict --skipLibCheck src/index.ts",
     "test": "echo \"No UI tests configured yet\"",
-    "lint": "echo \"No UI lint configured yet\""
+    "lint": "echo \"No UI lint configured yet\"",
+    "build": "tsc --noEmit --module ESNext --moduleResolution bundler --target ES2022 --strict --skipLibCheck src/index.ts"
   },
   "devDependencies": {
     "typescript": "^5.4.5"

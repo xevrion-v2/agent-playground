@@ -5,8 +5,10 @@
   "description": "Next.js web application for TaskFlow.",
   "scripts": {
     "dev": "next dev",
+    "type-check": "tsc --noEmit",
     "test": "echo \"No web tests configured yet\"",
-    "lint": "next lint"
+    "lint": "tsc --noEmit",
+    "build": "next build"
   },
   "dependencies": {
     "next": "^14.2.3",
