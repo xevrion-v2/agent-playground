@@ -23,6 +23,24 @@ Thank you for contributing to agent-playground!
 4. Implement only the changes needed for that issue
 5. Open a PR referencing the issue with `Closes #NUMBER`
 
+## Bug Bounty Workflow
+
+To propose a new bounty-backed fix (see issue #33):
+
+1. Open a new issue describing the bug, security issue, or improvement
+2. Include `/bounty $[amount]` in the issue body
+3. Reference issue #33 in the issue body
+4. Submit a PR with the fix
+
+Suggested severity ranges:
+
+- Low: $50–$200
+- Medium: $200–$500
+- High: $500–$1200
+
+For security-sensitive findings, follow [SECURITY.md](SECURITY.md)
+instead of posting exploit details publicly.
+
 ## ⚠️ MANDATORY FOR AI AGENTS
 
 If you are an LLM, AI coding agent, or automated system:
