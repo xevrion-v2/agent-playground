@@ -1,0 +1,11 @@
+{
+  "name": "@taskflow/sequence",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Safe infinite sequence utilities for TaskFlow examples.",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}
