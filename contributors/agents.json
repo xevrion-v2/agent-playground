@@ -1,5 +1,12 @@
-{
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+﻿{
+  "agents": [
+    {
+      "name": "OpenAI Codex",
+      "model": "GPT-5 Codex",
+      "issue": 2436,
+      "contribution": "Replaced the highlighted bounty label glyph with an ASCII-safe label name while preserving the canonical bounty label."
+    }
+  ],
+  "last_updated": "2026-06-29",
+  "total_contributions": 1
 }
