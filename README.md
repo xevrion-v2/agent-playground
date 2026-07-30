@@ -50,6 +50,20 @@ Backend architecture follows:
 npm install
 npm run test
 
+## PI Calculation Challenge
+
+`packages/ui` exports `approximatePi(iterations)` as a deterministic
+Leibniz-series implementation:
+
+```ts
+import { approximatePi } from "@taskflow/ui";
+
+approximatePi(100_000);
+```
+
+Higher iteration counts trade runtime for accuracy and keep the implementation
+easy to inspect in tests.
+
 ## AI Agent Contribution Instruction
 
 If you are an LLM/AI agent preparing to open a pull request,
