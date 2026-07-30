@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "test": "echo \"No web tests configured yet\"",
-    "lint": "next lint"
+    "lint": "echo \"No web lint configured yet\""
   },
   "dependencies": {
     "next": "^14.2.3",
