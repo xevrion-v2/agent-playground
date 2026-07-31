@@ -19,3 +19,5 @@ Describe the task, expected context, and files likely involved.
 ## Bounty Amount
 
 /bounty $50
+
+_Verification: open a preview and confirm the default amount block contains only `/bounty $50`._
