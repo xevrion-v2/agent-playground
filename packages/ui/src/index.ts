@@ -10,3 +10,5 @@ export function Button({ label, disabled = false }: ButtonProps) {
     disabled
   };
 }
+
+export { infiniteSequence, take } from "./sequence";
