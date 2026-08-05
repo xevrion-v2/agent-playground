@@ -66,6 +66,11 @@ npm run dev -w apps/web
 
 npm run dev -w apps/api
 
+### API request body size limit
+
+The Express API uses a conservative JSON request body size limit of `100kb` by default.
+Set `JSON_BODY_LIMIT` for local development or deployment environments that need a different value.
+
 ## Database
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
