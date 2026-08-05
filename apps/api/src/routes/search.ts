@@ -3,7 +3,7 @@ import { Router } from "express";
 const router = Router();
 
 router.get("/", (_req, res) => {
-  res.json({ message: "TaskFlow users route" });
+  res.json({ message: "TaskFlow search route" });
 });
 
 export default router;
