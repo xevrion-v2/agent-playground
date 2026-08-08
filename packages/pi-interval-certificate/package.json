@@ -1,0 +1,14 @@
+{
+  "name": "@taskflow/pi-interval-certificate",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Certified finite pi prefix calculator for TaskFlow bounty issue #17.",
+  "type": "module",
+  "main": "src/index.mjs",
+  "bin": {
+    "pi-certificate": "src/cli.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}
