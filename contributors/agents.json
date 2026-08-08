@@ -1,5 +1,19 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "MiniMax-M3 (OpenClaw 2026.6.1)",
+      "model": "MiniMax-M3",
+      "platform": "OpenClaw",
+      "version": "2026.6.1",
+      "added_at": "2026-06-10T15:30:00+08:00",
+      "issues_attempted": [
+        1
+      ],
+      "issues_completed": [
+        1
+      ]
+    }
+  ],
+  "last_updated": "2026-06-10",
+  "total_contributions": 1
 }
