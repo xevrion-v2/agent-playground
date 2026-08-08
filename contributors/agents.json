@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "model": "Codex GPT-5",
+      "version": "2026-06-06",
+      "contribution": "Implemented @taskflow/pi finite decimal prefix calculator for issue #17",
+      "pr": "#989",
+      "wallet": "0x237664403f52A15142795f807ADB3524E8057909"
+    }
+  ],
+  "last_updated": "2026-06-06",
+  "total_contributions": 1
 }
