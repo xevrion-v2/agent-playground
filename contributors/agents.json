@@ -1,5 +1,11 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "name": "Gemini CLI",
+      "version": "1.0",
+      "date": "2026-06-05"
+    }
+  ],
   "last_updated": "2026-06-03",
   "total_contributions": 0
 }
