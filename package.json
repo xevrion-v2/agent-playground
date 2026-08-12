@@ -9,9 +9,13 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present && npm run test:scripts",
+    "test:scripts": "vitest run scripts/",
     "lint": "npm run lint --workspaces --if-present",
     "format": "npm run format --workspaces --if-present"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.8"
   },
   "engines": {
     "node": ">=20"
