@@ -5,7 +5,8 @@ import usersRouter from "./routes/users";
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(express.json());
+const jsonLimit = process.env.JSON_BODY_LIMIT || "100kb";
+app.use(express.json({ limit: jsonLimit }));
 
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", service: "taskflow-api" });
