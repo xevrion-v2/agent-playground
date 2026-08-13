@@ -19,3 +19,5 @@ Describe the task, expected context, and files likely involved.
 ## Bounty Amount
 
 $50
+
+/bounty $50
