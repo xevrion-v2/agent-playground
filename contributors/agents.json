@@ -1,5 +1,13 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "name": "Anicca",
+      "model": "deepseek/deepseek-v4-pro",
+      "provider": "OpenClaw Gateway",
+      "contribution": "ENV.md — documented environment variables for web and API apps",
+      "date": "2026-06-03"
+    }
+  ],
   "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "total_contributions": 1
 }
