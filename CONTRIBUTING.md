@@ -57,3 +57,28 @@ for bounty review.
 ## Code of Conduct
 
 Collaborate respectfully in all issue and PR discussions.
+
+// Fix for issue #33
+Add a dedicated `## Bug Bounty Workflow` section describing the expected contributor flow for bounty-backed fixes, including issue creation, `/bounty` syntax, reference to `#33`, and PR submission requirements:
+
+```md
+## Bug Bounty Workflow
+
+If you are contributing a fix as part of the bug bounty program:
+
+1. Open an issue with a clear description of the bug, security issue, or improvement opportunity.
+2. Add `/bounty $[amount]` to the issue body.
+3. Reference issue `#33` in the same issue.
+4. Submit a pull request that fixes the reported problem.
+
+Suggested bounty ranges:
+
+- Low: `$50-$200`
+- Medium: `$200-$500`
+- High: `$500-$1200`
+
+Please keep reports specific and include reproduction steps, affected areas, and any relevant screenshots or logs when possible.
+
+If the issue may expose a security risk, follow the process in `SECURITY.md` instead of posting sensitive details publicly.
+```
+
