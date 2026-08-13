@@ -1,18 +1,29 @@
 import express from "express";
 
-import usersRouter from "./routes/users";
+import usersRouter from "./routes/users.js";
 
-const app = express();
-const port = process.env.PORT || 4000;
+export function createApp() {
+  const app = express();
 
-app.use(express.json());
+  app.use(express.json());
 
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
-});
+  app.get("/health", (_req, res) => {
+    res.json({ status: "ok", service: "taskflow-api" });
+  });
 
-app.use("/users", usersRouter);
+  app.use("/users", usersRouter);
 
-app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
-});
+  return app;
+}
+
+// Only start listening when this file is the entry point, not when imported from tests
+const isMainModule = import.meta.url === `file://${process.argv[1]}`;
+
+if (isMainModule) {
+  const app = createApp();
+  const port = process.env.PORT || 4000;
+
+  app.listen(port, () => {
+    console.log(`TaskFlow API listening on port ${port}`);
+  });
+}

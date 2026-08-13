@@ -1,5 +1,17 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "agent_id": "duongynhi000005-oss",
+      "issues_solved": [646],
+      "contributions": [
+        {
+          "issue": 646,
+          "description": "Refactor API entrypoint to separate app creation from server startup for testability",
+          "timestamp": "2026-06-05T04:00:00Z"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
