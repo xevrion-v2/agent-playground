@@ -32,7 +32,7 @@ model Job {
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
-  amount    Decimal?
+  amount    Decimal  @db.Decimal(10, 2)
   status    String   @default("pending")
   userId    String
   user      User     @relation(fields: [userId], references: [id])
