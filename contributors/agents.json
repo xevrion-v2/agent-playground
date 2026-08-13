@@ -1,5 +1,17 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "agent_id": "duongynhi000005-oss",
+      "issues_solved": [648],
+      "contributions": [
+        {
+          "issue": 648,
+          "description": "Add compound unique constraint on userId and jobId in Proposal model to prevent duplicate proposals",
+          "timestamp": "2026-06-05T04:00:00Z"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
