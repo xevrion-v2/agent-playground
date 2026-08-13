@@ -7,37 +7,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Represents a registered user in the TaskFlow platform.
+/// Users can post jobs (as clients) and submit proposals (as freelancers).
 model User {
+  /// Unique identifier generated with cuid().
   id        String     @id @default(cuid())
+  /// User's email address, must be unique across the platform.
   email     String     @unique
+  /// Optional display name for the user's profile.
   name      String?
+  /// Jobs posted by this user (client role).
   jobs      Job[]
+  /// Proposals submitted by this user (freelancer role).
   proposals Proposal[]
+  /// Timestamp when the user account was created.
   createdAt DateTime   @default(now())
+  /// Timestamp of the last profile update.
   updatedAt DateTime   @updatedAt
 }
 
+/// Represents a task or job listing posted by a client.
+/// Jobs go through a lifecycle: draft -> open -> in_progress -> completed.
 model Job {
+  /// Unique identifier generated with cuid().
   id          String     @id @default(cuid())
+  /// Short descriptive title for the job listing.
   title       String
+  /// Detailed description of the work required.
   description String?
+  /// Current lifecycle status (draft, open, in_progress, completed, cancelled).
   status      String     @default("draft")
+  /// Foreign key referencing the client who posted this job.
   ownerId     String
+  /// The client user who owns this job listing.
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Proposals submitted by freelancers for this job.
   proposals   Proposal[]
+  /// Timestamp when the job was first created.
   createdAt   DateTime   @default(now())
+  /// Timestamp of the last update to this job.
   updatedAt   DateTime   @updatedAt
 }
 
+/// Represents a freelancer's proposal (bid) on a job listing.
+/// Proposals go through a review process: pending -> accepted/rejected.
 model Proposal {
+  /// Unique identifier generated with cuid().
   id        String   @id @default(cuid())
+  /// Brief summary of the freelancer's approach to the job.
   summary   String
+  /// Proposed payment amount for completing the job (optional).
   amount    Decimal?
+  /// Current review status (pending, accepted, rejected, withdrawn).
   status    String   @default("pending")
+  /// Foreign key referencing the freelancer who submitted this proposal.
   userId    String
+  /// The freelancer who submitted this proposal.
   user      User     @relation(fields: [userId], references: [id])
+  /// Foreign key referencing the job this proposal is for.
   jobId     String
+  /// The job listing this proposal targets.
   job       Job      @relation(fields: [jobId], references: [id])
+  /// Timestamp when the proposal was submitted.
   createdAt DateTime @default(now())
+  /// Timestamp of the last update to this proposal.
   updatedAt DateTime @updatedAt
 }
