@@ -1,0 +1,14 @@
+{
+  "name": "@taskflow/sequences",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Small infinite sequence utilities for TaskFlow examples.",
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "echo \"No sequence lint configured yet\"",
+    "test": "echo \"No sequence tests configured yet\""
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
