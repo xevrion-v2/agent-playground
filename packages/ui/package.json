@@ -8,7 +8,13 @@
     "test": "echo \"No UI tests configured yet\"",
     "lint": "echo \"No UI lint configured yet\""
   },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "@types/react": "^18.0.0"
+  },
   "devDependencies": {
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "react": "^18.3.1",
+    "@types/react": "^18.3.3"
   }
 }

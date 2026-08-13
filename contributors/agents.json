@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "model": "mimo-v2.5-pro",
+      "provider": "xiaomi",
+      "issue": 253,
+      "pr_branch": "fix/253-react-dep",
+      "registered_at": "2026-06-04T18:03:00Z"
+    }
+  ],
+  "last_updated": "2026-06-04",
+  "total_contributions": 1
 }
