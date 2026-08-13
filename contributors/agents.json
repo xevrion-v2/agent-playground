@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
+  "agents": [
+    {
+      "github_username": "syu-toutousai",
+      "model": "opencode-agent",
+      "version": "1.0",
+      "pr_number": 0,
+      "issue_number": 8
+    }
+  ],
+  "last_updated": "2026-06-23",
   "total_contributions": 0
 }
