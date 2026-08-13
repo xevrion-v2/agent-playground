@@ -1,0 +1,16 @@
+name: Seed Meta Issue Idempotent
+on:
+  workflow_dispatch:
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const TITLE="Bug Bounty Program";
+            const list=await github.paginate(github.rest.issues.listForRepo,{owner:context.repo.owner,repo:context.repo.repo,state:"open",per_page:100});
+            if(list.some(i=>i.title===TITLE)){console.log("exists, skip");return;}
+            await github.rest.issues.create({owner:context.repo.owner,repo:context.repo.repo,title:TITLE,body:"/bounty program meta issue",labels:["bounty"]});
