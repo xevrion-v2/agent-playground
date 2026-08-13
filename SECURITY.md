@@ -25,13 +25,13 @@ Out of scope:
 
 ## Rewards
 
-Example reward ranges:
+Reward ranges (per Bug Bounty Program #33):
 
-- Critical vulnerability: $500
-- High severity vulnerability: $250
-- Medium severity vulnerability: $100
-- Low severity vulnerability: $50
-- Documentation-only security improvement: $25
+- High: $500-$1200
+- Medium: $200-$500
+- Low: $50-$200
+
+Rewards are at contributor discretion based on severity. See Issue #33 for details.
 
 ## Reporting
 
