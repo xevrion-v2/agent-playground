@@ -1,5 +1,4 @@
 import express from "express";
-
 import usersRouter from "./routes/users";
 
 const app = express();
@@ -13,6 +12,12 @@ app.get("/health", (_req, res) => {
 
 app.use("/users", usersRouter);
 
-app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
-});
+// Export app for test imports (import-safe — no side-effect listen)
+export { app };
+
+// Deferred listen: only auto-starts when this module is the direct entrypoint
+if (process.env.NODE_ENV !== "test") {
+  app.listen(port, () => {
+    console.log(`TaskFlow API listening on port ${port}`);
+  });
+}
