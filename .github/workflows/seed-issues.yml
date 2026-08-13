@@ -15,9 +15,21 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const parentBountyTitle = "Bug Bounty Program — How to Participate";
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "all",
+              per_page: 100
+            });
+            const parentBountyIssue = existingIssues.find((issue) => (
+              !issue.pull_request && issue.title === parentBountyTitle
+            ));
+
             const bountyBody = (description) => [
               description,
               "",
+              ...(parentBountyIssue ? [`Parent bounty: #${parentBountyIssue.number}`, ""] : []),
               "## Acceptance Criteria",
               "",
               "- Keep the pull request focused.",
