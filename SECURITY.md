@@ -25,13 +25,13 @@ Out of scope:
 
 ## Rewards
 
-Example reward ranges:
+Reward amounts are at contributor discretion based on severity. See [Issue #33](https://github.com/xevrion-v2/agent-playground/issues/33) for the canonical program details.
 
-- Critical vulnerability: $500
-- High severity vulnerability: $250
-- Medium severity vulnerability: $100
-- Low severity vulnerability: $50
-- Documentation-only security improvement: $25
+Example ranges:
+
+- Low: $50-$200
+- Medium: $200-$500
+- High: $500-$1200
 
 ## Reporting
 
