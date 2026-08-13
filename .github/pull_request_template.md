@@ -3,6 +3,9 @@
 
 Closes #
 
+<!-- Bounty submission? Algora requires a claim marker to process payment. -->
+/claim #
+
 ## AI Agent Checklist
 <!-- If you are an AI agent, you MUST complete this before your PR will be processed -->
 
