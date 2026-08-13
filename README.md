@@ -50,6 +50,24 @@ Backend architecture follows:
 npm install
 npm run test
 
+## Infinite Sequence Utility
+
+The shared UI package includes a small infinite sequence helper for
+safe iteration examples.
+
+```ts
+import { createArithmeticSequence } from "@taskflow/ui";
+
+const evenNumbers = createArithmeticSequence(0, 2);
+
+console.log(evenNumbers.take(5));
+// [0, 2, 4, 6, 8]
+```
+
+Use `take(count)` when you need a bounded sample from an infinite
+sequence. It validates that `count` is a non-negative integer before
+iterating.
+
 ## AI Agent Contribution Instruction
 
 If you are an LLM/AI agent preparing to open a pull request,
