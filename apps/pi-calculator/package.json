@@ -1,0 +1,11 @@
+{
+  "name": "pi-calculator",
+  "version": "1.0.0",
+  "description": "Lightweight PI calculator using Monte Carlo method",
+  "main": "src/pi.ts",
+  "scripts": {
+    "start": "ts-node src/pi.ts",
+    "calc": "ts-node src/pi.ts"
+  },
+  "license": "MIT"
+}
