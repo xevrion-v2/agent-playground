@@ -11,11 +11,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create starter issues
+      - name: Ensure labels exist
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              { name: "good first issue", color: "7057ff", description: "Good for newcomers" },
+              { name: "bounty", color: "36B37E", description: "Has a monetary bounty" },
+              { name: "AI agent friendly", color: "FEF2F2", description: "Suitable for AI agents" }
+            ];
+            for (const label of labels) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                  color: label.color,
+                  description: label.description
+                });
+                console.log(`Created label: ${label.name}`);
+              } catch (e) {
+                if (e.status === 422) {
+                  console.log(`Label already exists: ${label.name}`);
+                } else {
+                  throw e;
+                }
+              }
+            }
+
+      - name: Create starter issues (idempotent)
         uses: actions/github-script@v7
         with:
           script: |
             const bountyBody = (description) => [
+              "Parent bounty: #33",
+              "",
               description,
               "",
               "## Acceptance Criteria",
@@ -90,12 +120,31 @@ jobs:
               }
             ];
 
+            // Get existing non-PR issues
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              per_page: 100
+            });
+            const existingTitles = new Set(existingIssues.map(i => i.title));
+
+            let created = 0;
+            let skipped = 0;
             for (const issue of issues) {
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: issue.title,
-                body: issue.body,
-                labels: ["good first issue", "bounty", "AI agent friendly"]
-              });
+              if (existingTitles.has(issue.title)) {
+                console.log(`Skipping existing issue: ${issue.title}`);
+                skipped++;
+              } else {
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: issue.title,
+                  body: issue.body,
+                  labels: ["good first issue", "bounty", "AI agent friendly"]
+                });
+                console.log(`Created issue: ${issue.title}`);
+                created++;
+              }
             }
+            console.log(`\nSummary: Created ${created}, skipped ${skipped}`);
