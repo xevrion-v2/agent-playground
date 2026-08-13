@@ -12,8 +12,8 @@ router.get("/", (_req, res) => {
 router.post("/", (req, res) => {
   res.status(201).json({
     data: {
-      id: "stub-user-id",
-      ...req.body
+      ...req.body,
+      id: "stub-user-id"
     },
     message: "User creation is not implemented yet."
   });
