@@ -15,8 +15,20 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              per_page: 100,
+            });
+            const parentIssue = existing.data.find((item) =>
+              item.title.includes("Bug Bounty Program")
+            );
+            const parentRef = parentIssue ? `Parent bounty: #${parentIssue.number}` : "";
+
             const bountyBody = (description) => [
               description,
+              parentRef,
               "",
               "## Acceptance Criteria",
               "",
@@ -25,7 +37,7 @@ jobs:
               "- Link this issue in the pull request description.",
               "",
               "/bounty $50"
-            ].join("\n");
+            ].filter(Boolean).join("\n");
 
             const issues = [
               {
@@ -90,7 +102,20 @@ jobs:
               }
             ];
 
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              per_page: 100,
+            });
+            const openTitles = new Set(existing.data.map((item) => item.title));
+
             for (const issue of issues) {
+              if (openTitles.has(issue.title)) {
+                core.info(`Skipping existing open issue: ${issue.title}`);
+                continue;
+              }
+
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
