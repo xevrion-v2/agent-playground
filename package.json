@@ -1,19 +1,19 @@
 {
-  "name": "agent-playground",
-  "version": "0.1.0",
-  "private": true,
-  "description": "TaskFlow full-stack task management SaaS monorepo.",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "lint": "npm run lint --workspaces --if-present",
-    "format": "npm run format --workspaces --if-present"
-  },
-  "engines": {
-    "node": ">=20"
-  }
+    "name":  "agent-playground",
+    "version":  "0.1.0",
+    "private":  true,
+    "description":  "TaskFlow full-stack task management SaaS monorepo.",
+    "workspaces":  [
+                       "apps/*",
+                       "packages/*"
+                   ],
+    "scripts":  {
+                    "dev":  "npm run dev --workspaces --if-present",
+                    "test":  "node --test scripts/infinite-sequence.test.mjs \u0026\u0026 npm run test --workspaces --if-present",
+                    "lint":  "npm run lint --workspaces --if-present",
+                    "format":  "npm run format --workspaces --if-present"
+                },
+    "engines":  {
+                    "node":  "\u003e=20"
+                }
 }
