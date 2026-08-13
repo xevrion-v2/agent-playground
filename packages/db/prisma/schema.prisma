@@ -1,3 +1,5 @@
+// Prisma schema for TaskFlow - a task management SaaS application
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +9,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/**
+ * User model - represents registered users in the TaskFlow system
+ * Users can own jobs (as clients) and submit proposals for jobs
+ */
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,27 +23,55 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/**
+ * Job model - represents tasks/projects posted by clients
+ * Jobs can receive proposals from interested freelancers
+ */
 model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
-  status      String     @default("draft")
+  status      JobStatus  @default(DRAFT)
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
   proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+
+  @@index([ownerId])
 }
 
+enum JobStatus {
+  DRAFT
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+/**
+ * Proposal model - represents freelancer proposals for jobs
+ * Links a user (freelancer) to a job with pricing and status
+ */
 model Proposal {
-  id        String   @id @default(cuid())
+  id        String         @id @default(cuid())
   summary   String
-  amount    Decimal?
-  status    String   @default("pending")
+  amount    Decimal?       @db.Decimal(12, 2)
+  status    ProposalStatus @default(PENDING)
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User           @relation(fields: [userId], references: [id])
   jobId     String
-  job       Job      @relation(fields: [jobId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  job       Job            @relation(fields: [jobId], references: [id])
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([userId])
+  @@index([jobId])
+}
+
+enum ProposalStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
 }
