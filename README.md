@@ -81,5 +81,6 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own `.env` values for DB, auth, and integrations.
+See [docs/environment-variables.md](docs/environment-variables.md) for a full 
+reference including required vs optional variables and local development setup.
