@@ -1,11 +1,13 @@
 import express from "express";
 
+import { rateLimiter } from "./middleware/rateLimiter";
 import usersRouter from "./routes/users";
 
 const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
+app.use(rateLimiter());
 
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", service: "taskflow-api" });
