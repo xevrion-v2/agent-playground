@@ -5,10 +5,12 @@
   "description": "Shared UI components for TaskFlow.",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"No UI tests configured yet\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "lint": "echo \"No UI lint configured yet\""
   },
   "devDependencies": {
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vitest": "^2.1.0"
   }
 }
