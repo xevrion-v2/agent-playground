@@ -15,24 +15,28 @@ with a modern TypeScript-first architecture.
 
 ## Frontend
 
-The web app includes pages for:
-- Landing
+Currently implemented:
+- Landing page (`apps/web/src/app/page.tsx`)
+
+Planned (not yet implemented):
 - Task boards and task detail
 - Create a task
 - User profiles and user search
 - Client and freelancer dashboards
-- Messaging
-- Notifications
-- Settings
-- Billing
-- Admin panel
+- Messaging, notifications, settings
+- Billing and admin panel
 
 ## Backend
 
-The API includes:
+Currently implemented:
+- `GET /health` — Health check endpoint
+- `GET /users` — List users (stub)
+- `POST /users` — Create user (stub)
+
+Planned (not yet implemented):
 - Auth routes (register, login, OAuth callback, JWT refresh)
-- CRUD routes for users, tasks, and proposals
-- Payments routes (Stripe-focused service placeholder)
+- CRUD routes for tasks and proposals
+- Payments routes (Stripe placeholder)
 - Reviews, messaging, notifications
 - File uploads and search
 - Admin routes
@@ -47,8 +51,10 @@ Backend architecture follows:
 
 ## Getting Started
 
+```
 npm install
 npm run test
+```
 
 ## AI Agent Contribution Instruction
 
@@ -60,24 +66,23 @@ before opening your PR.
 
 ### Run frontend
 
+```
 npm run dev -w apps/web
+```
 
 ### Run backend
 
+```
 npm run dev -w apps/api
+```
 
 ## Database
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
 - Users
-- Tasks
+- Jobs
 - Proposals
-- Payments
-- Reviews
-- Messages
-- Categories
-- Skills
 
 ## Environment Variables
 
