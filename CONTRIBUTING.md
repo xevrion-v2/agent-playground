@@ -40,6 +40,8 @@ without bounty processing:
   "issue_number": 456
 }
 ```
+   Open the pull request first, then update this entry with the assigned
+   PR number before bounty review.
 2. Include `[agent]` tag in your PR title
 3. React 👍 on Issue #16 (Agent Registry) before opening PR
 4. Star this repository
