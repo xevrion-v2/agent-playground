@@ -1,43 +1,84 @@
+// ─── Prisma client generator ───────────────────────────────────────────────────
+// Generates the Prisma Client JS library based on the schema below.
 generator client {
   provider = "prisma-client-js"
 }
 
+// ─── Database connection ──────────────────────────────────────────────────────
+// PostgreSQL datasource — connection URL is read from the DATABASE_URL
+// environment variable at runtime.
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+// ─── User ──────────────────────────────────────────────────────────────────────
+// Represents a user in the TaskFlow system. A user can post job listings and
+// submit proposals on jobs posted by other users.
 model User {
+  // Unique identifier (CUID) — auto-generated.
   id        String     @id @default(cuid())
+  // Unique email address used for authentication and communication.
   email     String     @unique
+  // Display / full name of the user (optional).
   name      String?
+  // Jobs that this user has posted.
   jobs      Job[]
+  // Proposals that this user has submitted.
   proposals Proposal[]
+  // Timestamp when the user record was created.
   createdAt DateTime   @default(now())
+  // Timestamp when the user record was last updated.
   updatedAt DateTime   @updatedAt
 }
 
+// ─── Job ───────────────────────────────────────────────────────────────────────
+// Represents a work opportunity (job listing) posted by a user. Jobs may receive
+// multiple proposals from other users who are interested in fulfilling the work.
 model Job {
+  // Unique identifier (CUID) — auto-generated.
   id          String     @id @default(cuid())
+  // Short title describing the job or task.
   title       String
+  // Detailed description of the job requirements (optional).
   description String?
+  // Current status of the job (e.g. "draft", "open", "in_progress", "closed").
   status      String     @default("draft")
+  // Foreign key — references the User who posted this job.
   ownerId     String
+  // The user who owns / posted this job.
   owner       User       @relation(fields: [ownerId], references: [id])
+  // Proposals submitted by other users for this job.
   proposals   Proposal[]
+  // Timestamp when the job was created.
   createdAt   DateTime   @default(now())
+  // Timestamp when the job was last updated.
   updatedAt   DateTime   @updatedAt
 }
 
+// ─── Proposal ──────────────────────────────────────────────────────────────────
+// Represents a bid or application submitted by a user in response to a job
+// listing. A proposal includes a summary and an optional monetary amount, and
+// tracks its own lifecycle status.
 model Proposal {
+  // Unique identifier (CUID) — auto-generated.
   id        String   @id @default(cuid())
+  // Brief summary of what the proposer intends to deliver.
   summary   String
+  // Proposed budget or bid amount (optional, decimal).
   amount    Decimal?
+  // Current status of the proposal (e.g. "pending", "accepted", "rejected").
   status    String   @default("pending")
+  // Foreign key — references the User who submitted this proposal.
   userId    String
+  // The user who submitted this proposal.
   user      User     @relation(fields: [userId], references: [id])
+  // Foreign key — references the Job this proposal is for.
   jobId     String
+  // The job this proposal is responding to.
   job       Job      @relation(fields: [jobId], references: [id])
+  // Timestamp when the proposal was created.
   createdAt DateTime @default(now())
+  // Timestamp when the proposal was last updated.
   updatedAt DateTime @updatedAt
 }
