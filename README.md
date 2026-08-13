@@ -83,3 +83,13 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+### apps/api
+- `PORT` (default: 3000)
+- `DATABASE_URL`
+- `JWT_SECRET`
+- `STRIPE_SECRET_KEY`
+
+### apps/web
+- `NEXT_PUBLIC_API_URL`
+- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
