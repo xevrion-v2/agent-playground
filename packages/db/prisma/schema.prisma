@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User accounts — stores authentication and personal details
+// A User can own multiple Jobs and submit Proposals
+// Workspace: TaskFlow marketplace
+// User accounts — stores authentication and personal details
+// A User can own multiple Jobs and submit Proposals
+// Workspace: TaskFlow marketplace
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
