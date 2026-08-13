@@ -7,36 +7,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Core user account. Links to jobs they own and proposals they submit.
 model User {
   id        String     @id @default(cuid())
+  /// User's unique email address used for authentication
   email     String     @unique
+  /// Display name shown on profiles and proposals
   name      String?
+  /// Jobs owned/posted by this user
   jobs      Job[]
+  /// Proposals submitted by this user
   proposals Proposal[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A task or project posted by a user, accepting proposals from freelancers.
 model Job {
   id          String     @id @default(cuid())
+  /// Public title for the job listing
   title       String
+  /// Detailed description of the work required
   description String?
+  /// Current state: draft, open, in_progress, completed, cancelled
   status      String     @default("draft")
+  /// Foreign key to the user who created this job
   ownerId     String
+  /// User who owns this job
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Proposals submitted by freelancers for this job
   proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A freelancer's bid on a job, including price and cover summary.
 model Proposal {
   id        String   @id @default(cuid())
+  /// Brief summary of the freelancer's approach and qualifications
   summary   String
+  /// Quoted price for completing the job (nullable for open bids)
   amount    Decimal?
+  /// Current state: pending, accepted, rejected, withdrawn
   status    String   @default("pending")
+  /// Foreign key to the freelancer
   userId    String
+  /// Freelancer submitting this proposal
   user      User     @relation(fields: [userId], references: [id])
+  /// Foreign key to the job being bid on
   jobId     String
+  /// Job this proposal belongs to
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
