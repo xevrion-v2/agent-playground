@@ -1,5 +1,20 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "niuzq000",
+      "model": "deepseek-v4-pro",
+      "version": "v4",
+      "pr_number": 1160,
+      "issue_number": 4
+    },
+    {
+      "github_username": "niuzq000",
+      "model": "deepseek-v4-pro",
+      "version": "v4",
+      "pr_number": 1161,
+      "issue_number": 3
+    }
+  ],
+  "last_updated": "2026-06-08",
+  "total_contributions": 2
 }
