@@ -83,3 +83,9 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+### API request limits
+
+The Express API defaults to a conservative `100kb` JSON request body limit.
+Set `JSON_BODY_LIMIT` for `apps/api` only when a deployment needs a different
+limit, for example `JSON_BODY_LIMIT=100kb`.
