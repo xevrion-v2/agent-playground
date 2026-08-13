@@ -81,5 +81,30 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own `.env` file. Below are the
+variables used across the monorepo.
+
+### `apps/api` (.env)
+
+| Variable | Description | Required |
+|---|---|---|
+| `PORT` | Port the API listens on (default `4000`) | No |
+| `DATABASE_URL` | PostgreSQL connection string for Prisma | Yes |
+| `JWT_SECRET` | Secret key for signing JWT tokens | Yes |
+| `STRIPE_SECRET_KEY` | Stripe API key for payment routes | No |
+| `CORS_ORIGIN` | Allowed origin for CORS (e.g. `http://localhost:3000`) | No |
+
+### `apps/web` (.env.local)
+
+| Variable | Description | Required |
+|---|---|---|
+| `NEXT_PUBLIC_API_URL` | Base URL for the API (e.g. `http://localhost:4000`) | Yes |
+| `NEXTAUTH_SECRET` | Secret for NextAuth.js session encryption | Yes |
+| `NEXTAUTH_URL` | Canonical URL of the web app (e.g. `http://localhost:3000`) | Yes |
+
+### `packages/db` (.env)
+
+| Variable | Description | Required |
+|---|---|---|
+| `DATABASE_URL` | PostgreSQL connection string used by Prisma CLI | Yes |
+| `SHADOW_DATABASE_URL` | URL for Prisma's shadow database (for migrations) | No |
