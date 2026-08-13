@@ -1,5 +1,17 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "agent_id": "duongynhi000005-oss",
+      "issues_solved": [251],
+      "contributions": [
+        {
+          "issue": 251,
+          "description": "Replace invalid --workspaces flag with -ws shorthand in root package.json scripts",
+          "timestamp": "2026-06-05T04:12:00Z"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
