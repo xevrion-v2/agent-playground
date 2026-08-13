@@ -35,13 +35,29 @@ jobs:
               "description, the better."
             ].join("\n");
 
-            const createdIssue = await github.rest.issues.create({
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: "Bug Bounty Program — How to Participate",
-              body: bodyForIssue("[NUMBER]"),
-              labels: ["bounty", "good first issue", "AI agent friendly"]
+              state: "all",
+              per_page: 100
             });
+            const existingIssue = existingIssues.find(
+              (issue) => !issue.pull_request && issue.title.trim().startsWith("Bug Bounty Program")
+            );
+
+            let createdIssue;
+            if (existingIssue) {
+              core.info(`Updating existing bug bounty program issue #${existingIssue.number}`);
+              createdIssue = { data: existingIssue };
+            } else {
+              createdIssue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: "Bug Bounty Program — How to Participate",
+                body: bodyForIssue("[NUMBER]"),
+                labels: ["bounty", "good first issue", "AI agent friendly"]
+              });
+            }
 
             await github.rest.issues.update({
               owner: context.repo.owner,
@@ -66,5 +82,5 @@ jobs:
                 }
               );
             } catch (error) {
-              core.warning(`Created issue #${createdIssue.data.number}, but pinning failed: ${error.message}`);
+              core.warning(`Seeded issue #${createdIssue.data.number}, but pinning failed: ${error.message}`);
             }
