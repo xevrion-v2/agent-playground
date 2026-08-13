@@ -83,3 +83,41 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+### Web App (`apps/web`)
+
+Create `apps/web/.env.local`:
+
+```bash
+# Database connection (required)
+DATABASE_URL="postgresql://user:password@localhost:5432/taskflow"
+
+# Authentication (required)
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key-here"
+
+# OAuth providers (optional)
+GITHUB_CLIENT_ID="your-github-client-id"
+GITHUB_CLIENT_SECRET="your-github-client-secret"
+```
+
+### API Service (`apps/api`)
+
+Create `apps/api/.env`:
+
+```bash
+# Server configuration
+PORT=4000
+NODE_ENV="development"
+
+# Database connection (required)
+DATABASE_URL="postgresql://user:password@localhost:5432/taskflow"
+
+# JWT authentication (required)
+JWT_SECRET="your-jwt-secret-here"
+JWT_EXPIRES_IN="7d"
+
+# Stripe payment integration (optional)
+STRIPE_SECRET_KEY="sk_test_..."
+STRIPE_WEBHOOK_SECRET="whsec_..."
+```
