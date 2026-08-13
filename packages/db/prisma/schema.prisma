@@ -8,6 +8,7 @@ datasource db {
 }
 
 model User {
+  /// TaskFlow account identity used for auth and ownership checks.
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
@@ -18,6 +19,7 @@ model User {
 }
 
 model Job {
+  /// Client-owned work item that freelancers can bid on.
   id          String     @id @default(cuid())
   title       String
   description String?
@@ -30,6 +32,7 @@ model Job {
 }
 
 model Proposal {
+  /// Freelancer bid attached to a single job posting.
   id        String   @id @default(cuid())
   summary   String
   amount    Decimal?
