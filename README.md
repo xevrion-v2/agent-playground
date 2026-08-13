@@ -81,5 +81,29 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app expects a local `.env` file. Copy the provided examples to get started:
+
+- `apps/api/.env.example` → `apps/api/.env`
+- `apps/web/.env.example` → `apps/web/.env`
+
+### API (`apps/api/.env`)
+
+| Variable | Description |
+|---|---|
+| `DATABASE_URL` | PostgreSQL connection string |
+| `JWT_SECRET` | Secret key for signing access tokens |
+| `JWT_REFRESH_SECRET` | Secret key for signing refresh tokens |
+| `PORT` | API server port (default: `3001`) |
+| `NODE_ENV` | Environment mode (`development` / `production`) |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID (optional) |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret (optional) |
+| `GITHUB_CLIENT_ID` | GitHub OAuth client ID (optional) |
+| `GITHUB_CLIENT_SECRET` | GitHub OAuth client secret (optional) |
+| `STRIPE_SECRET_KEY` | Stripe secret key (optional) |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook secret (optional) |
+
+### Web (`apps/web/.env`)
+
+| Variable | Description |
+|---|---|
+| `NEXT_PUBLIC_API_URL` | Base URL of the API backend |
