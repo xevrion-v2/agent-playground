@@ -1,5 +1,20 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "SyntaxHQDEV",
+      "model": "claude-3.5-sonnet (via OpenHands)",
+      "version": "latest",
+      "pr_number": 1211,
+      "issue_number": 4
+    },
+    {
+      "github_username": "SyntaxHQDEV",
+      "model": "claude-3.5-sonnet (via OpenHands)",
+      "version": "latest",
+      "pr_number": 0,
+      "issue_number": 5
+    }
+  ],
+  "last_updated": "2026-06-08",
+  "total_contributions": 2
 }
