@@ -3,7 +3,13 @@ export type ButtonProps = {
   disabled?: boolean;
 };
 
-export function Button({ label, disabled = false }: ButtonProps) {
+export type ButtonReturn = {
+  type: "button";
+  label: string;
+  disabled: boolean;
+};
+
+export function Button({ label, disabled = false }: ButtonProps): ButtonReturn {
   return {
     type: "button",
     label,
