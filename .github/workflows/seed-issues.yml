@@ -29,8 +29,8 @@ jobs:
 
             const issues = [
               {
-                title: "Add JSDoc to userService",
-                body: bountyBody("Add concise JSDoc comments to the user service functions so future contributors can understand the intended behavior.")
+                title: "Add JSDoc to user route stubs",
+                body: bountyBody("Add concise JSDoc comments to the user route handlers so future contributors can understand the intended behavior.")
               },
               {
                 title: "Fix typo in README",
