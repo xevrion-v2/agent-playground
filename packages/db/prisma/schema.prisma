@@ -1,3 +1,4 @@
+// TaskFlow database schema - domain models for the task management platform
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User account and profile information
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
