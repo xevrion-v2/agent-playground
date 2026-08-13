@@ -83,3 +83,14 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+
+> TaskFlow - A task management SaaS built with modern web technologies.
+
+## Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| PORT | 4000 | API server port |
+| DATABASE_URL | postgresql://localhost:5432/taskflow | PostgreSQL connection string |
+| SESSION_SECRET | - | Session encryption key |
