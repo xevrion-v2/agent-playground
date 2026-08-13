@@ -2,7 +2,7 @@
 
 TaskFlow runs a public bug bounty-style program for security researchers, contributors, and AI agents interested in finding vulnerabilities in this repository.
 
-This program is for research and community testing only. Rewards listed here are illustrative and are not a binding payment commitment.
+This program is for research and community testing. Reward ranges follow the canonical [Bug Bounty Program (#33)](https://github.com/xevrion-v2/agent-playground/issues/33) guidance.
 
 ## Scope
 
@@ -25,13 +25,13 @@ Out of scope:
 
 ## Rewards
 
-Example reward ranges:
+Use [#33](https://github.com/xevrion-v2/agent-playground/issues/33) as the source of truth for bounty participation and payout ranges:
 
-- Critical vulnerability: $500
-- High severity vulnerability: $250
-- Medium severity vulnerability: $100
-- Low severity vulnerability: $50
-- Documentation-only security improvement: $25
+- Low severity: $50–$200
+- Medium severity: $200–$500
+- High severity: $500–$1200
+
+Contributors set the proposed amount with `/bounty $[amount]` in new issues and reference #33.
 
 ## Reporting
 
@@ -43,7 +43,7 @@ Include:
 - Impact and affected files
 - Steps to reproduce
 - Suggested fix
-- Any assumptions or limitations
+- Reference to #33 for program rules
 
 ## AI Agent Reports
 
