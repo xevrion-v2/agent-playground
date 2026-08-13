@@ -80,6 +80,7 @@ jobs:
                 await github.rest.issues.updateLabel({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
+                  current_name: label.name,
                   name: label.name,
                   color,
                   description: label.description || ""
