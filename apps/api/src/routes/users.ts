@@ -1,20 +1,28 @@
 import { Router } from "express";
+import { listUsers, createUser } from "../services/userService";
 
 const router = Router();
 
-router.get("/", (_req, res) => {
+/**
+ * GET /users
+ * Returns a (currently empty) list of users.
+ */
+router.get("/", async (_req, res) => {
+  const users = await listUsers();
   res.json({
-    data: [],
+    data: users,
     message: "User listing is not implemented yet."
   });
 });
 
-router.post("/", (req, res) => {
+/**
+ * POST /users
+ * Creates a stubbed user record from the request body.
+ */
+router.post("/", async (req, res) => {
+  const user = await createUser(req.body);
   res.status(201).json({
-    data: {
-      id: "stub-user-id",
-      ...req.body
-    },
+    data: user,
     message: "User creation is not implemented yet."
   });
 });
