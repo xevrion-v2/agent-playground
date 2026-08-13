@@ -1,0 +1,1 @@
+["gh workflow run seed-issues.yml --inputs issue_titles='Test Issue',issue_bodies='Acceptance: Test passes. /bounty $50'", "gh issue list --search 'Test Issue'"]
