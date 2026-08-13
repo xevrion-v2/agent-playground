@@ -81,5 +81,19 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own `.env` values for database, authentication, and integrations.
+
+### Web App (`apps/web`)
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `NEXT_PUBLIC_API_URL` | Base URL of the API backend (e.g., `http://localhost:4000`) | Yes |
+| `NEXT_PUBLIC_APP_URL` | Base URL of the web app (e.g., `http://localhost:3000`) | No |
+
+### API App (`apps/api`)
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `PORT` | Port the API server listens on (default `4000`) | No |
+| `DATABASE_URL` | PostgreSQL connection string for Prisma | Yes |
+| `JWT_SECRET` | Secret key for signing JWT tokens | Yes |
