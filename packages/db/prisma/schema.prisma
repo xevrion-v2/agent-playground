@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Registered user accounts — can own jobs (as clients) or submit proposals (as freelancers)
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +18,7 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// A piece of work posted by a User (client). Jobs go through lifecycle: draft → open → in_progress → completed / cancelled
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +31,7 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// A freelancer's bid on a Job, containing their pitch (summary) and optional rate (amount)
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
