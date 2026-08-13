@@ -1,3 +1,6 @@
+/// TaskFlow Database Schema
+/// PostgreSQL with Prisma ORM
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// User accounts for clients and freelancers
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +21,7 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// Tasks posted by clients
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +34,7 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// Proposals submitted by freelancers
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
