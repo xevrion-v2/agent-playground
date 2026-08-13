@@ -1,0 +1,13 @@
+{
+    "name": "@taskflow/pi-prefix",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Compute exact finite decimal prefixes of PI using BigInt arithmetic.",
+    "main": "index.js",
+    "bin": {
+        "pi-prefix": "./cli.js"
+    },
+    "scripts": {
+        "test": "node --test test.js"
+    }
+}
