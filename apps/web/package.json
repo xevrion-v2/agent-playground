@@ -1,9 +1,10 @@
-{
+﻿{
   "name": "@taskflow/web",
   "version": "0.1.0",
   "private": true,
   "description": "Next.js web application for TaskFlow.",
   "scripts": {
+    "build": "next build",
     "dev": "next dev",
     "test": "echo \"No web tests configured yet\"",
     "lint": "next lint"
