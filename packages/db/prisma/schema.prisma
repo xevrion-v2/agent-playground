@@ -7,6 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// User represents a TaskFlow platform account.
+/// Each user can own multiple jobs and submit proposals to jobs.
+/// Authentication and profile data are managed externally; this model
+/// stores only the minimal identity fields required for relations.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +21,9 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// Job represents a work item posted by a user (owner).
+/// Jobs have a lifecycle: draft -> open -> in_progress -> completed.
+/// Each job can receive multiple proposals from different users.
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +36,9 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// Proposal represents a user's offer to work on a job.
+/// Contains the proposed summary and optional amount.
+/// Status transitions: pending -> accepted -> rejected -> completed.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
