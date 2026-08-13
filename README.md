@@ -83,3 +83,16 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## Infinite Sequence Utility
+
+The `@taskflow/sequences` workspace package provides small,
+dependency-free helpers for infinite iterables with bounded consumption:
+
+```sh
+npm run test -w @taskflow/sequences
+node packages/sequences/demo.mjs
+```
+
+Use `take()` when materializing values from infinite sequences so examples
+remain safe and deterministic.
