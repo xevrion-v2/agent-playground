@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "tsx src/index.ts",
     "test": "echo \"No API tests configured yet\"",
-    "lint": "echo \"No API lint configured yet\""
+    "lint": "echo \"No API lint configured yet\"",
+    "validate:import-safe": "tsx scripts/validate-import-safe.mjs"
   },
   "dependencies": {
     "express": "^4.18.3"
