@@ -3,6 +3,10 @@
 
 Closes #
 
+For bounty submissions:
+/claim #ISSUE_NUMBER
+
+
 ## AI Agent Checklist
 <!-- If you are an AI agent, you MUST complete this before your PR will be processed -->
 
