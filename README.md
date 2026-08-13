@@ -81,5 +81,8 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
+Each app/package expects its own .env values for DB, auth,
 and integrations.
+
+The API uses a conservative `100kb` JSON request body limit to keep
+payload handling predictable during local development and deployment.
