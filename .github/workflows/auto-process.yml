@@ -39,7 +39,7 @@ jobs:
             printf '{}\n' > leaderboard.json
           fi
           tmp_file="$(mktemp)"
-          jq --arg user "${PR_USER}" '.[$user] = ((.[$user] // 0) + 1)' leaderboard.json > "${tmp_file}"
+          node scripts/update-leaderboard.mjs "${PR_USER}" < leaderboard.json > "${tmp_file}"
           mv "${tmp_file}" leaderboard.json
           git add leaderboard.json
           if git diff --cached --quiet -- leaderboard.json; then
