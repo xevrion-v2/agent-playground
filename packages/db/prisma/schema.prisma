@@ -1,3 +1,6 @@
+// Prisma schema for TaskFlow platform
+// Domain: Freelance job marketplace connecting clients with freelancers
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,33 +10,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User account — can post jobs (as client) and submit proposals (as freelancer)
 model User {
   id        String     @id @default(cuid())
-  email     String     @unique
-  name      String?
-  jobs      Job[]
-  proposals Proposal[]
+  email     String     @unique  // used for login & notifications
+  name      String?             // display name (optional)
+  jobs      Job[]               // jobs posted by this user
+  proposals Proposal[]          // proposals submitted by this user
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+// Job listing — posted by a client, freelancers submit proposals
 model Job {
   id          String     @id @default(cuid())
   title       String
-  description String?
-  status      String     @default("draft")
+  description String?            // detailed job description (optional)
+  status      String     @default("draft")  // draft | open | in_progress | completed | cancelled
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
+  proposals   Proposal[]          // proposals submitted for this job
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+// Proposal — a freelancer's bid on a job
 model Proposal {
   id        String   @id @default(cuid())
-  summary   String
-  amount    Decimal?
-  status    String   @default("pending")
+  summary   String             // brief description of the proposed work
+  amount    Decimal?           // proposed budget/rate (optional)
+  status    String   @default("pending")  // pending | accepted | rejected | withdrawn
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   jobId     String
