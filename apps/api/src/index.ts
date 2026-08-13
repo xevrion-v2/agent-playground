@@ -5,6 +5,9 @@ import usersRouter from "./routes/users";
 const app = express();
 const port = process.env.PORT || 4000;
 
+// Disable weak ETag generation for dynamic JSON responses
+app.set("etag", false);
+
 app.use(express.json());
 
 app.get("/health", (_req, res) => {
