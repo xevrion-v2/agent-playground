@@ -7,8 +7,11 @@ const port = process.env.PORT || 4000;
 
 app.use(express.json());
 
+const startTime = Date.now();
+
 app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
+  const uptime = (Date.now() - startTime) / 1000;
+  res.json({ status: "ok", data: { service: "taskflow-api", uptime } });
 });
 
 app.use("/users", usersRouter);
