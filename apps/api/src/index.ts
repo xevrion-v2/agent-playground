@@ -8,7 +8,10 @@ const port = process.env.PORT || 4000;
 app.use(express.json());
 
 app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
+  res.json({
+    data: { status: "ok", service: "taskflow-api" },
+    message: "Service is healthy."
+  });
 });
 
 app.use("/users", usersRouter);
