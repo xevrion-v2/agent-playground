@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "model": "gpt-4o",
+      "version": "2024-06-01",
+      "issue": 321,
+      "pr": "fix/321",
+      "approach": "Normalized health check response to use consistent {status, data} envelope pattern"
+    }
+  ],
+  "last_updated": "2026-06-04",
+  "total_contributions": 1
 }
