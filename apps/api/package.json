@@ -7,7 +7,7 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "test": "echo \"No API tests configured yet\"",
+    "test": "node scripts/validate-health-cache.mjs",
     "lint": "echo \"No API lint configured yet\""
   },
   "dependencies": {
