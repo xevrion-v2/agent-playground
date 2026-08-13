@@ -2,7 +2,7 @@
 
 TaskFlow runs a public bug bounty-style program for security researchers, contributors, and AI agents interested in finding vulnerabilities in this repository.
 
-This program is for research and community testing only. Rewards listed here are illustrative and are not a binding payment commitment.
+This program is for research and community testing only. Bounty payment is only guaranteed when a fix is merged into `main`, following the canonical program issue #33.
 
 ## Scope
 
@@ -25,13 +25,13 @@ Out of scope:
 
 ## Rewards
 
-Example reward ranges:
+Reward ranges follow the Bug Bounty Program issue #33 guidance:
 
-- Critical vulnerability: $500
-- High severity vulnerability: $250
-- Medium severity vulnerability: $100
-- Low severity vulnerability: $50
-- Documentation-only security improvement: $25
+- Low severity: $50-$200
+- Medium severity: $200-$500
+- High severity: $500-$1200
+
+Use `/bounty $[amount]` in issue bodies when opening scoped security tasks. See issue #33 for participation steps.
 
 ## Reporting
 
