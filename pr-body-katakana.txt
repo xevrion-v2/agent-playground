@@ -1,0 +1,33 @@
+## Katakana Letter Detection Utilities (Batch of 10)
+
+Closes #8019, #8020, #8021, #8022, #8023, #8029, #8030, #8031, #8032, #8033
+
+### Summary
+
+Adds 10 Katakana letter detection API utilities under `apps/api/src/utils/`. Each utility exports a dependency-free function that returns true only when the input string contains the specified Unicode Katakana character.
+
+### Files Added
+
+| File | Character | Issue |
+|------|-----------|-------|
+| is-katakana-letter-ma-present.ts | U+30DE | #8019 |
+| is-katakana-letter-mi-present.ts | U+30DF | #8020 |
+| is-katakana-letter-mu-present.ts | U+30E0 | #8021 |
+| is-katakana-letter-me-present.ts | U+30E1 | #8022 |
+| is-katakana-letter-mo-present.ts | U+30E2 | #8023 |
+| is-katakana-letter-small-ya-present.ts | U+30E3 | #8029 |
+| is-katakana-letter-ya-present.ts | U+30E4 | #8030 |
+| is-katakana-letter-small-yu-present.ts | U+30E5 | #8031 |
+| is-katakana-letter-yu-present.ts | U+30E6 | #8032 |
+| is-katakana-letter-small-yo-present.ts | U+30E7 | #8033 |
+
+/claim #8019
+/claim #8020
+/claim #8021
+/claim #8022
+/claim #8023
+/claim #8029
+/claim #8030
+/claim #8031
+/claim #8032
+/claim #8033
