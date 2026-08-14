@@ -81,5 +81,16 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
+Each app/package expects its own .env values for DB, auth,
 and integrations.
+
+Copy `.env.example` to `.env` at the project root and adjust the values:
+
+| Variable              | Used By     | Description                              |
+|-----------------------|-------------|------------------------------------------|
+| `DATABASE_URL`        | packages/db | PostgreSQL connection string             |
+| `PORT`                | apps/api    | API server port (default: 4000)          |
+| `JWT_SECRET`          | apps/api    | Secret key for JWT token signing         |
+| `NEXT_PUBLIC_API_URL` | apps/web    | Base URL for the API from the frontend   |
+| `STRIPE_SECRET_KEY`   | apps/api    | (Optional) Stripe secret key for payments|
+| `STRIPE_WEBHOOK_SECRET`| apps/api   | (Optional) Stripe webhook signing secret |
