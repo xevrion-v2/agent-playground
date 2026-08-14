@@ -1,0 +1,21 @@
+## Katakana Letter Detection Utilities (Batch 6 - 4 utilities)
+
+Closes #7982, #7983, #7989, #7990
+
+### Summary
+
+Adds 4 Katakana letter detection API utilities under apps/api/src/utils/. Each utility exports a dependency-free function that returns true only when the input string contains the specified Unicode Katakana character.
+
+### Files Added
+
+| File | Character | Issue |
+|------|-----------|-------|
+| is-katakana-letter-ne-present.ts | U+30CD | #7982 |
+| is-katakana-letter-no-present.ts | U+30CE | #7983 |
+| is-katakana-letter-ha-present.ts | U+30CF | #7989 |
+| is-katakana-letter-ba-present.ts | U+30D0 | #7990 |
+
+/claim #7982
+/claim #7983
+/claim #7989
+/claim #7990
