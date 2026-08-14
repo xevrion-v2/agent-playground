@@ -1,0 +1,1 @@
+﻿/**`n * Checks if a string contains a semicolon character.`n * @param value - The string to check.`n * @returns true if the string contains ";", false otherwise.`n */`nexport function hasSemicolonCharacter(value: string): boolean {`n  return value.includes(";");`n}
