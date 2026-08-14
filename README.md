@@ -83,3 +83,13 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+### API (`apps/api`)
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `PORT` | `4000` | HTTP port for the Express server |
+| `JSON_BODY_LIMIT` | `100kb` | Max JSON request body size for `express.json()` |
+
+The API uses a conservative `100kb` JSON body limit by default to reduce risk from oversized payloads. Set `JSON_BODY_LIMIT` only when a larger (or smaller) limit is required.
+
