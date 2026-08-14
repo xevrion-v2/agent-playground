@@ -1,9 +1,10 @@
 import express from "express";
 
+import { getApiPort } from "./config/env";
 import usersRouter from "./routes/users";
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = getApiPort();
 
 app.use(express.json());
 
