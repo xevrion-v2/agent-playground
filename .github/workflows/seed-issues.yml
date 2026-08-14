@@ -16,6 +16,8 @@ jobs:
         with:
           script: |
             const bountyBody = (description) => [
+              "Parent bounty: #33",
+              "",
               description,
               "",
               "## Acceptance Criteria",
