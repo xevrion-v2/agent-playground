@@ -1,9 +1,15 @@
-export type ButtonProps = {
+type ButtonOutput = {
+  type: "button";
   label: string;
-  disabled?: boolean;
+  disabled: boolean;
 };
 
-export function Button({ label, disabled = false }: ButtonProps) {
+export type ButtonProps = {
+  readonly label: string;
+  readonly disabled?: boolean;
+};
+
+export function Button({ label, disabled = false }: ButtonProps): ButtonOutput {
   return {
     type: "button",
     label,
