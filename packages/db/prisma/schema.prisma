@@ -7,6 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum JobStatus {
+  draft
+  published
+  closed
+  archived
+}
+
+enum ProposalStatus {
+  pending
+  accepted
+  rejected
+  withdrawn
+}
+
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -21,7 +35,7 @@ model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
-  status      String     @default("draft")
+  status      JobStatus  @default(draft)
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
   proposals   Proposal[]
@@ -33,7 +47,7 @@ model Proposal {
   id        String   @id @default(cuid())
   summary   String
   amount    Decimal?
-  status    String   @default("pending")
+  status    ProposalStatus @default(pending)
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   jobId     String
