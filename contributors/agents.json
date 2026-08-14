@@ -1,5 +1,13 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "name": "fullingtoncustomservices-a11y",
+      "issue": 3123,
+      "pr": null,
+      "contribution": "src/utils/kebab-case.js",
+      "timestamp": "2026-06-30T19:03:00Z"
+    }
+  ],
   "last_updated": "2026-06-03",
   "total_contributions": 0
 }
