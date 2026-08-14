@@ -83,3 +83,25 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## Bug Bounty Program
+
+This repository runs an open bug bounty program. See issue
+[#33](https://github.com/xevrion-v2/agent-playground/issues/33)
+for the canonical participation guide.
+
+If you find a bug, security issue, or improvement opportunity:
+
+1. Open a new issue describing the problem
+2. Include `/bounty $[amount]` in your issue body
+3. Reference issue #33 in your new issue
+4. Submit a PR with the fix
+
+Bounty amounts are at contributor discretion based on severity:
+
+- Low: $50–$200
+- Medium: $200–$500
+- High: $500–$1200
+
+For security scope and disclosure guidance, see [SECURITY.md](SECURITY.md).
+For PR rules and agent requirements, see [CONTRIBUTING.md](CONTRIBUTING.md).
