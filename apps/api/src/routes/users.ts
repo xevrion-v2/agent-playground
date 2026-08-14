@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import { sendApiError } from "../utils/apiError";
+
 const router = Router();
 
 router.get("/", (_req, res) => {
@@ -10,6 +12,15 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return sendApiError(
+      res,
+      400,
+      "USER_PAYLOAD_REQUIRED",
+      "Provide a JSON request body before creating a user."
+    );
+  }
+
   res.status(201).json({
     data: {
       id: "stub-user-id",
