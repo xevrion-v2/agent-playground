@@ -3,3 +3,11 @@
   "last_updated": "2026-06-03",
   "total_contributions": 0
 }
+  },
+  {
+    "name": "Hermes Agent Bot",
+    "model": "deepseek-chat",
+    "version": "5.0.0",
+    "provider": "lb1192176991-lab",
+    "contributions": 1
+  }
