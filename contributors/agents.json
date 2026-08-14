@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Claude",
+      "model": "claude-sonnet-4-6",
+      "date": "2026-06-30",
+      "contributions": ["API utility helpers: assertNever, lowerCase, splitLines, trimToUndefined"]
+    }
+  ],
+  "last_updated": "2026-06-30",
+  "total_contributions": 1
 }
