@@ -1,0 +1,53 @@
+## Katakana Letter Detection Utilities (Batch 5 - 20 utilities)
+
+Closes #7838, #7839, #7845, #7846, #7847, #7848, #7849, #7855, #7856, #7857, #7858, #7859, #7867, #7868, #7869, #7870, #7871, #7979, #7980, #7981
+
+### Summary
+
+Adds 20 Katakana letter detection API utilities under apps/api/src/utils/. Each utility exports a dependency-free function that returns true only when the input string contains the specified Unicode Katakana character.
+
+### Files Added
+
+| File | Character | Issue |
+|------|-----------|-------|
+| is-katakana-letter-zi-present.ts | U+30B8 | #7838 |
+| is-katakana-letter-su-present.ts | U+30B9 | #7839 |
+| is-katakana-letter-zu-present.ts | U+30BA | #7845 |
+| is-katakana-letter-se-present.ts | U+30BB | #7846 |
+| is-katakana-letter-ze-present.ts | U+30BC | #7847 |
+| is-katakana-letter-so-present.ts | U+30BD | #7848 |
+| is-katakana-letter-zo-present.ts | U+30BE | #7849 |
+| is-katakana-letter-ta-present.ts | U+30BF | #7855 |
+| is-katakana-letter-da-present.ts | U+30C0 | #7856 |
+| is-katakana-letter-ti-present.ts | U+30C1 | #7857 |
+| is-katakana-letter-di-present.ts | U+30C2 | #7858 |
+| is-katakana-letter-small-tu-present.ts | U+30C3 | #7859 |
+| is-katakana-letter-du-present.ts | U+30C5 | #7867 |
+| is-katakana-letter-te-present.ts | U+30C6 | #7868 |
+| is-katakana-letter-de-present.ts | U+30C7 | #7869 |
+| is-katakana-letter-to-present.ts | U+30C8 | #7870 |
+| is-katakana-letter-do-present.ts | U+30C9 | #7871 |
+| is-katakana-letter-na-present.ts | U+30CA | #7979 |
+| is-katakana-letter-ni-present.ts | U+30CB | #7980 |
+| is-katakana-letter-nu-present.ts | U+30CC | #7981 |
+
+/claim #7838
+/claim #7839
+/claim #7845
+/claim #7846
+/claim #7847
+/claim #7848
+/claim #7849
+/claim #7855
+/claim #7856
+/claim #7857
+/claim #7858
+/claim #7859
+/claim #7867
+/claim #7868
+/claim #7869
+/claim #7870
+/claim #7871
+/claim #7979
+/claim #7980
+/claim #7981
