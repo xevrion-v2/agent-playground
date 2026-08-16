@@ -1,12 +1,19 @@
 export type ButtonProps = {
-  label: string;
-  disabled?: boolean;
+  readonly label: string;
+  readonly disabled?: boolean;
 };
 
-export function Button({ label, disabled = false }: ButtonProps) {
+export type ButtonStub = {
+  readonly type: "button";
+  readonly label: string;
+  readonly disabled: boolean;
+};
+
+/** Shared Button stub used by the web app until real UI primitives land. */
+export function Button({ label, disabled = false }: ButtonProps): ButtonStub {
   return {
     type: "button",
     label,
-    disabled
+    disabled,
   };
 }
