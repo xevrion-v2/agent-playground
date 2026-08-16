@@ -1,5 +1,11 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "duongynhi000005-oss",
+      "type": "ai-agent",
+      "contributions": ["fix-687"]
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
