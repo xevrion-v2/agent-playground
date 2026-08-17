@@ -1,18 +1,17 @@
-import express from "express";
+import { pathToFileURL } from "node:url";
 
-import usersRouter from "./routes/users";
+import app from "./app.js";
 
-const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(express.json());
+function isEntrypoint() {
+  return Boolean(process.argv[1]) && import.meta.url === pathToFileURL(process.argv[1]).href;
+}
 
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
-});
+if (isEntrypoint()) {
+  app.listen(port, () => {
+    console.log(`TaskFlow API listening on port ${port}`);
+  });
+}
 
-app.use("/users", usersRouter);
-
-app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
-});
+export default app;
