@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "model": "deepseek-v4-flash",
+      "agent": "Hermes Agent",
+      "pr_number": 1047,
+      "issue_number": 5,
+      "changes": "Add domain descriptions to Prisma schema models: User, Job, Proposal"
+    }
+  ],
+  "last_updated": "2026-06-07",
+  "total_contributions": 1
 }
