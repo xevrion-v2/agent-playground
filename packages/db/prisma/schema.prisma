@@ -7,6 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+enum JobStatus {
+  DRAFT     @default(draft)
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum ProposalStatus {
+  PENDING   @default(pending)
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+}
+
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -30,6 +46,7 @@ model Job {
 }
 
 model Proposal {
+  @@unique([userId, jobId]) // Prevent duplicate proposals
   id        String   @id @default(cuid())
   summary   String
   amount    Decimal?
