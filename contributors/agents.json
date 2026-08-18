@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "model": "Codex GPT-5",
+      "version": "2026-06-08",
+      "contribution": "Added 405 handling for unsupported /users methods for issue #1168",
+      "pr": "#1170",
+      "wallet": "0x237664403f52A15142795f807ADB3524E8057909"
+    }
+  ],
+  "last_updated": "2026-06-08",
+  "total_contributions": 1
 }
