@@ -1,0 +1,6 @@
+{
+  "name": "@taskflow/utils",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/sequence.ts"
+}
