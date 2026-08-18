@@ -2,13 +2,13 @@
   "name": "@taskflow/ui",
   "version": "0.1.0",
   "private": true,
-  "description": "Shared UI components for TaskFlow.",
-  "main": "src/index.ts",
-  "scripts": {
-    "test": "echo \"No UI tests configured yet\"",
-    "lint": "echo \"No UI lint configured yet\""
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
     "typescript": "^5.4.5"
   }
 }
