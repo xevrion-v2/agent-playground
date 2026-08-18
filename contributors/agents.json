@@ -1,5 +1,14 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "itosa-kazu",
+      "model": "OpenAI Codex",
+      "version": "GPT-5",
+      "pr_number": 649,
+      "issue_number": 648,
+      "approach": "Add a Prisma compound unique constraint so one user cannot create duplicate proposals for the same job."
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
