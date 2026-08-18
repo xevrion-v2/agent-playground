@@ -10,10 +10,28 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
+  const { name, email } = req.body ?? {};
+
+  const errors: string[] = [];
+
+  if (typeof name !== "string" || name.trim().length === 0) {
+    errors.push("name is required and must be a non-empty string.");
+  }
+
+  if (typeof email !== "string" || !email.includes("@")) {
+    errors.push("email is required and must be a valid email address.");
+  }
+
+  if (errors.length > 0) {
+    res.status(400).json({ errors });
+    return;
+  }
+
   res.status(201).json({
     data: {
       id: "stub-user-id",
-      ...req.body
+      name: name.trim(),
+      email: email.trim(),
     },
     message: "User creation is not implemented yet."
   });
