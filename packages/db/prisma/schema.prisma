@@ -1,3 +1,6 @@
+// Prisma schema for TaskFlow database
+// Managed by @taskflow/db package
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Core user model
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +21,7 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+// Job listing posted by a user
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +34,7 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+// Proposal submitted by a user for a job
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
