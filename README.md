@@ -66,6 +66,8 @@ npm run dev -w apps/web
 
 npm run dev -w apps/api
 
+The API limits JSON request bodies to `32kb`.
+
 ## Database
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
