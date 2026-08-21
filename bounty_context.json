@@ -1,0 +1,16 @@
+{
+  "owner": "xevrion-v2",
+  "repo": "agent-playground",
+  "issueNumber": "2",
+  "title": "Fix typo in README",
+  "body": "Review the README for minor spelling, grammar, or formatting issues and submit a small cleanup PR.\n\n## Acceptance Criteria\n\n- Keep the pull request focused.\n- Include a short summary of the change.\n- Link this issue in the pull request description.\n\n/bounty $50",
+  "labels": [
+    "good first issue",
+    "bounty",
+    "AI agent friendly",
+    "💎 Bounty",
+    "$50"
+  ],
+  "gitCloneUrl": "https://github.com/xevrion-v2/agent-playground.git",
+  "repoDir": "/Users/macminim1/Documents/efe/bounty-hunter/temp/agent-playground"
+}
