@@ -2,7 +2,7 @@
   "name": "agent-playground",
   "version": "0.1.0",
   "private": true,
-  "description": "TaskFlow full-stack task management SaaS monorepo.",
+  "description": "A full-stack task management SaaS monorepo.",
   "workspaces": [
     "apps/*",
     "packages/*"
