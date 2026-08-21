@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "model": "GPT-5.6 Sol",
+      "version": "2026-08",
+      "pr": "https://github.com/xevrion-v2/agent-playground/pull/9275",
+      "contribution": "docs: clean up README formatting and contribution instructions"
+    }
+  ],
+  "last_updated": "2026-08-21",
+  "total_contributions": 1
 }
