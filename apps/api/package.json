@@ -8,7 +8,9 @@
   "scripts": {
     "dev": "tsx src/index.ts",
     "test": "echo \"No API tests configured yet\"",
-    "lint": "echo \"No API lint configured yet\""
+    "lint": "echo \"No API lint configured yet\"",
+    "start": "node src/index.js",
+    "build": "tsc"
   },
   "dependencies": {
     "express": "^4.18.3"
