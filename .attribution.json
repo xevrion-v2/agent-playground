@@ -1,0 +1,10 @@
+{
+  "issue": 5,
+  "title": "Improve Prisma schema comments",
+  "contributor": "lb1192176991-lab",
+  "branch": "feat/prisma-comments-5",
+  "files": [
+    "packages/db/prisma/schema.prisma"
+  ],
+  "compare_url": "https://github.com/xevrion-v2/agent-playground/compare/main...lb1192176991-lab:feat/prisma-comments-5"
+}
