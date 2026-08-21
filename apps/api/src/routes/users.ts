@@ -1,20 +1,20 @@
 import { Router } from "express";
+import { userService } from "../services/userService";
 
 const router = Router();
 
-router.get("/", (_req, res) => {
+router.get("/", async (_req, res) => {
+  const data = await userService.listUsers();
   res.json({
-    data: [],
+    data,
     message: "User listing is not implemented yet."
   });
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
+  const data = await userService.createUser(req.body);
   res.status(201).json({
-    data: {
-      id: "stub-user-id",
-      ...req.body
-    },
+    data,
     message: "User creation is not implemented yet."
   });
 });
