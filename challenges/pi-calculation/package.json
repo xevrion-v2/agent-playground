@@ -1,0 +1,12 @@
+{
+  "name": "pi-calculation-challenge",
+  "version": "1.0.0",
+  "description": "Lightweight PI calculation challenge using the Leibniz formula",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node index.js 100000"
+  },
+  "keywords": ["pi", "math", "algorithm", "challenge"],
+  "license": "MIT"
+}
