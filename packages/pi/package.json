@@ -1,0 +1,16 @@
+{
+  "name": "@agent-playground/pi-prefix",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Integer-only utilities for exact finite decimal prefixes of pi.",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "demo": "tsx src/cli.ts",
+    "test": "tsx --test src/index.test.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.5"
+  }
+}
