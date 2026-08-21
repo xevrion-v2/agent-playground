@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Pi Boundary CLI demo">
+  <rect width="1280" height="720" fill="#111827"/>
+  <rect x="32" y="32" width="1216" height="656" rx="16" fill="#0b1220" stroke="#334155" stroke-width="2"/>
+  <circle cx="66" cy="66" r="8" fill="#ef4444"/>
+  <circle cx="94" cy="66" r="8" fill="#f59e0b"/>
+  <circle cx="122" cy="66" r="8" fill="#10b981"/>
+  <text x="56" y="112" fill="#f9fafb" font-family="Menlo, Consolas, monospace" font-size="24">$ npm run demo -w @taskflow/pi-boundary</text>
+  <text x="56" y="160" fill="#93c5fd" font-family="Menlo, Consolas, monospace" font-size="26">pi prefix (100 fractional digits)</text>
+  <text x="56" y="208" fill="#f9fafb" font-family="Menlo, Consolas, monospace" font-size="23">3.1415926535 8979323846 2643383279 5028841971</text>
+  <text x="56" y="246" fill="#f9fafb" font-family="Menlo, Consolas, monospace" font-size="23">6939937510 5820974944 5923078164 0628620899</text>
+  <text x="56" y="284" fill="#f9fafb" font-family="Menlo, Consolas, monospace" font-size="23">8628034825 3421170679</text>
+  <text x="56" y="356" fill="#fbbf24" font-family="Menlo, Consolas, monospace" font-size="22">sha256: aa6eee625a838a2af84f7d591e8c677b</text>
+  <text x="56" y="392" fill="#fbbf24" font-family="Menlo, Consolas, monospace" font-size="22">dd9c1b07c44380e2fee8fc738f9234f0</text>
+  <text x="56" y="452" fill="#86efac" font-family="Menlo, Consolas, monospace" font-size="25">known-prefix-match: true</text>
+  <text x="56" y="526" fill="#f9fafb" font-family="Menlo, Consolas, monospace" font-size="27">Boundary:</text>
+  <text x="56" y="576" fill="#e5e7eb" font-family="Menlo, Consolas, monospace" font-size="24">Pi is irrational and has no final decimal digit.</text>
+  <text x="56" y="616" fill="#e5e7eb" font-family="Menlo, Consolas, monospace" font-size="24">Returns exact finite prefixes only.</text>
+</svg>
