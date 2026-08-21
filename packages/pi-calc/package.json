@@ -1,0 +1,14 @@
+{
+  "name": "@agent-playground/pi-calc",
+  "version": "1.0.0",
+  "description": "High-precision PI calculation using Chudnovsky algorithm with BigInt",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/index.test.js",
+    "demo": "node dist/cli.js"
+  },
+  "keywords": ["pi", "chudnovsky", "bigint", "arbitrary-precision"],
+  "license": "MIT"
+}
