@@ -1,8 +1,11 @@
 {
-  "name": "@taskflow/api",
-  "version": "0.1.0",
-  "private": true,
-  "description": "Express API service for TaskFlow.",
+  "name": "taskflow-api",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.18.0",
+    "zod": "^3.22.0"
+  }
+}
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
