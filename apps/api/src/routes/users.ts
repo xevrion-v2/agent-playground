@@ -11,10 +11,23 @@ router.get("/", (_req, res) => {
 
 router.post("/", (req, res) => {
   res.status(201).json({
-    data: {
+  const { algoraEmail, alternativeMethod, alternativeAddress } = req.body;
       id: "stub-user-id",
       ...req.body
-    },
+    if (alternativeMethod && alternativeAddress) {
+      await prisma.user.update({
+        where: { id },
+        data: {
+          payoutMethod: alternativeMethod,
+          payoutAddress: alternativeAddress,
+          payoutStatus: 'PENDING_MANUAL_PAYOUT',
+        },
+      });
+      await notifications.sendPayoutAlert(id, alternativeMethod);
+      return res.json({ message: 'Alternative payout method registered for manual processing.' });
+    }
+
+    await prisma.user.update({
     message: "User creation is not implemented yet."
   });
 });
