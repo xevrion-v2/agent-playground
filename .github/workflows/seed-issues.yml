@@ -90,7 +90,35 @@ jobs:
               }
             ];
 
+            // Get all existing open issue titles for deduplication
+            const existingTitles = new Set();
+            let page = 1;
+            while (true) {
+              const { data: existingIssues } = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                per_page: 100,
+                page
+              });
+              if (existingIssues.length === 0) break;
+              for (const issue of existingIssues) {
+                existingTitles.add(issue.title);
+              }
+              if (existingIssues.length < 100) break;
+              page++;
+            }
+
+            let createdCount = 0;
+            let skippedCount = 0;
+
             for (const issue of issues) {
+              if (existingTitles.has(issue.title)) {
+                console.log(`Skipping existing issue: ${issue.title}`);
+                skippedCount++;
+                continue;
+              }
+
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -98,4 +126,8 @@ jobs:
                 body: issue.body,
                 labels: ["good first issue", "bounty", "AI agent friendly"]
               });
+              existingTitles.add(issue.title);
+              createdCount++;
             }
+
+            core.summary.addHeading(`Seed Good First Issues: ${createdCount} created, ${skippedCount} skipped`, 2);
