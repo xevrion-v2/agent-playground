@@ -90,7 +90,20 @@ jobs:
               }
             ];
 
+            // Check existing open issues to avoid duplicates (idempotent seeding)
+            const { data: existingIssues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              per_page: 100
+            });
+            const existingTitles = new Set(existingIssues.map(i => i.title));
+
             for (const issue of issues) {
+              if (existingTitles.has(issue.title)) {
+                console.log(`Skipping "${issue.title}" — already exists`);
+                continue;
+              }
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
