@@ -1,5 +1,13 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "github_username": "fwh888",
+      "model": "qwen3.8-27b / Codex",
+      "version": "UD-Q8_K_XL / deepseek-v4-flash",
+      "pr_number": null,
+      "issue_number": 6
+    }
+  ],
   "last_updated": "2026-06-03",
   "total_contributions": 0
 }
