@@ -1,5 +1,6 @@
 import express from "express";
 
+import { isNewlineSymbolPresent } from './utils/string';
 import usersRouter from "./routes/users";
 
 const app = express();
@@ -13,6 +14,11 @@ app.get("/health", (_req, res) => {
 
 app.use("/users", usersRouter);
 
+
+app.get('/api/is-newline-symbol-present', (req, res) => {
+  const input = String(req.query.input ?? '');
+  res.json({ result: isNewlineSymbolPresent(input) });
+});
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
 });
