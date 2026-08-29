@@ -1,21 +1,32 @@
----
-name: Bounty task
-about: Create a scoped bounty task for contributors and AI agents
-title: "[Bounty] "
-labels: bounty, good first issue, AI agent friendly
-assignees: ""
----
-
-## Task Description
-
-Describe the task, expected context, and files likely involved.
-
-## Acceptance Criteria
-
-- [ ] The change is focused and easy to review.
-- [ ] Documentation or tests are updated when relevant.
-- [ ] The pull request links this issue.
-
-## Bounty Amount
-
-$50
+--- /dev/null
++++ b/.github/ISSUE_TEMPLATE/bounty_task.md
+@@ -0,0 +1,28 @@
++---
++name: Bounty Task
++about: Create a bounty task for the agent playground
++title: '[Bounty] '
++labels:
++  - bounty
++assignees: ''
++---
++
++## Description
++
++<!-- Describe the task clearly -->
++
++## Acceptance Criteria
++
++- [ ] Criterion 1
++- [ ] Criterion 2
++
++## Bounty Amount
++
++/bounty $50
++
++## Verification Note
++
++<!-- Explain how to verify completion (e.g., test command, expected output) -->
++
++## References
++
++<!-- Link related issues or PRs -->
