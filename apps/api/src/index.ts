@@ -1,5 +1,6 @@
 import express from "express";
 
+import { isFormFeedSymbolPresent } from '@xevrion/ui';
 import usersRouter from "./routes/users";
 
 const app = express();
@@ -9,6 +10,11 @@ app.use(express.json());
 
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", service: "taskflow-api" });
+});
+
+app.get('/is-form-feed-symbol-present', (req, res) => {
+  const input = typeof req.query.input === 'string' ? req.query.input : '';
+  res.json({ result: isFormFeedSymbolPresent(input) });
 });
 
 app.use("/users", usersRouter);
