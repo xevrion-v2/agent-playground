@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { sendApiError } from "../lib/errors.js";
 
 const router = Router();
 
@@ -24,6 +25,12 @@ router.get("/", (_req, res) => {
 // - Emit audit log entry on successful creation
 // - Consider returning Location header pointing to new resource
 router.post("/", (req, res) => {
+  // Example usage of error helper for invalid payload
+  if (!req.body || typeof req.body !== "object") {
+    sendApiError(res, 400, "INVALID_PAYLOAD", "Request body must be a JSON object");
+    return;
+  }
+
   res.status(201).json({
     data: {
       id: "stub-user-id",
