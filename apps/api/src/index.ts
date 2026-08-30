@@ -1,5 +1,6 @@
 import express from "express";
 
+import { isCarriageReturnSymbolPresent } from '@xevrion/ui';
 import usersRouter from "./routes/users";
 
 const app = express();
@@ -12,6 +13,14 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/users", usersRouter);
+app.get('/utils/is-carriage-return-symbol-present', (req, res) => {
+  const input = typeof req.query.input === 'string' ? req.query.input : '';
+  const result = isCarriageReturnSymbolPresent(input);
+  res.json({
+    containsCarriageReturn: result,
+  });
+});
+
 
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
