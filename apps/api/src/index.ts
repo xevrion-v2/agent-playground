@@ -1,5 +1,6 @@
 import express from "express";
 
+import { isCarriageReturnSymbolPresent } from './utils/string';
 import usersRouter from "./routes/users";
 
 const app = express();
@@ -13,6 +14,11 @@ app.get("/health", (_req, res) => {
 
 app.use("/users", usersRouter);
 
+
+app.get('/api/string/has-cr', (req, res) => {
+  const input = String(req.query.value ?? '');
+  res.json({ hasCarriageReturn: isCarriageReturnSymbolPresent(input) });
+});
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
 });
