@@ -10,3 +10,6 @@ export function Button({ label, disabled = false }: ButtonProps) {
     disabled
   };
 }
+
+export { createSequence, Sequences } from "./sequence";
+export type { SequenceIterator } from "./sequence";
