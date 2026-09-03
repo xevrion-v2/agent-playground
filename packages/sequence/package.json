@@ -1,0 +1,15 @@
+{
+  "name": "@taskflow/sequence",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Safe infinite sequence utilities for TaskFlow examples.",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "node --experimental-strip-types --test src/index.test.ts",
+    "lint": "echo \"No sequence lint configured yet\""
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
