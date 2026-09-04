@@ -1,5 +1,6 @@
 import express from "express";
 
+import messagesRouter from "./routes/messages";
 import usersRouter from "./routes/users";
 
 const app = express();
@@ -11,6 +12,7 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok", service: "taskflow-api" });
 });
 
+app.use("/messages", messagesRouter);
 app.use("/users", usersRouter);
 
 app.listen(port, () => {
