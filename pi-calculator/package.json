@@ -1,0 +1,22 @@
+{
+  "name": "@agent-playground/pi-calculator",
+  "version": "1.0.0",
+  "description": "High-precision PI value calculator with configurable precision support",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc index.ts --outDir dist",
+    "examples": "ts-node examples.ts"
+  },
+  "keywords": [
+    "pi",
+    "math",
+    "calculator",
+    "high-precision"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-node": "^10.0.0"
+  }
+}
