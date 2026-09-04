@@ -1,17 +1,20 @@
 {
-  "name": "agent-playground",
-  "version": "0.1.0",
+  "name": "taskflow",
   "private": true,
-  "description": "TaskFlow full-stack task management SaaS monorepo.",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "lint": "npm run lint --workspaces --if-present",
-    "format": "npm run format --workspaces --if-present"
+    "build": "turbo run build",
+  ],
+  "devDependencies": {
+    "turbo": "^1.10.12"
+  },
+  "packageManager": "npm@9.6.7",
+  "dependencies": {
+  }
+}
   },
   "engines": {
     "node": ">=20"

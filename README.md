@@ -63,8 +63,25 @@ before opening your PR.
 npm run dev -w apps/web
 
 ### Run backend
+Each app/package expects its own .env values for DB, auth,
+and integrations.
 
-npm run dev -w apps/api
+
+
+
+## Infinite Sequence Utility
+
+### Overview
+
+This utility provides an infinite sequence iterator implementation designed for safe iteration patterns.
+
+### Features
+
+- Memory-safe iteration with configurable limits
+- Backpressure handling
+- Graceful shutdown support
+- Pause and resume functionality
+
 
 ## Database
 
