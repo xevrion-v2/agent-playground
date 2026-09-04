@@ -1,4 +1,21 @@
 {
+  "name": "taskflow",
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-validator": "^7.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "typescript": "^5.0.0"
+  }
+}
+{
   "name": "agent-playground",
   "version": "0.1.0",
   "private": true,
