@@ -5,10 +5,21 @@
   "description": "Shared UI components for TaskFlow.",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"No UI tests configured yet\"",
+    "test": "npm run typecheck && tsx --test src/*.test.ts",
+    "typecheck": "tsc --noEmit",
     "lint": "echo \"No UI lint configured yet\""
   },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tsx": "^4.16.2",
     "typescript": "^5.4.5"
   }
 }
