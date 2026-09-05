@@ -81,5 +81,31 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Create local `.env` files in the workspace that needs the value.
+
+### API app (`apps/api`)
+
+| Variable | Required | Default | Purpose |
+| --- | --- | --- | --- |
+| `PORT` | No | `4000` | HTTP port used by the Express API server. |
+
+The current API stubs do not require auth, payment, upload, or search
+integration secrets. Add those values here when the matching service layer is
+implemented.
+
+### Database package (`packages/db`)
+
+| Variable | Required | Default | Purpose |
+| --- | --- | --- | --- |
+| `DATABASE_URL` | Yes | None | PostgreSQL connection string used by Prisma. |
+
+Example local value:
+
+```env
+DATABASE_URL="postgresql://taskflow:taskflow@localhost:5432/taskflow"
+```
+
+### Web app (`apps/web`)
+
+The frontend currently has no required environment variables. Add
+`NEXT_PUBLIC_*` values here only when browser-exposed configuration is needed.
