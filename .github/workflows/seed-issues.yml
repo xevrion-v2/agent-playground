@@ -90,7 +90,27 @@ jobs:
               }
             ];
 
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "all",
+              per_page: 100
+            });
+            const existingIssueTitles = new Set(
+              existingIssues
+                .filter((issue) => !issue.pull_request)
+                .map((issue) => issue.title)
+            );
+            let createdCount = 0;
+            let skippedCount = 0;
+
             for (const issue of issues) {
+              if (existingIssueTitles.has(issue.title)) {
+                core.info(`Skipping existing starter issue: ${issue.title}`);
+                skippedCount += 1;
+                continue;
+              }
+
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -98,4 +118,8 @@ jobs:
                 body: issue.body,
                 labels: ["good first issue", "bounty", "AI agent friendly"]
               });
+              existingIssueTitles.add(issue.title);
+              createdCount += 1;
             }
+
+            core.info(`Starter issue seed complete: ${createdCount} created, ${skippedCount} skipped.`);
