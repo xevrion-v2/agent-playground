@@ -5,6 +5,7 @@
   "description": "Next.js web application for TaskFlow.",
   "scripts": {
     "dev": "next dev",
+    "build": "next build",
     "test": "echo \"No web tests configured yet\"",
     "lint": "next lint"
   },
