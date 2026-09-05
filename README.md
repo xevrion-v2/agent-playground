@@ -8,10 +8,10 @@ with a modern TypeScript-first architecture.
 
 ## Workspace Structure
 
-- `apps/web` — Next.js 14 App Router frontend
-- `apps/api` — Express.js backend with layered REST API
+- `` — Next.js 14 App Router frontend
+- `` — Express.js backend with layered REST API with layered REST API
 - `packages/db` — Prisma schema and database package
-- `packages/ui` — Shared UI components
+- `` — Shared UI components
 
 ## Frontend
 
@@ -60,11 +60,11 @@ before opening your PR.
 
 ### Run frontend
 
-npm run dev -w apps/web
+npm run dev -w 
 
 ### Run backend
 
-npm run dev -w apps/api
+npm run dev -w 
 
 ## Database
 
