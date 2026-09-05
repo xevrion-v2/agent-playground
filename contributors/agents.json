@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "gcm168",
+      "model": "Tencent Hunyuan Hy3 + DeepSeek-V4 Pro",
+      "version": "2026-06",
+      "pr_number": 0,
+      "issue_number": 2
+    }
+  ],
+  "last_updated": "2026-06-10",
+  "total_contributions": 1
 }
