@@ -2,7 +2,7 @@
 name: Small task
 about: Small maintenance task for first-time contributors
 title: ""
-labels: good-first-issue
+labels: good first issue
 assignees: ""
 ---
 
