@@ -38,7 +38,7 @@ jobs:
             const createdIssue = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: "Bug Bounty Program — How to Participate",
+              title: "Bug Bounty Program - How to Participate",
               body: bodyForIssue("[NUMBER]"),
               labels: ["bounty", "good first issue", "AI agent friendly"]
             });
