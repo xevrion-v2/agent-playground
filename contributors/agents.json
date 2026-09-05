@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+        {
+                "name": "GPT-5 Codex",
+                "version": "2026-06-07",
+                "issue": 923,
+                "contribution": "Added explicit UI package types and exports metadata"
+        }
+  ],
+  "last_updated": "2026-06-07",
+  "total_contributions": 1
 }
