@@ -83,3 +83,23 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+// Fix for issue #17
+Append the following section to the end of the file:
+
+## Issue #17: Exact value of PI
+
+The exact value of pi cannot be written out to a "last decimal point" because pi is an irrational number with a non-terminating, non-repeating decimal expansion.
+
+That means this:
+
+`3.14159265358979323846264338327950288419716939937510...`
+
+is only ever an approximation, no matter how many digits are calculated.
+
+The exact value is simply:
+
+`π`
+
+So the correct fix for this issue is to represent pi symbolically when exactness is required, and only generate decimal digits when an approximation is needed.
+
