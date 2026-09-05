@@ -1,0 +1,12 @@
+{
+  "name": "@taskflow/pi-spigot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dependency-free exact finite PI digit stream for the TaskFlow playground.",
+  "type": "module",
+  "exports": "./src/index.mjs",
+  "scripts": {
+    "demo": "node src/cli.mjs",
+    "test": "node --test test/*.test.mjs"
+  }
+}
