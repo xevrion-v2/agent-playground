@@ -15,6 +15,8 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const canonicalTitle = "Bug Bounty Program — How to Participate";
+
             const bodyForIssue = (issueNumber) => [
               "This repository runs an open bug bounty program.",
               "",
@@ -35,20 +37,44 @@ jobs:
               "description, the better."
             ].join("\n");
 
-            const createdIssue = await github.rest.issues.create({
+            const existing = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: "Bug Bounty Program — How to Participate",
-              body: bodyForIssue("[NUMBER]"),
-              labels: ["bounty", "good first issue", "AI agent friendly"]
+              state: "all",
+              per_page: 100,
             });
 
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: createdIssue.data.number,
-              body: bodyForIssue(createdIssue.data.number)
-            });
+            let targetIssue = existing.data.find(
+              (item) => !item.pull_request && item.title === canonicalTitle
+            );
+
+            if (targetIssue) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: targetIssue.number,
+                body: bodyForIssue(targetIssue.number)
+              });
+              core.info(`Updated existing meta issue #${targetIssue.number}`);
+            } else {
+              const createdIssue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: canonicalTitle,
+                body: bodyForIssue("[NUMBER]"),
+                labels: ["bounty", "good first issue", "AI agent friendly"]
+              });
+
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: createdIssue.data.number,
+                body: bodyForIssue(createdIssue.data.number)
+              });
+
+              targetIssue = createdIssue.data;
+              core.info(`Created meta issue #${targetIssue.number}`);
+            }
 
             try {
               await github.graphql(
@@ -62,9 +88,9 @@ jobs:
                   }
                 `,
                 {
-                  issueId: createdIssue.data.node_id
+                  issueId: targetIssue.node_id
                 }
               );
             } catch (error) {
-              core.warning(`Created issue #${createdIssue.data.number}, but pinning failed: ${error.message}`);
+              core.warning(`Meta issue #${targetIssue.number} ready, but pinning failed: ${error.message}`);
             }
