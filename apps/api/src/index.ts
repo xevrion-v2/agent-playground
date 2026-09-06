@@ -1,11 +1,13 @@
 import express from "express";
 
+import { requestLogger } from "./middleware/logger";
 import usersRouter from "./routes/users";
 
 const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
+app.use(requestLogger);
 
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", service: "taskflow-api" });
