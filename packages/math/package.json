@@ -1,0 +1,11 @@
+{
+  "name": "@taskflow/math",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lightweight math and algorithm utilities for TaskFlow examples.",
+  "type": "module",
+  "main": "src/pi.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}
