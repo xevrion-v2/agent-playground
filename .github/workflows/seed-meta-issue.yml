@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  contents: read
   issues: write
 
 jobs:
@@ -11,6 +12,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Ensure issue labels exist
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { ensureLabels } = require("./.github/scripts/labels");
+
+            await ensureLabels({ github, context, core });
+
       - name: Create and pin bug bounty program issue
         uses: actions/github-script@v7
         with:
