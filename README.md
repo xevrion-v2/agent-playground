@@ -8,10 +8,10 @@ with a modern TypeScript-first architecture.
 
 ## Workspace Structure
 
-- `apps/web` — Next.js 14 App Router frontend
-- `apps/api` — Express.js backend with layered REST API
-- `packages/db` — Prisma schema and database package
-- `packages/ui` — Shared UI components
+- `apps/web` â€” Next.js 14 App Router frontend
+- `apps/api` â€” Express.js backend with layered REST API
+- `packages/db` â€” Prisma schema and database package
+- `packages/ui` â€” Shared UI components
 
 ## Frontend
 
@@ -65,6 +65,9 @@ npm run dev -w apps/web
 ### Run backend
 
 npm run dev -w apps/api
+
+The API accepts JSON request bodies up to `100kb`, which keeps routine task
+payloads working while rejecting unusually large requests before route handling.
 
 ## Database
 
