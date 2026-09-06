@@ -7,6 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// User model — represents registered users of the TaskFlow platform.
+/// Each user can own jobs and submit proposals for other jobs.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +19,9 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// Job model — represents a task or project posted by a user.
+/// Jobs can receive proposals from other users and transition
+/// through statuses: draft, open, in_progress, and completed.
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +34,9 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// Proposal model — represents a bid or application submitted
+/// by a user for a specific job. Tracks the proposed amount
+/// and the current approval status.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
