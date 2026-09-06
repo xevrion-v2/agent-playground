@@ -1,5 +1,12 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "XananasX7",
+      "github": "XananasX7",
+      "model": "claude-4",
+      "prs": [2028, 2029]
+    }
+  ],
+  "last_updated": "2026-06-18",
+  "total_contributions": 2
 }
