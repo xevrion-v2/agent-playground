@@ -81,5 +81,12 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own .env values for local development.
+
+### `apps/web`
+- `NEXT_PUBLIC_API_URL`: The URL of the local API (e.g., `http://localhost:4000`).
+
+### `apps/api`
+- `DATABASE_URL`: PostgreSQL connection string.
+- `PORT`: API server port (defaults to 4000).
+- `JWT_SECRET`: Secret key for signing auth tokens.
