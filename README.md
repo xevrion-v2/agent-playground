@@ -83,3 +83,19 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## Environment Variables
+
+Each app/package expects its own `.env` values:
+
+### apps/api
+- `DATABASE_URL` — PostgreSQL connection string
+- `PORT` — API server port (default: 4000)
+- `JWT_SECRET` — JWT signing secret
+
+### apps/web
+- `NEXT_PUBLIC_API_URL` — API base URL
+- `NEXTAUTH_SECRET` — NextAuth signing secret
+- `NEXTAUTH_URL` — Application URL
+
+See `.env.example` in each app directory for the full list.
