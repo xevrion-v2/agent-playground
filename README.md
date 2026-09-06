@@ -15,35 +15,19 @@ with a modern TypeScript-first architecture.
 
 ## Frontend
 
-The web app includes pages for:
-- Landing
-- Task boards and task detail
-- Create a task
-- User profiles and user search
-- Client and freelancer dashboards
-- Messaging
-- Notifications
-- Settings
-- Billing
-- Admin panel
+The web app currently includes:
+- Landing page (`/`)
+
+Additional pages are planned but not yet implemented.
 
 ## Backend
 
-The API includes:
-- Auth routes (register, login, OAuth callback, JWT refresh)
-- CRUD routes for users, tasks, and proposals
-- Payments routes (Stripe-focused service placeholder)
-- Reviews, messaging, notifications
-- File uploads and search
-- Admin routes
+The API currently includes:
+- `GET /health` — service health check
+- `GET /users` — user listing stub
+- `POST /users` — user creation stub
 
-Backend architecture follows:
-- Middleware layer (auth, rate limiting, error handling)
-- Controller layer
-- Service layer
-- Route layer
-- Validation schemas (Zod)
-- Utility helpers
+Additional routes are planned but not yet implemented.
 
 ## Getting Started
 
@@ -70,14 +54,9 @@ npm run dev -w apps/api
 
 Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
-- Users
-- Tasks
-- Proposals
-- Payments
-- Reviews
-- Messages
-- Categories
-- Skills
+- User
+- Job
+- Proposal
 
 ## Environment Variables
 
