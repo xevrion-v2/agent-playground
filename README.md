@@ -81,5 +81,27 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Create local `.env` files only for the workspace that needs them. Do not commit real secrets.
+
+### `apps/api`
+
+| Variable | Required | Default | Description |
+| --- | --- | --- | --- |
+| `PORT` | No | `4000` | Port used by the Express API when running `npm run dev -w apps/api`. |
+
+### `packages/db`
+
+| Variable | Required | Default | Description |
+| --- | --- | --- | --- |
+| `DATABASE_URL` | Yes, for Prisma commands | none | Database connection string consumed by `packages/db/prisma/schema.prisma`. |
+
+### `apps/web`
+
+No environment variables are currently read by the checked-in web app code. Add new `NEXT_PUBLIC_*` or server-only values here when integrations are introduced.
+
+### Local setup example
+
+```bash
+printf 'PORT=4000\n' > apps/api/.env
+printf 'DATABASE_URL=postgresql://user:password@localhost:5432/taskflow\n' > packages/db/.env
+```
