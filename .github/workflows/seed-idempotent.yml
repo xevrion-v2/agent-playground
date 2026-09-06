@@ -1,0 +1,19 @@
+name: Seed Issues Idempotent
+on:
+  workflow_dispatch:
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const want=[{title:"[Starter] Example",body:"/bounty $50\nExample."}];
+            const have=await github.paginate(github.rest.issues.listForRepo,{owner:context.repo.owner,repo:context.repo.repo,state:"open",per_page:100});
+            const titles=new Set(have.map(i=>i.title));
+            for(const i of want){
+              if(titles.has(i.title)){console.log("skip:"+i.title);continue;}
+              await github.rest.issues.create({owner:context.repo.owner,repo:context.repo.repo,title:i.title,body:i.body,labels:["bounty"]});
+            }
