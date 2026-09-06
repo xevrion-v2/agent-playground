@@ -25,13 +25,13 @@ Out of scope:
 
 ## Rewards
 
-Example reward ranges:
+Reward guidance follows the public bounty program issue:
 
-- Critical vulnerability: $500
-- High severity vulnerability: $250
-- Medium severity vulnerability: $100
-- Low severity vulnerability: $50
-- Documentation-only security improvement: $25
+- Low severity: $50-$200
+- Medium severity: $200-$500
+- High severity: $500-$1200
+
+Final bounty decisions remain at maintainer discretion and are not a binding payment commitment.
 
 ## Reporting
 
