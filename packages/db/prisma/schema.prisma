@@ -1,3 +1,5 @@
+/// Prisma schema for the agent-playground platform.
+/// Defines the core data models for users, jobs, and proposals.
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,37 +9,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Represents a registered user on the platform.
+/// Users can own jobs and submit proposals for other users' jobs.
 model User {
+  /// Unique identifier for the user, auto-generated as a CUID.
   id        String     @id @default(cuid())
+  /// Email address of the user — must be unique across all users.
   email     String     @unique
+  /// Optional display name for the user.
   name      String?
+  /// Jobs that this user owns / has created.
   jobs      Job[]
+  /// Proposals that this user has submitted to jobs.
   proposals Proposal[]
+  /// Timestamp when the user record was first created.
   createdAt DateTime   @default(now())
+  /// Timestamp when the user record was last updated.
   updatedAt DateTime   @updatedAt
 }
 
+/// Represents a job (project / task) posted by a user.
+/// Jobs can receive proposals from other users.
 model Job {
+  /// Unique identifier for the job, auto-generated as a CUID.
   id          String     @id @default(cuid())
+  /// Title or headline for the job listing.
   title       String
+  /// Optional detailed description of the job scope and requirements.
   description String?
+  /// Current status of the job (e.g. "draft", "open", "closed").
   status      String     @default("draft")
+  /// Foreign key referencing the User who owns this job.
   ownerId     String
+  /// The User who owns / created this job.
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Proposals that have been submitted by users for this job.
   proposals   Proposal[]
+  /// Timestamp when the job record was first created.
   createdAt   DateTime   @default(now())
+  /// Timestamp when the job record was last updated.
   updatedAt   DateTime   @updatedAt
 }
 
+/// Represents a proposal submitted by a user in response to a job listing.
+/// Contains the applicant's pitch and requested compensation.
 model Proposal {
+  /// Unique identifier for the proposal, auto-generated as a CUID.
   id        String   @id @default(cuid())
+  /// Brief summary or pitch explaining why the applicant is a good fit.
   summary   String
+  /// Optional monetary amount requested by the applicant for completing the job.
   amount    Decimal?
+  /// Current status of the proposal (e.g. "pending", "accepted", "rejected").
   status    String   @default("pending")
+  /// Foreign key referencing the User who submitted this proposal.
   userId    String
+  /// The User who submitted this proposal.
   user      User     @relation(fields: [userId], references: [id])
+  /// Foreign key referencing the Job that this proposal is for.
   jobId     String
+  /// The Job that this proposal responds to.
   job       Job      @relation(fields: [jobId], references: [id])
+  /// Timestamp when the proposal record was first created.
   createdAt DateTime @default(now())
+  /// Timestamp when the proposal record was last updated.
   updatedAt DateTime @updatedAt
 }
