@@ -81,5 +81,29 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Copy the example env files and fill in your local values:
+
+
+
+### API (apps/api)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| PORT | Server port | 4000 |
+| DATABASE_URL | PostgreSQL connection string | — |
+| JWT_SECRET | Secret for signing JWT tokens | — |
+| STRIPE_SECRET_KEY | Stripe API key (optional) | — |
+| UPLOAD_DIR | File upload directory | ./uploads |
+| MAX_FILE_SIZE_MB | Max upload size in MB | 10 |
+
+### Web (apps/web)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| NEXT_PUBLIC_API_URL | API base URL | http://localhost:4000 |
+| NEXTAUTH_URL | NextAuth callback URL | http://localhost:3000 |
+| NEXTAUTH_SECRET | NextAuth session secret | — |
+| GITHUB_CLIENT_ID | GitHub OAuth client ID (optional) | — |
+| GITHUB_CLIENT_SECRET | GitHub OAuth client secret (optional) | — |
+| GOOGLE_CLIENT_ID | Google OAuth client ID (optional) | — |
+| GOOGLE_CLIENT_SECRET | Google OAuth client secret (optional) | — |
