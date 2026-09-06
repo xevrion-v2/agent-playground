@@ -83,3 +83,6 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+// Fix for issue #4
+Add a short `Environment variables` section to the local development/setup portion of the README that documents the expected local variables for both apps. Include a brief summary, then list the web app variable `VITE_API_URL` as the base URL used by the frontend to reach the API locally, and the API app variable `PORT` as the local port the backend listens on. Mention that these can be placed in each app's local `.env` file before starting development.
