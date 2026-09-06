@@ -81,5 +81,25 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+### API Server (`apps/api`)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | `4000` | Port the API server listens on |
+| `NODE_ENV` | No | `development` | Environment mode (`development` / `production` / `test`) |
+
+### Web App (`apps/web`)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `NEXT_PUBLIC_API_URL` | Yes | — | Base URL of the TaskFlow API server (e.g. `http://localhost:4000`) |
+
+### Setup
+
+Copy the example file and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+See `.env.example` in the repository root for all available variables.
