@@ -1,0 +1,33 @@
+name: Seed Issues With Labels
+
+on:
+  workflow_dispatch:
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            // Ensure the bounty label exists before creating issues
+            try {
+              await github.rest.issues.getLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: "bounty",
+              });
+            } catch {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: "bounty",
+                color: "e4e669",
+                description: "Bounty available for this issue",
+              });
+              console.log("Created missing bounty label");
+            }
+            console.log("Labels verified. Ready to seed issues.");
