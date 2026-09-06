@@ -1,0 +1,39 @@
+## Katakana Letter Detection Utilities (Batch 3 - 13 utilities)
+
+Closes #7991, #7992, #7993, #7999, #8000, #8001, #8002, #8003, #8009, #8010, #8011, #8012, #8013
+
+### Summary
+
+Adds 13 Katakana letter detection API utilities under apps/api/src/utils/. Each utility exports a dependency-free function that returns true only when the input string contains the specified Unicode Katakana character.
+
+### Files Added
+
+| File | Character | Issue |
+|------|-----------|-------|
+| is-katakana-letter-pa-present.ts | U+30D1 | #7991 |
+| is-katakana-letter-hi-present.ts | U+30D2 | #7992 |
+| is-katakana-letter-bi-present.ts | U+30D3 | #7993 |
+| is-katakana-letter-pi-present.ts | U+30D4 | #7999 |
+| is-katakana-letter-hu-present.ts | U+30D5 | #8000 |
+| is-katakana-letter-bu-present.ts | U+30D6 | #8001 |
+| is-katakana-letter-pu-present.ts | U+30D7 | #8002 |
+| is-katakana-letter-he-present.ts | U+30D8 | #8003 |
+| is-katakana-letter-be-present.ts | U+30D9 | #8009 |
+| is-katakana-letter-pe-present.ts | U+30DA | #8010 |
+| is-katakana-letter-ho-present.ts | U+30DB | #8011 |
+| is-katakana-letter-bo-present.ts | U+30DC | #8012 |
+| is-katakana-letter-po-present.ts | U+30DD | #8013 |
+
+/claim #7991
+/claim #7992
+/claim #7993
+/claim #7999
+/claim #8000
+/claim #8001
+/claim #8002
+/claim #8003
+/claim #8009
+/claim #8010
+/claim #8011
+/claim #8012
+/claim #8013
