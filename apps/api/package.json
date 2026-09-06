@@ -7,6 +7,7 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx src/index.ts",
+    "smoke:import": "tsx src/app-import-smoke.ts",
     "test": "echo \"No API tests configured yet\"",
     "lint": "echo \"No API lint configured yet\""
   },
