@@ -19,4 +19,19 @@ router.post("/", (req, res) => {
   });
 });
 
+/** GET /users/:id - Returns a single user by ID (stub). */
+router.get("/:id", (_req, res) => {
+  res.status(501).json({ data: null, message: "User detail is not implemented yet." });
+});
+
+/** PUT /users/:id - Updates a user by ID (stub). */
+router.put("/:id", (_req, res) => {
+  res.status(501).json({ data: null, message: "User update is not implemented yet." });
+});
+
+/** DELETE /users/:id - Deletes a user by ID (stub). */
+router.delete("/:id", (_req, res) => {
+  res.status(501).json({ data: null, message: "User deletion is not implemented yet." });
+});
+
 export default router;
