@@ -7,37 +7,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Registered users of the TaskFlow platform.
+/// Users can act as clients (posting jobs) or freelancers (submitting proposals).
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
-  name      String?
+  id        String     @id @default(cuid()) /// Unique identifier (CUID)
+  email     String     @unique              /// Login email — must be unique
+  name      String?                         /// Display name (optional)
+
+  /// Jobs posted by this user (client role)
   jobs      Job[]
+
+  /// Proposals submitted by this user (freelancer role)
   proposals Proposal[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+
+  createdAt DateTime   @default(now())      /// Record creation timestamp
+  updatedAt DateTime   @updatedAt           /// Last update timestamp
 }
 
+/// A job/task listing posted by a client user.
+/// Represents work that needs to be done, with an optional description and status tracking.
 model Job {
-  id          String     @id @default(cuid())
-  title       String
-  description String?
-  status      String     @default("draft")
+  id          String     @id @default(cuid()) /// Unique identifier (CUID)
+  title       String                         /// Job title / brief summary
+  description String?                        /// Detailed job requirements (optional)
+  status      String     @default("draft")   /// Current status: draft | open | in_progress | completed | cancelled
+
+  /// The user who posted this job
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
+
+  /// Proposals submitted in response to this job
   proposals   Proposal[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+
+  createdAt   DateTime   @default(now())    /// Record creation timestamp
+  updatedAt   DateTime   @updatedAt         /// Last update timestamp
 }
 
+/// A proposal / bid submitted by a freelancer user for a specific job.
+/// Tracks the freelancer's offer (summary and optional amount) and its review status.
 model Proposal {
-  id        String   @id @default(cuid())
-  summary   String
-  amount    Decimal?
-  status    String   @default("pending")
+  id        String   @id @default(cuid()) /// Unique identifier (CUID)
+  summary   String                       /// Brief proposal description / cover letter
+  amount    Decimal?                     /// Bid amount in platform currency (optional)
+  status    String   @default("pending") /// Current status: pending | accepted | rejected | withdrawn
+
+  /// The freelancer who submitted this proposal
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+
+  /// The job this proposal is for
   jobId     String
   job       Job      @relation(fields: [jobId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+
+  createdAt DateTime @default(now())     /// Record creation timestamp
+  updatedAt DateTime @updatedAt          /// Last update timestamp
 }
