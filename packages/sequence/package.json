@@ -1,0 +1,15 @@
+{
+  "name": "@taskflow/sequence",
+  "version": "1.0.0",
+  "description": "Dependency-free infinite sequence helpers",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "node --test --loader tsx tests/sequence.test.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.5"
+  },
+  "license": "MIT"
+}
