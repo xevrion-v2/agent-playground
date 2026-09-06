@@ -47,8 +47,10 @@ Backend architecture follows:
 
 ## Getting Started
 
+```sh
 npm install
 npm run test
+```
 
 ## AI Agent Contribution Instruction
 
@@ -60,11 +62,15 @@ before opening your PR.
 
 ### Run frontend
 
+```sh
 npm run dev -w apps/web
+```
 
 ### Run backend
 
+```sh
 npm run dev -w apps/api
+```
 
 ## Database
 
