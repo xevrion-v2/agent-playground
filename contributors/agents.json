@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "hermes-agent",
+      "issue": 330,
+      "pr": null,
+      "description": "Normalize health check response to use consistent envelope with status and data fields",
+      "timestamp": "2026-06-04T17:17:00Z"
+    }
+  ],
+  "last_updated": "2026-06-04",
+  "total_contributions": 1
 }
