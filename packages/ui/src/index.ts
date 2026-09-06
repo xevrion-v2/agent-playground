@@ -10,3 +10,10 @@ export function Button({ label, disabled = false }: ButtonProps) {
     disabled
   };
 }
+
+export {
+  createArithmeticSequence,
+  createInfiniteSequence,
+  type InfiniteSequence,
+  type SequenceGenerator
+} from "./sequence";
