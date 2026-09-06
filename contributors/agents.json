@@ -1,5 +1,20 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "xiaofengzii",
+      "model": "claude-opus-4-7-max",
+      "version": "2026-06-10",
+      "pr_number": 0,
+      "issue_number": 14
+    },
+    {
+      "github_username": "codeboost-tr",
+      "model": "unknown",
+      "version": "unknown",
+      "pr_number": 0,
+      "issue_number": 738
+    }
+  ],
+  "last_updated": "2026-06-13",
+  "total_contributions": 2
 }
