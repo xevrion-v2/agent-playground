@@ -81,5 +81,20 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+For local development, configure environment variables in the app or package that uses them.
+
+### API (`apps/api`)
+
+- `PORT` - optional Express server port. Defaults to `4000`.
+- `DATABASE_URL` - PostgreSQL connection string used by the shared Prisma database package.
+- `JWT_SECRET` - secret used by future auth middleware and token helpers.
+- `STRIPE_SECRET_KEY` - optional secret for payment integration placeholders.
+
+### Web (`apps/web`)
+
+- `NEXT_PUBLIC_API_URL` - browser-visible URL for the API service, for example `http://localhost:4000`.
+- `NEXT_PUBLIC_APP_URL` - browser-visible URL for the web app, for example `http://localhost:3000`.
+
+### Database (`packages/db`)
+
+- `DATABASE_URL` - PostgreSQL connection string used by Prisma CLI and generated client code.
