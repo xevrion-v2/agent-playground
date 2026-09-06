@@ -1,5 +1,9 @@
-{
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
-}
+[
+  {
+    "github_username": "promptpolish-ai",
+    "model": "Codex (Claude variant)",
+    "version": "1.0",
+    "pr_number": 271,
+    "issue_number": 8
+  }
+]
