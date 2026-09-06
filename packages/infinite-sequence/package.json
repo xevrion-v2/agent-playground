@@ -1,0 +1,7 @@
+{
+  "name": "@taskflow/infinite-sequence",
+  "version": "1.0.0",
+  "description": "Infinite sequence iterator utility with safe bounded consumption",
+  "main": "index.js",
+  "license": "MIT"
+}
