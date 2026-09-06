@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import { sendApiError } from "../utils/apiError";
+
 const router = Router();
 
 router.get("/", (_req, res) => {
@@ -10,6 +12,15 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
+  if (!req.body || typeof req.body !== "object" || Array.isArray(req.body)) {
+    return sendApiError(
+      res,
+      400,
+      "invalid_request",
+      "User creation expects a JSON object request body."
+    );
+  }
+
   res.status(201).json({
     data: {
       id: "stub-user-id",
