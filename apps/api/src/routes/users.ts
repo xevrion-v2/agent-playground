@@ -10,6 +10,15 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
+  const { email, name } = req.body ?? {};
+
+  // Validate required fields: email and name must be non-empty strings
+  if (typeof email !== "string" || email.trim() === "" ||
+      typeof name !== "string" || name.trim() === "") {
+    res.status(400).json({ error: "email and name are required" });
+    return;
+  }
+
   res.status(201).json({
     data: {
       id: "stub-user-id",
