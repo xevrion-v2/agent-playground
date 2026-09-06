@@ -1,5 +1,11 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "model": "sensenova-6.7-flash-lite",
+      "version": "v1",
+      "contribution": "bounty #6801: is-ideographic-departing-tone-mark-present"
+    }
+  ],
+  "last_updated": "2026-07-15",
+  "total_contributions": 1
 }
