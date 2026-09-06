@@ -81,5 +81,30 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own `.env` file. Copy the relevant
+`.env.example` to `.env` and fill in the values before running
+the app locally.
+
+### `apps/web` (Next.js)
+
+| Variable | Required | Description |
+|---|---|---|
+| `NEXT_PUBLIC_API_URL` | Yes | Base URL for the backend API (e.g. `http://localhost:4000`) |
+| `DATABASE_URL` | Yes | PostgreSQL connection string used by Prisma |
+| `NEXTAUTH_SECRET` | Yes | Secret used for NextAuth session encryption |
+| `NEXTAUTH_URL` | No | Canonical URL of the web app (defaults to `http://localhost:3000`) |
+
+### `apps/api` (Express)
+
+| Variable | Required | Description |
+|---|---|---|
+| `PORT` | No | Port the API listens on (defaults to `4000`) |
+| `DATABASE_URL` | Yes | PostgreSQL connection string used by Prisma |
+| `JWT_SECRET` | Yes | Secret key for signing JSON Web Tokens |
+| `STRIPE_SECRET_KEY` | No | Stripe secret key for payment routes |
+
+### `packages/db` (Prisma)
+
+| Variable | Required | Description |
+|---|---|---|
+| `DATABASE_URL` | Yes | PostgreSQL connection string (e.g. `postgresql://user:pass@localhost:5432/taskflow`) |
