@@ -83,3 +83,11 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+### apps/api (`apps/api/.env`)
+- `DATABASE_URL`: Connection string for PostgreSQL
+- `PORT`: Port for the Express server (default: 4000)
+- `JWT_SECRET`: Secret key for JWT signing
+
+### apps/web (`apps/web/.env`)
+- `NEXT_PUBLIC_API_URL`: The URL of the backend API
