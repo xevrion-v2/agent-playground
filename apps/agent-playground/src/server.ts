@@ -1,0 +1,1 @@
+Update the JSON parser middleware from `app.use(express.json())` to `app.use(express.json({ limit: '100kb' }))` so the Express app rejects unexpectedly large JSON request bodies with a conservative limit.

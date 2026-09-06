@@ -83,3 +83,6 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+// Fix for issue #9
+Add a short note in the API/server configuration documentation stating that the Express app accepts JSON request bodies up to `100kb`, and that larger payloads will be rejected by the body parser.
