@@ -7,8 +7,10 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "test": "echo \"No API tests configured yet\"",
-    "lint": "echo \"No API lint configured yet\""
+    "type-check": "tsc --noEmit --module ESNext --moduleResolution bundler --target ES2022 --strict --esModuleInterop --skipLibCheck src/index.ts src/routes/users.ts src/utils/*.ts src/smoke-tests/*.ts",
+    "test": "tsx src/smoke-tests/utils-smoke.ts",
+    "lint": "echo \"No API lint configured yet\"",
+    "build": "tsc --noEmit --module ESNext --moduleResolution bundler --target ES2022 --strict --esModuleInterop --skipLibCheck src/index.ts src/routes/users.ts src/utils/*.ts src/smoke-tests/*.ts"
   },
   "dependencies": {
     "express": "^4.18.3"
