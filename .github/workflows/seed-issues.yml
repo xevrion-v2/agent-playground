@@ -90,7 +90,31 @@ jobs:
               }
             ];
 
+            // Validation Note: Query open issues in the repository to build a Set of existing titles.
+            // For each starter issue, we skip creation if the title is already present in the Set.
+            const openTitles = new Set();
+            let page = 1;
+            while (true) {
+              const { data: batch } = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: "open",
+                per_page: 100,
+                page: page
+              });
+              if (!batch || batch.length === 0) break;
+              for (const item of batch) {
+                openTitles.add(item.title);
+              }
+              if (batch.length < 100) break;
+              page++;
+            }
+
             for (const issue of issues) {
+              if (openTitles.has(issue.title)) {
+                console.log(`Skipping existing open issue: "${issue.title}"`);
+                continue;
+              }
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
