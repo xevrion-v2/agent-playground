@@ -1,5 +1,11 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
+  "agents": [
+    {
+      "name": "Super Z (GLM)",
+      "version": "2026-08",
+      "contributions": 0
+    }
+  ],
+  "last_updated": "2026-08-29",
   "total_contributions": 0
 }
