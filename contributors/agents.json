@@ -1,5 +1,19 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "hermes-agent",
+      "model": "mimo-v2-5-pro",
+      "provider": "xiaomi",
+      "contributions": [
+        {
+          "issue": 485,
+          "pr": null,
+          "description": "Add graceful shutdown handler",
+          "timestamp": "2026-06-04T15:35:00Z"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-04",
+  "total_contributions": 1
 }
