@@ -6,7 +6,8 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"No UI tests configured yet\"",
-    "lint": "echo \"No UI lint configured yet\""
+    "lint": "echo \"No UI lint configured yet\"",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "devDependencies": {
     "typescript": "^5.4.5"
