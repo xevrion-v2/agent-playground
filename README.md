@@ -81,5 +81,16 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+### API (`apps/api`)
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `PORT` | Port the API server listens on | `4000` |
+| `DATABASE_URL` | PostgreSQL connection string used by Prisma | `postgresql://user:pass@localhost:5432/taskflow` |
+| `JWT_SECRET` | Secret key for signing JWT tokens | `your-jwt-secret` |
+
+### Web (`apps/web`)
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_API_URL` | Base URL of the API server | `http://localhost:4000` |
