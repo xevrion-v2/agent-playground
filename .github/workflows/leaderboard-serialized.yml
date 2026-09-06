@@ -1,0 +1,15 @@
+name: Leaderboard Serialized
+on:
+  pull_request:
+    types: [closed]
+jobs:
+  update:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    concurrency:
+      group: leaderboard-json-update
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update leaderboard
+        run: echo "Serialized leaderboard update for PR ${{ github.event.pull_request.number }}"
