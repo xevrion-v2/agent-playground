@@ -7,35 +7,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// A TaskFlow platform user — can be a client posting jobs or a freelancer submitting proposals.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
+  /// Jobs (tasks) created by this user acting as a client.
   jobs      Job[]
+  /// Proposals submitted by this user acting as a freelancer.
   proposals Proposal[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A task or project posted by a client on the TaskFlow marketplace.
+/// Status lifecycle: draft → open → in_progress → completed.
 model Job {
   id          String     @id @default(cuid())
+  /// Short title shown in listings and dashboards.
   title       String
+  /// Full task description with requirements and scope.
   description String?
+  /// Current workflow status — managed by the application layer.
   status      String     @default("draft")
+  /// The client who posted this job.
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Proposals received from freelancers interested in this job.
   proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A freelancer's pitch for a specific job. Includes a summary, optional bid amount,
+/// and tracks acceptance state.
+/// Status lifecycle: pending → accepted | rejected.
 model Proposal {
   id        String   @id @default(cuid())
+  /// Brief cover message explaining why the freelancer is a good fit.
   summary   String
+  /// Bid amount for fixed-price jobs; null for hourly or open-budget tasks.
   amount    Decimal?
+  /// Current proposal state managed by the application layer.
   status    String   @default("pending")
+  /// The freelancer who submitted this proposal.
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+  /// The job this proposal targets.
   jobId     String
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
