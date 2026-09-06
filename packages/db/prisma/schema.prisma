@@ -7,16 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// A registered TaskFlow user who can post jobs and submit proposals.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
-  jobs      Job[]
-  proposals Proposal[]
+  jobs      Job[]      /// Jobs created by this user.
+  proposals Proposal[] /// Proposals submitted by this user.
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A task or project posting created by a User (the job owner).
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -24,11 +26,12 @@ model Job {
   status      String     @default("draft")
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
+  proposals   Proposal[] /// Proposals received for this job.
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A bid submitted by a User in response to a Job listing.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
