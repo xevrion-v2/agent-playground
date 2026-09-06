@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// TaskFlow account profile that owns jobs and submits proposals.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +18,7 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// Client-owned work item that moves through the task marketplace lifecycle.
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +31,7 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// Freelancer proposal connecting a user to a job with an optional bid amount.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
