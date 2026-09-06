@@ -1,21 +1,21 @@
 {
-  "name": "@taskflow/api",
-  "version": "0.1.0",
-  "private": true,
-  "description": "Express API service for TaskFlow.",
-  "type": "module",
-  "main": "src/index.ts",
-  "scripts": {
-    "dev": "tsx src/index.ts",
-    "test": "echo \"No API tests configured yet\"",
-    "lint": "echo \"No API lint configured yet\""
-  },
-  "dependencies": {
-    "express": "^4.18.3"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.21",
-    "tsx": "^4.7.1",
-    "typescript": "^5.4.5"
-  }
+    "name":  "@taskflow/api",
+    "version":  "0.1.0",
+    "private":  true,
+    "description":  "Express API service for TaskFlow.",
+    "type":  "module",
+    "main":  "src/index.ts",
+    "scripts":  {
+                    "dev":  "tsx src/index.ts",
+                    "test":  "node --test src/routes/users.test.mjs",
+                    "lint":  "echo \"No API lint configured yet\""
+                },
+    "dependencies":  {
+                         "express":  "^4.18.3"
+                     },
+    "devDependencies":  {
+                            "@types/express":  "^4.17.21",
+                            "tsx":  "^4.7.1",
+                            "typescript":  "^5.4.5"
+                        }
 }
