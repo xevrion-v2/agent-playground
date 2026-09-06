@@ -1,0 +1,10 @@
+{
+  "name": "@taskflow/math",
+  "version": "1.0.0",
+  "description": "Mathematical utilities for TaskFlow",
+  "main": "src/pi.ts",
+  "types": "src/pi.ts",
+  "scripts": {
+    "test": "echo \"Tests coming soon\""
+  }
+}
