@@ -45,6 +45,8 @@ Backend architecture follows:
 - Validation schemas (Zod)
 - Utility helpers
 
+Request body limit is configured at 100kb via express.json().
+
 ## Getting Started
 
 npm install
