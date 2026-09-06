@@ -7,35 +7,50 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// User represents a registered platform user (client or freelancer).
+/// Each user can own multiple jobs and submit multiple proposals.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
+  /// Jobs created by this user (as a client)
   jobs      Job[]
+  /// Proposals submitted by this user (as a freelancer)
   proposals Proposal[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// Job represents a task or project posted by a client.
+/// Jobs can receive multiple proposals from freelancers.
 model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
+  /// Status: draft, open, in_progress, completed, cancelled
   status      String     @default("draft")
+  /// The client who posted this job
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Proposals received for this job
   proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// Proposal represents a freelancer's bid or application for a job.
+/// Includes a summary and optional amount.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
+  /// Proposed amount (optional; can be negotiated)
   amount    Decimal?
+  /// Status: pending, accepted, rejected
   status    String   @default("pending")
+  /// The freelancer who submitted this proposal
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+  /// The job this proposal is for
   jobId     String
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
