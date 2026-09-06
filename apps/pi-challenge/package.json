@@ -1,0 +1,12 @@
+{
+  "name": "pi-challenge",
+  "version": "1.0.0",
+  "description": "PI calculation accuracy challenge — compares Leibniz, Nilakantha, Machin, and Gauss-Legendre algorithms",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node index.js"
+  },
+  "keywords": ["pi", "math", "algorithm", "challenge"],
+  "license": "MIT"
+}
