@@ -1,0 +1,14 @@
+{
+  "name": "@taskflow/utils",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared utilities for TaskFlow.",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.6"
+  }
+}
