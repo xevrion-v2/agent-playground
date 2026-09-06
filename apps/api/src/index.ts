@@ -3,7 +3,9 @@ import express from "express";
 import usersRouter from "./routes/users";
 
 const app = express();
-const port = process.env.PORT || 4000;
+const rawPort = process.env.PORT;
+const parsedPort = rawPort !== undefined ? parseInt(rawPort, 10) : NaN;
+const port = (rawPort === undefined || isNaN(parsedPort) || parsedPort < 0 || parsedPort > 65535) ? 4000 : parsedPort;
 
 app.use(express.json());
 
