@@ -16,6 +16,8 @@ Describe the task, expected context, and files likely involved.
 - [ ] Documentation or tests are updated when relevant.
 - [ ] The pull request links this issue.
 
+/bounty $50
+
 ## Bounty Amount
 
 $50
