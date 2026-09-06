@@ -1,18 +1,41 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
+import { pathToFileURL } from "node:url";
 
 import usersRouter from "./routes/users";
 
-const app = express();
 const port = process.env.PORT || 4000;
+export function createApp(bodySizeLimit = process.env.BODY_SIZE_LIMIT || "100kb") {
+  const app = express();
 
-app.use(express.json());
+  app.use(express.json({ limit: bodySizeLimit }));
 
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
-});
+  app.use((err: Error, _req: Request, res: Response, next: NextFunction) => {
+    if ((err as any).type === "entity.too.large" || (err as any).status === 413) {
+      return res.status(413).json({
+        error: "Payload Too Large",
+        message: `Request body exceeds the maximum allowed size of ${bodySizeLimit}.`,
+      });
+    }
+    next(err);
+  });
 
-app.use("/users", usersRouter);
+  app.get("/health", (_req, res) => {
+    res.json({ status: "ok", service: "taskflow-api" });
+  });
 
-app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
-});
+  app.use("/users", usersRouter);
+
+  return app;
+}
+
+const app = createApp();
+const isMainModule =
+  !!process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isMainModule) {
+  app.listen(port, () => {
+    console.log(`TaskFlow API listening on port ${port}`);
+  });
+}
+
+export default app;
