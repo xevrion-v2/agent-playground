@@ -7,33 +7,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// A person who uses TaskFlow. Owns jobs and submits proposals.
+/// The `email` field is unique and acts as the login identity.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
-  jobs      Job[]
-  proposals Proposal[]
+  jobs      Job[]      /// Jobs this user has created.
+  proposals Proposal[] /// Proposals this user has submitted.
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A unit of work posted on the marketplace. Owned by a single User.
 model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
-  status      String     @default("draft")
+  status      String     @default("draft") /// lifecycle: draft -> open -> assigned -> done
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
+  proposals   Proposal[] /// Proposals submitted against this job.
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A bid or offer attached to a Job by a User.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
-  amount    Decimal?
-  status    String   @default("pending")
+  amount    Decimal? /// Optional quoted amount for the proposal.
+  status    String   @default("pending") /// lifecycle: pending -> accepted/rejected
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   jobId     String
