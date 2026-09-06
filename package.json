@@ -8,10 +8,10 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "lint": "npm run lint --workspaces --if-present",
-    "format": "npm run format --workspaces --if-present"
+    "dev": "npm -ws run dev --if-present",
+    "test": "npm -ws run test --if-present",
+    "lint": "npm -ws run lint --if-present",
+    "format": "npm -ws run format --if-present"
   },
   "engines": {
     "node": ">=20"
