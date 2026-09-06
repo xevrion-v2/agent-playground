@@ -1,3 +1,7 @@
+/// TaskFlow — Prisma Schema
+/// Models map the core domain: users post jobs, freelancers submit proposals,
+/// payments track Stripe transactions, and reviews capture post-completion feedback.
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,35 +11,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// A registered user who can act as a client (posting jobs) or a freelancer (submitting proposals).
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
   name      String?
+  /// Jobs the user has posted as a client
   jobs      Job[]
+  /// Proposals the user has submitted as a freelancer
   proposals Proposal[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A task or project posted by a client seeking freelancers.
 model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
+  /// Lifecycle: draft → published → in_progress → completed → cancelled
   status      String     @default("draft")
+  /// The client who posted this job
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Freelancer proposals for this job
   proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A freelancer's bid on a job, including a summary and optional price estimate.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
+  /// Optional quoted amount in USD
   amount    Decimal?
+  /// Lifecycle: pending → accepted → rejected → withdrawn
   status    String   @default("pending")
+  /// The freelancer who submitted this proposal
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+  /// The job this proposal targets
   jobId     String
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
