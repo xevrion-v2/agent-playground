@@ -13,6 +13,11 @@ app.get("/health", (_req, res) => {
 
 app.use("/users", usersRouter);
 
+// 404 handler for unknown routes
+app.use((_req, res) => {
+  res.status(404).json({ error: "Not found" });
+});
+
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
 });
