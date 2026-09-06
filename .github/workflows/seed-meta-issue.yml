@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create and pin bug bounty program issue
+      - name: Create or update bug bounty program issue
         uses: actions/github-script@v7
         with:
           script: |
@@ -35,22 +35,64 @@ jobs:
               "description, the better."
             ].join("\n");
 
-            const createdIssue = await github.rest.issues.create({
+            const CANONICAL_TITLE = "Bug Bounty Program - How to Participate";
+
+            // Search for existing meta issue
+            const existingIssues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: "Bug Bounty Program — How to Participate",
-              body: bodyForIssue("[NUMBER]"),
-              labels: ["bounty", "good first issue", "AI agent friendly"]
+              state: "open",
+              per_page: 100
             });
 
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: createdIssue.data.number,
-              body: bodyForIssue(createdIssue.data.number)
-            });
+            const existingMeta = existingIssues.data.find(issue =>
+              issue.title.includes("Bug Bounty Program") && issue.title.includes("Participate")
+            );
 
+            let issueNumber;
+
+            if (existingMeta) {
+              // Update existing issue
+              issueNumber = existingMeta.number;
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                title: CANONICAL_TITLE,
+                body: bodyForIssue(issueNumber),
+                labels: ["bounty", "good first issue", "AI agent friendly"]
+              });
+              core.info(`Updated existing issue #${issueNumber}`);
+            } else {
+              // Create new issue
+              const createdIssue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: CANONICAL_TITLE,
+                body: bodyForIssue("[NUMBER]"),
+                labels: ["bounty", "good first issue", "AI agent friendly"]
+              });
+
+              issueNumber = createdIssue.data.number;
+
+              // Update body with correct issue number
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: bodyForIssue(issueNumber)
+              });
+              core.info(`Created new issue #${issueNumber}`);
+            }
+
+            // Pin the issue
             try {
+              const issueData = await github.rest.issues.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber
+              });
+
               await github.graphql(
                 `
                   mutation($issueId: ID!) {
@@ -62,9 +104,10 @@ jobs:
                   }
                 `,
                 {
-                  issueId: createdIssue.data.node_id
+                  issueId: issueData.data.node_id
                 }
               );
+              core.info(`Pinned issue #${issueNumber}`);
             } catch (error) {
-              core.warning(`Created issue #${createdIssue.data.number}, but pinning failed: ${error.message}`);
+              core.warning(`Issue #${issueNumber} pinned or already pinned: ${error.message}`);
             }
