@@ -1,3 +1,6 @@
+// Prisma schema for the Agent Playground application
+// Generator and datasource configuration
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,37 +10,66 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Represents a registered user of the platform
 model User {
+  // Unique identifier generated using CUID
   id        String     @id @default(cuid())
+  // User's email address — must be unique across all users
   email     String     @unique
+  // Display name for the user (optional)
   name      String?
+  // Jobs posted by this user
   jobs      Job[]
+  // Proposals submitted by this user
   proposals Proposal[]
+  // Timestamp when the user record was created
   createdAt DateTime   @default(now())
+  // Timestamp when the user record was last updated
   updatedAt DateTime   @updatedAt
 }
 
+// Represents a job listing created by a user
 model Job {
+  // Unique identifier generated using CUID
   id          String     @id @default(cuid())
+  // Title or headline of the job listing
   title       String
+  // Detailed description of the job requirements (optional)
   description String?
+  // Current status of the job: "draft", "open", "in_progress", "completed", or "cancelled"
   status      String     @default("draft")
+  // ID of the user who owns this job (foreign key)
   ownerId     String
+  // User who created and owns this job
   owner       User       @relation(fields: [ownerId], references: [id])
+  // Proposals submitted in response to this job
   proposals   Proposal[]
+  // Timestamp when the job record was created
   createdAt   DateTime   @default(now())
+  // Timestamp when the job record was last updated
   updatedAt   DateTime   @updatedAt
 }
 
+// Represents a proposal submitted by a user for a specific job
 model Proposal {
+  // Unique identifier generated using CUID
   id        String   @id @default(cuid())
+  // Brief summary or pitch for the proposal
   summary   String
+  // Proposed budget or fee amount (optional, stored as Decimal for precision)
   amount    Decimal?
+  // Current status of the proposal: "pending", "accepted", "rejected"
   status    String   @default("pending")
+  // ID of the user who submitted the proposal (foreign key)
   userId    String
+  // User who submitted this proposal
   user      User     @relation(fields: [userId], references: [id])
+  // ID of the job this proposal is for (foreign key)
   jobId     String
+  // Job this proposal is associated with
   job       Job      @relation(fields: [jobId], references: [id])
+  // Timestamp when the proposal record was created
   createdAt DateTime @default(now())
+  // Timestamp when the proposal record was last updated
   updatedAt DateTime @updatedAt
 }
