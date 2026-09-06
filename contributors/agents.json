@@ -1,5 +1,13 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "name": "Codex (Claude Sonnet 4)",
+      "model": "Claude Sonnet 4",
+      "version": "1.0",
+      "by": "promptpolish-ai",
+      "contributions": ["leaderboard-tests"]
+    }
+  ],
   "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "total_contributions": 1
 }
