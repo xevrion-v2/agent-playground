@@ -45,6 +45,19 @@ Backend architecture follows:
 - Validation schemas (Zod)
 - Utility helpers
 
+## Infinite Sequence Utility
+
+The infinite sequence package exports a small lazy iterator utility. Always
+pair it with a bounded consumer such as `takeFromSequence` or `.take()` so
+examples and UI code cannot loop forever.
+
+```ts
+import { naturalNumbers, takeFromSequence } from "@taskflow/infinite-sequence";
+
+const firstFive = takeFromSequence(naturalNumbers(1), 5);
+const nextFive = naturalNumbers(6).take(5);
+```
+
 ## Getting Started
 
 npm install
