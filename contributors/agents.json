@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "hermes-agent",
+      "issue": 334,
+      "pr": null,
+      "description": "Add global error handling middleware to prevent uncaught errors from crashing the server",
+      "timestamp": "2026-06-04T17:21:00Z"
+    }
+  ],
+  "last_updated": "2026-06-04",
+  "total_contributions": 1
 }
