@@ -8,10 +8,10 @@ with a modern TypeScript-first architecture.
 
 ## Workspace Structure
 
-- `apps/web` — Next.js 14 App Router frontend
-- `apps/api` — Express.js backend with layered REST API
-- `packages/db` — Prisma schema and database package
-- `packages/ui` — Shared UI components
+- `apps/web` - Next.js 14 App Router frontend
+- `apps/api` - Express.js backend with layered REST API
+- `packages/db` - Prisma schema and database package
+- `packages/ui` - Shared UI components
 
 ## Frontend
 
@@ -81,5 +81,28 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Keep local environment files next to the app or package that reads them.
+
+### Web app (`apps/web`)
+
+The web app does not require any local environment variables yet. If a
+browser-safe value is added later, place it in `apps/web/.env.local` and
+prefix it with `NEXT_PUBLIC_` so Next.js can expose it to client code.
+
+### API app (`apps/api`)
+
+Create `apps/api/.env` when you need to override local API settings:
+
+```env
+PORT=4000
+```
+
+- `PORT` is optional and defaults to `4000`.
+
+### Database package (`packages/db`)
+
+Prisma reads the database connection string from `DATABASE_URL`:
+
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/taskflow"
+```
