@@ -1,5 +1,10 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+    "agent":  "ChaiXinLong-tech",
+    "issue":  3362,
+    "pull_request":  3363,
+    "branch":  "codex/batch42-normalize-header-name-3362",
+    "helper":  "normalizeHeaderName",
+    "claim":  "/claim #3362",
+    "bounty":  "$50",
+    "updated_at":  "2026-07-01T05:53:37Z"
 }
