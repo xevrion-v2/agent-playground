@@ -81,5 +81,30 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app and package requires a `.env` file with its own configuration values.
+
+### API (`apps/api/.env`)
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PORT` | Server listen port | `4000` |
+| `DATABASE_URL` | PostgreSQL connection string | Required |
+| `JWT_SECRET` | Secret key for JWT token signing | Required |
+| `OAUTH_CLIENT_ID` | OAuth provider client ID | Optional |
+| `OAUTH_CLIENT_SECRET` | OAuth provider client secret | Optional |
+
+### Web (`apps/web/.env`)
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_API_URL` | Backend API base URL | `http://localhost:4000` |
+| `NEXTAUTH_SECRET` | NextAuth.js encryption secret | Required |
+| `NEXTAUTH_URL` | Application canonical URL | `http://localhost:3000` |
+
+### Database (`packages/db/.env`)
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `DATABASE_URL` | PostgreSQL connection string for Prisma | Required |
+
+Copy the example file to get started:
+```bash
+cp .env.example .env
+```
