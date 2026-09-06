@@ -1,0 +1,1 @@
+Change the health check handler response from a bare payload to a normalized envelope with top-level `status` and `data` fields. Replace the current response body like `res.json({ ok: true })` or `return { ok: true }` with `res.json({ status: "ok", data: { ok: true } })` while preserving the existing HTTP status code and any existing health payload fields inside `data`.
