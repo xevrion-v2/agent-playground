@@ -83,3 +83,25 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+
+<!-- Fix for issue #8 -->
+查看当前代码库中健康检查相关的代码，我需要找到API中的健康检查路由。让我先查看相关文件。
+
+```typescript
+// apps/api/src/controllers/health.controller.ts
+import { Request, Response } from 'express';
+
+export const healthCheck = async (_req: Request, res: Response) => {
+  try {
+    const healthStatus = {
+      status: 'ok',
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString(),
+      version: process.env.npm_package_version || '1.0.0',
+    };
+
+    res.status(200).json({
+      status: 'success',
+      data: healthStatus,
+
