@@ -83,3 +83,7 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+
+<!-- Fix for issue #8 -->
+查看当前代码库中健康检查相关的代码，我需要先找到相关文件。让我搜索一下。我需要先查看现有的健康检查代码。让我搜索相关文件。我需要先查看现有的健康检查代码。让我搜索相关文件。
