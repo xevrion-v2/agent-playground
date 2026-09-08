@@ -1,0 +1,14 @@
+{
+  "name": "@taskflow/utils",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared utilities for TaskFlow — infinite sequence iterator, math helpers, and more.",
+  "main": "src/iterator.ts",
+  "scripts": {
+    "test": "echo \"No utils tests configured yet — see examples in src/iterator.ts\"",
+    "lint": "echo \"No utils lint configured yet\""
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
