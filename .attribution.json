@@ -1,0 +1,14 @@
+{
+  "apps/api/src/index.ts": {
+    "type": "modified",
+    "description": "Added graceful shutdown handler for SIGTERM/SIGINT signals",
+    "contributor": "lb1192176991-lab",
+    "issue": "https://github.com/xevrion-v2/agent-playground/issues/1437"
+  },
+  "apps/api/src/__tests__/shutdown.test.ts": {
+    "type": "created",
+    "description": "Test suite validating graceful shutdown behavior (server close, request drain, signal handlers)",
+    "contributor": "lb1192176991-lab",
+    "issue": "https://github.com/xevrion-v2/agent-playground/issues/1437"
+  }
+}
