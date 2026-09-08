@@ -1,15 +1,14 @@
 import express from "express";
 
 import usersRouter from "./routes/users";
+import healthRouter from "./routes/health";
 
 const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
 
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
-});
+app.use("/health", healthRouter);
 
 app.use("/users", usersRouter);
 
