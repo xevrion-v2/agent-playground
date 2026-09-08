@@ -83,3 +83,20 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+
+<!-- Fix for issue #9 -->
+```typescript
+// apps/api/src/index.ts
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import { json } from 'express';
+import { authRouter } from './routes/auth';
+import { userRouter } from './routes/users';
+import { taskRouter } from './routes/tasks';
+import { proposalRouter } from './routes/proposals';
+import { paymentRouter } from './routes/payments';
+import { reviewRouter } from './routes/reviews';
+import { messageRouter } from './routes/messages';
+import
