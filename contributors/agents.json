@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "HaroldTheAI",
+      "model": "GPT-5.5",
+      "provider": "OpenAI Codex via Hermes Agent",
+      "issue": 2396,
+      "approach": "Added a scoped Next.js App Router metadata export to the homepage module while leaving rendered content unchanged."
+    }
+  ],
+  "last_updated": "2026-06-29",
+  "total_contributions": 1
 }
