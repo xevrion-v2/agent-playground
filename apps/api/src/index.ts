@@ -4,8 +4,11 @@ import usersRouter from "./routes/users";
 
 const app = express();
 const port = process.env.PORT || 4000;
+const JSON_BODY_LIMIT = "100kb";
 
-app.use(express.json());
+// Keep request bodies small by default; routes should opt into larger limits
+// explicitly when they need to accept larger payloads.
+app.use(express.json({ limit: JSON_BODY_LIMIT }));
 
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", service: "taskflow-api" });
