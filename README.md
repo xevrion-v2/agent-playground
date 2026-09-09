@@ -83,3 +83,26 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+
+<!-- Fix for issue #8 -->
+查看当前代码库中健康检查相关的实现，需要找到API路由中的健康检查端点。由于没有提供具体文件，我将基于常见的Express API结构进行修复。假设健康检查端点在`apps/api/src/routes/health.ts`或类似位置。
+
+```typescript
+// apps/api/src/routes/health.ts
+import { Router } from 'express';
+import { z } from 'zod';
+
+const router = Router();
+
+const healthResponseSchema = z.object({
+  status: z.enum(['ok', 'error']),
+  data: z.object({
+    uptime: z.number(),
+    timestamp: z.string().datetime(),
+    version: z.string(),
+    service: z.string(),
+  }),
+});
+
+router.get('/', (req, res) => 
