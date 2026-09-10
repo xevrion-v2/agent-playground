@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { createUser, getUsers, getUserCount } from "../services/userService";
 
 const router = Router();
 
@@ -36,7 +37,6 @@ export function validateCreateUser(body: unknown): { valid: boolean; errors: str
   const unknownFields = Object.keys(b).filter((k) => !allowedFields.includes(k));
   if (unknownFields.length > 0) {
     // We don't error on unknown fields, we just ignore them
-    // But we could warn - for now we silently ignore
   }
 
   if (errors.length > 0) {
@@ -52,14 +52,25 @@ export function validateCreateUser(body: unknown): { valid: boolean; errors: str
   };
 }
 
-router.get("/", (_req: Request, res: Response) => {
-  res.json({
-    data: [],
-    message: "User listing is not implemented yet.",
-  });
+router.get("/", async (_req: Request, res: Response) => {
+  try {
+    const users = await getUsers(0, 100);
+    const count = await getUserCount();
+    res.json({
+      data: users,
+      total: count,
+      message: "Users retrieved successfully",
+    });
+  } catch (error) {
+    console.error("Failed to fetch users:", error);
+    res.status(500).json({
+      error: "Internal server error",
+      message: "Failed to retrieve users",
+    });
+  }
 });
 
-router.post("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   const validation = validateCreateUser(req.body);
 
   if (!validation.valid) {
@@ -69,17 +80,25 @@ router.post("/", (req: Request, res: Response) => {
     });
   }
 
-  // TODO: Implement actual user creation with database
-  // For now, return a stub response with server-generated ID
-  res.status(201).json({
-    data: {
-      id: `user_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
-      email: validation.data!.email,
-      name: validation.data!.name,
-      createdAt: new Date().toISOString(),
-    },
-    message: "User created successfully",
-  });
+  try {
+    const user = await createUser(validation.data!.email, validation.data!.name);
+    res.status(201).json({
+      data: user,
+      message: "User created successfully",
+    });
+  } catch (error) {
+    console.error("Failed to create user:", error);
+    if (error instanceof Error && error.message.includes("Unique constraint")) {
+      return res.status(409).json({
+        error: "Conflict",
+        message: "User with this email already exists",
+      });
+    }
+    res.status(500).json({
+      error: "Internal server error",
+      message: "Failed to create user",
+    });
+  }
 });
 
 export default router;
