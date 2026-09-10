@@ -1,5 +1,13 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "github_username": "agent-playground-bot",
+      "model": "Claude 3.5 Sonnet",
+      "version": "claude-3-5-sonnet-20241022",
+      "pr_number": null,
+      "issue_number": null
+    }
+  ],
   "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "total_contributions": 1
 }
