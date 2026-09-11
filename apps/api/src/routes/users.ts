@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { z } from "zod";
 import { ApiErrors, asyncHandler, sendSuccess } from "../utils/apiError";
+import { prisma } from "../utils/prisma";
 
 const router = Router();
 
@@ -25,10 +26,26 @@ const UserQuerySchema = z.object({
 });
 
 /**
+ * User ID params schema
+ */
+const UserIdParamsSchema = z.object({
+  id: z.string().cuid("Invalid user ID format"),
+});
+
+/**
+ * User update input schema
+ */
+const UpdateUserSchema = z.object({
+  email: z.string().trim().toLowerCase().email("Invalid email format").optional(),
+  name: z.string().max(100, "Name must be 100 characters or less").trim().optional().nullable(),
+});
+
+/**
  * Type exports for TypeScript inference
  */
-export { CreateUserSchema };
+export { CreateUserSchema, UpdateUserSchema };
 export type CreateUserInput = z.infer<typeof CreateUserSchema>;
+export type UpdateUserInput = z.infer<typeof UpdateUserSchema>;
 export type UserQueryInput = z.infer<typeof UserQuerySchema>;
 
 router.get(
@@ -39,7 +56,40 @@ router.get(
       throw ApiErrors.validationFailed(queryResult.error.flatten().fieldErrors);
     }
 
-    return sendSuccess(res, [], "User listing is not implemented yet.", 200);
+    const { limit, offset } = queryResult.data;
+    const users = await prisma.user.findMany({
+      take: limit,
+      skip: offset,
+      orderBy: { createdAt: "desc" },
+    });
+
+    const total = await prisma.user.count();
+
+    return sendSuccess(res, users, "Users retrieved successfully", 200, {
+      total,
+      limit: queryResult.data.limit,
+      offset: queryResult.data.offset,
+    });
+  })
+);
+
+router.get(
+  "/:id",
+  asyncHandler(async (req: Request, res: Response) => {
+    const paramsResult = UserIdParamsSchema.safeParse(req.params);
+    if (!paramsResult.success) {
+      throw ApiErrors.validationFailed(paramsResult.error.flatten().fieldErrors);
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: paramsResult.data.id },
+    });
+
+    if (!user) {
+      throw ApiErrors.notFound("User not found");
+    }
+
+    return sendSuccess(res, user, "User retrieved successfully", 200);
   })
 );
 
@@ -52,19 +102,92 @@ router.post(
       throw ApiErrors.validationFailed(validation.error.flatten().fieldErrors);
     }
 
-    // TODO: Implement actual user creation with database
-    // For now, return a stub response with server-generated ID
-    return sendSuccess(
-      res,
-      {
-        id: `user_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
+    const existingUser = await prisma.user.findUnique({
+      where: { email: validation.data.email },
+    });
+
+    if (existingUser) {
+      throw ApiErrors.conflict("User with this email already exists");
+    }
+
+    const user = await prisma.user.create({
+      data: {
         email: validation.data.email,
         name: validation.data.name,
-        createdAt: new Date().toISOString(),
       },
-      "User created successfully",
-      201
-    );
+    });
+
+    return sendSuccess(res, user, "User created successfully", 201);
+  })
+);
+
+router.patch(
+  "/:id",
+  asyncHandler(async (req: Request, res: Response) => {
+    const paramsResult = UserIdParamsSchema.safeParse(req.params);
+    if (!paramsResult.success) {
+      throw ApiErrors.validationFailed(paramsResult.error.flatten().fieldErrors);
+    }
+
+    const validation = UpdateUserSchema.safeParse(req.body);
+
+    if (!validation.success) {
+      throw ApiErrors.validationFailed(validation.error.flatten().fieldErrors);
+    }
+
+    // Check if user exists
+    const existingUser = await prisma.user.findUnique({
+      where: { id: paramsResult.data.id },
+    });
+
+    if (!existingUser) {
+      throw ApiErrors.notFound("User not found");
+    }
+
+    // Check if email is being changed to an existing email
+    if (validation.data.email && validation.data.email !== existingUser.email) {
+      const emailConflict = await prisma.user.findUnique({
+        where: { email: validation.data.email },
+      });
+
+      if (emailConflict) {
+        throw ApiErrors.conflict("Email already in use by another user");
+      }
+    }
+
+    const user = await prisma.user.update({
+      where: { id: paramsResult.data.id },
+      data: {
+        email: validation.data.email,
+        name: validation.data.name,
+      },
+    });
+
+    return sendSuccess(res, user, "User updated successfully", 200);
+  })
+);
+
+router.delete(
+  "/:id",
+  asyncHandler(async (req: Request, res: Response) => {
+    const paramsResult = UserIdParamsSchema.safeParse(req.params);
+    if (!paramsResult.success) {
+      throw ApiErrors.validationFailed(paramsResult.error.flatten().fieldErrors);
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { id: paramsResult.data.id },
+    });
+
+    if (!existingUser) {
+      throw ApiErrors.notFound("User not found");
+    }
+
+    await prisma.user.delete({
+      where: { id: paramsResult.data.id },
+    });
+
+    return sendSuccess(res, { id: paramsResult.data.id }, "User deleted successfully", 200);
   })
 );
 
