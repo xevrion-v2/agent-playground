@@ -1,3 +1,7 @@
+// Prisma Schema for TaskFlow Domain
+// TaskFlow is a full-stack task management SaaS monorepo with a modern TypeScript-first architecture.
+// This schema defines the core data models for the TaskFlow platform.
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,6 +11,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// User represents a platform participant (client or freelancer).
+/// Users can create jobs, submit proposals, and engage in the task marketplace.
+/// - `id`: CUID primary key, auto-generated
+/// - `email`: Unique email address for authentication and notifications
+/// - `name`: Optional display name for profile visibility
+/// - `jobs`: Jobs created by this user (one-to-many)
+/// - `proposals`: Proposals submitted by this user (one-to-many)
+/// - `createdAt`/`updatedAt`: Audit timestamps managed by Prisma
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +29,16 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// Job represents a task or project posted by a client.
+/// Jobs are the central entity in the TaskFlow marketplace.
+/// - `id`: CUID primary key, auto-generated
+/// - `title`: Brief descriptive title of the task
+/// - `description`: Optional detailed requirements and specifications
+/// - `status`: Current lifecycle state (draft, open, in_progress, completed, cancelled)
+/// - `ownerId`: Foreign key to the User who created the job
+/// - `owner`: Relation to the client User who posted the job
+/// - `proposals`: Proposals submitted for this job (one-to-many)
+/// - `createdAt`/`updatedAt`: Audit timestamps managed by Prisma
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +51,17 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// Proposal represents a freelancer's bid on a job.
+/// Proposals connect freelancers to jobs with pricing and approach details.
+/// - `id`: CUID primary key, auto-generated
+/// - `summary`: Freelancer's approach, timeline, and relevant experience
+/// - `amount`: Proposed compensation in USD (Decimal for precision)
+/// - `status`: Current proposal state (pending, accepted, rejected, withdrawn)
+/// - `userId`: Foreign key to the freelancer User who submitted the proposal
+/// - `user`: Relation to the freelancer User
+/// - `jobId`: Foreign key to the Job being bid on
+/// - `job`: Relation to the target Job
+/// - `createdAt`/`updatedAt`: Audit timestamps managed by Prisma
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
