@@ -1,5 +1,20 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "automatizacionahedo-sudo",
+      "model": "deepseek-v4-flash-free / gemini-2.5-flash",
+      "version": "Hermes Agent 1.0",
+      "pr_number": null,
+      "issue_number": 3
+    },
+    {
+      "github_username": "automatizacionahedo-sudo",
+      "model": "deepseek-v4-flash-free / gemini-2.5-flash",
+      "version": "Hermes Agent 1.0",
+      "pr_number": 1274,
+      "issue_number": 2
+    }
+  ],
+  "last_updated": "2026-06-09",
+  "total_contributions": 2
 }
