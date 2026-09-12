@@ -1,0 +1,45 @@
+```diff
++ import request from "supertest";
++ import { app } from "../../index";
+
++ describe("POST /users", () => {
++   it("should reject non-object JSON bodies", async () => {
++     const res = await request(app).post("/users").send("not an object");
++     expect(res.status).toBe(400);
++     expect(res.body.error).toBe("Invalid request body");
++   });
+
++   it("should require a valid email", async () => {
++     const res = await request(app).post("/users").send({ invalidEmail: "not an email" });
++     expect(res.status).toBe(400);
++     expect(res.body.error).toBe("Invalid request body");
++   });
+
++   it("should normalize email/name values", async () => {
++     const res = await request(app).post("/users").send({
++       email: "  TEST@EXAMPLE.COM  ",
++       firstName: "  FiRsT  ",
++       lastName: "  LaSt  ",
++     });
++     expect(res.status).toBe(201);
++     expect(res.body.data.email).toBe("test@example.com");
++     expect(res.body.data.firstName).toBe("first");
++     expect(res.body.data.lastName).toBe("last");
++   });
+
++   it("should ignore client-controlled id and unrelated fields", async () => {
++     const res = await request(app).post("/users").send({
++       email: "test@example.com",
++       firstName: "First",
++       lastName: "Last",
++       id: "client-id",
++       extraField: "ignore-me",
++     });
++     expect(res.status).toBe(201);
++     expect(res.body.data.id).not.toBe("client-id");
++     expect(res.body.data).not.toHaveProperty("extraField");
++   });
++ });
+```
+
+These changes add validation for the request body using Zod, generate a server-side UUID for the user ID, normalize email and name fields, and add regression tests to ensure the new behavior.
