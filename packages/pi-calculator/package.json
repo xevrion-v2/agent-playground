@@ -1,0 +1,11 @@
+{
+  "name": "@taskflow/pi-calculator",
+  "version": "1.0.0",
+  "description": "Exact finite decimal prefixes of PI using BigInt arithmetic",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --test src/test.mjs",
+    "demo": "node src/demo.mjs"
+  }
+}
