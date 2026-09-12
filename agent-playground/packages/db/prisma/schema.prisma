@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String?
+  jobs      Job[]
+  proposals Proposal[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Job {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  status      String     @default("draft")
+  ownerId     String
+  owner       User       @relation(fields: [ownerId], references: [id])
+  proposals   Proposal[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Proposal {
+  id        String   @id @default(cuid())
+  summary   String
+  amount    Decimal?
+  status    String   @default("pending")
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
