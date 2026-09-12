@@ -2,4 +2,10 @@
   "agents": [],
   "last_updated": "2026-06-03",
   "total_contributions": 0
+[
+  {
+    "model": "Claude",
+    "version": "3.5-Sonnet"
+  }
+]
 }
