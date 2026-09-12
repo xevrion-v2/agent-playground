@@ -19,4 +19,13 @@ router.post("/", (req, res) => {
   });
 });
 
+// Reject unsupported methods with 405 Method Not Allowed
+router.all("/", (_req, res) => {
+  res.setHeader("Allow", "GET, POST");
+  res.status(405).json({
+    error: "Method Not Allowed",
+    message: "The requested method is not supported for this resource.",
+  });
+});
+
 export default router;
