@@ -81,5 +81,19 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Create local `.env` files only where the relevant workspace needs them.
+
+### Web app (`apps/web`)
+
+The current frontend does not require any environment variables for local development.
+Add public frontend variables here as integrations are introduced; values exposed to the browser should use Next.js's `NEXT_PUBLIC_` prefix.
+
+### API app (`apps/api`)
+
+- `PORT` — optional port for the Express server. Defaults to `4000` when unset.
+
+### Database package (`packages/db`)
+
+- `DATABASE_URL` — PostgreSQL connection string used by Prisma.
+
+No auth or third-party integration environment variables are currently wired into the checked-in app code, so they are intentionally not listed here yet.
