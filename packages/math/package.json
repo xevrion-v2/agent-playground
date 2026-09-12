@@ -1,0 +1,17 @@
+{
+  "name": "@taskflow/math",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Deterministic math utilities for TaskFlow engineering challenges.",
+  "type": "module",
+  "main": "src/pi.ts",
+  "scripts": {
+    "test": "node --import tsx --test src/*.test.ts",
+    "lint": "node --import tsx -e \"await import('./src/pi.ts')\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.5"
+  }
+}
