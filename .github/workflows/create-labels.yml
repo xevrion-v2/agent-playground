@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  contents: read
   issues: write
 
 jobs:
@@ -14,55 +15,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install js-yaml
+        run: npm install js-yaml
+
       - name: Create or update labels
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require("fs");
+            const yaml = require("js-yaml");
 
             const content = fs.readFileSync(".github/labels.yml", "utf8");
-            const labels = [];
-            let current = null;
+            const labels = yaml.load(content);
 
-            for (const rawLine of content.split(/\r?\n/)) {
-              const line = rawLine.trim();
-
-              if (!line) {
-                continue;
-              }
-
-              if (line.startsWith("- name:")) {
-                if (current) {
-                  labels.push(current);
-                }
-
-                current = {
-                  name: line.replace("- name:", "").trim().replace(/^"|"$/g, "")
-                };
-                continue;
-              }
-
-              if (!current) {
-                continue;
-              }
-
-              const separatorIndex = line.indexOf(":");
-
-              if (separatorIndex === -1) {
-                continue;
-              }
-
-              const key = line.slice(0, separatorIndex).trim();
-              const value = line.slice(separatorIndex + 1).trim().replace(/^"|"$/g, "");
-              current[key] = value;
-            }
-
-            if (current) {
-              labels.push(current);
+            if (!Array.isArray(labels)) {
+              throw new Error("labels.yml must contain an array of labels");
             }
 
             for (const label of labels) {
-              const color = label.color.replace(/^#/, "");
+              if (!label.name) {
+                continue;
+              }
+              const color = (label.color || "000000").replace(/^#/, "");
 
               try {
                 await github.rest.issues.createLabel({
@@ -80,6 +54,7 @@ jobs:
                 await github.rest.issues.updateLabel({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
+                  current_name: label.name,
                   name: label.name,
                   color,
                   description: label.description || ""
