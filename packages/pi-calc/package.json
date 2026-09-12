@@ -1,0 +1,11 @@
+{
+  "name": "pi-calc",
+  "version": "1.0.0",
+  "description": "Exact π calculation using the Chudnovsky algorithm with arbitrary-precision arithmetic",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node src/test.js"
+  },
+  "private": true
+}
