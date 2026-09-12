@@ -2,6 +2,11 @@ import { Router } from "express";
 
 const router = Router();
 
+/**
+ * Handles the GET request to list users.
+ * @param {import("express").Request} _req - The express request object.
+ * @param {import("express").Response} res - The express response object.
+ */
 router.get("/", (_req, res) => {
   res.json({
     data: [],
@@ -9,6 +14,11 @@ router.get("/", (_req, res) => {
   });
 });
 
+/**
+ * Handles the POST request to create a user.
+ * @param {import("express").Request} req - The express request object.
+ * @param {import("express").Response} res - The express response object.
+ */
 router.post("/", (req, res) => {
   res.status(201).json({
     data: {
