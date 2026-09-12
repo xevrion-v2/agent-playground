@@ -80,3 +80,25 @@ Prisma schema is available in packages/db/prisma/schema.prisma with models for:
 ## Environment Variables
 
 Each app/package expects its own .env values for DB, auth, and integrations.
+
+### API (`apps/api`)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | `4000` | Port the Express API server listens on. |
+
+### Database (`packages/db`)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `DATABASE_URL` | Yes | — | PostgreSQL connection string used by Prisma. Format: `postgresql://user:password@localhost:5432/taskflow?schema=public` |
+
+### Web (`apps/web`)
+
+The Next.js web app currently has no required environment variables for basic local development. Additional variables may be needed as features (auth, payments, integrations) are implemented.
+
+### Local Setup
+
+1. Copy `.env.example` to `.env` in each app/package directory that requires one.
+2. Fill in the values for your local development environment.
+3. For the database, run `npx prisma migrate dev` from `packages/db` to apply migrations.
