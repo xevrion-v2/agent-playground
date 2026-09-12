@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import { sendApiError } from "../http/apiError";
+
 const router = Router();
 
 router.get("/", (_req, res) => {
@@ -10,6 +12,10 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
+  if (!req.body || typeof req.body !== "object" || Array.isArray(req.body)) {
+    return sendApiError(res, 400, "Request body must be a JSON object.");
+  }
+
   res.status(201).json({
     data: {
       id: "stub-user-id",
