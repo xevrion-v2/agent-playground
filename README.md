@@ -1,6 +1,6 @@
 # TaskFlow Monorepo
 
-<img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
+![TaskFlow Banner](https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2)
 
 
 TaskFlow is a full-stack task management SaaS monorepo built 
@@ -81,5 +81,18 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app and package requires its own environment variables for database, authentication, and third-party integrations.
+
+### apps/api
+- PORT — API server port (default: 4000)
+- DATABASE_URL — PostgreSQL connection string for Prisma
+- JWT_SECRET — Secret key for JWT token signing
+- CORS_ORIGIN — Allowed CORS origin (default: http://localhost:3000)
+
+### apps/web
+- NEXT_PUBLIC_API_URL — Backend API base URL (default: http://localhost:4000)
+- NEXTAUTH_URL — NextAuth.js base URL (default: http://localhost:3000)
+- NEXTAUTH_SECRET — NextAuth.js secret for session encryption
+
+### packages/db
+- DATABASE_URL — PostgreSQL connection string for Prisma migrations
