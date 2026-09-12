@@ -1,0 +1,27 @@
+{
+  "name": "@taskflow/infinite-sequence",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Lazy, restartable infinite sequences with bounded consumption.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/infinite-sequence.test.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
