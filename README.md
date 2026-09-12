@@ -14,27 +14,19 @@ TaskFlow is a full-stack task management SaaS monorepo built with a modern TypeS
 
 ## Frontend
 
-The web app includes pages for:
-- Landing
-- Task boards and task detail
-- Create a task
-- User profiles and user search
-- Client and freelancer dashboards
-- Messaging
-- Notifications
-- Settings
-- Billing
-- Admin panel
+The web app currently includes:
+- Landing page (`apps/web/src/app/page.tsx`)
+
+Additional pages (task boards, user profiles, dashboards, messaging, billing, admin panel) are planned but not yet implemented.
 
 ## Backend
 
-The API includes:
-- Auth routes (register, login, OAuth callback, JWT refresh)
-- CRUD routes for users, tasks, and proposals
-- Payments routes (Stripe-focused service placeholder)
-- Reviews, messaging, notifications
-- File uploads and search
-- Admin routes
+The API currently exposes:
+- `GET /health` — Health check endpoint
+- `GET /users` — User listing stub
+- `POST /users` — User creation stub
+
+Additional routes (auth, payments, reviews, messaging, notifications, file uploads, search, admin) are planned but not yet implemented.
 
 Backend architecture follows:
 - Middleware layer (auth, rate limiting, error handling)
@@ -68,14 +60,9 @@ npm run dev -w apps/api
 ## Database
 
 Prisma schema is available in packages/db/prisma/schema.prisma with models for:
-- Users
-- Tasks
-- Proposals
-- Payments
-- Reviews
-- Messages
-- Categories
-- Skills
+- User
+- Job
+- Proposal
 
 ## Environment Variables
 
