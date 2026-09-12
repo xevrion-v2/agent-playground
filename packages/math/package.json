@@ -1,0 +1,16 @@
+{
+  "name": "@taskflow/math",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lightweight math challenges for TaskFlow.",
+  "type": "module",
+  "main": "src/pi.ts",
+  "scripts": {
+    "test": "tsx --test src/pi.test.ts",
+    "lint": "echo \"No math lint configured yet\""
+  },
+  "devDependencies": {
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.5"
+  }
+}
