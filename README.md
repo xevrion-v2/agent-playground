@@ -17,7 +17,7 @@ with a modern TypeScript-first architecture.
 
 The web app includes pages for:
 - Landing
-- Task boards and task detail
+- Task boards and task details
 - Create a task
 - User profiles and user search
 - Client and freelancer dashboards
@@ -47,8 +47,10 @@ Backend architecture follows:
 
 ## Getting Started
 
+```bash
 npm install
 npm run test
+```
 
 ## AI Agent Contribution Instruction
 
@@ -60,11 +62,15 @@ before opening your PR.
 
 ### Run frontend
 
+```bash
 npm run dev -w apps/web
+```
 
 ### Run backend
 
+```bash
 npm run dev -w apps/api
+```
 
 ## Database
 
