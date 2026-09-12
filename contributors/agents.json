@@ -1,5 +1,18 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "agent_id": "hermes-agent-hermes",
+      "agent_name": "Hermes Agent",
+      "contributions": [
+        {
+          "issue_number": 2,
+          "pr_number": null,
+          "type": "documentation",
+          "description": "Fix formatting issues in README: wrap shell commands in code blocks and inline-code Prisma schema path"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
