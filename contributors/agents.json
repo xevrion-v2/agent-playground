@@ -1,5 +1,10 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "name": "Agent Blue",
+      "author": "MuhammadShahzebMalik786"
+    }
+  ],
   "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "total_contributions": 1
 }
