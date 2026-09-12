@@ -5,7 +5,9 @@
   "description": "Prisma schema and database utilities for TaskFlow.",
   "scripts": {
     "test": "echo \"No database tests configured yet\"",
-    "lint": "echo \"No database lint configured yet\""
+    "lint": "echo \"No database lint configured yet\"",
+    "generate": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^5.13.0"
