@@ -1,0 +1,488 @@
+/**
+ * File status constants for TaskFlow API upload, processing, and deletion state handling.
+ * Use these named constants instead of magic strings for consistency.
+ */
+
+// Core file statuses
+export const PENDING = "PENDING";
+export const UPLOADING = "UPLOADING";
+export const UPLOADED = "UPLOADED";
+export const PROCESSING = "PROCESSING";
+export const READY = "READY";
+export const AVAILABLE = "AVAILABLE";
+export const FAILED = "FAILED";
+export const CANCELLED = "CANCELLED";
+export const DELETING = "DELETING";
+export const DELETED = "DELETED";
+export const ARCHIVED = "ARCHIVED";
+
+// Extended file statuses
+export const QUEUED = "QUEUED";
+export const INITIALIZED = "INITIALIZED";
+export const CREATED = "CREATED";
+export const AWAITING_UPLOAD = "AWAITING_UPLOAD";
+export const UPLOAD_PENDING = "UPLOAD_PENDING";
+export const UPLOAD_IN_PROGRESS = "UPLOAD_IN_PROGRESS";
+export const UPLOAD_COMPLETE = "UPLOAD_COMPLETE";
+export const UPLOAD_FAILED = "UPLOAD_FAILED";
+export const UPLOAD_CANCELLED = "UPLOAD_CANCELLED";
+export const UPLOAD_EXPIRED = "UPLOAD_EXPIRED";
+export const UPLOAD_TIMEOUT = "UPLOAD_TIMEOUT";
+export const VALIDATING = "VALIDATING";
+export const VALIDATION_PENDING = "VALIDATION_PENDING";
+export const VALIDATION_FAILED = "VALIDATION_FAILED";
+export const VALIDATION_PASSED = "VALIDATION_PASSED";
+export const SCANNING = "SCANNING";
+export const SCAN_PENDING = "SCAN_PENDING";
+export const SCAN_FAILED = "SCAN_FAILED";
+export const SCAN_CLEAN = "SCAN_CLEAN";
+export const SCAN_INFECTED = "SCAN_INFECTED";
+export const QUARANTINED = "QUARANTINED";
+export const CONVERTING = "CONVERTING";
+export const CONVERSION_PENDING = "CONVERSION_PENDING";
+export const CONVERSION_FAILED = "CONVERSION_FAILED";
+export const CONVERSION_COMPLETE = "CONVERSION_COMPLETE";
+export const THUMBNAIL_GENERATING = "THUMBNAIL_GENERATING";
+export const THUMBNAIL_FAILED = "THUMBNAIL_FAILED";
+export const THUMBNAIL_READY = "THUMBNAIL_READY";
+export const PREVIEW_GENERATING = "PREVIEW_GENERATING";
+export const PREVIEW_FAILED = "PREVIEW_FAILED";
+export const PREVIEW_READY = "PREVIEW_READY";
+export const INDEXING = "INDEXING";
+export const INDEXING_FAILED = "INDEXING_FAILED";
+export const INDEXED = "INDEXED";
+export const PUBLISHED = "PUBLISHED";
+export const UNPUBLISHED = "UNPUBLISHED";
+export const DRAFT = "DRAFT";
+export const LOCKED = "LOCKED";
+export const READ_ONLY = "READ_ONLY";
+export const HIDDEN = "HIDDEN";
+export const PRIVATE = "PRIVATE";
+export const PUBLIC = "PUBLIC";
+export const SHARED = "SHARED";
+export const EXPIRED = "EXPIRED";
+export const EXPIRES_SOON = "EXPIRES_SOON";
+export const SCHEDULED_DELETION = "SCHEDULED_DELETION";
+export const RESTORING = "RESTORING";
+export const RESTORED = "RESTORED";
+export const RESTORE_FAILED = "RESTORE_FAILED";
+export const PERMANENTLY_DELETED = "PERMANENTLY_DELETED";
+export const TRASHED = "TRASHED";
+export const IN_TRASH = "IN_TRASH";
+export const MOVING = "MOVING";
+export const COPYING = "COPYING";
+export const RENAMING = "RENAMING";
+export const DOWNLOADING = "DOWNLOADING";
+export const DOWNLOAD_READY = "DOWNLOAD_READY";
+export const DOWNLOAD_EXPIRED = "DOWNLOAD_EXPIRED";
+export const SYNCING = "SYNCING";
+export const SYNC_FAILED = "SYNC_FAILED";
+export const SYNCED = "SYNCED";
+export const OUT_OF_SYNC = "OUT_OF_SYNC";
+export const CONFLICT = "CONFLICT";
+export const DUPLICATE = "DUPLICATE";
+export const CORRUPTED = "CORRUPTED";
+export const INCOMPLETE = "INCOMPLETE";
+export const PARTIAL = "PARTIAL";
+export const SPLIT = "SPLIT";
+export const MERGED = "MERGED";
+export const COMPRESSED = "COMPRESSED";
+export const ENCRYPTED = "ENCRYPTED";
+export const DECRYPTING = "DECRYPTING";
+export const DECRYPTION_FAILED = "DECRYPTION_FAILED";
+export const DECRYPTED = "DECRYPTED";
+export const SIGNED = "SIGNED";
+export const VERIFIED = "VERIFIED";
+export const CHECKSUM_MATCH = "CHECKSUM_MATCH";
+export const CHECKSUM_MISMATCH = "CHECKSUM_MISMATCH";
+export const TOO_LARGE = "TOO_LARGE";
+export const UNSUPPORTED_TYPE = "UNSUPPORTED_TYPE";
+export const BLOCKED = "BLOCKED";
+export const RESTRICTED = "RESTRICTED";
+export const QUOTA_EXCEEDED = "QUOTA_EXCEEDED";
+export const STORAGE_FULL = "STORAGE_FULL";
+
+// File types
+export const FILE_TYPE_IMAGE = "IMAGE";
+export const FILE_TYPE_VIDEO = "VIDEO";
+export const FILE_TYPE_AUDIO = "AUDIO";
+export const FILE_TYPE_DOCUMENT = "DOCUMENT";
+export const FILE_TYPE_SPREADSHEET = "SPREADSHEET";
+export const FILE_TYPE_PRESENTATION = "PRESENTATION";
+export const FILE_TYPE_PDF = "PDF";
+export const FILE_TYPE_TEXT = "TEXT";
+export const FILE_TYPE_CODE = "CODE";
+export const FILE_TYPE_ARCHIVE = "ARCHIVE";
+export const FILE_TYPE_EXECUTABLE = "EXECUTABLE";
+export const FILE_TYPE_OTHER = "OTHER";
+
+/**
+ * All valid file statuses in lifecycle order.
+ */
+export const FILE_STATUSES = [
+  PENDING,
+  QUEUED,
+  INITIALIZED,
+  CREATED,
+  DRAFT,
+  AWAITING_UPLOAD,
+  UPLOAD_PENDING,
+  UPLOADING,
+  UPLOAD_IN_PROGRESS,
+  UPLOAD_COMPLETE,
+  UPLOADED,
+  VALIDATING,
+  VALIDATION_PENDING,
+  VALIDATION_PASSED,
+  SCANNING,
+  SCAN_PENDING,
+  SCAN_CLEAN,
+  PROCESSING,
+  CONVERTING,
+  CONVERSION_PENDING,
+  CONVERSION_COMPLETE,
+  THUMBNAIL_GENERATING,
+  THUMBNAIL_READY,
+  PREVIEW_GENERATING,
+  PREVIEW_READY,
+  INDEXING,
+  INDEXED,
+  READY,
+  AVAILABLE,
+  PUBLISHED,
+  DOWNLOAD_READY,
+  SYNCING,
+  SYNCED,
+  SHARED,
+  LOCKED,
+  READ_ONLY,
+  ARCHIVED,
+  UNPUBLISHED,
+  HIDDEN,
+  PRIVATE,
+  PUBLIC,
+  EXPIRES_SOON,
+  EXPIRED,
+  SCHEDULED_DELETION,
+  TRASHED,
+  IN_TRASH,
+  RESTORING,
+  RESTORED,
+  DELETING,
+  DELETED,
+  PERMANENTLY_DELETED,
+  FAILED,
+  UPLOAD_FAILED,
+  VALIDATION_FAILED,
+  SCAN_FAILED,
+  SCAN_INFECTED,
+  QUARANTINED,
+  CONVERSION_FAILED,
+  THUMBNAIL_FAILED,
+  PREVIEW_FAILED,
+  INDEXING_FAILED,
+  RESTORE_FAILED,
+  CANCELLED,
+  UPLOAD_CANCELLED,
+  UPLOAD_EXPIRED,
+  UPLOAD_TIMEOUT,
+  DOWNLOAD_EXPIRED,
+  SYNC_FAILED,
+  OUT_OF_SYNC,
+  CONFLICT,
+  DUPLICATE,
+  CORRUPTED,
+  INCOMPLETE,
+  PARTIAL,
+  CHECKSUM_MISMATCH,
+  TOO_LARGE,
+  UNSUPPORTED_TYPE,
+  BLOCKED,
+  RESTRICTED,
+  QUOTA_EXCEEDED,
+  STORAGE_FULL,
+  MOVING,
+  COPYING,
+  RENAMING,
+  DOWNLOADING,
+  SPLIT,
+  MERGED,
+  COMPRESSED,
+  ENCRYPTED,
+  DECRYPTING,
+  DECRYPTION_FAILED,
+  DECRYPTED,
+  SIGNED,
+  VERIFIED,
+  CHECKSUM_MATCH,
+] as const;
+
+/**
+ * Active file statuses (not terminal).
+ */
+export const ACTIVE_STATUSES = [
+  PENDING,
+  QUEUED,
+  INITIALIZED,
+  CREATED,
+  DRAFT,
+  AWAITING_UPLOAD,
+  UPLOAD_PENDING,
+  UPLOADING,
+  UPLOAD_IN_PROGRESS,
+  UPLOAD_COMPLETE,
+  UPLOADED,
+  VALIDATING,
+  VALIDATION_PENDING,
+  VALIDATION_PASSED,
+  SCANNING,
+  SCAN_PENDING,
+  SCAN_CLEAN,
+  PROCESSING,
+  CONVERTING,
+  CONVERSION_PENDING,
+  CONVERSION_COMPLETE,
+  THUMBNAIL_GENERATING,
+  THUMBNAIL_READY,
+  PREVIEW_GENERATING,
+  PREVIEW_READY,
+  INDEXING,
+  INDEXED,
+  READY,
+  AVAILABLE,
+  PUBLISHED,
+  DOWNLOAD_READY,
+  SYNCING,
+  SYNCED,
+  SHARED,
+  LOCKED,
+  READ_ONLY,
+  ARCHIVED,
+  UNPUBLISHED,
+  HIDDEN,
+  PRIVATE,
+  PUBLIC,
+  EXPIRES_SOON,
+  SCHEDULED_DELETION,
+  TRASHED,
+  IN_TRASH,
+  RESTORING,
+  DELETING,
+  MOVING,
+  COPYING,
+  RENAMING,
+  DOWNLOADING,
+  DECRYPTING,
+] as const;
+
+/**
+ * Terminal file statuses (final states).
+ */
+export const TERMINAL_STATUSES = [
+  RESTORED,
+  DELETED,
+  PERMANENTLY_DELETED,
+  FAILED,
+  UPLOAD_FAILED,
+  VALIDATION_FAILED,
+  SCAN_FAILED,
+  SCAN_INFECTED,
+  QUARANTINED,
+  CONVERSION_FAILED,
+  THUMBNAIL_FAILED,
+  PREVIEW_FAILED,
+  INDEXING_FAILED,
+  RESTORE_FAILED,
+  CANCELLED,
+  UPLOAD_CANCELLED,
+  UPLOAD_EXPIRED,
+  UPLOAD_TIMEOUT,
+  DOWNLOAD_EXPIRED,
+  EXPIRED,
+  SYNC_FAILED,
+  OUT_OF_SYNC,
+  CONFLICT,
+  DUPLICATE,
+  CORRUPTED,
+  INCOMPLETE,
+  PARTIAL,
+  CHECKSUM_MISMATCH,
+  TOO_LARGE,
+  UNSUPPORTED_TYPE,
+  BLOCKED,
+  RESTRICTED,
+  QUOTA_EXCEEDED,
+  STORAGE_FULL,
+  SPLIT,
+  MERGED,
+  COMPRESSED,
+  ENCRYPTED,
+  DECRYPTION_FAILED,
+  DECRYPTED,
+  SIGNED,
+  VERIFIED,
+  CHECKSUM_MATCH,
+] as const;
+
+/**
+ * Checks if a status is a valid file status.
+ */
+export const isValidFileStatus = (status: string): boolean => {
+  return (FILE_STATUSES as readonly string[]).includes(status);
+};
+
+/**
+ * Checks if a status is an active (non-terminal) status.
+ */
+export const isActiveStatus = (status: string): boolean => {
+  return (ACTIVE_STATUSES as readonly string[]).includes(status);
+};
+
+/**
+ * Checks if a status is a terminal (final) status.
+ */
+export const isTerminalStatus = (status: string): boolean => {
+  return (TERMINAL_STATUSES as readonly string[]).includes(status);
+};
+
+/**
+ * Checks if a status indicates the file is ready for use.
+ */
+export const isReady = (status: string): boolean => {
+  return status === READY || status === AVAILABLE || status === PUBLISHED;
+};
+
+/**
+ * Checks if a status indicates the file is in a failed state.
+ */
+export const isFailed = (status: string): boolean => {
+  return status === FAILED || status.endsWith("_FAILED");
+};
+
+/**
+ * Consolidated file status constants object for convenient lookup.
+ */
+export const FileStatus = {
+  // Core
+  PENDING,
+  UPLOADING,
+  UPLOADED,
+  PROCESSING,
+  READY,
+  AVAILABLE,
+  FAILED,
+  CANCELLED,
+  DELETING,
+  DELETED,
+  ARCHIVED,
+  // Extended
+  QUEUED,
+  INITIALIZED,
+  CREATED,
+  AWAITING_UPLOAD,
+  UPLOAD_PENDING,
+  UPLOAD_IN_PROGRESS,
+  UPLOAD_COMPLETE,
+  UPLOAD_FAILED,
+  UPLOAD_CANCELLED,
+  UPLOAD_EXPIRED,
+  UPLOAD_TIMEOUT,
+  VALIDATING,
+  VALIDATION_PENDING,
+  VALIDATION_FAILED,
+  VALIDATION_PASSED,
+  SCANNING,
+  SCAN_PENDING,
+  SCAN_FAILED,
+  SCAN_CLEAN,
+  SCAN_INFECTED,
+  QUARANTINED,
+  CONVERTING,
+  CONVERSION_PENDING,
+  CONVERSION_FAILED,
+  CONVERSION_COMPLETE,
+  THUMBNAIL_GENERATING,
+  THUMBNAIL_FAILED,
+  THUMBNAIL_READY,
+  PREVIEW_GENERATING,
+  PREVIEW_FAILED,
+  PREVIEW_READY,
+  INDEXING,
+  INDEXING_FAILED,
+  INDEXED,
+  PUBLISHED,
+  UNPUBLISHED,
+  DRAFT,
+  LOCKED,
+  READ_ONLY,
+  HIDDEN,
+  PRIVATE,
+  PUBLIC,
+  SHARED,
+  EXPIRED,
+  EXPIRES_SOON,
+  SCHEDULED_DELETION,
+  RESTORING,
+  RESTORED,
+  RESTORE_FAILED,
+  PERMANENTLY_DELETED,
+  TRASHED,
+  IN_TRASH,
+  MOVING,
+  COPYING,
+  RENAMING,
+  DOWNLOADING,
+  DOWNLOAD_READY,
+  DOWNLOAD_EXPIRED,
+  SYNCING,
+  SYNC_FAILED,
+  SYNCED,
+  OUT_OF_SYNC,
+  CONFLICT,
+  DUPLICATE,
+  CORRUPTED,
+  INCOMPLETE,
+  PARTIAL,
+  SPLIT,
+  MERGED,
+  COMPRESSED,
+  ENCRYPTED,
+  DECRYPTING,
+  DECRYPTION_FAILED,
+  DECRYPTED,
+  SIGNED,
+  VERIFIED,
+  CHECKSUM_MATCH,
+  CHECKSUM_MISMATCH,
+  TOO_LARGE,
+  UNSUPPORTED_TYPE,
+  BLOCKED,
+  RESTRICTED,
+  QUOTA_EXCEEDED,
+  STORAGE_FULL,
+  // File types
+  FILE_TYPE_IMAGE,
+  FILE_TYPE_VIDEO,
+  FILE_TYPE_AUDIO,
+  FILE_TYPE_DOCUMENT,
+  FILE_TYPE_SPREADSHEET,
+  FILE_TYPE_PRESENTATION,
+  FILE_TYPE_PDF,
+  FILE_TYPE_TEXT,
+  FILE_TYPE_CODE,
+  FILE_TYPE_ARCHIVE,
+  FILE_TYPE_EXECUTABLE,
+  FILE_TYPE_OTHER,
+  // Collections
+  ALL: FILE_STATUSES,
+  ACTIVE: ACTIVE_STATUSES,
+  TERMINAL: TERMINAL_STATUSES,
+  // Helpers
+  isValid: isValidFileStatus,
+  isActive: isActiveStatus,
+  isTerminal: isTerminalStatus,
+  isReady,
+  isFailed,
+} as const;
+
+export default FileStatus;
