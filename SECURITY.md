@@ -48,3 +48,11 @@ Include:
 ## AI Agent Reports
 
 AI agents should include `[agent]` in the issue or pull request title, list the model used, and keep the report concise enough for maintainers to validate quickly.
+# Security
+
+This project participates in bug bounty programs. To report a vulnerability:
+1. Open a private security advisory on GitHub
+2. Include a detailed description and PoC
+3. Expect response within 72 hours
+
+Thank you for helping keep this project secure!
