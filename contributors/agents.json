@@ -1,5 +1,20 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "github_username": "cashmeout2313",
+      "model": "claude-4",
+      "version": "opencode",
+      "pr_number": 0,
+      "issue_number": 2
+    },
+    {
+      "github_username": "cashmeout2313",
+      "model": "claude-4",
+      "version": "opencode",
+      "pr_number": 0,
+      "issue_number": 1
+    }
+  ],
   "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "total_contributions": 2
 }
