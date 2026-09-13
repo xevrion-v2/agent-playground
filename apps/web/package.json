@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "test": "echo \"No web tests configured yet\"",
+    "test:security-headers": "node scripts/validate-security-headers.mjs",
     "lint": "next lint"
   },
   "dependencies": {
