@@ -81,5 +81,11 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own `.env` values. The following variables are currently expected:
+
+### Database (`packages/db`)
+- `DATABASE_URL`: Connection URL for the PostgreSQL database (e.g. `postgresql://johndoe:mypassword@localhost:5432/mydb?schema=public`).
+
+### API (`apps/api`)
+- `PORT` (Optional): The port on which the Express server runs (defaults to `4000`).
+
