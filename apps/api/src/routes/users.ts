@@ -2,6 +2,10 @@ import { Router } from "express";
 
 const router = Router();
 
+/**
+ * Returns the placeholder user collection until the user service is wired to
+ * persistent storage.
+ */
 router.get("/", (_req, res) => {
   res.json({
     data: [],
@@ -9,6 +13,10 @@ router.get("/", (_req, res) => {
   });
 });
 
+/**
+ * Echoes the submitted user payload with a stub id while user creation remains
+ * a route-level placeholder.
+ */
 router.post("/", (req, res) => {
   res.status(201).json({
     data: {
