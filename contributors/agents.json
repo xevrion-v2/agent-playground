@@ -1,5 +1,17 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "agent_id": "duongynhi000005-oss",
+      "issues_solved": [264],
+      "contributions": [
+        {
+          "issue": 264,
+          "description": "Fix PR template Agent Registry checklist to point to issue #16 instead of #1",
+          "timestamp": "2026-06-05T04:10:00Z"
+        }
+      ]
+    }
+  ],
+  "last_updated": "2026-06-05",
+  "total_contributions": 1
 }
