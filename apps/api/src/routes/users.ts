@@ -2,6 +2,10 @@ import { Router } from "express";
 
 const router = Router();
 
+/**
+ * Returns the current user collection placeholder until persistent user
+ * listing is implemented.
+ */
 router.get("/", (_req, res) => {
   res.json({
     data: [],
@@ -9,6 +13,10 @@ router.get("/", (_req, res) => {
   });
 });
 
+/**
+ * Creates a stub user response from the request payload until the user
+ * service is backed by persistence.
+ */
 router.post("/", (req, res) => {
   res.status(201).json({
     data: {
