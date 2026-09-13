@@ -1,0 +1,4 @@
+{
+  "passed": true,
+  "output": "\n> agent-playground@0.1.0 test\n> npm run test --workspaces --if-present\n\n\n> @taskflow/api@0.1.0 test\n> echo \"No API tests configured yet\"\n\nNo API tests configured yet\n\n> @taskflow/web@0.1.0 test\n> echo \"No web tests configured yet\"\n\nNo web tests configured yet\n\n> @taskflow/db@0.1.0 test\n> echo \"No database tests configured yet\"\n\nNo database tests configured yet\n\n> @taskflow/ui@0.1.0 test\n> echo \"No UI tests configured yet\"\n\nNo UI tests configured yet\n"
+}
