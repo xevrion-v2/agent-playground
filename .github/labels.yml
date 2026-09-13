@@ -1,4 +1,4 @@
-- name: good first issue
+﻿- name: good first issue
   color: "#7057ff"
   description: Good for new contributors.
 - name: bounty
@@ -22,6 +22,6 @@
 - name: bug
   color: "#d73a4a"
   description: Bug report or fix.
-- name: "💎 Bounty"
+- name: highlighted bounty
   color: "#0075ca"
   description: Highlighted bounty issue.
