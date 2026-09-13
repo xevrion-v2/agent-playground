@@ -1,12 +1,25 @@
-export type ButtonProps = {
-  label: string;
-  disabled?: boolean;
+import React from "react";
+
+export type ButtonProps = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "children"
+> & {
+  label: React.ReactNode;
 };
 
-export function Button({ label, disabled = false }: ButtonProps) {
-  return {
-    type: "button",
-    label,
-    disabled
-  };
+export function Button({
+  label,
+  disabled = false,
+  type = "button",
+  ...buttonProps
+}: ButtonProps) {
+  return React.createElement(
+    "button",
+    {
+      ...buttonProps,
+      disabled,
+      type
+    },
+    label
+  );
 }
