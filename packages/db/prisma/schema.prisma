@@ -1,43 +1,76 @@
+/// Prisma schema for TaskFlow database
+
+/// Generates the Prisma Client for TypeScript/JavaScript
 generator client {
   provider = "prisma-client-js"
 }
 
+/// PostgreSQL database connection using DATABASE_URL env variable
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+/// Represents a registered user in the system
 model User {
+  /// Unique identifier (CUID)
   id        String     @id @default(cuid())
+  /// User's email address (unique)
   email     String     @unique
+  /// Optional display name
   name      String?
+  /// Jobs created by this user
   jobs      Job[]
+  /// Proposals submitted by this user
   proposals Proposal[]
+  /// Timestamp when the user was created
   createdAt DateTime   @default(now())
+  /// Timestamp of last update
   updatedAt DateTime   @updatedAt
 }
 
+/// Represents a job posting created by a user
 model Job {
+  /// Unique identifier (CUID)
   id          String     @id @default(cuid())
+  /// Job title
   title       String
+  /// Optional detailed description
   description String?
+  /// Current status: "draft", "open", or "closed"
   status      String     @default("draft")
+  /// ID of the user who owns this job
   ownerId     String
+  /// Reference to the job owner
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Proposals submitted for this job
   proposals   Proposal[]
+  /// Timestamp when the job was created
   createdAt   DateTime   @default(now())
+  /// Timestamp of last update
   updatedAt   DateTime   @updatedAt
 }
 
+/// Represents a proposal submitted by a user for a job
 model Proposal {
+  /// Unique identifier (CUID)
   id        String   @id @default(cuid())
+  /// Brief summary of the proposal
   summary   String
+  /// Proposed amount (optional)
   amount    Decimal?
+  /// Current status: "pending", "accepted", or "rejected"
   status    String   @default("pending")
+  /// ID of the user who submitted this proposal
   userId    String
+  /// Reference to the submitting user
   user      User     @relation(fields: [userId], references: [id])
+  /// ID of the job this proposal is for
   jobId     String
+  /// Reference to the target job
   job       Job      @relation(fields: [jobId], references: [id])
+  /// Timestamp when the proposal was created
   createdAt DateTime @default(now())
+  /// Timestamp of last update
   updatedAt DateTime @updatedAt
 }
