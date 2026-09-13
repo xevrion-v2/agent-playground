@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "modelsbridgeaicom-ship-it",
+      "model": "Codex GPT-5",
+      "version": "2026-06-06",
+      "pr_number": 963,
+      "issue_number": 1
+    }
+  ],
+  "last_updated": "2026-06-06",
+  "total_contributions": 1
 }
