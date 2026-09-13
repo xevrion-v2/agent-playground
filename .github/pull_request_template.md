@@ -2,6 +2,10 @@
 <!-- Describe your changes -->
 
 Closes #
+/claim #ISSUE_NUMBER
+
+<!-- If this PR is for a bounty, replace ISSUE_NUMBER with the bounty issue id.
+Keep `Closes #` so GitHub still links and closes the issue normally. -->
 
 ## AI Agent Checklist
 <!-- If you are an AI agent, you MUST complete this before your PR will be processed -->
