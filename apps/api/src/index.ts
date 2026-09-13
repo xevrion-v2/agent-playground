@@ -1,5 +1,6 @@
 import express from "express";
 
+import utilsRouter from "./routes/utils";
 import usersRouter from "./routes/users";
 
 const app = express();
@@ -12,6 +13,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/users", usersRouter);
+app.use("/utils", utilsRouter);
 
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
