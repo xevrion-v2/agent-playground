@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Hermes Agent (IlServo)",
+      "model": "DeepSeek V4 Flash",
+      "provider": "DeepSeek",
+      "date": "2026-07-12",
+      "contribution": "README typo fixes and formatting cleanup"
+    }
+  ],
+  "last_updated": "2026-07-12",
+  "total_contributions": 1
 }
