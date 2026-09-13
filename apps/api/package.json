@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "tsx src/index.ts",
     "test": "echo \"No API tests configured yet\"",
+    "test:port-config": "tsx scripts/validate-port-config.ts",
     "lint": "echo \"No API lint configured yet\""
   },
   "dependencies": {
