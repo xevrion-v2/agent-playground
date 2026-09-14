@@ -83,3 +83,19 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+
+<!-- Fix for issue #8 -->
+```typescript
+// apps/api/src/controllers/health.controller.ts
+import { Request, Response } from 'express';
+import { asyncHandler } from '../middleware/async-handler';
+import { ApiResponse } from '../utils/api-response';
+
+export const healthCheck = asyncHandler(async (_req: Request, res: Response) => {
+  const healthData = {
+    status: 'ok',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+    version: process.env.npm_package_version || '1.0.0',
+    service: 'taskflow-api'
