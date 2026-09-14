@@ -5,6 +5,9 @@ import usersRouter from "./routes/users";
 const app = express();
 const port = process.env.PORT || 4000;
 
+// Security: disable X-Powered-By header to avoid advertising framework
+app.disable("x-powered-by");
+
 app.use(express.json());
 
 app.get("/health", (_req, res) => {
