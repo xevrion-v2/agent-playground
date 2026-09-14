@@ -83,3 +83,25 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+
+<!-- Fix for issue #9 -->
+```typescript
+// apps/api/src/index.ts
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import { json, urlencoded } from 'express';
+
+const app = express();
+
+// Security middleware
+app.use(helmet());
+app.use(cors());
+
+// Body parsing with size limits
+app.use(json({ limit: '100kb' })); // Conservative JSON body size limit
+app.use(urlencoded({ extended: true, limit: '100kb' }));
+
+// ... rest of app setup
+```
