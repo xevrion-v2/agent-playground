@@ -7,6 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Represents a user account in the TaskFlow platform.
+/// Users can be either clients posting jobs or freelancers submitting proposals.
+/// Each user has a profile and owns jobs and proposals they create.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,6 +20,9 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// Represents a task or job posting created by a client.
+/// Jobs go through a lifecycle (draft, open, in progress, completed)
+/// and can receive proposals from freelancers.
 model Job {
   id          String     @id @default(cuid())
   title       String
@@ -29,6 +35,9 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// Represents a freelancer's proposal submitted for a specific job.
+/// Proposals include a summary and optional budget amount,
+/// and transition through statuses like pending, accepted, or rejected.
 model Proposal {
   id        String   @id @default(cuid())
   summary   String
