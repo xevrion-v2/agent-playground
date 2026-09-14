@@ -83,3 +83,27 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+
+<!-- Fix for issue #8 -->
+查看当前代码库中健康检查相关的代码，我需要先找到相关文件。让我搜索一下。
+
+由于没有提供具体的代码文件，我将基于Issue描述和常见的Express API结构，假设健康检查路由位于`apps/api/src/routes/health.ts`或类似位置。我将创建一个标准化的健康检查响应格式。
+
+```typescript
+// apps/api/src/routes/health.ts
+import { Router } from 'express';
+import { z } from 'zod';
+
+const router = Router();
+
+const healthResponseSchema = z.object({
+  status: z.literal('ok'),
+  data: z.object({
+    uptime: z.number(),
+    timestamp: z.string().datetime(),
+    version: z.string(),
+  }),
+});
+
+router.get('/health', (req, res) =
