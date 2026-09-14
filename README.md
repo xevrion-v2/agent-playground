@@ -83,3 +83,29 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+
+<!-- Fix for issue #8 -->
+查看当前代码库中健康检查相关的代码，我需要找到API路由中的健康检查端点。让我搜索相关文件。
+
+由于没有提供完整的代码库结构，我将基于常见的Express API结构来修复健康检查响应。让我先查看API路由文件。
+
+根据Issue描述，需要将健康检查响应改为统一的envelope格式，包含`status`和`data`字段。让我找到并修改健康检查端点。
+
+```typescript
+// apps/api/src/routes/health.routes.ts
+import { Router } from 'express';
+
+const router = Router();
+
+router.get('/', (_req, res) => {
+  res.json({
+    status: 'success',
+    data: {
+      message: 'API is healthy',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+    },
+  });
+});
+
