@@ -45,6 +45,13 @@ Backend architecture follows:
 - Validation schemas (Zod)
 - Utility helpers
 
+### API request body limit
+
+The API accepts JSON request bodies up to **100 KB** by default. This
+conservative limit helps prevent unexpectedly large requests from consuming
+server resources. A route that legitimately needs a larger payload must opt
+into an appropriate limit explicitly.
+
 ## Getting Started
 
 npm install
