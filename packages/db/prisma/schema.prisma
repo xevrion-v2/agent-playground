@@ -40,4 +40,7 @@ model Proposal {
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Prevent duplicate proposals from the same user for the same job
+  @@unique([userId, jobId])
 }
