@@ -2,6 +2,11 @@ import { Router } from "express";
 
 const router = Router();
 
+/**
+ * Lists all users.
+ * @param {import("express").Request} _req - Unused Express request object.
+ * @param {import("express").Response} res - Express response object.
+ */
 router.get("/", (_req, res) => {
   res.json({
     data: [],
@@ -9,6 +14,11 @@ router.get("/", (_req, res) => {
   });
 });
 
+/**
+ * Creates a new user.
+ * @param {import("express").Request} req - Express request containing the user payload.
+ * @param {import("express").Response} res - Express response object.
+ */
 router.post("/", (req, res) => {
   res.status(201).json({
     data: {
