@@ -83,3 +83,24 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+
+<!-- Fix for issue #9 -->
+```diff
+diff --git a/apps/api/src/app.ts b/apps/api/src/app.ts
+--- a/apps/api/src/app.ts
++++ b/apps/api/src/app.ts
+@@ -1,5 +1,6 @@
+ import express from 'express';
+ import cors from 'cors';
++import { json } from 'express';
+ import { errorHandler } from './middleware/errorHandler';
+ import { rateLimiter } from './middleware/rateLimiter';
+ import routes from './routes';
+@@ -10,6 +11,9 @@ const app = express();
+ 
+ app.use(cors());
+ app.use(rateLimiter);
++app.use(json({ limit: '100kb' }));
++
++// 100k
