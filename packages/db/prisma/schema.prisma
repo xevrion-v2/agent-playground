@@ -7,6 +7,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// Lifecycle statuses for a Job posting.
+/// - draft: Job is created but not yet published
+/// - open: Job is published and accepting proposals
+/// - in_progress: Job has been accepted and work is underway
+/// - completed: Job has been completed successfully
+/// - cancelled: Job was cancelled before completion
+enum JobStatus {
+  draft
+  open
+  in_progress
+  completed
+  cancelled
+}
+
+/// Statuses for a Proposal submitted to a Job.
+/// - pending: Proposal has been submitted and is awaiting review
+/// - accepted: Proposal has been accepted by the job owner
+/// - rejected: Proposal has been rejected by the job owner
+/// - withdrawn: Proposal was withdrawn by the freelancer
+enum ProposalStatus {
+  pending
+  accepted
+  rejected
+  withdrawn
+}
+
+/// Represents a user account in the TaskFlow platform.
+/// Users can be either clients posting jobs or freelancers submitting proposals.
+/// Each user has a profile and owns jobs and proposals they create.
 model User {
   id        String     @id @default(cuid())
   email     String     @unique
@@ -17,11 +46,14 @@ model User {
   updatedAt DateTime   @updatedAt
 }
 
+/// Represents a task or job posting created by a client.
+/// Jobs go through a lifecycle (draft, open, in_progress, completed, cancelled)
+/// and can receive proposals from freelancers.
 model Job {
   id          String     @id @default(cuid())
   title       String
   description String?
-  status      String     @default("draft")
+  status      JobStatus  @default(draft)
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
   proposals   Proposal[]
@@ -29,15 +61,18 @@ model Job {
   updatedAt   DateTime   @updatedAt
 }
 
+/// Represents a freelancer's proposal submitted for a specific job.
+/// Proposals include a summary and optional budget amount,
+/// and transition through statuses (pending, accepted, rejected, withdrawn).
 model Proposal {
-  id        String   @id @default(cuid())
+  id        String         @id @default(cuid())
   summary   String
   amount    Decimal?
-  status    String   @default("pending")
+  status    ProposalStatus @default(pending)
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User           @relation(fields: [userId], references: [id])
   jobId     String
-  job       Job      @relation(fields: [jobId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  job       Job            @relation(fields: [jobId], references: [id])
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
 }
