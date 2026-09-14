@@ -3,8 +3,7 @@
 <img width="663" height="183" alt="593560705-1a920eb5-e581-44ce-bcef-2ebf0566777f" src="https://github.com/user-attachments/assets/37891de4-a282-45a3-98aa-35598c4571c2" />
 
 
-TaskFlow is a full-stack task management SaaS monorepo built 
-with a modern TypeScript-first architecture.
+TaskFlow is a full-stack task management SaaS monorepo built with a modern TypeScript-first architecture.
 
 ## Workspace Structure
 
@@ -68,8 +67,7 @@ npm run dev -w apps/api
 
 ## Database
 
-Prisma schema is available in packages/db/prisma/schema.prisma 
-with models for:
+Prisma schema is available in packages/db/prisma/schema.prisma with models for:
 - Users
 - Tasks
 - Proposals
@@ -81,5 +79,26 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package expects its own .env values for DB, auth, and integrations.
+
+### API (`apps/api`)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PORT` | No | `4000` | Port the Express API server listens on. |
+
+### Database (`packages/db`)
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `DATABASE_URL` | Yes | — | PostgreSQL connection string used by Prisma. Format: `postgresql://user:password@localhost:5432/taskflow?schema=public` |
+
+### Web (`apps/web`)
+
+The Next.js web app currently has no required environment variables for basic local development. Additional variables may be needed as features (auth, payments, integrations) are implemented.
+
+### Local Setup
+
+1. Copy `.env.example` to `.env` in each app/package directory that requires one.
+2. Fill in the values for your local development environment.
+3. For the database, run `npx prisma migrate dev` from `packages/db` to apply migrations.
