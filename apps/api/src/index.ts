@@ -1,18 +1,13 @@
-import express from "express";
+import { app } from "./app";
 
-import usersRouter from "./routes/users";
-
-const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(express.json());
-
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
-});
-
-app.use("/users", usersRouter);
-
+/**
+ * Runtime entrypoint: start the Express server.
+ *
+ * App construction lives in ./app.ts so that importing the API module
+ * does not automatically bind a port. This keeps route tests fragile-free.
+ */
 app.listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
 });
