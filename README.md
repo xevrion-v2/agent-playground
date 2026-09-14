@@ -83,3 +83,30 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+
+<!-- Fix for issue #8 -->
+查看当前代码库中健康检查相关的实现，需要找到API路由中的健康检查端点。根据Issue要求，需要将健康检查响应格式化为统一的包含`status`和`data`字段的结构。
+
+```typescript
+// apps/api/src/routes/health.ts
+import { Router } from 'express';
+
+const router = Router();
+
+/**
+ * GET /health
+ * Health check endpoint with normalized response envelope
+ */
+router.get('/', (_req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    data: {
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString(),
+    },
+  });
+});
+
+export default router;
+```
