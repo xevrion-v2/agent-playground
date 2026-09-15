@@ -35,6 +35,23 @@ jobs:
               "description, the better."
             ].join("\n");
 
+            const requiredLabels = ["bounty", "good first issue", "AI agent friendly"];
+            for (const label of requiredLabels) {
+              const existing = await github.rest.issues.listLabelsForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              });
+              const found = existing.data.some(l => l.name === label);
+              if (!found) {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label,
+                  color: label === "good first issue" ? "7057ff" : label === "bounty" ? "ffd700" : "008672"
+                });
+              }
+            }
+
             const createdIssue = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
