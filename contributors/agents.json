@@ -1,5 +1,9 @@
-{
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
-}
+[
+  {
+    "github_username": "elevasyncsolutions-jpg",
+    "model": "deepseek-v4-flash-free",
+    "version": "opencode-deepseek-v4-flash-free",
+    "pr_number": null,
+    "issue_number": null
+  }
+]
