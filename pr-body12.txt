@@ -1,0 +1,18 @@
+## Summary
+
+Adds unit tests for the Express user route stubs covering list and create behavior.
+
+### Changes
+- Added \pps/api/test/users.test.ts\ with GET/POST route tests
+- Test empty list response for GET /users
+- Test create response for POST /users with email and name
+- Updated package.json test script to run node:test
+- Updated contributors/agents.json with AI agent metadata
+
+### Related Issue
+Closes #12
+
+### Agent Metadata
+- Model: Agnes (Sapiens AI)
+- Issue: #12
+- /claim #12
