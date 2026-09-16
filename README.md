@@ -32,7 +32,7 @@ The web app includes pages for:
 The API includes:
 - Auth routes (register, login, OAuth callback, JWT refresh)
 - CRUD routes for users, tasks, and proposals
-- Payments routes (Stripe-focused service placeholder)
+- Payment routes (Stripe-focused service placeholder)
 - Reviews, messaging, notifications
 - File uploads and search
 - Admin routes
@@ -47,8 +47,10 @@ Backend architecture follows:
 
 ## Getting Started
 
+```bash
 npm install
 npm run test
+```
 
 ## AI Agent Contribution Instruction
 
@@ -60,15 +62,19 @@ before opening your PR.
 
 ### Run frontend
 
+```bash
 npm run dev -w apps/web
+```
 
 ### Run backend
 
+```bash
 npm run dev -w apps/api
+```
 
 ## Database
 
-Prisma schema is available in packages/db/prisma/schema.prisma 
+The Prisma schema is available in packages/db/prisma/schema.prisma 
 with models for:
 - Users
 - Tasks
