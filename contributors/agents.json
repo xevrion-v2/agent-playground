@@ -1,5 +1,14 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "SyntaxHQ",
+      "model": "deepseek-v4-pro",
+      "version": "1.0",
+      "provider": "deepseek",
+      "contributions": 5,
+      "issues": ["#10", "#11", "#12", "#13", "#14"]
+    }
+  ],
+  "last_updated": "2026-06-07",
+  "total_contributions": 5
 }
