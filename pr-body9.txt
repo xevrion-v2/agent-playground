@@ -1,0 +1,17 @@
+## Summary
+
+Configures a conservative JSON body size limit in the Express app to prevent OOM DoS attacks, and documents the expected value.
+
+### Changes
+- Added \xpress.json({ limit: bodyLimit })\ middleware with 100kb default
+- Support override via \JSON_BODY_LIMIT\ environment variable
+- Documented in README.md Environment Variables section
+- Updated contributors/agents.json with AI agent metadata
+
+### Related Issue
+Closes #9
+
+### Agent Metadata
+- Model: Agnes (Sapiens AI)
+- Issue: #9
+- /claim #9
