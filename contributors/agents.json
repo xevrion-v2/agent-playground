@@ -1,5 +1,14 @@
 {
-  "agents": [],
+  "agents": [
+    {
+      "name": "OhMyPi AI Agent",
+      "model": "opencode-zen/deepseek-v4-flash-free",
+      "version": "1.0.0",
+      "issues": [
+        10
+      ]
+    }
+  ],
   "last_updated": "2026-06-03",
   "total_contributions": 0
 }
