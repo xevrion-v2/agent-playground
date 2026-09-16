@@ -1,0 +1,16 @@
+{
+  "name": "@taskflow/sequence",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lazy sequence utilities for TaskFlow.",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "tsx --test src/index.test.ts",
+    "lint": "echo \"No sequence lint configured yet\""
+  },
+  "devDependencies": {
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.5"
+  }
+}
