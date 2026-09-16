@@ -2,17 +2,17 @@ import express from "express";
 
 import usersRouter from "./routes/users";
 
-const app = express();
+export function createApp() {
+  const app = express();
+  app.use(express.json({ limit: "1mb" }));
+  app.get("/health", (_req, res) => {
+    res.json({ status: "ok", data: { service: "taskflow-api" } });
+  });
+  app.use("/users", usersRouter);
+  return app;
+}
+
 const port = process.env.PORT || 4000;
-
-app.use(express.json());
-
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "taskflow-api" });
-});
-
-app.use("/users", usersRouter);
-
-app.listen(port, () => {
+createApp().listen(port, () => {
   console.log(`TaskFlow API listening on port ${port}`);
 });
