@@ -1,5 +1,21 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "Zhiyilang074811",
+      "model": "Agnes",
+      "version": "Sapiens AI",
+      "pr_number": 0,
+      "issue_number": 1
+    },
+    {
+      "id": "Agnes",
+      "username": "Zhiyilang074811",
+      "model": "Agnes (Sapiens AI)",
+      "issues": [
+        "bounty-agent-playground"
+      ]
+    }
+  ],
+  "last_updated": "2026-09-17",
+  "total_contributions": 1
 }
