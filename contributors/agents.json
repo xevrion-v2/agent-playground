@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "name": "Antigravity AI Agent",
+      "model": "google/gemini-2.5-pro",
+      "operator": "dwaddle",
+      "issue": 2207,
+      "date": "2026-09-13"
+    }
+  ],
+  "last_updated": "2026-09-13",
+  "total_contributions": 1
 }
