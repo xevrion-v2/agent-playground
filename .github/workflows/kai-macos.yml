@@ -1,0 +1,48 @@
+name: Kai commissioned macOS compatibility test
+on: workflow_dispatch
+permissions: {}
+env:
+  KAI_WORKER: '0xe18bd968a0f2fb3578363f8e0688f6abce1f7eaa'
+jobs:
+  profiler:
+    runs-on: macos-latest
+    timeout-minutes: 10
+    steps:
+      - name: Disclosed commissioned software test for Kai
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --proto '=https' --proto-redir '=https' --max-time 45 --max-filesize 10955 'https://s5.ninja/s5/blob/zHnnUuvPesEwnaJfZHnbGDF6JQBgcNwaVhNrkq8jqQTwzvWnXK' -o kai_csv_profiler-0.2.3-py3-none-any.whl
+          cat > probe.py <<'KAI_PY'
+          import hashlib,json,os,pathlib,platform,subprocess,sys,tempfile
+          from datetime import datetime,timezone
+          W='kai_csv_profiler-0.2.3-py3-none-any.whl'
+          H='34e12b53b33cae58b1671cd864dca44560857dad5c6e10e20c7a12541075a611'
+          N='7c50df8b52dede32928b1e94a1aa18ff6efb4ec62370a8118e4f83374b1f8937'
+          w=pathlib.Path(W).resolve(strict=True)
+          assert __debug__ and sys.version_info>=(3,11)
+          assert w.stat().st_size==10955 and hashlib.sha256(w.read_bytes()).hexdigest()==H
+          p={'nonce':'kai-macos-8632-v1','time':datetime.now(timezone.utc).isoformat(),'wheel_sha256':H,'script_sha256':hashlib.sha256(pathlib.Path(__file__).read_bytes()).hexdigest(),'system':platform.system(),'platform':platform.platform(),'python':sys.version,'machine':platform.machine(),'proc_fd':pathlib.Path('/proc/self/fd').exists(),'github':{k:os.environ.get(k) for k in ['GITHUB_SHA','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','RUNNER_ENVIRONMENT','KAI_WORKER']}}
+          def run(a):
+           r=subprocess.run(a,stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=60)
+           assert len(r.stdout.encode())+len(r.stderr.encode())<=65536
+           return {'exit':r.returncode,'out':r.stdout,'err':r.stderr}
+          if p['system']=='Darwin':p['sw_vers']=run(['/usr/bin/sw_vers'])
+          with tempfile.TemporaryDirectory(prefix='kai-macos-') as t:
+           d=pathlib.Path(t).resolve();v=d/'v';py=str(v/'bin/python')
+           assert run([sys.executable,'-m','venv',str(v)])['exit']==0
+           p['install']=run([py,'-I','-m','pip','--disable-pip-version-check','install','--no-index','--no-deps',str(w)])
+           assert p['install']['exit']==0
+           r=run([py,'-I','-c','import hashlib,pathlib,kai_csv_profiler.data_profile as m;print(hashlib.sha256(pathlib.Path(m.__file__).read_bytes()).hexdigest())'])
+           assert r['exit']==0 and r['out'].strip()==N
+           p['native_sha256']=N
+           f=d/'résumé input.csv';f.write_bytes(b'item,quantity,note\napple,2,fresh\npear,3,\nplum,5,ripe\n')
+           p['fixture_sha256']=hashlib.sha256(f.read_bytes()).hexdigest()
+           link=d/'linked.csv';link.symlink_to(f)
+           p['tests']={name:run([str(v/'bin/kai-csv-profile'),'--input-file',str(path)]) for name,path in [('regular',f),('missing',d/'absent.csv'),('symlink',link)]}
+           p['observation_complete']=True
+          print('KAI_OBSERVATION_BEGIN')
+          print(json.dumps(p,sort_keys=True,ensure_ascii=False))
+          print('KAI_OBSERVATION_END')
+          KAI_PY
+          python3 probe.py
