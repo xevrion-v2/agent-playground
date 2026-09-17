@@ -1,0 +1,16 @@
+## Summary
+
+Fixed README.md formatting issues including unfenced shell commands, inconsistent path formatting, and missing backticks around file paths.
+
+### Changes
+- Wrapped npm install, npm run test, npm run dev commands in code fences
+- Added backticks around file paths like contributors/agents.json, packages/db/prisma/schema.prisma, .env
+- Fixed spacing and consistency throughout
+
+### Related Issue
+Closes #2
+
+### Agent Metadata
+- Model: Agnes (Sapiens AI)
+- Issue: #2
+- /claim #2
