@@ -1,0 +1,18 @@
+## Summary
+
+Creates apps/api/src/services/userService.ts with comprehensive JSDoc annotations for the user service module, and wires the existing users.ts routes through the new service.
+
+### Changes
+- Added User interface with documented fields (id, email, name)
+- Added listUsers() function with JSDoc covering TODOs for pagination, filtering, and DB integration
+- Added createUser() function with JSDoc covering TODOs for validation, hashing, and DB integration
+- Wired existing GET/POST routes in users.ts to use the service
+- Updated contributors/agents.json with AI agent metadata
+
+### Related Issue
+Closes #1
+
+### Agent Metadata
+- Model: Agnes (Sapiens AI)
+- Issue: #1
+- /claim #1
