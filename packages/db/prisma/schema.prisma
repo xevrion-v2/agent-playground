@@ -1,19 +1,21 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Prisma schema for TaskFlow - a task management SaaS platform
 generator client {
   provider = "prisma-client-js"
 }
-
-datasource db {
-  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String     @id @default(cuid())
-  email     String     @unique
-  name      String?
-  jobs      Job[]
-  proposals Proposal[]
-  createdAt DateTime   @default(now())
+  url      = env("DATABASE_URL")
+}
+
+/// Represents a user in the TaskFlow platform. Users can be clients posting tasks or freelancers completing them.
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
   updatedAt DateTime   @updatedAt
 }
 
@@ -22,12 +24,13 @@ model Job {
   title       String
   description String?
   status      String     @default("draft")
-  ownerId     String
-  owner       User       @relation(fields: [ownerId], references: [id])
-  proposals   Proposal[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  updatedAt DateTime @updatedAt
 }
+
+/// Represents a task posted by a client. Freelancers can submit proposals to complete tasks.
+model Task {
+  id          String   @id @default(cuid())
+  title       String
 
 model Proposal {
   id        String   @id @default(cuid())
@@ -35,9 +38,45 @@ model Proposal {
   amount    Decimal?
   status    String   @default("pending")
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  jobId     String
-  job       Job      @relation(fields: [jobId], references: [id])
-  createdAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+/// Represents a proposal submitted by a freelancer to complete a specific task.
+model Proposal {
+  id       String @id @default(cuid())
+  taskId   String
   updatedAt DateTime @updatedAt
 }
+
+/// Represents a payment transaction between a client and freelancer for completed work.
+model Payment {
+  id       String @id @default(cuid())
+  amount   Float
+  updatedAt DateTime @updatedAt
+}
+
+/// Represents a review left by a user for another user after task completion.
+model Review {
+  id       String @id @default(cuid())
+  rating   Int
+  updatedAt DateTime @updatedAt
+}
+
+/// Represents a message sent between users in the TaskFlow messaging system.
+model Message {
+  id       String @id @default(cuid())
+  content  String
+  updatedAt DateTime @updatedAt
+}
+
+/// Represents a category used to organize and classify tasks.
+model Category {
+  id       String @id @default(cuid())
+  name     String @unique
+  updatedAt DateTime @updatedAt
+}
+
+/// Represents a skill that users can add to their profiles to showcase their expertise.
+model Skill {
+  id       String @id @default(cuid())
+  name     String @unique
