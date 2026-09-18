@@ -2,20 +2,25 @@ import { Router } from "express";
 
 const router = Router();
 
+// Store users in memory for tests
+const users: any[] = [];
+
 router.get("/", (_req, res) => {
   res.json({
-    data: [],
-    message: "User listing is not implemented yet."
+    data: users,
+    message: "User listing retrieved."
   });
 });
 
 router.post("/", (req, res) => {
+  const newUser = {
+    id: `user-${Date.now()}`,
+    ...req.body
+  };
+  users.push(newUser);
   res.status(201).json({
-    data: {
-      id: "stub-user-id",
-      ...req.body
-    },
-    message: "User creation is not implemented yet."
+    data: newUser,
+    message: "User created."
   });
 });
 
