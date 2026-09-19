@@ -1,7 +1,15 @@
 import { Router } from "express";
 
+/**
+ * Express router for user-related endpoints.
+ * Provides stub implementations for user listing and creation.
+ */
 const router = Router();
 
+/**
+ * GET /users
+ * Returns a list of users. Currently returns a stub response.
+ */
 router.get("/", (_req, res) => {
   res.json({
     data: [],
@@ -9,6 +17,10 @@ router.get("/", (_req, res) => {
   });
 });
 
+/**
+ * POST /users
+ * Creates a new user with the provided body. Currently returns a stub response.
+ */
 router.post("/", (req, res) => {
   res.status(201).json({
     data: {
