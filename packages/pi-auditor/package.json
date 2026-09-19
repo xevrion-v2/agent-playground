@@ -1,0 +1,14 @@
+{
+  "name": "@agent-playground/pi-auditor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "scripts": {
+    "demo": "node src/cli.mjs",
+    "test": "node --test test/*.test.mjs"
+  }
+}
