@@ -35,10 +35,32 @@ jobs:
               "description, the better."
             ].join("\n");
 
+            const metaIssueTitle = "Bug Bounty Program — How to Participate";
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "all",
+              per_page: 100
+            });
+            const existingIssue = existingIssues.find(
+              (issue) => !issue.pull_request && issue.title === metaIssueTitle
+            );
+
+            if (existingIssue) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                body: bodyForIssue(existingIssue.number)
+              });
+              core.info(`Updated existing bug bounty program issue #${existingIssue.number}.`);
+              return;
+            }
+
             const createdIssue = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: "Bug Bounty Program — How to Participate",
+              title: metaIssueTitle,
               body: bodyForIssue("[NUMBER]"),
               labels: ["bounty", "good first issue", "AI agent friendly"]
             });
