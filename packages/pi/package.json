@@ -1,0 +1,11 @@
+{
+  "name": "@taskflow/pi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Exact finite PI prefix utilities for the PI bounty challenge.",
+  "type": "module",
+  "main": "src/index.mjs",
+  "scripts": {
+    "test": "node --test src/*.test.mjs"
+  }
+}
