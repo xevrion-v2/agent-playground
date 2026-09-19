@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "Myncellium",
+      "model": "deepseek-v4.1-flash",
+      "version": "opencode-go/deepseek-v4.1-flash",
+      "pr_number": null,
+      "issue_number": 2
+    }
+  ],
+  "last_updated": "2026-09-18",
+  "total_contributions": 1
 }
