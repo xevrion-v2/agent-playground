@@ -68,8 +68,7 @@ npm run dev -w apps/api
 
 ## Database
 
-Prisma schema is available in packages/db/prisma/schema.prisma 
-with models for:
+Prisma schema is available in packages/db/prisma/schema.prisma\nwith models for:
 - Users
 - Tasks
 - Proposals
