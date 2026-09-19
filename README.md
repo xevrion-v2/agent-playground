@@ -81,5 +81,23 @@ with models for:
 
 ## Environment Variables
 
-Each app/package expects its own .env values for DB, auth, 
-and integrations.
+Each app/package can load its own local `.env` file. Copy the
+values below into the matching workspace when running services
+locally.
+
+### `apps/web/.env.local`
+
+The current frontend stub does not require any environment
+variables.
+
+### `apps/api/.env`
+
+| Variable | Required | Default | Description |
+| --- | --- | --- | --- |
+| `PORT` | No | `4000` | Port used by the Express API server. |
+
+### `packages/db/.env`
+
+| Variable | Required | Default | Description |
+| --- | --- | --- | --- |
+| `DATABASE_URL` | Yes | None | Prisma database connection string used by `packages/db/prisma/schema.prisma`. |
