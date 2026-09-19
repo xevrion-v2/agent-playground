@@ -2,21 +2,52 @@ import { Router } from "express";
 
 const router = Router();
 
+type CreateUserPayload = {
+    name: string;
+    email: string;
+};
+
+function isCreateUserPayload(body: unknown): body is CreateUserPayload {
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+          return false;
+    }
+
+  const { name, email } = body as Record<string, unknown>;
+
+  return (
+        typeof name === "string" &&
+        name.trim().length > 0 &&
+        typeof email === "string" &&
+        email.trim().length > 0
+      );
+}
+
 router.get("/", (_req, res) => {
-  res.json({
-    data: [],
-    message: "User listing is not implemented yet."
-  });
+    res.json({
+          data: [],
+          message: "User listing is not implemented yet."
+    });
 });
 
 router.post("/", (req, res) => {
-  res.status(201).json({
-    data: {
-      id: "stub-user-id",
-      ...req.body
-    },
-    message: "User creation is not implemented yet."
-  });
+    if (!isCreateUserPayload(req.body)) {
+          return res.status(400).json({
+                  error: {
+                            code: "INVALID_USER_INPUT",
+                            message: "User payload requires non-empty name and email fields."
+                  }
+          });
+    }
+
+              res.status(201).json({
+                    data: {
+                            id: "stub-user-id",
+                            ...req.body,
+                            name: req.body.name.trim(),
+                            email: req.body.email.trim()
+                    },
+                    message: "User creation is not implemented yet."
+              });
 });
 
 export default router;
