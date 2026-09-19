@@ -35,19 +35,41 @@ jobs:
               "description, the better."
             ].join("\n");
 
-            const createdIssue = await github.rest.issues.create({
+            const metaIssueTitles = new Set([
+              "Bug Bounty Program - How to Participate",
+              "Bug Bounty Program — How to Participate",
+              "Bug Bounty Program â€” How to Participate"
+            ]);
+
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: "Bug Bounty Program — How to Participate",
-              body: bodyForIssue("[NUMBER]"),
-              labels: ["bounty", "good first issue", "AI agent friendly"]
+              state: "all",
+              per_page: 100
             });
+            const existingMetaIssue = existingIssues.find(
+              (issue) => !issue.pull_request && metaIssueTitles.has(issue.title)
+            );
+
+            let metaIssue = existingMetaIssue;
+            if (metaIssue) {
+              core.info(`Updating existing bug bounty program issue #${metaIssue.number}`);
+            } else {
+              const createdIssue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: "Bug Bounty Program - How to Participate",
+                body: bodyForIssue("[NUMBER]"),
+                labels: ["bounty", "good first issue", "AI agent friendly"]
+              });
+              metaIssue = createdIssue.data;
+            }
 
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: createdIssue.data.number,
-              body: bodyForIssue(createdIssue.data.number)
+              issue_number: metaIssue.number,
+              body: bodyForIssue(metaIssue.number)
             });
 
             try {
@@ -62,9 +84,9 @@ jobs:
                   }
                 `,
                 {
-                  issueId: createdIssue.data.node_id
+                  issueId: metaIssue.node_id
                 }
               );
             } catch (error) {
-              core.warning(`Created issue #${createdIssue.data.number}, but pinning failed: ${error.message}`);
+              core.warning(`Seeded issue #${metaIssue.number}, but pinning failed: ${error.message}`);
             }
