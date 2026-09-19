@@ -1,0 +1,11 @@
+{
+  "name": "@taskflow/pi-bbp-verifier",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Dependency-free finite pi prefix calculator with BBP hexadecimal verification.",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "demo": "node src/cli.mjs 100"
+  }
+}
