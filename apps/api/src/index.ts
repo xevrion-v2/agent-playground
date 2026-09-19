@@ -1,11 +1,12 @@
-import express from "express";
-
+﻿import express from "express";
+import { rateLimiter } from "./utils/rateLimiter";
 import usersRouter from "./routes/users";
 
 const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
+app.use(rateLimiter);
 
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", service: "taskflow-api" });
@@ -14,5 +15,5 @@ app.get("/health", (_req, res) => {
 app.use("/users", usersRouter);
 
 app.listen(port, () => {
-  console.log(`TaskFlow API listening on port ${port}`);
+  console.log(TaskFlow API listening on port );
 });
