@@ -83,3 +83,6 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+
+> TaskFlow - A task management SaaS built with modern web technologies.
