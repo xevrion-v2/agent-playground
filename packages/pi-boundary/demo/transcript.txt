@@ -1,0 +1,12 @@
+$ npm run demo -w @taskflow/pi-boundary
+
+pi prefix (100 fractional digits)
+3.1415926535 8979323846 2643383279 5028841971 6939937510
+5820974944 5923078164 0628620899 8628034825 3421170679
+
+sha256: aa6eee625a838a2af84f7d591e8c677bdd9c1b07c44380e2fee8fc738f9234f0
+known-prefix-match: true
+
+Boundary:
+Pi is irrational and has no final decimal digit.
+This package returns exact finite decimal prefixes for requested precision.
