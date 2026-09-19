@@ -83,3 +83,16 @@ with models for:
 
 Each app/package expects its own .env values for DB, auth, 
 and integrations.
+
+## Health response
+
+`GET /health` responds with HTTP 200 and a JSON envelope:
+
+```json
+{ "status": "ok", "data": { "service": "taskflow-api" } }
+```
+
+The service name is now at `data.service` (previously `service`). This endpoint
+reports process liveness only; it does not check database or external-service
+readiness. `HEAD /health` is also supported with HTTP 200 and an empty body.
+Run its HTTP regression test with `npm test --workspace @taskflow/api`.
