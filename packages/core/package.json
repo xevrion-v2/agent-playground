@@ -1,0 +1,19 @@
+{
+  "name": "@taskflow/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared core utilities for TaskFlow.",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./slugify": "./src/slugify.ts"
+  },
+  "scripts": {
+    "test": "node --experimental-strip-types src/slugify.test.ts",
+    "lint": "echo \"No core lint configured yet\""
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
