@@ -1,3 +1,7 @@
+// TaskFlow database schema
+// This file defines the data models used throughout the application.
+// Run "npx prisma migrate dev" after making changes.
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,35 +11,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// A registered user of the TaskFlow platform.
+/// Users can own jobs and submit proposals on other users' jobs.
 model User {
   id        String     @id @default(cuid())
+  /// Unique email address used for login and notifications.
   email     String     @unique
+  /// Optional display name shown on profiles and job listings.
   name      String?
+  /// Jobs created by this user.
   jobs      Job[]
+  /// Proposals submitted by this user.
   proposals Proposal[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+/// A job listing posted by a user.
+/// Other users can submit proposals to work on open jobs.
 model Job {
   id          String     @id @default(cuid())
+  /// Short title summarizing the work requested.
   title       String
+  /// Longer markdown description of the job requirements.
   description String?
+  /// Current lifecycle stage: draft, open, in_progress, completed, or cancelled.
   status      String     @default("draft")
+  /// The user who posted this job.
   ownerId     String
   owner       User       @relation(fields: [ownerId], references: [id])
+  /// Proposals received for this job.
   proposals   Proposal[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
+/// A freelancer's offer to complete a job.
+/// Each proposal links a user to a specific job with a bid amount.
 model Proposal {
   id        String   @id @default(cuid())
+  /// Brief pitch describing how the freelancer would approach the job.
   summary   String
+  /// Bid amount in the platform's base currency.
   amount    Decimal?
+  /// Current state: pending, accepted, or rejected.
   status    String   @default("pending")
+  /// The freelancer who submitted this proposal.
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+  /// The job this proposal targets.
   jobId     String
   job       Job      @relation(fields: [jobId], references: [id])
   createdAt DateTime @default(now())
