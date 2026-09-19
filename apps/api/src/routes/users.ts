@@ -10,11 +10,25 @@ router.get("/", (_req, res) => {
 });
 
 router.post("/", (req, res) => {
+  const { email, name } = req.body;
+  
+  if (!email || typeof email !== "string" || !email.includes("@")) {
+    return res.status(400).json({ error: "Valid email is required" });
+  }
+  
+  if (name && typeof name !== "string") {
+    return res.status(400).json({ error: "Name must be a string" });
+  }
+
+  // Prevent mass assignment by explicitly defining the payload
+  const safePayload = {
+    id: "stub-user-id",
+    email,
+    name: name || null
+  };
+
   res.status(201).json({
-    data: {
-      id: "stub-user-id",
-      ...req.body
-    },
+    data: safePayload,
     message: "User creation is not implemented yet."
   });
 });
