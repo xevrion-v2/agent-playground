@@ -1,0 +1,11 @@
+{
+  "name": "@taskflow/pi-challenge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Deterministic, dependency-free PI calculation challenge (Machin formula, arbitrary precision via BigInt).",
+  "type": "module",
+  "scripts": {
+    "test": "node test/verify.mjs",
+    "start": "node src/pi.mjs"
+  }
+}
