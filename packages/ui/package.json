@@ -1,14 +1,14 @@
 {
-  "name": "@taskflow/ui",
-  "version": "0.1.0",
-  "private": true,
-  "description": "Shared UI components for TaskFlow.",
-  "main": "src/index.ts",
-  "scripts": {
-    "test": "echo \"No UI tests configured yet\"",
-    "lint": "echo \"No UI lint configured yet\""
-  },
-  "devDependencies": {
-    "typescript": "^5.4.5"
-  }
+    "name": "@taskflow/ui",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Shared UI components for TaskFlow.",
+    "main": "src/index.ts",
+    "scripts": {
+          "test": "tsc src/index.ts --target ES2020 --module commonjs --outDir .tmp-test && node --test test/button.test.cjs",
+          "lint": "echo \"No UI lint configured yet\""
+    },
+    "devDependencies": {
+          "typescript": "^5.4.5"
+    }
 }
