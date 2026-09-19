@@ -19,58 +19,40 @@ jobs:
         with:
           script: |
             const fs = require("fs");
+            const yaml = require("js-yaml");
 
             const content = fs.readFileSync(".github/labels.yml", "utf8");
-            const labels = [];
-            let current = null;
+            const parsed = yaml.load(content);
 
-            for (const rawLine of content.split(/\r?\n/)) {
-              const line = rawLine.trim();
-
-              if (!line) {
-                continue;
-              }
-
-              if (line.startsWith("- name:")) {
-                if (current) {
-                  labels.push(current);
-                }
-
-                current = {
-                  name: line.replace("- name:", "").trim().replace(/^"|"$/g, "")
-                };
-                continue;
-              }
-
-              if (!current) {
-                continue;
-              }
-
-              const separatorIndex = line.indexOf(":");
-
-              if (separatorIndex === -1) {
-                continue;
-              }
-
-              const key = line.slice(0, separatorIndex).trim();
-              const value = line.slice(separatorIndex + 1).trim().replace(/^"|"$/g, "");
-              current[key] = value;
+            if (!Array.isArray(parsed)) {
+              throw new Error("Expected .github/labels.yml to contain a top-level array of label objects.");
             }
 
-            if (current) {
-              labels.push(current);
-            }
+            const labels = parsed.map((entry, i) => {
+              if (typeof entry !== "object" || entry === null) {
+                throw new Error(`Label entry at index ${i} is not an object.`);
+              }
+              if (typeof entry.name !== "string" || !entry.name) {
+                throw new Error(`Label entry at index ${i} is missing a valid 'name' field.`);
+              }
+              if (typeof entry.color !== "string" || !entry.color) {
+                throw new Error(`Label '${entry.name}' is missing a valid 'color' field.`);
+              }
+              return {
+                name: entry.name,
+                color: entry.color.replace(/^#/, ""),
+                description: typeof entry.description === "string" ? entry.description : ""
+              };
+            });
 
             for (const label of labels) {
-              const color = label.color.replace(/^#/, "");
-
               try {
                 await github.rest.issues.createLabel({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   name: label.name,
-                  color,
-                  description: label.description || ""
+                  color: label.color,
+                  description: label.description
                 });
               } catch (error) {
                 if (error.status !== 422) {
@@ -81,8 +63,8 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   name: label.name,
-                  color,
-                  description: label.description || ""
+                  color: label.color,
+                  description: label.description
                 });
               }
             }
