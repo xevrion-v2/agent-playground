@@ -35,20 +35,42 @@ jobs:
               "description, the better."
             ].join("\n");
 
-            const createdIssue = await github.rest.issues.create({
+            const title = "Bug Bounty Program — How to Participate";
+            const existingIssues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: "Bug Bounty Program — How to Participate",
-              body: bodyForIssue("[NUMBER]"),
-              labels: ["bounty", "good first issue", "AI agent friendly"]
+              state: "all",
+              per_page: 100
             });
 
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: createdIssue.data.number,
-              body: bodyForIssue(createdIssue.data.number)
-            });
+            const existingIssue = existingIssues.find(
+              (issue) => !issue.pull_request && issue.title === title
+            );
+
+            const issue = existingIssue
+              ? await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existingIssue.number,
+                  body: bodyForIssue(existingIssue.number),
+                  labels: ["bounty", "good first issue", "AI agent friendly"]
+                })
+              : await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title,
+                  body: bodyForIssue("[NUMBER]"),
+                  labels: ["bounty", "good first issue", "AI agent friendly"]
+                });
+
+            if (!existingIssue) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.data.number,
+                body: bodyForIssue(issue.data.number)
+              });
+            }
 
             try {
               await github.graphql(
@@ -62,9 +84,9 @@ jobs:
                   }
                 `,
                 {
-                  issueId: createdIssue.data.node_id
+                  issueId: issue.data.node_id
                 }
               );
             } catch (error) {
-              core.warning(`Created issue #${createdIssue.data.number}, but pinning failed: ${error.message}`);
+              core.warning(`Issue #${issue.data.number} is ready, but pinning failed: ${error.message}`);
             }
