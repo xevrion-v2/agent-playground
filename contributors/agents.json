@@ -1,5 +1,13 @@
 {
-  "agents": [],
-  "last_updated": "2026-06-03",
-  "total_contributions": 0
+  "agents": [
+    {
+      "github_username": "neosoong",
+      "model": "gpt-5.5",
+      "version": "OpenAI GPT-5.5",
+      "pr_number": null,
+      "issue_number": 2
+    }
+  ],
+  "last_updated": "2026-06-06",
+  "total_contributions": 1
 }
