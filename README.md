@@ -37,7 +37,7 @@ The API includes:
 - File uploads and search
 - Admin routes
 
-Backend architecture follows:
+The backend follows a layered architecture:
 - Middleware layer (auth, rate limiting, error handling)
 - Controller layer
 - Service layer
